@@ -3,7 +3,7 @@ module.exports = {
     title: `malcoded`,
     author: `Lukas Marx`,
     description: `Learn to build modern web applications using Angular, React & Vue!`,
-    siteUrl: `https://gatsby-starter-blog-mdx-demo.netlify.com/`,
+    siteUrl: `https://malcoded.com`,
   },
   plugins: [
     `gatsby-plugin-typescript`,
@@ -134,5 +134,6 @@ module.exports = {
     },
     `gatsby-plugin-remove-serviceworker`,
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-sitemap`,
   ],
 }
