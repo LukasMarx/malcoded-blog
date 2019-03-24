@@ -32,7 +32,7 @@ function SEO({ description, lang, meta, keywords, title, image }) {
               },
               {
                 property: 'og:image',
-                content: 'https://27e7c866.ngrok.io' + image,
+                content: image,
               },
               {
                 property: `og:type`,
