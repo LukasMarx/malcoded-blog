@@ -4,6 +4,7 @@ title: 'Translate your Angular App with Pipes'
 image: './img/Angular-Logo-Pipe.png'
 date: 2017-04-14T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -36,7 +37,8 @@ Wile a raw date like "Fri Apr 15 1988 00:00:00 GMT-0700 (Pacific Daylight Time)"
 
 With pipes it is really easy, to format our date right before displaying it on the screen, without changing our [Date](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date) variable in any way.
 
-Example:
+### Example: 
+
 Lets say we have a date variable in our component, that we want to display to the user.
 
 ```typescript title=src/date/date.component.ts
@@ -179,7 +181,8 @@ Also make sure, that you don't make any request to your, or other people's serve
 
 Another option would be, to not use pipes at all, as they are no silver bullets for everything.
 
-What does that mean for our Translation Pipe?
+### What does that mean for our Translation Pipe? 
+
 As you may have noticed, we are using an impure pipe for our translation pipe. You can see that, by looking at the 'pure' flag inside the pipe-decorator:
 
 ```typescript title=src/translate.pipe.ts
@@ -197,7 +200,8 @@ As the lookup of the translation is as fast it can be, due to the use of maps, I
 
 Furthermore this is just an example to convey the concept of pipes and may needs further improvement to be production-ready.
 
-'I don't want to implement this myself...'
+### 'I don't want to implement this myself...' 
+
 No problem. There are already some nice translation libraries for Angular 2 out there, that cover much more features than this example. You may want to take a look at this Github repo [https://github.com/ngx-translate/core](https://github.com/ngx-translate/core). I haven't tried it myself, but it looks very promising to me.
 
 If you want to stick with my approach, and implement a solution your self, you can take a look at the [full code of this example](https://github.com/LukasMarx/angularTranslationService)[ here](https://github.com/LukasMarx/angularTranslationService).

@@ -4,6 +4,7 @@ title: 'Creating a Color Picker Component with Angular'
 image: './img/angular-color-picker-component.png'
 date: 2018-09-18T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -96,7 +97,8 @@ The first thing we are going to create is the vertical slider on the right side 
 
 ![angular-color-picker](./img/angular-color-picker.png)
 
-Creating a color-slider component
+### Creating a color-slider component 
+
 To get started, let's create a new component called "color-slider" in the color-picker directory.
 
 To generate the component, we can use the angular-cli using this command:
@@ -105,7 +107,8 @@ To generate the component, we can use the angular-cli using this command:
  ng generate component color-picker/color-slider
  
  ``` 
-Using a canvas in angular
+### Using a canvas in angular 
+
 To draw all the different colors, we are going to need a [HTML-canvas](https://developer.mozilla.org/de/docs/Web/HTML/Canvas). We can create one by using the canvas-tag in our template.
 While we are add it, we also assign that tag an identifier,  a class and define its width and height.
 
@@ -122,7 +125,8 @@ The value the decorator takes is the identifier we have assigned to the canvas (
 canvas: ElementRef<HTMLCanvasElement>;
  
  ``` 
-How to draw on a canvas
+### How to draw on a canvas 
+
 Now that we have a reference to the canvas, we can start drawing onto it.
 
 Do that, let's create a method called "draw" inside of the color-slider component.
@@ -159,7 +163,8 @@ Also, we clear the whole canvas using clearRect.
 }
  
  ``` 
-Drawing a rainbow-gradient
+### Drawing a rainbow-gradient 
+
 To create this rainbow-like effect for our color-slider, we are going to use a gradient. We want that gradient to fill the whole canvas so we pass it the height of the canvas.
 
 ```typescript title=src/app/color-picker/color-slider/color-slider.component.ts
@@ -259,7 +264,8 @@ Let's start by adding mousedown and mousemove event listeners. For that, we modi
  ``` 
 Next, we implement the used callbacks in our color-slider component class.
 
-The mousedown callback
+### The mousedown callback 
+
 
 When the mouse is down, we first want to save that state. To that, we create a private field on the class called "mousedown".
 Also, we need to keep track, wich height was selected. We need this height to display a nob at that position.
@@ -279,7 +285,8 @@ onMouseDown(evt: MouseEvent) {
 Afterward, we want to trigger the draw method. We do so to update the position of the selection-nob, which we will implement later.
 Finally, we call the emitColor method, which we also have to implement later. It is responsible for reading the selected color value and communicating that change to the parent component.
 
-What to do when the mouse moves
+### What to do when the mouse moves 
+
 When the mouse moves, the first thing we want to do is to check if our "mousedown"-property is set to true.
 That is because we only want to react if the user is dragging the slider.
 
@@ -296,7 +303,8 @@ We update the selected height, redraw our canvas and emit the new color.
 }
  
  ``` 
-Registering to a global mouse-up event
+### Registering to a global mouse-up event 
+
 Finally, we also need to know when the user stops holding the mouse-button down. 
 Because at that point, the mouse could have already left our canvas, we need to register that event listener globally.
 Otherwise, we could end up with our mousedown-property stuck on true.
@@ -310,7 +318,8 @@ onMouseUp(evt: MouseEvent) {
 }
  
  ``` 
-Missing methods
+### Missing methods 
+
 It turns out, we still need to implement two methods we have called before. 
 One missing method is emitColor. This method is reading the the color at the selected position and is emitting it using the components color-emitter;
 
@@ -331,7 +340,8 @@ This method is using the canvas context to read out the color at the given posit
 }
  
  ``` 
-Drawing the slider nob of the color-slider
+### Drawing the slider nob of the color-slider 
+
 Next, it is time to update the draw method to indicate the current color with a nob (which will be a simple rectangle in our case).
 
 All we need to do, is to add this code at the end of the method:
@@ -351,7 +361,8 @@ What we do here is drawing a transparent rectangle with a white border of 5px at
 
 That's already it. because the draw method is called every time selectedHeight changes, the nob always indicates the currently selected value.
 
-The full component
+### The full component 
+
 So here is what our component looks like by now:
 
 ```typescript title=src/app/color-picker/color-slider/color-slider.component.ts
@@ -444,7 +455,8 @@ export class ColorSliderComponent implements AfterViewInit {
 }
  
  ``` 
-We need some style...
+### We need some style... 
+
 For our slider to look like in the example, we need to add the following styles:
 
 ```css title=src/app/color-picker/color-slider/color-slider.component.css
@@ -468,7 +480,8 @@ Actually, this palette is working exactly like the color-slider we have build be
 The only difference here is, that this component has an input which is will be the hue we have selected with our slider.
 Based on this hue, the gradients in the draw method have a different color.
 
-Component class
+### Component class 
+
 
 So without further ado, here is the full component:
 
@@ -596,7 +609,8 @@ export class ColorPaletteComponent implements AfterViewInit, OnChanges {
  ``` 
 Also, because this component is expecting an input, we have to redraw the whole thing when the input changes. We do so in the ngOnChanges lifecycle hook.
 
-Template
+### Template 
+
 
 Again, the component template looks exactly like the one for the spinner:
 
@@ -611,7 +625,8 @@ Again, the component template looks exactly like the one for the spinner:
 </canvas>
  
  ``` 
-Styles
+### Styles 
+
 The same goes for the styles:
 
 ```css title=src/app/color-picker/color-palette/color-palette.component.css
@@ -664,7 +679,8 @@ export class ColorPickerComponent {
  ``` 
 Hue is the result of the color-slider, whereas color is the result of the color-palette.
 
-And of course there are some boring styles...
+### And of course there are some boring styles... 
+
 Well, nothing exciting to see here. Just some flex-box-magic going on:
 
 ```css title=src/app/color-picker/color-picker.component.css

@@ -4,6 +4,7 @@ title: 'Validating Reactive Forms in Angular'
 image: './img/angular-validating-reactive-forms.png'
 date: 2018-09-09T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -54,7 +55,8 @@ To create that component we again use the angular cli:
  ng generate component contact
  
  ``` 
-Defining the form group
+### Defining the form group 
+
 In this tutorial, we are going to use the reactive approach to forms. So to create a form we need to define a [FormGroup](https://angular.io/api/forms/FormGroup).
 We are doing this in a method called createFromGroup
 
@@ -80,7 +82,8 @@ constructor() {
 }
  
  ``` 
-Submit & revert
+### Submit & revert 
+
 Our will also need submit and revert functionality.
 For that, we create two methods, as well.
 
@@ -96,7 +99,8 @@ onSubmit() {
  ``` 
 That's all we need to add to our component.ts for now.
 
-The template
+### The template 
+
 Now that we have our FormControl, it is time to define the visuals in our template.
 
 For that, we are using just a regular form tag. We then assign our FromControl to it. Also we assign our onSubmit callback.
@@ -190,7 +194,8 @@ A custom validator is just a function with a specifiic signature that we pass in
 
 To validate our phone number, we are going to create a custom validator, that will check if the input actually is a number (let's keep it simple for this example).
 
-Defining a custom validator
+### Defining a custom validator 
+
 
 To do that, create a new folder called validators inside of the app directory. Then create a new file called phone-validator.ts.
 
@@ -217,7 +222,8 @@ export function phoneNumberValidator(control: AbstractControl): { [key: string]:
  ``` 
 In this example, we use a simple regex to test if the value is valid.
 
-Using the custom validator
+### Using the custom validator 
+
 To use our new validator, we need to import it first.
 
 ```typescript title=src/app/contact/contact.component.ts
@@ -245,7 +251,8 @@ But in case the value is invalid, all that happens for the user is the submit-bu
 
 To give the user some feedback whats wrong, we can display a specific error message on the screen, based on which validator failed.
 
-Defining Getter
+### Defining Getter 
+
 To be able to check the status of each form-field, we need an easy way to access each control.
 To do that, we are defining some getters in our component.
 
@@ -259,7 +266,8 @@ get email() {
 }
  
  ``` 
-Adjusting the template to show error messages
+### Adjusting the template to show error messages 
+
 Now we can access each form-controll and check if it valid.
 
 For example, if the value is missing or not a valid number:
@@ -277,7 +285,8 @@ For example, if the value is missing or not a valid number:
  ``` 
 Notice, that "invalidNumber" is the value we defined in our custom validator.
 
-Only showing errors if the user touched the control
+### Only showing errors if the user touched the control 
+
 With that we have done above, the errors are also shown when the page just loaded and the user has not even started to fill values in. 
 
 We don't want that. Instead it would be nice, if the errors would only appear after the user started typing. 
@@ -295,7 +304,8 @@ To implement that, we also need to check if the control is dirty or got touched 
   </span>
  
  ``` 
-Applying that to all fields
+### Applying that to all fields 
+
 If we the apply that to all fields of the form, your template should look like this:
 
 ```html title=src/app/contact/contact.component.html

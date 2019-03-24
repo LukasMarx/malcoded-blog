@@ -4,6 +4,7 @@ title: 'Learn how to use RxJS in Angular Effectively'
 image: './img/Angular-RxJs.png'
 date: 2017-08-25T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#652c89'
 colorMain: '#652c89'
 colorDark: '#652c89'
@@ -35,7 +36,8 @@ Once you have figured out the basics, you will see RxJs in a different light. Yo
 
 RxJs uses the observer pattern. Don’t know this pattern yet? No problem! It is quite simple.
 
-The observer pattern
+### The observer pattern 
+
 Let’s take a TV as an example. All it does is waiting for new signals to come in.  Then it processes them and updates the image on the screen. It can not go ahead and send data back to the television station.
 
 The TV observes the signal from the television station. Whenever the station sends a signal, the TV updates.
@@ -50,7 +52,8 @@ To get notified about new data, the observer subscribes to the subject. One subj
 
 It is the responsibility of the subject, to publish new data to the clients. Observers can not send any data back. They also don’t know about possible other subscribers.
 
-RxJs
+### RxJs 
+
 The Rx implementation follows the pattern described above. However, some terms and details are different. So let’s take a look at how to subscribe to subjects in RxJs.
 
 First of all, there are a two different version of the 'subject' from the pattern. The first one is called Subject. With the subject, you can subscribe to messages, but also push new data to the stream. Similar to the television station, but with a key of the front door. You can walk in and broadcast your favorite show whenever you want. The subject should not be passed around in your application, to avoid confusion where the new data came from.
@@ -99,7 +102,8 @@ function someFunc(): Observable<number>{
 }
  
  ``` 
-Hot & Cold
+### Hot & Cold 
+
 There are two types of observables.  Hot and cold ones. Hot observables are just like the TV station from our example. They always broadcast. It doesn't matter if there is actually a TV somewhere, that receives the signal. Even if there is no one subscribed to them. Also, if you connect to that observable, you can be at any point in the stream. Missed values, before you connected, cannot be accessed.
  
 Cold observables, on the other hand, are like watching a DVD. They start when you want, typically from the beginning. Cold observables do not produce any output unless there is somebody subscribed to them. They start pushing values to the stream when the subscribe method is called.
@@ -109,7 +113,8 @@ Why is this important? There are some services in the angular framework, that re
 For some detailed explanations and examples see the[ ](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md)[documentation on GitHub](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md).
 
 
-Unsubscribing
+### Unsubscribing 
+
 The subscribe() method returns a subscription. Make sure to unsubscribe from that at some if you no longer need it. Otherwise, you create immortal objects and memory leaks.
 
 A good point in angular to unsubscribe from observables is the ngOnDestroy lifecycle event.
@@ -148,7 +153,8 @@ RxJs is not only a great way to decouple your code and handle async broadcasting
 
 You don't need those. Actually, you probably will never use most of them. I don't say that you shouldn't. Try all of them if you want to. You can see the full [list of operators](http://reactivex.io/documentation/operators.html) here. However, they can be difficult to get your head around. In this article, I will only show you the most common and useful of them.
 
-Map 
+### Map  
+
 You probably know Array.prototype.map() already. The RxJs map operator does exactly the same. You provide it with a function, that gets applied to all elements that enter the stream before they reach the subscriber.
 
 ![angular-rxjs-filter-example-pink](./img/angular-rxjs-filter-example-pink.png)
@@ -181,7 +187,8 @@ Furthermore, it has become very easy to write your own operators. As operators a
 For more details, see the [official GitHub page on lettable operators.](https://github.com/ReactiveX/rxjs/blob/master/doc/lettable-operators.md)
 
 
-Filter
+### Filter 
+
 With the help of the filter operator, it is possible to filter the elements of a stream using a condition. Just like the map operator, the filter operator expects a function. This time, the function has to return either true or false. If you return false, the element is not sent to the subscribers.
 
 ![angular-rxjs-map-example-pink](./img/angular-rxjs-map-example-pink.png)
@@ -206,7 +213,8 @@ observable$
 
 Since RxJs streams are highly asynchronous, trying to catch errors with a simple try/catch would not work. Because of that, RxJs introduces a home-brewed error system. Errors can be any Javascript object, that is sent to the stream, as well. Other than usual stream elements, the error does not trigger the first, but the second callback passed to the subscribe method. In there, we can react to the error accordingly.
 
-Handling Errors
+### Handling Errors 
+
 To get notified about errors, the observable subscribe method offers us to pass in a second callback. This callback gets executed, when an error occurs. 
 
 ```typescript title=null
@@ -232,7 +240,8 @@ If we want to inspect the error, we can do so, adding a parameter to our callbac
 }).subscribe();
  
  ``` 
-Throwing Errors
+### Throwing Errors 
+
 Throwing errors is so easy, that is actually not worth the headline. Just call the error function of the subject and pass any object as a parameter.
 
 ```typescript title=null

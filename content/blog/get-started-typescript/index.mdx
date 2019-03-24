@@ -4,22 +4,17 @@ title: 'Learn how to use TypeScript to build Angular Apps'
 image: './img/Typescript.png'
 date: 2017-08-21T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#007acc'
 colorMain: '#007acc'
 colorDark: '#007acc'
 colorContrast: '#ffffff'
-recommended:
-  [
-    '5bb0cae79583501f642526eb',
-    '5bb0cae79583501f642526ec',
-    '5bb0cae79583501f642526ed',
-  ]
-tags: []
+recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526ec","5bb0cae79583501f642526ed"]
+tags: ["angular"]
 ---
-
 You will probably agree with me, that Typescript is great. Also, that it takes some time to get used to, especially when coming from plain JavaScript.
 
-In this post, we will take a closer look at the Typescript language, to get you started as quick as possible. With the knowledge from this article, you will be able to build your first Typescript application in a matter of minutes. Or finally feel comfortable enough with typescript to get started with angular?
+In this post, we will take a closer look at the Typescript language, to get you started as quick as possible. With the knowledge from this article, you will be able to build your first Typescript application in a matter of minutes. Or finally feel comfortable enough with typescript to get started with angular? 
 
 It does not matter if you come from Javascript or other languages like C#. In this tutorial, you will learn all the basics of the language.
 
@@ -27,36 +22,39 @@ We will not only take a close look at the language details like variables, types
 
 So let's get started!
 
-## What is Typescript?
+## What is Typescript? 
 
 Typescript is a superset of JavaScript. It adds a bunch of syntax and features to the existing JavaScript language. It is also not executable on its own. To be run in a browser (or server) it has the be compiled to JavaScript. That makes it super compatible since it can basically run on every platform that can execute JavaScript. Furthermore, every JavaScript code is valid Typescript. That gives you the possibility to profit from the huge JavaScript ecosystem.
 
-## The Reason for Typescript
+## The Reason for Typescript 
 
-Well, if Javascript is that great and we compile to it anyway, why don’t we just use Javascript?
+Well, if Javascript is that great and we compile to it anyway, why don’t we just use Javascript? 
 
 JavaScript was first published in 1996. Imagine that! Nobody back then was even thinking about the things we do with the language today! Angular, React, Vue, Node.js… Behemoth frameworks, that contain thousands of lines of code! That is not, what JavaScript was build for. It was originally meant for small scripts, that extend the capabilities of HTML and CSS.
 
-Fortunately though, we are not using the Javascript version from 1996 anymore. It has evolved since then, to meet the expectations of the developers. But some issues never got solved (very well).
+Fortunately though, we are not using the Javascript version from 1996 anymore. It has evolved since then, to meet the expectations of the developers. But some issues never got solved (very well). 
 
-Scalability
+### Scalability 
+
 The biggest issue with JavaScript is, that it does not scale very well. And that makes perfect sense, considering its origin, right? There is a big difference between a button, changing its color and a framework like Angular.
 
 Typescript is trying to get rid of this problem, by introducing a class/interface, object-oriented, structure. If you know languages like C# or Java, you will recognize some familiarities. Also, if you can write C# or Java code, you will have no problems writing Typescript.
 
-Less Errors
+### Less Errors 
+
 Since Javascript has a very limited type system, the capabilities for checking for errors at build time are very limited, as well. Often times, JavaScript errors can only be found at runtime. That does not only result in lower productivity, but also in a higher number of errors overall. Actually, some of this runtime errors will make their way into the actual product.
 
 As I mentioned before, Typescript brings a lot of concepts of the big, object.-oriented, languages to JavaScript. One of these concepts are strict types. Guess where the name Typescript comes from…
 
-Types
-In Typescript you have the possibility to define the type of variables, parameters or return values. That way you can get immediate feedback in the editor if you try to pass in a variable with the wrong type.
+### Types 
+
+In Typescript you have the possibility to define the type of variables, parameters or return values. That way you can get immediate feedback in the editor if you try to pass in a variable with the wrong type. 
 
 Furthermore, you get very good assistance. For example, the autocomplete and code-suggestion feature is much better, than it can be for JavaScript.
 
 But the best part is yet to come: Types are completely optional! Don’t get me wrong here. You should definitely use the type-feature as often and consistently as possible. But, especially when working with external JavaScript libraries, that don’t come with type definitions, the option to ditch types is a huge lifesaver!
 
-## Installing Typescript
+## Installing Typescript 
 
 To get started with Typescript, you need to install the Typescript compiler. It is the tool that converts your Typescript code to Javascript. To install the Typescript compiler, you need to have Node.js with Npm installed on your machine. If you don’t have them installed yet, you can download them from the official [Node.js site](https://nodejs.org/).
 
@@ -64,180 +62,194 @@ Afterward, you can use npm to install the compiler. You may have to restart your
 
 ```undefined title=undefined
  npm install -g typescript
-
-```
-
+ 
+ ``` 
 The -g tells the tool to install the compiler globally. That way it can be accessed from every directory on your machine.
 
 When Npm has finished the installation, you can test it with the tsc (Typescript compiler) command. It should be available and prompt some instructions.
 
-The IDE
-There are many IDEs out there that support Typescript. Atom, Sublime Text, Webstorm, Eclipse, Visual Studio… To name only a few of them. My favorite IDE is Visual Studio Code. It comes with build in Typescript support, has a very clean and minimalistic interface and can be customized via extensions.
+### The IDE 
+
+There are many IDEs out there that support Typescript. Atom, Sublime Text, Webstorm, Eclipse, Visual Studio… To name only a few of them. My favorite IDE is Visual Studio Code. It comes with build in Typescript support, has a very clean and minimalistic interface and can be customized via extensions. 
 
 Afterall it comes to personal preference which editor to choose. It really does not matter. You could even use the good old notepad and the command line to compile.
 
-## Variables
+## Variables 
 
-As you probably know, variables in Javascript are declared with the var keyword. This keyword does also exist in Typescript (of course). However, var has some anomalies with scope, that are counter-intuitive, at least.
+As you probably know, variables in Javascript are declared with the var keyword. This keyword does also exist in Typescript (of course). However, var has some anomalies with scope, that are counter-intuitive, at least. 
 
 Example: i is 5
-
 ```javascript title=undefined
-for (var i = 0; i < 6; i++) {}
-console.log(i) // 5
-```
-
+ for( var i =0 ; i < 6; i++ ) {
+  
+}
+console.log(i); // 5
+ 
+ ``` 
 If you come from other programming languages, you would not expect that result. Because the for loop has its scope, and the console log is out of the scope. And that is not all. When using functions, the scope behaves as expected.
 
-Because of that inconsistency, Typescript introduced a new keyword called let. You may know this keyword already, as it is part of ECMAScript 2015 (ES6). However, the standard was not completed at the time Typescript came out and far from being widely supported. With Typescript, it was possible to use the new features beforehand, as it was able to compile them to older Javascript standards, like ES5 or ES3.
+Because of that inconsistency, Typescript introduced a new keyword called let. You may know this keyword already, as it is part of ECMAScript 2015 (ES6). However, the standard was not completed at the time Typescript came out and far from being widely supported. With Typescript, it was possible to use the new features beforehand, as it was able to compile them to older Javascript standards, like ES5 or ES3. 
 
-Let is used exactly the same way as var. The only difference is, that for-loops and if-conditions now have
+Let is used exactly the same way as var. The only difference is, that for-loops and if-conditions now have 
 their own scope.
 
 Example: i is undefined
-
 ```typescript title=undefined
-for (let i = 0; i < 6; i++) {}
-console.log(i) //  undefined
-```
-
-## Constants
+ for( let i = 0 ; i < 6; i++ ) {
+  
+}
+console.log(i); //  undefined
+ 
+ ``` 
+## Constants 
 
 Variables are not the only way to store values. Another ES6 feature that made it into Typescript are constants. In comparison to variables, constants can be assigned only once. That is when they are defined. You can not change its value later on. Constants are defined using the const keyword. There are many examples where you should use const over var or let. Generally, you should use const, if you don't plan to modify the variables/constants value in the future. That helps to prevent unwanted modifications by other developers, but it has nothing to do with an object being [immutable](https://en.wikipedia.org/wiki/Immutable_object).
 
 Constants use the same, easier to understand, scoping as let.
 
 ```typescript title=undefined
-const someConstant: number = 5
-```
-
+ const someConstant: number = 5;
+ 
+ ``` 
 Afterward, someConstant will always be 5. It can not be modified elsewhere. (Given you don't circumvent Typescript)
 
-## Assigning Types
+## Assigning Types 
 
 One of the biggest benefits of Typescript are the types. Bot how do we use them?
 To assign a type to our variables/properties, we append them using the ‘:’ colon operator.
 
 ```typescript title=undefined
-let example: string
-```
-
+ let example: string;
+ 
+ ``` 
 There are basic types, like number, boolean or string, but Typescript has also types for the common APIs. For example the DOM-API with types like HTMLElement or CanvasRenderingContext2D.
 
 ```typescript title=undefined
  let example: HTMLElement = document.GetElementById(‘example’);
-
-```
-
+ 
+ ``` 
 In the above case, explicitly assigning a type is not necessary. That is because Typescript also knows about the return type of the given method.
 
-The Any Type
-Typescript also provides a special type called any. With that type, you explicitly tell Typescript, that you don't care about the type. It can be literally anything. Using that, you are back in Javascript 'mode'.
+### The Any Type 
 
-## Functions
+Typescript also provides a special type called any. With that type, you explicitly tell Typescript, that you don't care about the type. It can be literally anything. Using that, you are back in Javascript 'mode'. 
+
+## Functions 
 
 Functions in Typescript look (almost) exactly like Javascript functions. Well, except you can assign types here and there...
 
 ```typescript title=undefined
-function someFunction() {}
-```
+ function someFunction(){
+}
+ 
+ ``` 
+### Parameters 
 
-Parameters
 Of course, a function can have parameters, as well. That works just like in Javascript, with the difference that you can define the type of the parameters using a colon.
 
 ```typescript title=undefined
-function someFunction(param1: string, param2: number) {}
-```
-
+ function someFunction(param1: string, param2: number){
+}
+ 
+ ``` 
 It is also possible to mark parameters as optional, by passing a default value.
 
 ```typescript title=undefined
-function someFunction(param1: string, param2: number = 1) {}
-```
+ function someFunction(param1: string, param2: number = 1){
+}
+ 
+ ``` 
+### Return types 
 
-Return types
 Most of the time, the Typescript compiler can figure out the return type of a method or function by looking at the return statement. However, that is not always the case. Then, you should assign the type manually. This can be done using the colon operator as follows:
 
 ```typescript title=undefined
-function someFunction(): string {}
-```
+ function someFunction(): string{
+}
+ 
+ ``` 
+Personally, coming from a C# and Java, I feel like you should explicitly assign the return type to every function. That way, your code is much better to understand and maintainable. But I also know that programmers are lazy sometimes. I catch myself, not assigning a type, as well. However, I think it should be done. Especially when working in a team and/or on a larger project. I made the experience, that linting tools, that mark inconsistent syntax right in the editor help to train good coding practice. 
 
-Personally, coming from a C# and Java, I feel like you should explicitly assign the return type to every function. That way, your code is much better to understand and maintainable. But I also know that programmers are lazy sometimes. I catch myself, not assigning a type, as well. However, I think it should be done. Especially when working in a team and/or on a larger project. I made the experience, that linting tools, that mark inconsistent syntax right in the editor help to train good coding practice.
-
-## Classes
+## Classes 
 
 Typescript introduced a lot of concepts from C# and Java. The class is no exception here. A class is basically a blueprint for an object. It defines all methods of properties of the object. However, the object does not exist, until it is instantiated. Just like in other languages, this can be done using the new keyword.
 
 ```typescript title=undefined
-class ExampleClass {}
-```
+ class ExampleClass{
 
+}
+ 
+ ``` 
 Properties and methods are defined inside the body of the class. Other than in Javascript, you don’t have to use the var or function keywords here.
 
 ```typescript title=undefined
-class ExampleClass {
-  someProperty: number
-  someMethod(param: string): number {
-    return 1
-  }
+ class ExampleClass{
+  someProperty: number;
+  someMethod(param: string): number {
+    return 1;
+  }
 }
-```
+ 
+ ``` 
+### Accessing members of the class 
 
-Accessing members of the class
-Depending on the modifier (see below) of the class, the properties and methods can be accessed from inside the class, or from the outside.If you want to access from a method inside the class, you can use the this keyword.
+Depending on the modifier (see below) of the class, the properties and methods can be accessed from inside the class, or from the outside.If you want to access from a method inside the class,  you can use the this keyword.
 
 ```typescript title=undefined
-let someProperty = this.someProperty
-```
-
+ let someProperty = this.someProperty;
+ 
+ ``` 
 From the outside, use the instance followed by a dot.
 
 ```typescript title=undefined
-let instance = new ExampleClass()
-let someProperty = instance.someProperty
-```
+ let instance = new ExampleClass();
+let someProperty = instance.someProperty;
+ 
+ ``` 
+### Instantiation 
 
-Instantiation
 Before we can use a class, we need to instantiate one. Only afterward our class became a real object. This object is called an instance of a class. The class itself is only the blueprint.
 Instances of a class can be created using the new keyword.
 
 ```typescript title=undefined
-let instance = new ExampleClass()
-```
+ let instance = new ExampleClass();
+ 
+ ``` 
+### Constructor 
 
-Constructor
 When we instantiate a class, the so-called constructor of the class is called. Inside of the constructor, we do all the work, that is required to create the class. For example, setting the value of someProperty.
 
 ```typescript title=undefined
-class ExampleClass {
-  constructor() {
-    this.someProperty = 1
+ class ExampleClass{
+    
+  constructor(){
+    this.someProperty = 1;
   }
 
-  someProperty: number
-  someMethod(param: string): number {
-    return 1
-  }
+  someProperty: number;
+  someMethod(param: string): number {
+    return 1;
+  }
 }
-```
-
+ 
+ ``` 
 Passing values to the constructor
 We can also pass parameters to the constructor, as some instances need external input to be created.
-
+ 
 ```typescript title=undefined
  constructor(prop: number){
   this.someProperty = 1;
 }
-
-```
-
+ 
+ ``` 
 We then create an instance as follows:
 
 ```typescript title=undefined
-let instance = new ExampleClass(5) // pass any number
-```
+ let instance = new ExampleClass(5); // pass any number
+ 
+ ``` 
+### Modifiers 
 
-Modifiers
 Modifiers are a way to artificially restrict the access to your class's properties or methods. There are three basic modifiers available: Public, Protected and Private.
 The modifier are used before the name of the property or method:
 
@@ -245,48 +257,52 @@ The modifier are used before the name of the property or method:
  public example(): string {}
 protected example(): string {}
 private example(): string {}
-
-```
-
+ 
+ ``` 
 Notice: Modifier can only be used in classes.
 
-Properties or methods marked with the public modifier are accessible by everyone; Inside of the class itself or any other class or function. That includes inherited classes, as well.
+Properties or methods marked with the public modifier are accessible by everyone;  Inside of the class itself or any other class or function. That includes inherited classes, as well.
 
 Properties or methods marked with the protected modifier are not publicly accessible. They can only be used inside of the class with the this operator. Furthermore, it can be used inside of all inherited classes.
 
 Properties or methods marked with the private modifier are not publicly accessible. They can only be used inside of the class with the this operator.
 
-One more thing...
-Well, I lied to you. There are four modifiers. Another one is 'readonly'. But because the first three are much more common, I put this modifier separate.
+### One more thing... 
+
+Well, I lied to you. There are four modifiers. Another one is 'readonly'. But because the first three are much more common, I put this modifier separate. 
 All it is also used in addition the modifiers before.
 Properties with this modifier can only be modified in the constructor of the class.
 
-Inheritance
+### Inheritance 
+
 Inheritance is another 'borrowed' principle. With inheritance, a class can inherit properties and methods from another class. To inherit from another class, you can use the extends keyword.
 
 ```typescript title=undefined
-class ExampleClassChild extends ExampleClass {}
-```
+ class ExampleClassChild extends ExampleClass{
 
-Since 'someProperty' is public, we can use it in the inherited class, as well.
+}
+ 
+ ``` 
+Since  'someProperty' is public, we can use it in the inherited class, as well.
 
 ```typescript title=undefined
-class ExampleClassChild extends ExampleClass {
-  constructor() {
-    this.someProperty = 5
+ class ExampleClassChild extends ExampleClass{
+  constructor(){
+    this.someProperty = 5;
   }
 }
-```
-
-## Interfaces
+ 
+ ``` 
+## Interfaces 
 
 Interfaces work just like in Java or C#. They are comparable to a contract, that any class that implements the interface has to fulfill. A class can implement an interface like using the implements keyword.
 
 ```typescript title=undefined
-class ExampleClass implements IExampleInterface {}
-```
-
-## Conclusion
+ class ExampleClass implements IExampleInterface{
+}
+ 
+ ``` 
+## Conclusion 
 
 Typescript has a lot of features. I did my best, to condense the most important of them into this article, to get you started. But you may want to keep in mind, that there is much more the language can do for you. You can find out about all of these features in the [official Typescript documentation](https://www.typescriptlang.org/docs/home.html).
 

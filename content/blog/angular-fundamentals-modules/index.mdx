@@ -4,6 +4,7 @@ title: 'Lern how to split your Angular App into Modules [Includes Lazy-Loading]'
 image: './img/Angular-Modules.png'
 date: 2017-08-05T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -88,20 +89,25 @@ Just like with components, the resulting structure is a module-tree.
 
 Inside of the @NgModule operator, we define all the properties of the module. For that, we provide a simple Javascript object as the parameter. Let's take a closer look, at what each property of that object actually does:
 
-Bootstrap
+### Bootstrap 
+
 Defines the root-component of the Application. Only use this in the AppModule.
 
-Exports
+### Exports 
+
 We define the components, directives or pipes we want to export here. That means, that our module is providing these to other modules when they get imported. Otherwise, these components stay module internal and can not be accessed from the outside.
 
-Declarations
+### Declarations 
+
 Inside of the declarations array, we define all the components, directives and pipes, that are declared and used inside this module. If a component (or directive or pipe) is not added to the declarations array and you use it in your module/application, angular will throw an error at runtime. Also, a component (or ... you got it)  can only be declared in one module. If you want to use your component in multiple modules, you need to bundle that component into a separate module and import that in the module.
 
-Imports
+### Imports 
+
 Speaking of importing... Your module can import as many sub-modules as you like. Don't have defined any custom modules yet? No problem, we will get to that.
 But even if you don't have any modules, you still need to import some angular modules. As I mentioned earlier, Angular is built with modularity in mind. While many features are contained in angular's core, some features are bundled into their own module. For example, if you want to use the [HttpClient](https://angular.io/api/common/http/HttpClient), you will need to import the [HttpClientModule](https://angular.io/api/common/http/HttpClientModule). 
 
-Providers
+### Providers 
+
 We define any [@Injectables](https://malcoded.com/posts/angular-fundamentals-dependency-injection), required by the module, here. Any sub-components or modules can then get the same instance of that @Injectable via dependency injection. In the case of the AppModule, these @Injectables are application-scoped.
 
 ## [object Object] 
@@ -198,7 +204,8 @@ Angular appears to be quite heavy in download size. Depending on your use case, 
 
 When you load your modules in a lazy way, it is not included in the initial application. Instead, it is only downloaded, when it is needed. Why should we download components we do not show anyway?
 
-So how does it work?
+### So how does it work? 
+
 Let's modify the previous example to use lazy loading. To implement that, we need to add routing to our application.
 
 First, we configure the routing module with our route configuration. To do so, create a new file called app.routing.ts next to the app.module.
@@ -301,7 +308,8 @@ export class AuthenticationModule { }
 
 Don't get confused with angular modules and Javascript modules. Angular modules are the classes, marked with @NgModule. At the other hand, when we import some module using the Typescript import keyword, we are importing a Javascript module. That Javascript module can contain Angular modules.
 
-Angular Module
+### Angular Module 
+
 ```typescript title=src/app/app.module.ts
  @NgModule({
   declarations: [
@@ -316,7 +324,8 @@ Angular Module
 export class AppModule { }
  
  ``` 
-Javascript Module
+### Javascript Module 
+
 ```typescript title=
  import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';

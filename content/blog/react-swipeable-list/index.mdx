@@ -4,6 +4,7 @@ title: 'Building a Swipeable List with React'
 image: './img/react-swipeable-list-component.png'
 date: 2019-03-01T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#9A68F2'
 colorMain: '#9A68F2'
 colorDark: '#9A68F2'
@@ -107,7 +108,8 @@ class SwipeableListItem extends React.Component {
 export default SwipeableListItem
 ```
 
-The layout
+### The layout
+
 Next, we are going to take a look at the layout of our component.
 
 The component has two layers. A foreground, which will contain the content of the list item and can be swiped from right to the left, and a background, that appears in a different color and has some text to it.
@@ -145,7 +147,8 @@ For example:
 
 ```
 
-Adding element references
+### Adding element references
+
 To be able to manipulate the different layers and implement the swipe functionality later, we need a direct reference to the DOM element.
 
 We can save a reference by using the ref attribute provided by react:
@@ -179,7 +182,8 @@ class SwipeableListItem extends React.Component {
 export default SwipeableListItem
 ```
 
-Binding functions
+### Binding functions
+
 In the next chapter, we are going to create a lot of methods. To be able to keep the this-reference inside of them, we need to bind them. Let's do so in the components' constructor.
 
 ```jsx title=src/SwipeableList/SwipeableListItem.js
@@ -224,7 +228,8 @@ When the user is touching the list item, we keep track of where exactly he start
 
 Here is what that looks like in more detail:
 
-onDragStart
+### onDragStart
+
 When the user starts dragging the item, we need to react to that by setting "dragStartX" and "dragged" accordingly.
 
 To do so, we define two methods. One for the mouse event and one for the touch event. We need to do so because their API is slightly different. If you don't care about mouse support, feel free to drop that part.
@@ -269,7 +274,8 @@ These methods are registered accordingly at the div-element of the foreground:
 </div>
 ```
 
-onTouchMove
+### onTouchMove
+
 When the user is touching the list item, we are registering new event listeners to the "touchmove" and "mousemove" events. Now we need to react to these position changes by adjusting the "left" variable accordingly.
 
 We do so by subtracting the value of dragStartX, which is the offset of the cursor to the top-left of the list item, from the position of the cursor. Without the offset, the top-left corner would always jump to the position of the cursor. We don't want that.
@@ -294,7 +300,8 @@ onTouchMove(evt) {
 
 We also make sure that the result is always lower than zero. This is because we only want to allow swiping to the left but not to the right.
 
-onDragEnd
+### onDragEnd
+
 Finally, we need to handle the event that the user finished dragging the list item.
 
 Again, we need three methods. Two for the mouse and touch specific part and one for the shared logic.
@@ -361,7 +368,8 @@ The required event listeners for this are added when the component mounts
 
 ```
 
-Removing event listeners
+### Removing event listeners
+
 To prevent memory leaks, we need to remove these listeners when the component is destroyed:
 
 ```jsx title=src/SwipeableList/SwipeableListItem.js
@@ -372,16 +380,41 @@ To prevent memory leaks, we need to remove these listeners when the component is
 
 ```
 
-Updating the list item position
+### Updating the list item position
+
 All that is left to do, is to update the position.
 
 We move the list item to the left by applying the style-attribute "translateX" to the value of "left" we computed.
 
 To do so, we are using the element reference we created earlier.
 
+```jsx title=src/SwipeableList/SwipeableListItem.js
+updatePosition() {
+  if (this.dragged) requestAnimationFrame(this.updatePosition);
+
+  const now = Date.now();
+  const elapsed = now - this.startTime;
+
+  if (this.dragged && elapsed > this.fpsInterval) {
+    this.listElement.style.transform = `translateX(${this.left}px)`;
+
+    const opacity = (Math.abs(this.left) / 100).toFixed(2);
+    if (opacity < 1 && opacity.toString() !== this.background.style.opacity) {
+      this.background.style.opacity = opacity.toString();
+    }
+    if (opacity >= 1) {
+      this.background.style.opacity = "1";
+    }
+
+    this.startTime = Date.now();
+  }
+}
+```
+
 Rember: updatePosition is not called by us but by the browser approximately 60 times per second. We told the browser to do so by using the requestAnimationFrame function.
 
-Adding Styles
+### Adding Styles
+
 For the background and the foreground to be on top of each other, one of the elements has to have the CSS position attribute set to absolute.
 In our case, it is the background.
 
@@ -479,7 +512,7 @@ When the user starts dragging again, we switch it back to the original "ListItem
 
 The corresponding CSS class looks like this:
 
-```css title=src/SwipeableList/SwipeableList.css
+```css title=src/SwipeableList/SwipeableListItem.css
 .BouncingListItem {
   transition: transform 0.5s ease-out;
   width: 100%;
@@ -491,7 +524,8 @@ The corresponding CSS class looks like this:
 }
 ```
 
-Fading the background in and out (optional)
+### Fading the background in and out (optional)
+
 Another nice effect is to fade the background in and out depending on the distance the item has been moved from the right.
 
 To do that, we use the "left" variable to set the opacity style attribute accordingly:
@@ -515,12 +549,13 @@ To do that, we use the "left" variable to set the opacity style attribute accord
 
 ```
 
-Shrinking the list item when swiped (optional)
+### Shrinking the list item when swiped (optional)
+
 Also, we can let the list item slow shrink when it is removed from the screen. That makes for a better effect than just letting it disappear from one second to another.
 
 To do that, we need to use the max-height attribute. First, we apply a very high max-height attribute to the Wrapper CSS class. Also, we add a transition to the max-height attribute:
 
-```css title=src/SwipeableList/SwipeableList.css
+```css title=src/SwipeableList/SwipeableListItem.css
 .Wrapper {
   position: relative;
   transition: max-height 0.5s ease;
@@ -615,7 +650,8 @@ class App extends Component {
 export default App
 ```
 
-Going even further
+### Going even further
+
 But what if I want to replace the background of every list element? Specifying the property for every component seems quite verbose.
 
 Luckily, we can adjust the SwipeableList component to pass the background property to every child. That way we do not have to specify it on every item:

@@ -4,6 +4,7 @@ title: 'Angular Dynamic Components: Building a Dialog System'
 image: './img/angular-dynamic-components.png'
 date: 2018-09-12T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -34,14 +35,16 @@ Let's get started!
 
 Before we start, let's make sure we know what "dynamic" components actually are.
 
-What dynamic components are
+### What dynamic components are 
+
 
 Dynamic means, that the components location in the application is not defined at buildtime. 
 That means, that it is not used in any angular template.
 
 Instead, the component is instantiated and placed in the application at runtime.
  
-What dynamic components are not
+### What dynamic components are not 
+
 Because of the broad use of the word "dynamic", one could think that you could "dynamically" load just any component from the internet at runtime.
 
 This is not the case though. 
@@ -87,7 +90,8 @@ Afterward, we generate the dialog component like so:
 The cli will add the component to the same folder as the module. 
 Also, make sure that the dialog component is declared in the dialog module instead of the app module.
 
-The dialog effect
+### The dialog effect 
+
 
 Achieving his dialog-effect is actually quite simple and does only require a little bit of HTML and CSS.
 
@@ -127,7 +131,8 @@ The required CSS is nothing to fancy either:
 }
  
  ``` 
-Adding the callbacks to the component
+### Adding the callbacks to the component 
+
 Because we are already assigning click-callbacks in our template, let's make sure they are defined in our component-class, as well.
 
 ```typescript title=src/app/dialog/dialog.component.ts
@@ -186,7 +191,8 @@ We will use a service to instantiate the component and place it into the body. D
 
 Actually, this approach is quite convenient to use. You maybe have used it already, as this is exactly the same approach as the guys from [angular material](https://material.angular.io/components/dialog/overview) are using for their dialog component.
 
-The service
+### The service 
+
 
 So let's begin by creating a new service.
 
@@ -219,7 +225,8 @@ export class DialogService {
  
  ``` 
 
-Dynamically instantiating the dialog component using its factory 
+### Dynamically instantiating the dialog component using its factory  
+
 Angular is creating a factory for each component when building. At least when using ahead of time compilation (AOT).
 
 Because this is the default configuration now, we are using AOT for this tutorial exclusively. When using just in time compilation (JIT) you may need to take additional steps.
@@ -271,7 +278,8 @@ Also, we assign the componentRef to our property.
 }
  
  ``` 
-Destroying the component
+### Destroying the component 
+
 We also need a way to remove the component once the dialog is closed.
 
 For that, we are creating a method called "removeDialogComponentFromBody".
@@ -341,7 +349,8 @@ This is done quite similar to how we dynamically created the DialogComponent. Ex
 
 To tell angular the exact place to inject our component into, we need to create a custom directive.
 
-Creating a custom directive to mark the insertion-point
+### Creating a custom directive to mark the insertion-point 
+
 Again, we are generating this directive using the angular-cli like so:
 
 ```
@@ -363,7 +372,8 @@ export class InsertionDirective {
 }
  
  ``` 
-Modifying the dialog to spawn a dynamic child-component
+### Modifying the dialog to spawn a dynamic child-component 
+
 Now that we have our insertion-directive, we can mark the place for our dynamic child-component.
 
 To do that, we simply add a ng-template and add the attribute "appInsertion" of our directive.
@@ -444,7 +454,8 @@ To do that, we call destroy on the componentRef on ngOnDestroy.
 }
  
  ``` 
-Loading the child component AfterViewInit
+### Loading the child component AfterViewInit 
+
 Because we are using a reference to the view in loadChildComponent, we need to make sure that the view is fully loaded before we use it. That is why we are calling the method in ngAfterViewInit.
 
 There is only one problem: We are changing the view (by adding a child component) but angular thinks it is already done with the view-part. That's why the hook is called AFTERViewInit.
@@ -480,7 +491,8 @@ So why don't we create a component to test that real quick?
  ``` 
 Here is what it looks like:
 
-Template
+### Template 
+
 
 ```html title=src/app/example/example.component.html
  <div class="text-wrapper">
@@ -492,7 +504,8 @@ Template
 </div>
  
  ``` 
-Class
+### Class 
+
 
 ```typescript title=src/app/example/example.component.ts
  import { Component } from '@angular/core';
@@ -510,7 +523,8 @@ export class ExampleComponent {
 }
  
  ``` 
-Styles
+### Styles 
+
 
 ```css title=src/app/example/example.component.css
  :host {
@@ -537,7 +551,8 @@ Styles
 }
  
  ``` 
-Using the example component
+### Using the example component 
+
 To test this, we import our DialogModule into the AppModule:
 
 ```typescript title=src/app/app.module.ts
@@ -592,7 +607,8 @@ The secret is called [Injector](https://angular.io/api/core/Injector). This thin
 
 To extend the list of available classes, we need build to a custom injector.
 
-How to build a custom injector
+### How to build a custom injector 
+
 A custom injector is just a TypeScript class that implements the Injector interface.
 
 So to create our own injector, we first need to create a new file called "dialog-injector.ts" inside of the dialog directory.
@@ -622,7 +638,8 @@ export class DialogInjector implements Injector {
  
  ``` 
 
-What does the data structure look like?
+### What does the data structure look like? 
+
 Next, we will use the custom injector to register our config-object.
 
 But before we can do that, we need to define a class that describes that object.
@@ -640,7 +657,8 @@ The class looks quite simple:
 You can add many more properties to that class.
 For example, angular material is using this object to define the size of the dialog.
 
-Modifying the DialogService to use the custom injector
+### Modifying the DialogService to use the custom injector 
+
 Now we need to alter the DialogService to use the custom injector.
 
 ```typescript title=src/app/dialog/dialog.service.ts
@@ -678,7 +696,8 @@ private appendDialogComponentToBody(config: DialogConfig) {
  ``` 
 Our injector expects the old injector together with a [WeakMap](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/WeakMap). We pass it the type of our DialogConfig together with the actual config-object.
 
-Requesting the DialogConfig in the dialogs' child-component
+### Requesting the DialogConfig in the dialogs' child-component 
+
 Now that we have fed our custom injector with the config-object, it is available to the DialogComponent and its children.
 
 That enables us to use data of the config-object in our ExampleComponent:
@@ -808,7 +827,8 @@ private appendDialogComponentToBody(config: DialogConfig) {
  
  ``` 
 
-Using a DialogRef to control the dialog
+### Using a DialogRef to control the dialog 
+
 Now, the dialogRef is available inside of the child-component.
 
 Because of that, it is possible to close the dialog from our example.component. 

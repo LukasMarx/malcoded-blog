@@ -4,24 +4,19 @@ title: 'Building a REST-Backend for Angular with ASP.NET Core'
 image: './img/angular-asp-core.png'
 date: 2017-11-25T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended:
-  [
-    '5bb0cae79583501f642526ee',
-    '5bb0cae79583501f642526f9',
-    '5bb0cae79583501f64252701',
-  ]
-tags: ['angular']
+recommended: ["5bb0cae79583501f642526ee","5bb0cae79583501f642526f9","5bb0cae79583501f64252701"]
+tags: ["angular"]
 ---
-
 Do you like Angular but have a strong C# background? Do you just don't like node.js? Do you want to try something new for your backend?
 
 Whatever it is that brought you here. You came to the right place!
 
-In this tutorial, we will take a close look at how to build a REST-API with the ASP.NET Core framework. You will not only learn how to create an ASP Core server-application from scratch but also how to create a REST-Endpoint in just a few easy steps.
+In this tutorial, we will take a close look at how to build a REST-API with the ASP.NET Core framework. You will not only learn how to create an ASP Core server-application from scratch but also how to create a REST-Endpoint in just a few easy steps. 
 
 Although this tutorial is focused on "backend-stuff" we will not forget about the angular fronted! If you follow this guide, you will learn how to integrate our brand-new API into our new or existing angular application.
 
@@ -29,50 +24,46 @@ Ready? Go!
 
 Want to build a node.js backend instead? Check out my tutorial [Building a REST-Backend for Angular with Node.js & Express](https://malcoded.com/posts/angular-backend-express)!
 ![angular-cli](./img/angular-cli.png)
-
-## Setting up an ASP.NET Core 2.0 Project
+## Setting up an ASP.NET Core 2.0 Project 
 
 First of all, we need to download and install the dotnet SDK. You can download it at the [official page](https://www.microsoft.com/net/learn/get-started/windows).
 
-Afterward, we can create a new project. We are going to use the dotnet-cli (Command Line Interface) in this tutorial. If you are using Visual Studio, there are project-templates, that do exactly the same.
+Afterward, we can create a new project. We are going to use the dotnet-cli (Command Line Interface) in this tutorial. If you are using Visual Studio, there are project-templates, that do exactly the same. 
 
 To create a new project, open a console at your desired project location. Then type the following command:
 
 ```
  dotnet new webapi -o {name-of-your-project}
-
-```
-
+ 
+ ``` 
 Of course, you will need to replace the {} placeholder. E.g.
 
 ```
  dotnet new webapi -o myFirstProject
-
-```
-
+ 
+ ``` 
 With this command, we tell the dotnet-cli to create a new project after the "webapi" template. It does contain a basic server application with a very basic REST-API. It does not contain any view-components, as we want our angular application to do that part.
 
 There are plenty of other templates available. You can get the full list by using:
 
 ```
  dotnet new help
-
-```
-
-There is also a template named angular. It creates a dotnet server-application and an angular application in only one project directory. It also has features like server-side rendering and hot-reloading files built in. You can use this template if you want to, as well. But it does contain a lot (somewhat fragile) stuff, that maybe is a little bit too much if you are just getting started.
+ 
+ ``` 
+There is also a template named angular. It creates a dotnet server-application and an angular application in only one project directory. It also has features like server-side rendering and hot-reloading files built in. You can use this template if you want to, as well. But it does contain a lot (somewhat fragile) stuff, that maybe is a little bit too much if you are just getting started. 
 
 For now, we concentrate on the basics, to keep it as simple as possible.
 ![angular-folder](./img/angular-folder.png)
-
-## So many Files...
+## So many Files... 
 
 Compared to a bare-bone node.js application, you will notice, that there are quite a bunch of folders and files in our new project directory.
 
 Let's take a look at what they do!
 
-Program.cs
+### Program.cs 
+
 This file contains the entry point of our application. Every C# program starts with a static method called Main. We can find that method in the class Program inside of this file. All it does is calling the BuildWebHost method.
-It is responsible to configure and start the server-app. Quite similar to angular's bootstrap method.
+It is responsible to configure and start the server-app. Quite similar to angular's bootstrap method. 
 
 ```
  public class Program
@@ -87,27 +78,27 @@ It is responsible to configure and start the server-app. Quite similar to angula
                 .UseStartup<Startup>()
                 .Build();
     }
-
-```
-
+ 
+ ``` 
 There is already some configuration going on here. As you can see, the builder is told to use the class Startup, to configure our app. We will take a look at that class next.
 
-Startup.cs
-The Startup class is the main configuration file of your class. Here, we add features and services to our server.
+### Startup.cs 
 
-The class does contain two methods. The first one is called ConfigureServices.
+The Startup class is the main configuration file of your class. Here, we add features and services to our server. 
+
+The class does contain two methods. The first one is called ConfigureServices. 
 
 ```
   public void ConfigureServices(IServiceCollection services)
 {
       services.AddMvc();
 }
+ 
+ ``` 
 
-```
+This method is called by the runtime, Inside of this method, we add certain services to the services collection passed into the method. 
 
-This method is called by the runtime, Inside of this method, we add certain services to the services collection passed into the method.
-
-These services can then be requested via [dependency injection](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection) in our classes constructors.
+These services can then be requested via [dependency injection](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection) in our classes constructors. 
 In that way, it is very similar to angular, because both use dependency injection systems. Instead of adding our services to the provider-property of our module, we add it to the provided service-collection.
 
 By default, the MVC-Service (Model-View-Controller) is added. This service is responsible for routing the HTTP-requests to our controllers. Although we do not require a view, we need to use this service for our controllers to work.
@@ -124,28 +115,28 @@ The second method is the called Configure. It gets an IApplicationBuilder-instan
 
     app.UseMvc();
 }
-
-```
+ 
+ ``` 
 
 With this application-builder, we can add middleware to our HTTP-request pipeline. Every request is going through this pipeline. For example, we want to show an exception page, if there was an error in any request. We only want to show that, when in development mode, to not leak any sensible information.
 
 Finally, the last element of our HTTP-pipeline is the MVC-middleware. It is responsible for forwarding the requests to the responsible controller.
 
-## Controllers
+## Controllers 
 
 The "Controllers" folder does contain all of our servers controllers. Surprise!
 
 That folder has to be named exactly like this because the MVC-middleware is explicitly looking for this folder.
 
-What is a Controller?
-A controller is just a class that inherits from the Controller class. It is responsible for handling the request of a certain route. There is typically one controller for every REST-endpoint, we want to create.
+### What is a Controller? 
+
+A controller is just a class that inherits from the Controller class. It is responsible for handling the request of a certain route.  There is typically one controller for every REST-endpoint, we want to create.
 
 For example, if you want a "Cat"-endpoint, we would create a Cat-controller that would be responsible for the route "api/cat".
 
 The dotnet-cli has already created a controller for us called "ValuesController". The thirst thing a typically do within a new project is to delete that controller, but it can be useful to keep it around as a reference when you are getting started.
 ![angular-takeoff](./img/angular-takeoff.png)
-
-## Creating our first Controller
+## Creating our first Controller 
 
 To create our cat-endpoint, we will need to create our first controller. To do so, we create a new file inside of the controller-directory called "CatController.cs". Again, if you are using Visual Studio, there is a fancy template for that.
 
@@ -162,37 +153,34 @@ namespace firstProjectWebApi.Controllers
 
     }
 }
-
-```
-
-In this example, the controller would be listening for request at the route "api/cat". The "[controller]" part is replaced by the name of the controller by the framework. This only works if you follow the naming convention
+ 
+ ``` 
+In this example, the controller would be listening for request at the route "api/cat". The "[controller]" part is replaced by the name of the controller by the framework. This only works if you follow the naming convention 
 {name}Controller.
 
 An equivalent attribute would be this:
-
 ```
  [Route("api/cat")]
-
-```
-
+ 
+ ``` 
 The controller does rely on attributes quite excessively.
 ![angular-question](./img/angular-question.png)
-
-## "REST-API"? Can you eat that?
+## "REST-API"? Can you eat that? 
 
 As I told you already, we are going to create a REST-API. But what is that exactly? Let's find out!
 
 I will try to keep this short: REST is a standardized way of building HTTP-endpoints.
 
-It uses the standard HTTP-verbs like get, post, put & delete to express read, create update & delete (CRUD) operations.
+It uses the standard HTTP-verbs like get, post, put & delete to express read, create update & delete (CRUD) operations. 
 
 All these methods (verbs) are applied to one endpoint, which represents the object to be modified. This has an object-oriented touch to it,
 
-For example, if I wanted to modify a cat in any way, the endpoint would be named "cat".
+For example, if I wanted to modify a cat in any way, the endpoint would be named  "cat".
 
 Here is how the CRUD operations are modeled.
 
-CRUD Operations
+### CRUD Operations 
+
 
 Create: To create a new object under an endpoint, a post-request is sent to the REST-endpoint containing the new object to create in the post-body.
 
@@ -200,10 +188,9 @@ Read: To read all objects from an endpoint, e.g if you want to know about all ca
 
 Update: To update an object, a put request is sent to the endpoint. The identifier is added to the route e.g. "cat/cat1". The information of the object is added to the put-body.
 
-Delete: To delete an object, a delete request is sent to the endpoint with the identifier of the wanted object added to the route.
+Delete:  To delete an object, a delete request is sent to the endpoint with the identifier of the wanted object added to the route. 
 ![angular-transfer-state](./img/angular-transfer-state.png)
-
-## Creating the REST-Endpoint
+## Creating the REST-Endpoint 
 
 A typical REST-Endpoint does implement all the CRUD-operations listed above.
 
@@ -219,14 +206,15 @@ Inside of there, we create a new class called Cat. Then, we add a property calle
         public string Name { get; set; }
     }
 }
-
-```
+ 
+ ``` 
 
 Now we are ready to upgrade our endpoint by adding all REST-methods.
 
 So let's go ahead and implement them one by one.
 
-Getting all Elements (Cats)
+### Getting all Elements (Cats) 
+
 As stated above, the server should return all elements of an endpoint, when there is get-request to the endpoint itself, without any route-parameter.
 
 To handle this case, we will need to create a new method to our class. All REST-methods have a corresponding C#-method.
@@ -242,14 +230,15 @@ public IEnumerable<Cat> GetAll()
     list.Add(new Cat() { Name = "Lucy" });
     return list;
 }
-
-```
+ 
+ ``` 
 
 This method is "decorated" by the "HttpGet" attribute, to tell the framework, that this method should handle get-requests, that are pointed directly at the endpoint. Also, we return an IEnumerable of Cats. IEnumerable is basically the base-interface of almost everything that is a collection of items. For example, a list does implement this interface.
 
 We also fake some actual output here. In a real application, this output would be either calculated or read form a database.
 
-Getting one specific Element (Cat)
+### Getting one specific Element (Cat) 
+
 We querying for a specific cat, we require the id/name of that cat to be passed, as well. In REST, this is done by adding the id/name to the route. E.g. "api/cat/Lilly".
 
 To implement this dynamic route, we add a route parameter to the "HttpGet" attribute. This route parameter is marked by curled-braces. The name inside of that braces will be the name of the of our parameter.
@@ -260,12 +249,12 @@ public Cat Get(string name)
 {
     return new Cat() { Name = name };
 }
+ 
+ ``` 
+Again, we are faking the output here.  
 
-```
+### Inserting a new Element (Cat) 
 
-Again, we are faking the output here.
-
-Inserting a new Element (Cat)
 To insert a new element at our endpoint, the HTTP-post method is used. Because of that, we need to use the "HttpPost" attribute instead.
 
 Furthermore, we need to get the cat, we need to insert from the body of the request. For that we add a parameter called cat to the method and mark it with the "FromBody"-attribute. The body of the request will then be automatically extracted, parsed and passed as a parameter to our method.
@@ -279,10 +268,10 @@ public Cat Insert([FromBody]Cat cat)
     // write the new cat to database
     return cat;
 }
+ 
+ ``` 
+### Updating an existing Element (Cat) 
 
-```
-
-Updating an existing Element (Cat)
 To update an existing element at our endpoint, we are using the HTTP-put method. Again, there is a different attribute for that. Also, we now need to parameters. The name of the cat to update and the new cat object itself. This makes not much sense here because our cat does only have a name, but typically objects do have much more properties that that.
 
 The name/id of the object is part of the route, just like getting a specific element. The cat object, on the other hand, is included in the body of the request.
@@ -295,10 +284,10 @@ public Cat Update(string name, [FromBody]Cat cat)
     // write the updated cat to database
     return cat;
 }
+ 
+ ``` 
+### Deleting an Element (Cat) 
 
-```
-
-Deleting an Element (Cat)
 Last but not least, we need to provide the possibility to delete an element. We will use the HTTP-delete verb for that, so we choose our attribute accordingly. We also need the name of the cat, we want to delete. This information is typically passed as a route-parameter.
 
 ```
@@ -307,12 +296,10 @@ public void Delete(string name)
 {
     // delete the cat from the database
 
-}
-```
-
+} 
+ ``` 
 ![angular-code-banner](./img/angular-code-banner.png)
-
-## Consuming our ASP.NET Core REST-API in an Angular Application
+## Consuming our ASP.NET Core REST-API in an Angular Application 
 
 Now I will show you real quick, how to integrate your API into your angular application.
 For that, I assume that you know how to set up a basic application using the angular-cli. Some basic understanding could help, as well.
@@ -328,12 +315,12 @@ Next, create a new service. I will call that one "CatService".
 Here is what this service looks like:
 
 ```typescript title=cat.service.ts
-import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs/Observable'
-import { HttpClient } from '@angular/common/http'
+ import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 export interface Cat {
-  name: string
+  name: string;
 }
 
 @Injectable()
@@ -341,35 +328,33 @@ export class CatService {
   constructor(private http: HttpClient) {}
 
   getAllCats(): Observable<Cat[]> {
-    return this.http.get<Cat[]>('http://localhost:8000/api/cats')
+    return this.http.get<Cat[]>('http://localhost:8000/api/cats');
   }
 
   getCat(name: string): Observable<Cat> {
-    return this.http.get<Cat>('http://localhost:8000/api/cats/' + name)
+    return this.http.get<Cat>('http://localhost:8000/api/cats/' + name);
   }
 
   insertCat(cat: Cat): Observable<Cat> {
-    return this.http.post<Cat>('http://localhost:8000/api/cats/', cat)
+    return this.http.post<Cat>('http://localhost:8000/api/cats/', cat);
   }
 
   updateCat(cat: Cat): Observable<void> {
-    return this.http.put<void>(
-      'http://localhost:8000/api/cats/' + cat.name,
-      cat
-    )
+    return this.http.put<void>('http://localhost:8000/api/cats/' + cat.name, cat);
   }
 
   deleteCat(name: string) {
-    return this.http.delete('http://localhost:8000/api/cats/' + name)
+    return this.http.delete('http://localhost:8000/api/cats/' + name);
   }
 }
-```
+ 
+ ``` 
 
-## Conclusion
+## Conclusion 
 
 In this tutorial, we learned how to set up a server-application with ASP.NET Core from scratch and created a very basic but functional REST-API using the build in MVC-Middleware.
 
-I hope you enjoyed this post.
+I hope you enjoyed this post. 
 
 If you did please hit the share buttons below and help other people building their APIs, as well.
 

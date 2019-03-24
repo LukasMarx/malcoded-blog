@@ -4,6 +4,7 @@ title: 'Using Web Assembly to speed up your Angular Application'
 image: './img/angular-web-assembly.png'
 date: 2018-04-19T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#654ff0'
 colorMain: '#654ff0'
 colorDark: '#654ff0'
@@ -35,7 +36,8 @@ The main advantage of Web Assembly that it is fast.
 
 But why is this important?
 
-JavaScript is slow!
+### JavaScript is slow! 
+
 Compared with native programs written in C or C++ JavaScript is very slow.
 This is because it is not directly translated into processor instructions, but runs in a virtual machine instead.
 
@@ -48,7 +50,8 @@ But this convenience comes at a cost. The additional layer of the virtual machin
 
 Furthermore, JavaScript is not a compiled language. That means, that the code has to be compiled at runtime to be executed. Because this process is typically relatively slow, JavaScript uses a technique called Just-In-Time compilation (JIT). Although JIT reduces the load-time of the program a lot, it is not as fast a executing pre-compiled programs.
 
-Web Assembly to the rescue!
+### Web Assembly to the rescue! 
+
 No, seriously, JavaScript is just fine for most web applications. It is easy to use and especially with modern frameworks quite fast.
 
 But for certain applications it is not fast enough. 
@@ -57,7 +60,8 @@ These are typically applications that require a lot of calculations.
 
 That is where Web Assembly shines. Examples for that are applications like image manipulations or games.
 
-Web Assembly First Draft
+### Web Assembly First Draft 
+
 The current version of Web Assembly is still quite limited compared to what features a promised.
 In fact, it is just a fist draft, to establish the technology and get people excited about it.
 
@@ -70,7 +74,8 @@ Web Assembly can be generated from many languages such as C, C++ or Rust. There 
 
 For this tutorial, we will keep it simple and compile a very basic C program.
 
-Set Up a new Angular Project
+### Set Up a new Angular Project 
+
 Before we get started, we nee to set up a new project.
 
 We can use the angular-cli to do so:
@@ -86,7 +91,8 @@ Let's install them:
  npm install @types/webassembly-js-api --dev --save
  
  ``` 
-Installing the Web Assembly Compiler
+### Installing the Web Assembly Compiler 
+
 To install the Web Assembly compiler, please follow these instructions: [Web Assembly Getting Started](http://webassembly.org/getting-started/developers-guide/).
 
 Note: If you are on Windows, you might have to add the path of the emsdk to you PATH variables.
@@ -100,7 +106,8 @@ To do that, please go ahead and create a folder called "wasm" inside of your pro
 
 That's right! Our example will calculate the Fibonacci number of any number, because that is quite an expensive task. Especially for the higher numbers.
 
-The C Programm
+### The C Programm 
+
 
 The C program looks like this:
 
@@ -116,7 +123,8 @@ The C program looks like this:
  ``` 
 Even if you are not familiar with C programming, this program should be quite easy to understand.
 
-Exposing the Function to JavaScript
+### Exposing the Function to JavaScript 
+
 
 What we want to do here, is to make the Fibonacci function callable from our JavaScript code.
 
@@ -136,7 +144,8 @@ int EMSCRIPTEN_KEEPALIVE fibonacci(int n)
 }
  
  ``` 
-Compiling C to Web Assembly (WASM)
+### Compiling C to Web Assembly (WASM) 
+
 To use this function, we need to compile it to Web Assembly first, because the browser does not understand C.
 
 To do that, we are using the compiler we have installed before.
@@ -182,7 +191,8 @@ but also have to import the was file itself using the file-loader
  ``` 
 Unfortunately, that way the WASM file is not included in the bundle itself, but is provided as separate file.
 
-Instantiate Web Assembly
+### Instantiate Web Assembly 
+
 To use the WASM-file at runtime, it has to be fetched from the provided URL and converted into a byte array.
 
 To do that, we create a new method inside of our service called "instantiateWasm".

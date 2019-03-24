@@ -4,6 +4,7 @@ title: 'Creating a File Explorer Component in Angular'
 image: './img/angular-file-explorer-component.png'
 date: 2018-03-30T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -47,7 +48,8 @@ To create this module, use the following command at the root of our new project.
  ng generate module file-explorer
  
  ``` 
-External Dependencies
+### External Dependencies 
+
 In this tutorial, we are going to use the [angular material library](https://material.angular.io/). This library provides a set of UI-components that follow [google's material design paradigm](https://material.io/guidelines/#introduction-goals) and therefore look just awesome.
 
 To use the library, we have to install it first. We do so by using npm with this command: 
@@ -82,7 +84,8 @@ Furthermore, we are going to need a small module to generate (pseudo)random ids.
  npm install --save uuid
  
  ``` 
-Importing Stuff
+### Importing Stuff 
+
 Because angular material follows a modular approach, we need to import a lot of stuff into our file-explorer-module before we can start. So let's get that out of the way right now!
 
 Basically what we have to do, is to adjust the file-explorer-module until it looks like this:

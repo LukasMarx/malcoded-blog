@@ -4,6 +4,7 @@ title: 'Creating a File Dropzone with React'
 image: './img/react-dropzone-component.png'
 date: 2019-02-06T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#A828FD'
 colorMain: '#A828FD'
 colorDark: '#A828FD'
@@ -119,7 +120,8 @@ class Dropzone extends Component {
 }
 ```
 
-Basic structure
+### Basic structure
+
 The HTML-structure of our component will be quite simple.
 
 It is just a wrapper div containing an image a span.
@@ -171,7 +173,8 @@ Because the icon is pure black, we are adjusting it's opacity to look nice.
 }
 ```
 
-How to open a file dialog
+### How to open a file dialog
+
 Now it is time to implement some functionality.
 
 First of all, we want the dropzone to open a file-selection-dialog when it is clicked. This dialog as to be provided by the browser (and the operating system) because we don't have access to the file system from a website (which is actually a good thing).
@@ -227,7 +230,8 @@ To be able to reference the input element from code we are using a ref. Because 
 
 ```
 
-Click event listener
+### Click event listener
+
 To actually open the file dialog, we need to click on the input element using JavaScript.
 
 ```javascript title=src/dropzone/Dropzone.js
@@ -273,7 +277,8 @@ We do so in the components' constructor.
 
 ```
 
-Defining an output property
+### Defining an output property
+
 Next, we need to implement the onFilesAdded() we referenced earlier. This method will be called when the file dialog is closed and files have been selected.
 
 Because our component does not know what to do with these files, we are passing it to the parent component.
@@ -379,7 +384,8 @@ Also, we are applying the CSS class "Highlight" in case the state variable "high
 
 Now it is time to implement each method...
 
-onDragOver
+### onDragOver
+
 The onDragOver method is quite simple.
 
 All we need to is to set the highlight-state to true in case the component is not disabled.
@@ -397,7 +403,8 @@ All we need to is to set the highlight-state to true in case the component is no
 
 We also need to call evt.preventDefault to prevent the default behavior of the browser.
 
-onDragLeave
+### onDragLeave
+
 This mehtod is even simpler.
 
 We just set the highlight-state to false.
@@ -411,7 +418,8 @@ We don't even check if the component is disabled to not get stuck in the highlig
 
 ```
 
-onDrop
+### onDrop
+
 In case a file is dropped onto the component, we need to notify the parent component about that. We do so by calling the onFilesAdded property.
 
 Also, we set the highlight state to false.

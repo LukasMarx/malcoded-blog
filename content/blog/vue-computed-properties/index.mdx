@@ -4,6 +4,7 @@ title: 'Vue.js Computed Properties'
 image: './img/vue-computed-properties.png'
 date: 2018-11-28T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#4dba87'
 colorMain: '#4dba87'
 colorDark: '#4dba87'
@@ -41,7 +42,8 @@ These methods are declared in the "methods" section of your component and behave
 
 ```
 
-So what's the problem?
+### So what's the problem?
+
 The problem with Vue methods emerges when they are used in parts of your component, that are executed with every re-render of the component itself.
 
 For example, if you need to format a date to use it inside a template:
@@ -59,7 +61,8 @@ Even if your method is quite fast, that can have a huge performance impact. Not 
 
 This is where computed properties really shine.
 
-Computed properties are cached
+### Computed properties are cached
+
 We can avoid all the performance issues mentioned by simply using computed properties.
 
 This is because the result of a computed property is cached, as long the values of the properties used inside of the computed property stay the same.
@@ -129,7 +132,8 @@ We are defining our computed property called "formatedDate" like so:
 
 Note: Because computed properties are properties and not methods, I would recommend using a naming scheme like used for variables instead of functions. The name of the property is describing the current state ("formatedDate") and is not a call to do something ("formatDate").
 
-Using computed properties
+### Using computed properties
+
 As the name might imply, computed properties are used like properties and not like methods.
 
 The difference here is that we don't need braces.

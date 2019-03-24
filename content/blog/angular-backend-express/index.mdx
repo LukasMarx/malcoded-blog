@@ -4,6 +4,7 @@ title: 'Building a REST-Backend for Angular with Node.js & Express'
 image: './img/angular+nodejs.png'
 date: 2017-11-16T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -55,7 +56,8 @@ I like server.js, so let's go ahead and create that file in a new directory of y
 
 Done! Not that hard, was it?
 
-Setting up the node.js Environment
+### Setting up the node.js Environment
+
 To run a node.js application, we have to install node.js on our machine first. You can download it at the [official node.js website](https://nodejs.org/en/). For this tutorial, it does not matter, which version you choose. If you want to be on the save side, choose the long-term-support version (LTS).
 
 Download the setup-executable and follow the instructions to install node.js on your computer. At one point, the wizard will ask if you want to install npm, as well. Make sure you do so. On Windows machines, you may need to restart your computer afterward.
@@ -85,7 +87,7 @@ const express = require('express')
 
 In this piece of code, we first create a constant called "express" that we will later use to set up the express framework.
 
-What does require do?
+### What does require do?
 
 Express is an external dependency. By using "require" we tell node.js that it has to be pulled into our code because we need it.
 
@@ -101,7 +103,8 @@ import * as express from 'express'
 
 Looks more familiar, doesn't it?
 
-Installing External Dependencies
+### Installing External Dependencies
+
 Just like in angular, external dependencies have to be pulled and installed, before they can be used. Installed dependencies are located in a directory called "node_modules" inside of the root directory.
 
 To install external dependencies, we are using package-managers like npm.
@@ -115,7 +118,8 @@ Use the following command to install express using npm:
 
 This command should have created the "node_modules" folder inside of your project directory.
 
-Initializing the Express Framework
+### Initializing the Express Framework
+
 To initialize the express framework, we need to call the constant express function we just required. It will return an Express-Object. This Express-Object is essential and used to set up the application itself, add routes and rest-endpoints initialize middleware.
 
 Doing so looks like this:
@@ -126,7 +130,8 @@ const app = express()
 
 Again, nothing fancy, right?
 
-Starting our Server
+### Starting our Server
+
 Now that we have initialized the framework, we can fire up our server. This is done by calling the "listen"-method of our Express-Object. This method tells the server to listen for incoming requests on the given port.
 
 ```javascript title=server.js
@@ -137,7 +142,8 @@ app.listen(8000, () => {
 
 In this case, we tell it to listen on port 8000. We also pass in a callback-function, that is called, once the server has successfully started. Inside there we log our successful start to the console.
 
-Running our Server with Node.js
+### Running our Server with Node.js
+
 To run our script, we need to tell node.js to execute it. This can be done, using the node command in your command line interface.
 
 Open a new command line interface in your project root directory and start your server by typing:
@@ -174,7 +180,7 @@ For example, if I wanted to modify a cat in any way, the endpoint would be named
 
 Here is how the CRUD operations are modeled.
 
-CRUD Operations
+### CRUD Operations
 
 Create: To create a new object under an endpoint, a post-request is sent to the REST-Endpoint containing the new object to create in the post-body.
 
@@ -192,7 +198,8 @@ These crud-operations can be directly mapped to the database, for example mongod
 
 Enough theory for now, let's dive right into the code. For our example, we are going to create a cat-endpoint, possibly serving a database of all cats in the world. Yes, all of them!
 
-Getting all Objects from an Endpoint
+### Getting all Objects from an Endpoint
+
 As discussed before, we get a list of all objects of an endpoint, by sending a get request to that endpoint directly.
 
 Now, we have to tell our server, what to do, if it receives a request at that endpoint.
@@ -222,7 +229,8 @@ app.route('/api/cats').get((req, res) => {
 })
 ```
 
-Getting one specific Object from an Endpoint
+### Getting one specific Object from an Endpoint
+
 The second method of a REST-endpoint, is getting one specific element from the API. By convention, the identifier of that object is appended to the route.
 
 For example, if we want to get everything about the cat called "lucy", we would call the following route:
@@ -259,7 +267,8 @@ app.route('/api/cats/:name').get((req, res) => {
 })
 ```
 
-Sending a new Object to an Endpoint
+### Sending a new Object to an Endpoint
+
 Another method of a REST-API is creating a new object at the endpoint. This method is different to the methods we looked at before because it is using the HTTP-post-request instead of the get-request.
 
 This REST-method is used to send new objects to the server. For example, if we would want to insert a new cat into our (not existing) cat-database, we would use this method for that.
@@ -286,7 +295,8 @@ app.route('/api/cats').post((req, res) => {
 
 You may have noticed that something else looks different here. We are using the "send"-method with two parameters instead of one. Now, the first parameter is the HTTP-status-code and the second one our payload. Normally, the "send"-method uses the status code "200" - OK. Because the request "created" something, a new cat entry in our database, for example, the status code "201" - Created is a much better fit.
 
-Changing an Object at an Endpoint
+### Changing an Object at an Endpoint
+
 Inserting new Objects might not cover all of your needs. Depending on your use-case, you probably want to modify existing objects. We can create a route that allows for that using the express-put-method.
 
 ```javascript title=server.js
@@ -295,7 +305,8 @@ app.route('/api/cats/:name').put((req, res) => {
 })
 ```
 
-Deleting an Object at an Endpoint
+### Deleting an Object at an Endpoint
+
 Creating a delete method is quite simple. All we have to do is the delete-method from express. Again, we are using a route-parameter, to determine which cat to delete from the database.
 
 ```javascript title=server.js
@@ -316,14 +327,15 @@ Before we continue, by building the corresponding angular application, we should
 
 It will also help as to prevent a very common mistake.
 
-So what is Middleware?
+### So what is Middleware?
+
 Middleware is a very broad and abstract concept. Basically, it is software, that is placed between two other components. Well, I told you it is abstract...
 
 What does that mean for our application?
 
 Everything in express is middleware. There is some component that takes the incoming requests and there is something that spits out the responses. Everything in between is handled by middleware.
 
-Middleware in Express
+### Middleware in Express
 
 Our routes with their callbacks, for example, are a kind of middleware. We get a request and help to shape a response from that.
 
@@ -331,7 +343,8 @@ It turns out, the body-parser we used already, is middleware as well. It interce
 
 Middleware in express builds a kind of chain. The request is passed from the first registered middleware to the last one. Once there is no one left that wants to intercept the request, the response is sent back.
 
-Enabling CORS
+### Enabling CORS
+
 The first thing I realize, when I want to test my brand new API with my angular app, is, that I forgot to enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
 
 CORS or cross-origin-resource sharing is the process of making an HTTP-request to a top-level domain that is different to the domain, the browser is currently at. For example, if I would make a request from this page to google.com, it would be a cross-origin-request.

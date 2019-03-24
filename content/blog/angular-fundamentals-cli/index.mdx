@@ -4,6 +4,7 @@ title: 'Angular CLI: The best Commands to boost your productivity'
 image: './img/angular-cli-tutorial.png'
 date: 2018-03-02T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -77,7 +78,8 @@ Of course, you do not need to know all of them by heart, but some of them are pr
 
 Here are some of them:
 
-Dry Run
+### Dry Run 
+
 Sometimes you want to try out, what a command does, before it actually does something.
 
 Specifically if you are new to the CLI, the dry-run option will be very useful.
@@ -130,7 +132,8 @@ The last line is kind off important.
 
 You can append it to almost all of the angular-cli commands.
 
-Skipping the Installation of External Dependencies
+### Skipping the Installation of External Dependencies 
+
 There might be situations, where you don't want to install the external dependencies right after the creation of a new project.
 
 One Example could be, that you don't have a internet connection. Or you don't want to wait forever, because you are on a slow machine right then.
@@ -153,7 +156,8 @@ You can use the following command at the root of your project to do so:
  ``` 
 Also, you have to have the external dependencies installed to run or test your application.
 
-Who needs Test anyway?
+### Who needs Test anyway? 
+
 Seriously, there are legit scenarios where you just don't need them.
 
 Creating a new project to try or demo something or reproducing a bug for example.
@@ -168,7 +172,8 @@ We can tell the CLI not to create test by using the --skip-tests option:
  ng new example --skip-tests
  
  ``` 
-Using Sass instead of Css? No problem!
+### Using Sass instead of Css? No problem! 
+
 Using pre-processed Css like [Sass ](https://sass-lang.com/)has become quite popular.
 
 But the CLI creates normal css-files for every component by default. If you don't want to change them manually every time, you can use the --style scss option to tell the CLI that you want to use Sass.
@@ -245,7 +250,8 @@ Personally, I have the app running in watch mode, almost all of the time during 
 
 It is important to know, that this feature is for development purposes only. Do not use this small web-server in an production environment!
 
-Building
+### Building 
+
 When you are happy with your angular app, it is time to deploy it to a web-server.
 
 To get the files, that are required for that, we can use the 

@@ -4,6 +4,7 @@ title: 'Why your Angular App is not Working: 11 common Mistakes'
 image: './img/Angular-Error.png'
 date: 2017-10-04T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -38,7 +39,8 @@ This error indicates, that the [angular Forms Module](https://angular.io/guide/f
  ``` 
 This error tells you, that you have not imported the angular [HttpClient Module](https://angular.io/guide/http) into your (root) module.
 
-The Solution
+### The Solution 
+
 To resolve the problem, you need to import the missing module into your module. Most of the cases, that module would be the AppModule in your app directory.
 
 
@@ -103,7 +105,8 @@ export class ExampleComponent {
 }
  
  ``` 
-The Problem
+### The Problem 
+
 The @ViewChild() directive is very useful. But you have to keep this in mind:
 
 You can only use the reference to the element if the element actually exists!
@@ -133,7 +136,8 @@ export class ExampleComponent implements OnInit{
  
  ``` 
 
-The Solution
+### The Solution 
+
 Just like the [DOMContentLoaded ](https://developer.mozilla.org/de/docs/Web/Events/DOMContentLoaded)event or the [$(document).ready()](https://learn.jquery.com/using-jquery-core/document-ready/) callback in JQuery, angular has a similar mechanism, to notify you, that all HTML elements have been created. It is called the [ngAfterViewInit ](https://angular.io/guide/lifecycle-hooks)lifecycle hook. It is a callback you should implement, that gets triggered when all of the components views and child-views got initialized. That way you, it is (almost) safe to access the viewChild reference inside of that callback.
 
 ```typescript title=
@@ -191,7 +195,8 @@ export class ExampleComponent implements AfterViewInit {
 }
  
  ``` 
-The Solution
+### The Solution 
+
 Instead of changing the elements directly, you should manipulate them indirectly. For that, angular offers a rendering API in the form of the [Renderer2](https://angular.io/api/core/Renderer2) class. Yes, that '2' is intentional and yes there was a [Renderer (1)](https://angular.io/api/core/Renderer). Not the best name, but it is what it is.
 
 With the help of that renderer, we can still do everything we are used to when working with the DOM. But by using the renderer, we are making sure, that our code works as well on the server, as it does on the client. 
@@ -300,7 +305,8 @@ Finally, we have to tell it, which routes to protect:
 export class AppModule {}
  
  ``` 
-The Problem
+### The Problem 
+
 So why are guards a problem? The truth is, they are not!
 
 But many people seem to be confused about the topic. They become a problem if people get a false sense of security because of them. Fact is, nothing you do on the client is 'secure'. Because you deliver the full source code to the potential harmful users, the application can be altered in any way. That means, that our guard can be easily circumvented by commenting some lines.
@@ -309,7 +315,8 @@ No, especially with AOT compilation, it is not THAT easy, but with enough crimin
 
 That way, data that is only protected by a route guard client side, can be accessed without too much effort. You definitively do not want that!
 
-The Solution
+### The Solution 
+
 Because of that, if you need to protect any sensitive data, you also need to have an actually secure, server-based, solution. For example with signed [JavaScript Web Tokens](https://jwt.io/introduction/).
 
 ## 6. Declare your Components only once 
@@ -349,7 +356,8 @@ export class AuthenticationModule { }
 
 Another common mistake is to confuse *ngIf and [hidden]. Choosing the right one of these can make quite a difference performance wise. So let's take a closer look at both techniques.
 
-The [hidden] Attribute
+### The [hidden] Attribute 
+
 The hidden attribute toggles the visibility of an element. Just as we would expect. right? 
 That means, that if we set [hidden] to true, the css property "display" is set to "none". Afterward, the element is no longer visible, but still present on the DOM.
 
@@ -363,7 +371,8 @@ Kudos to Kara Erickson for her findings of that. You can learn more about the to
 
 Another, although very theoretical, problem is, that all these elements stay on the DOM, although they are not visible. If we talk about hundreds or thousands of elements, these elements can slow down the browser quite a bit. So why don't we remove them, if we don't need them?
 
-The *ngIf directive
+### The *ngIf directive 
+
 The main difference of the *ngIf directive is exactly that. Instead of just hiding the marked elements, it completely removed them from the DOM. Aside from the possible performance improvement, this solution also appears a lot cleaner to me. But that is my opinion. It just seems like the standard way of hiding things in angular to me. Because of that, I almost exclusively use *ngIf.
 
 ```html title=
@@ -415,7 +424,8 @@ Afterward, start the bundle analyzer like so:
  ``` 
 The tool will automatically open a browser window, showing you a similar result to the one above.
 
-The Solution
+### The Solution 
+
 The solution to that is to use the so-called [AOT (Ahead of Time) compilation](https://angular.io/guide/aot-compiler). When using the AOT mode, your angular application is compiled at build time. That way, the browser does not has to do that work. Instead, we do it once and for all. This results in your application starting much faster. 
 
 Even more important, the bundle size, every user has to download, decreases dramatically, because the angular compiler no longer has to be included in the bundle.
@@ -460,7 +470,8 @@ This tiny statement almost doubles the size of our application.
 
 The point here is that this additional size is completely unnecessary. If you compare this bundle to the previous ones, you will notice, that these included RxJs as well. The difference is, that the previous bundle only contained the modules that are actually required. Using this import statement, we have imported just everything.
 
-The Solution
+### The Solution 
+
 Well, there are multiple solutions to this. The most general solutions would be, to evaluate every library you add to your project. Do you really need that shiny button at a cost of additional 100 KB? Does the library offer sub-modules, so you can only import the stuff you need? If not, it is probably not worth it.
 
 If your library offers sub-modules, make sure to only import the stuff you need. Regularly check the resulting bundle using the bundle-analyzer. 
@@ -488,7 +499,8 @@ Unfortunately, not all libraries do a great job at splitting up their code. And 
 
 When dealing with RxJs Observables and Subscriptions, it can easily happen, that you leak some memory. That is because your component is destroyed, but the function you registered inside of the observable is not. That way, you not only leak memory but probably also encounter some odd behavior.
 
-The Solution
+### The Solution 
+
 
 To prevent that, make sure to unsubscribe from your subscriptions, when the component is destroyed. One good place to do so, would be the [ngOnDestroy](https://angular.io/guide/lifecycle-hooks) lifecycle hook. Here is an example:
 

@@ -4,6 +4,7 @@ title: 'Connect your Angular App with your Backend using the Http-Client'
 image: './img/Angular-Http.png'
 date: 2017-08-18T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -109,7 +110,8 @@ As you can see, the angular HttpClient is quite simple. All we need to do is cal
 
 Just like a promise, the Observable does not contain a value immediately. Instead, it has a subscribe method, where we can register a callback. This callback is called, once the result is available. Other than a promise, an Observable can return more than one value. You can think of as a stream of results. But that does not matter for this tutorial. In our case, the Observable does only return one value.
 
-Subscribing to HttpClient Observables
+### Subscribing to HttpClient Observables 
+
 So how do we subscribe to the observable, returned by our new method, to get the actual value?  That is quite easy. We just call the subscribe method register one (or two) callbacks. The first callback is called when the result is available. It gets the result as a parameter. The second callback is triggered when an error occurs with the request. It gets an error object as the parameter.
 
 Here is how it looks like in code. I have made up the picService instance. You need to provide and request that service yourself.
@@ -129,7 +131,8 @@ NOTE: You always have to subscribe to the request's Observable. Otherwise, the r
 
 HTTP supports a huge range of different options, parameters, headers and formats. To make all of these different requests from the HttpClient, all of its methods take an optional options object.
 
-Response Formats
+### Response Formats 
+
 As of angular 4.3, the default response format is JSON. That makes the usage of the HttpClient very easy. You no longer have to parse the response manually. Angular does it for you.
 
 Although JSON is the most common response format, there are many examples where you cant use JSON. Requesting pictures of cats for example. 
@@ -140,7 +143,8 @@ To prevent angular from automatically parsing the response, we can define the 'r
  { responseType: 'text' }
  
  ``` 
-Angular HttpClient Headers
+### Angular HttpClient Headers 
+
 To add headers to the request, we utilize the headers property of the options object. For that, we need a HttpHeaders object. It contains all our header definitions. Don't use the Headers object, since it is part of the old HTTP client.
 
 ```
@@ -148,7 +152,8 @@ To add headers to the request, we utilize the headers property of the options ob
  const options = { headers: headers };
  
  ``` 
-URL Parameters
+### URL Parameters 
+
 We can also define URL parameters inside the options object. To do so, we need to create a HttpParams object.  That way, we don't have to add them to the URL-string. 
 
 ```
@@ -202,7 +207,8 @@ Another great feature of the new HttpClient are interceptors. In some use cases,
 
 One common use case could be authentication. To get a response from the server, you often need to add some kind of authentication mechanism to the request. Of course, you can simply modify the authorization header in your service. But this task is always the same, right? It is always the same protocol. It never changes, even between application. So why don't we write the logic once and reuse it everywhere?
 
-Defining an Interceptor
+### Defining an Interceptor 
+
 Just like a service, an interceptor is an Injectable.
 
 ```
@@ -225,7 +231,8 @@ Before we do that, we can modify the request however we like. For example, add a
 
 This example is by no means complete or reusable. But it should give you the idea how to continue from here.
 
-Providing Interceptors 
+### Providing Interceptors  
+
 Just like services, we have to provide Interceptors, as well. To do that, your parent (AppModule) module should look something like this:
 
 ```typescript title=src/app/app.module.ts

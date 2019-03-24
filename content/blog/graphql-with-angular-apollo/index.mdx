@@ -4,6 +4,7 @@ title: 'Learn how to use GraphQL with Angular using Apollo (Step by Step)'
 image: './img/angular-graphql-white.png'
 date: 2018-02-21T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#e535ab'
 colorMain: '#e535ab'
 colorDark: '#e535ab'
@@ -33,7 +34,8 @@ To do so, you need to know how both of them work and what consequences you will 
 
 Either good or bad ones.
 
-The Network-Protocol
+### The Network-Protocol 
+
 First, let's take a look at how both look like a network-level.
 
 REST
@@ -102,7 +104,8 @@ But while REST typically returns the full object with every field, we have to sp
 
 The response of a GraphQL is a JSON-document.
 
-Overfetching & Underfetching
+### Overfetching & Underfetching 
+
 The above shows example one of the great improvements of GraphQL over REST very nicely. 
 Let's take a look at the reason why.
 
@@ -151,7 +154,8 @@ Don't worry! We will discuss the missing parts of GraphQL as we are implementing
 
 To set up our node.js server, we will be using the express framework.
 
-Setting up a new Node.js Project
+### Setting up a new Node.js Project 
+
 To get started, create a new directory for our new project. You can call it whatever you want.
 
 Next, we initialize a new npm-project by opening the console inside of our new directory and executing the following command:
@@ -169,7 +173,8 @@ We will also need a file named schema.js.
 
 Now go ahead and open both files with your favorite IDE/Editor.
 
-External Dependencies
+### External Dependencies 
+
 Before we start coding, we need to install some external dependencies first. That shouldn't take too long.
 
 ```
@@ -187,7 +192,8 @@ Every GraphQL API has a schema. The schema is the definition that defines which 
 Our API will have only one resource. The blog-posts. 
 Because GraphQL is a typed language, we first have to define a type for our blog-post. If you are familiar with Typescript, the syntax should look quite familiar.
 
-GraphQL Types
+### GraphQL Types 
+
 
 To create the new type, open the schema.js file and add a new variable like this:
 
@@ -218,7 +224,8 @@ You can also define if a field is required. To do so, we add an exclamation mark
  
  ``` 
 
-Input Types
+### Input Types 
+
 GraphQL differentiates between types for reading and for input purposes. These types are called Input Types and are defined with the input keyword.
 This is useful because some fields are filled by the server and therefore don't need to be fed in.
 
@@ -244,7 +251,8 @@ input blogpostInput {
  ``` 
 The types inside of that new input type are defined in the same way as a normal type.
 
-Query
+### Query 
+
 The query-type is the root-type of all queries of your API. Inside of that Query-type, we define methods, that can be called via the API.
 For our example, we want to be able to query for one or for all blog-posts. Because of that, we will need to define two methods inside the query-type.
 
@@ -284,7 +292,8 @@ type Query {
 }`
  
  ``` 
-Mutations
+### Mutations 
+
 The queries we defined above are all read only. That means we can use them to get blogposts, but not to upload new ones.
 That is what mutations are for.
 
@@ -552,7 +561,8 @@ We are going to use a library called [Apollo ](https://www.apollographql.com/doc
 
 For this part, I will assume that you already know the basics of Angular. If that is not the case, feel free to check out my [guide for angular beginners](https://malcoded.com/posts/angular-beginners-guide).
 
-Setting up a new Angular Project
+### Setting up a new Angular Project 
+
 For demonstration purposes, let's create a new angular-cli application.
 ```
  ng new graphql-example
@@ -564,7 +574,8 @@ Afterward, we need to install some external dependencies. Open a terminal in the
  npm install apollo-angular apollo-angular-link-http apollo-client apollo-cache-inmemory graphql-tag graphql --save
  
  ``` 
-Integrating Apollo into Angular
+### Integrating Apollo into Angular 
+
 Next, we need to set up the Apollo client. Therefore we need to add some modules to our new app.module.
 
 Furthermore, we need to initialize Apollo in the module's constructor.

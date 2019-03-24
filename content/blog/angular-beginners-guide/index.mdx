@@ -4,6 +4,7 @@ title: 'Angular: Everything you need to get started '
 image: './img/angular-beginners-guide.png'
 date: 2017-11-09T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -48,7 +49,7 @@ Let's see, what the angular developers have to say about that:
 
 Sounds great, doesn't it? But what does this all mean?
 
-Single Page Applications
+### Single Page Applications
 
 Basically, when people talk about Angular, they talk about it as a JavaScript framework. It is used to build so-called Single Page Applications (SPA). These SPA's typically (but not only) use the browsers JavaScript environment to emulate the behavior of normal websites. But they are so much more...
 
@@ -62,12 +63,14 @@ Furthermore. server-round-trips can be avoided to a bare minimum, resulting in a
 
 Thanks to technologies like [Service Workers](https://malcoded.com/posts/angular-service-worker) and [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/), these applications can become almost indistinguishable from native applications, especially on mobile (Android) devices.
 
-The Framework
+### The Framework
+
 The Angular framework enables us to write these single page applications with ease. It comes with features like data-binding, change-detection, forms, routing & navigation and an HTTP-implementation right out of the box.
 
 Angular was originally intended to be used with the programming languages JavaScript, TypeScript and Dart. And although it is still possible to use it with all of these languages, the by far most popular language of choice became TypeScript. I would highly recommend using TypeScript, as the other versions are not only lacking documentation and community, but updates are also released much later (months not days) than for the TypeScript version.
 
-The Platform
+### The Platform
+
 Over time, the angular developers have developed a great ecosystem around the framework. Tools like the Angular-Cli, Angular Universal and Angular Material got added to the project. These tools added great features like fast project generation, server-side rendering, and stunning UI components, that are not coupled with the core-framework itself, but completely optional.
 
 That is why angular is referred to as a platform. It provides all the tools, that you need, to develop great angular applications, without relying too much on third-party libraries. Because of this opinionated approach, most developers are using these tools, resulting in a great documentation, community help, and blog posts.
@@ -83,10 +86,12 @@ Not only do people still get confused between AngularJS(v.1.x.x) and Angular (2+
 
 Furthermore, you also get AngularJS results, when searching for angular terms. At least this problem can be solved though...
 
-Removing AngularJS from your Search
+### Removing AngularJS from your Search
+
 You can easily exclude AngularJS search results form your search by using Google's search operators. By appending -angularjs to your search term, you only get true angular results. This can be a huge lifesaver!
 
-Just Call it Angular!
+### Just Call it Angular!
+
 At this point, I would like to suggest, that you always refer to angular version 2 or higher as just angular. This greatly increases search-ability and communication in the angular community. Of course, you can and should clarify the version if you are using features that rely on a certain version. Maybe just don't do so in your article's title...
 ![angular-cli](./img/angular-cli.png)
 
@@ -98,7 +103,7 @@ I mentioned it already in the introduction. Angular-land was once covered in dar
 
 CLI stands for command line interface and the angular-cli is literally that. A small tool that can be used via the command line.
 
-Generating a Project with the Angular-CLI
+### Generating a Project with the Angular-CLI
 
 The most common use case for it is the generation of new angular projects. A typical angular project consists of a bunch of files. That much, that we don't want to create them by hand, every time we start a new project.
 
@@ -126,7 +131,8 @@ Using the ng new command, we can then generate a new project. This command takes
 
 ```
 
-Flags of ng new
+### Flags of ng new
+
 We can use additional flags with ng new, to alter the output accordingly. If you are new to angular, I recommend not to use any of these flags.
 
 --directory
@@ -171,7 +177,8 @@ The angular-cli leaves it up to you, whether you want to use a css pre-compiler.
 --verbose
 Enables advanced detail logging.
 
-Generating Angular's Building-Blocks
+### Generating Angular's Building-Blocks
+
 The angular-cli can do more for you than you might think. You can not only generate entirely new projects, but also the fundamental "components" of an angular application, like classes, components, modules, service and pipes.
 The full list includes:
 
@@ -207,7 +214,8 @@ I can imagine, that this is especially useful for beginners, as you don't have t
 
 If you are using Visual Studio Code, I highly recommend the [Angular Files extension](https://marketplace.visualstudio.com/items?itemName=alexiv.vscode-angular2-files). It wraps all these commands behind a nice user interface inside of the editor.
 
-Running your Angular Application with the CLI
+### Running your Angular Application with the CLI
+
 Generating new code is not everything the CLI can do. The CLI also helps you to start (serve) your application. All we need to do is to call the ng serve command.
 
 ```
@@ -237,7 +245,7 @@ The prod-flag will cause the CLI to use [ahead-of-time compilation](https://angu
 
 It is important to know, that the server, that comes with the angular-cli , is not intended to be an internet-facing production server. It is just for debugging and testing purposes. So even if you use ng serve --prod, this is just for testing, not for actual production.
 
-Common Flags of ng serve
+### Common Flags of ng serve
 
 --port [port-number]
 This comes in handy, if the default port (4200) is already in use, e.g. when running multiple CLI-projects at one. With this flag, you can change the port over which your application is served.
@@ -247,7 +255,8 @@ With this options, you can change the host of your application. The default is l
 
 A [full list of possible options can be found here](https://github.com/angular/angular-cli/wiki/serve).
 
-Building your Angular Application
+### Building your Angular Application
+
 If you want the CLI, to write your application files to disk, use the
 
 ```
@@ -259,7 +268,7 @@ command.
 
 Just like the serve command, the build command does build the debug configuration by default. If you want a production build, use the --prod flag.
 
-Common Flags of ng build
+### Common Flags of ng build
 
 We have already discussed the --prod flag. The --prod flag is a preset, that includes a bunch of default values of different options. Depending if you build for dev or prod, these presets apply. I do not recommend to change these presets, unless you know what you're doing. No seriously, in almost all of the cases, the default presets are working just fine.
 
@@ -272,14 +281,16 @@ Task: To continue, please generate a new project in a directory of your choice. 
 
 Now that we have a fresh angular-cli project in front of us, let's take a closer look, what it consists of.
 
-e2e-directory
+### e2e-directory
+
 This directory is used to create and configure end-to-end (e2e) testing. In short, with end-to-end testing, we test the interaction of separate parts of our application, including calls to the back-end etc. Basically, the application is tested, like a user would use it.
 
 Angular is using [Protractor ](http://www.protractortest.org/#/)for end-to-end testing. Protractor is e2e testing framework, that was built specifically for angular.
 
 This directory is only relevant if you want to do testing. Otherwise, you can ignore this directory.
 
-node_modules-directory
+### node_modules-directory
+
 If you have used npm or yarn with other projects before, this folder should be familiar.
 
 When your package manager installs all the dependencies (of Angular or third party ones) on your machine, it does so in the node_modules directory. If you take a look inside of that folder, you will find many sub-directories, that are named after the name of the package.
@@ -288,21 +299,26 @@ For example, you should see a folder called @angular right at the top. This fold
 
 It is normal for this directory to be a couple hundred megabytes in size.
 
-src-directory
+### src-directory
+
 As you would expect, all the source-code of the actual application is located inside the src-directory.
 
-src/app-directory
+### src/app-directory
+
 Inside of the app directory, you place all files that alter the look or functionality of your application. This includes components, modules, services, guards and pipes.
 
 If you take a look inside, you will notice, that the CLI has already generated a component called AppComponent for us. It consists of three files (app.component.ts, app.component.html & app.component.css). It also created a new module here, called AppModule (app.module.ts).
 
-src/assets-directory
+### src/assets-directory
+
 You can place assets, that are required for your application, inside of this folder. Assets include images, icons, fonts & more. The CLI will serve these files together with you application.
 
-src/environments-directory
+### src/environments-directory
+
 Does contain files, that define the environment variables of your application.
 
-src/index.html
+### src/index.html
+
 The base version of your index.html. This is the root file of your application, as it is the only html file, that is delivered to the browser. However, it is not served as is. The CLI will add code to this file (the script tags for the angular JavaScript files) at build time.
 
 This file does contain all the meta information of your app. It also has to contain the tag of your app's root element inside of the body. The default is
@@ -314,7 +330,8 @@ This file does contain all the meta information of your app. It also has to cont
 
 Aside from that, it is just a normal html-file, you can edit however you like.
 
-src/main.ts
+### src/main.ts
+
 The main.ts file is the entry point of your angular application. All that is in here, is the function call to actually bootstrap the application itself. You can specify here which angular module should be bootstrapped. Normally, this is the AppModule
 
 ```
@@ -322,7 +339,8 @@ The main.ts file is the entry point of your angular application. All that is in 
 
 ```
 
-src/polyfills.ts
+### src/polyfills.ts
+
 Polyfills are little JavaScript snippets, that re-implement JavaScript features for older versions of JavaScript. By adding these polyfills to your application, you get the benefit of using modern JavaScript language features, without losing the compatibility to older browsers.
 
 Angular itself relies on polyfills to work properly for example on Internet Explorer 11 or older.
@@ -330,44 +348,54 @@ Angular itself relies on polyfills to work properly for example on Internet Expl
 This file is meant to be a template for you, to add polyfills as needed. It already contains all the necessary import statements, but most are the are commented out. That way, you can decide if you want to support legacy browsers at all and at which level.
 It also includes great documentation, when to use which module to support browser x with version y.
 
-src/styles.css
+### src/styles.css
+
 This is the global stylesheet. Styles defined in here are applied to the whole application.
 
-src/test.ts
+### src/test.ts
+
 This is like the main.ts, but for testing. It contains additional configuration required for Karma unit tests.
 
-src/tsconfig.app.json
+### src/tsconfig.app.json
+
 This is a typescript configuration file, that includes information, how the TypeScript should be compiled to JavaScript. You can read [more about the tsconfig.json here](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
-src/tsconfig.spec.json
+### src/tsconfig.spec.json
+
 Same as tsconfig.app.json. This configuration gets only applied when testing.
 
-.angular-cli.json
+### .angular-cli.json
+
 This is the main configuration file for the angular-cli . Inside of here, you can change almost every default behavior of the CLI. This is especially useful if you want to use a different folder structure. Then you can tell the CLI, where the essential files, like the main.ts are located.
 
 You can also define more than one application in here. This is useful if you want a build file, that is specific for server-side rendering. More on that in the chapter about angular universal.
 
-.gitignore
+### .gitignore
+
 This file is not specific to angular, but for the git version control system. Inside of this text-based file, you can define the files and folders, that should not be included in version control. An example for that is the node_module folder, which should not be included in version control.
 
 Also, files that contain sensitive information, like API-keys, have to be strictly excluded. Otherwise, you risk leaking this information.
 
 The CLI has already filled this file with a typical configuration for angular projects.
 
-karma.conf.js
+### karma.conf.js
+
 A configuration file for the [Jasmine unit testing framework](https://jasmine.github.io/) and the [Karma test runner](https://karma-runner.github.io/1.0/index.html).
 
-package.json
+### package.json
+
 The package.json file stores all the metadata about your application. It does contain the name, the version and the license of your project. Of course, it is up to you to change these accordingly.
 
 It also contains information about all the dependencies of your application, which makes it kind of important. This file is what package managers like npm or yarn use, to install all the required dependencies. These dependencies are then downloaded into the node_modules directory.
 
 I recommend you do not change any of these dependencies by editing the file directly unless you know exactly what you are doing. I have rendered countless of my projects useless, in the beginning. Once broken, it can be pretty hard recovering from that, especially if you are a beginner.
 
-protactor.conf.js
+### protactor.conf.js
+
 Again, a file to configure a test framework, This time it is for [protractor](http://www.protractortest.org/#/), the tool used for end-to-end (e2e) testing.
 
-tsconfig.json
+### tsconfig.json
+
 This is a typescript configuration file, that includes information, how the TypeScript should be compiled to JavaScript. You can read [more about the tsconfig.json here](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
 ![angular-convention](./img/angular-convention.png)
@@ -386,7 +414,8 @@ Second, it is very good for finding information online. Because almost everybody
 
 Last, there is the aspect of team communication. Hiring a new angular developer? Chances are, that he is developing angular in exactly the same way, your team is doing already, making him an immediate fit for the team.
 
-The Cost
+### The Cost
+
 The cost could be the reason, you are reading this tutorial. It appears to be relatively hard for developers to get started with angular, because you have to get used to all the implications and conventions first.
 
 Don't worry. Once you got used to the angular way of things, developing applications gets that much easier!
@@ -415,7 +444,8 @@ Not only that, but they tidy up our application incredibly, as the abstract thin
 
 The same goes for the component. We just place them in our application. Let's say we have a super shiny button. Once we have built our super shiny button, it becomes irrelevant how that button works internally. All we then want to do is to place it where we want it to go. Done!
 
-What Components look like
+### What Components look like
+
 So what do components look like in angular.
 
 Components in angular consist of three things/files.
@@ -481,7 +511,8 @@ Again, the file follows the same naming convention.
 
 As stated before, you do not have to use plain css but can also use pre-processed formats like scss.
 
-Creating a new Component
+### Creating a new Component
+
 To give you an example, we are going to create an actual component step-by-step. Let's pick up the example of the shiny button, we've used before. Just for demonstration purposes.
 
 Let's make a button, that has a random color and changes its color, every time it is clicked.
@@ -550,7 +581,9 @@ For example, if we want to add our component to the AppComponent (app.component.
 ```
 
 ![angular-transfer-state](./img/angular-transfer-state.png)
-Data-Binding
+
+### Data-Binding
+
 So how do we get our generated random color to show up in our template? Because that value is variable, we can not simply type it into our template, right?
 
 For that, angular uses a concept called data-binding. That concept is not new but is used for a while now in a couple of different front-end frameworks.
@@ -608,7 +641,8 @@ An alternative and more common writing style is to use square-brackets to mark t
 
 ```
 
-Component Inputs & Outputs
+### Component Inputs & Outputs
+
 For now, our component is completely isolated from other components, as it does not rely on any input and does not provide any output. I think that is the best possible component to come up with, as it is incredibly easy to test and validate its behavior.
 
 There might be some use-cases though, where your component needs additional input data. Or we want to propagate a result to the outside.
@@ -720,7 +754,8 @@ export class AppComponent {
 }
 ```
 
-Two-Way-Binding
+### Two-Way-Binding
+
 Using either input or output, we can only get communication in one direction. But what do we do need communication in both directions?
 When thinking about it, we could create a two-way-data-binding by combining an input and an output for the same property.
 
@@ -784,7 +819,8 @@ export class AppComponent {
 }
 ```
 
-Using the Forms-Module for two-way Data-Binding
+### Using the Forms-Module for two-way Data-Binding
+
 Setting all of this up, just for two-way data-binding isn't it?
 The angular team probably thought that, as well. That is why they added a shorter and easier way. So why did I show you that stuff above?
 
@@ -809,7 +845,8 @@ Directives are very powerful. Imagine directives as components without a templat
 
 Directives are divided into two sub-categories. Structural- and Attribute-Directives. We will take a close look at each of them.
 
-Structural Directives
+### Structural Directives
+
 Structural directives are meant to alter the structure of the DOM. For example by adding or removing elements. That way it is possible, to remove certain sections from the DOM, if certain conditions are not fulfilled. It is also possible to write a tag once, and let the directive repeat that tag, just like a for-loop.
 
 Structural directives are typically starting with an asterisk. That way, they are easy to distinguish.
@@ -908,7 +945,8 @@ Once defined, we can also use these new variables in attributes of the same elem
 
 If you want to [learn how to create your own structural directive, you can learn more about that in this great article about that](https://angular-2-training-book.rangle.io/handout/advanced-angular/directives/creating_a_structural_directive.html).
 
-Attribute Directives
+### Attribute Directives
+
 The other kind of directives are so-called attribute-directives. They are meant to change the visuals and behavior of the element they are attached to.
 I like to think of them as plug-in-components, although that may not be too accurate, it helps me wrap my head around them.
 
@@ -962,7 +1000,8 @@ Generally, it is a good idea, to bundle related aspects of your app into modules
 
 Parts of the angular framework are bundled into modules as well. For example, we have used the Forms-Module already. This module architecture helps to keep your applications download-size as smell as possible. A module that you don't need (import) is not included in the final source-code.
 
-How does a Module look like?
+### How does a Module look like?
+
 Just like components are marked by a @Component decorator, are module classes marked by a @NgModule decorator. By the way: NG is a common short-term for aNGular.
 
 We can use the angular-cli to generate a new module.
@@ -981,17 +1020,22 @@ export class ExampleModule {}
 
 Just like the @Component decorator, the module's decorator does take a bunch of options. In this example, we can see two: The import-option and the declarations-option.
 
-### import
+### imports
 
 We can import stuff from other modules into our module if we require certain features. For example, we import the angular Common-Module. This module does provide all of the directives, we have discussed before. This option takes an array of modules.
-declarations
+
+### declarations
+
 We define every component, pipe or directive, that belong to our module in here. A component, pipe or directive has to belong to exactly one module. They cannot be declared in multiple module.
 
 ### exports
 
 By default, our module is a black-box. Nothing can reach in and nothing out. Typically we want our module to provide a certain set of components though. These components (pipes, directives) need to be defined in the exports array, to be accessible from the outside.
-providers
+
+### providers
+
 We haven't talked about services and [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection), yet, but let's say you can services, that should be accessible in your module, here. They are then provided via dependency injection to every component in your module.
+
 These are the most common options. See [all module-decorator-options](https://angular.io/api/core/NgModule) here.
 
 You have probably noticed already, that there is naming-convention for module-files, as well. We name our module-files like this:
@@ -1010,7 +1054,8 @@ Thanks to dependency injection (see next chapter) they can easily be consumed in
 Services are also created as [singletons](https://en.wikipedia.org/wiki/Singleton_pattern), making them a great solution for inter-component-communication.
 As we have learned already, components are generally isolated and chaining to many inputs together gets confusing. A very elegant solution is using a service as a kind of man-in-the-middle to enable the transfer of information.
 
-How does a Service look like?
+### How does a Service look like?
+
 After all, a service is just a class. It is decorated by the @Injectable decorator. Basically, that's it.
 
 ```typescript title=example.service.ts
@@ -1026,7 +1071,8 @@ You can define any properties or methods inside of these class.
 
 Services follow the {service-name}.service.ts naming convention.
 
-Why should I move my Logic into Services
+### Why should I move my Logic into Services
+
 Although components are just as able as services to calculate and do the logic, over the past years the trend is going more and more to "dump" components. Why is that?
 
 Well mainly because of the reasons we have talked about already. Services are just easier to use and also to test and debug. Also, they are not very angular-specific, allowing you to easily move them into another framework or just plain old JavaScript.

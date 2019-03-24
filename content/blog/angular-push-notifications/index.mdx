@@ -4,6 +4,7 @@ title: 'Push Notifications with Angular & Express'
 image: './img/angular-push-notification.png'
 date: 2018-08-05T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -44,7 +45,8 @@ To generate a new project, you can use this command:
  ng new angular-push-notifications
  
  ``` 
-Adding the service worker module
+### Adding the service worker module 
+
 A service worker is a small JavaScript snippet that is registered at the browser when the page loads. Afterward, that snippet is alive all the time.
 That way our users can get our notifications, even if they are not on the site anymore.
 
@@ -79,7 +81,8 @@ The public key is used when subscribing to the push notifications and the privat
 Basically, this is a protection mechanism so that only you can send messages to your users.
 That said, it is probably a good idea to keep your private key actually private. 
 
-Generating a VAPID key-pair
+### Generating a VAPID key-pair 
+
 To generate the key-pair we are going to use a tool called web-push that we can download with our package manager.
 
 To install the tool, use:
@@ -121,7 +124,8 @@ export class AppComponent {
 }
  
  ``` 
-Checking availability
+### Checking availability 
+
 Service workers are a relatively new feature. 
 
 Therefore we should check if they are available and running before we try to use them.
@@ -132,7 +136,8 @@ To do that, the SwPush service provides a flag "isEnabled" that we can simply ch
 }
  
  ``` 
-Requesting a subscription
+### Requesting a subscription 
+
 Now that we know that we can use the service worker, let's ask it to request a subscription.
 
 Again, this is quite straightforward. We just call its method called "requestSubscription".
@@ -188,7 +193,8 @@ When opening the application in the browser (e.g. http://localhost:8080), the br
 ![notification-banner](./img/notification-banner.png)
 
 
-Deleting the subscription for debugging
+### Deleting the subscription for debugging 
+
 Once you have chosen one of the options in the dialog, the browser will not ask you again.
 Because we probably want to test our application more that one time, we can revoke our decision by opening the (chrome) browser settings here:
 
@@ -228,7 +234,8 @@ export class PushNotificationService {
 }
  
  ``` 
-Calling the service method
+### Calling the service method 
+
 Now, all that is left is to use the service in our AppComponent.
 We are just calling the "sendSubscriptionToTheServer"-method and subscribe to its result.
 
@@ -305,7 +312,8 @@ command.
 
 Answer the questions or just hit return a couple of times.
 
-Installing dependencies
+### Installing dependencies 
+
 Now we need to install some dependencies. Our little server will have 4 dependencies. 
 
 First, there is express, which is a framework that makes writing web servers a lot easier. 
@@ -345,7 +353,8 @@ In the worst key, everyone can see your private key.
 const PRIVATE_VAPID = '_kRzHiscHBIGftfA7IehH9EA3RvBl8SBYhXBAMz6GrI';
  
  ``` 
-A basic server
+### A basic server 
+
 A basic express app always looks the same.
 
 Call express and listen for requests. It's that easy!
@@ -372,7 +381,8 @@ This server does nothing at the moment but we can already start it by calling:
  node server.js
  
  ``` 
-Registering routes
+### Registering routes 
+
 Next, we are registering some routers. That way we tell the web server to listen to request to that URL and call our callback in that case.
 
 Essentially, we want to do two things. Take subscription objects from our angular clients and send push notifications to that subscriptions.

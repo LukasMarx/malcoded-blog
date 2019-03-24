@@ -4,6 +4,7 @@ title: 'Angular Service Worker with Workbox'
 image: './img/Angular-Offline.png'
 date: 2017-09-01T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -112,7 +113,8 @@ workboxSW.precache(fileManifest);
 ...
  
  ``` 
-Caching static Content
+### Caching static Content 
+
 
 So let's write a script, that generates that. To do so, create a new file in your project's root directory called "generate-service-worker.js".
 
@@ -137,7 +139,8 @@ In that script, we create some options and pass them to the generateSW method of
 
 That's basically it. The generated service worker will cache all static files, required by angular. So our application will work offline for now. However, most applications rely on dynamic content, such as blog post, to be useful. This content is not cached at the moment.
 
-Caching Dynamic Content
+### Caching Dynamic Content 
+
 To cache dynamic content, as well, we need to tell Workbox about the origin of that content. Let's say, we have a rest-API, that serves the content under the same domain as the application. To include this content in the cache, we use the runtimeCaching property of the Workbox builder. To specify the endpoint, we provide a regular expression.
 
 ```javascript title=generate-service-worker.js
@@ -158,7 +161,8 @@ To cache dynamic content, as well, we need to tell Workbox about the origin of t
  ``` 
 Now, all request that go to  /api/* are cached, as well.
 
-Caching Strategies
+### Caching Strategies 
+
 You can also define different caching strategies. You can find a [list of all strategies here](https://workboxjs.org/reference-docs/latest/module-workbox-sw.Strategies.html).
 
 ![angular-modules-banner](./img/angular-modules-banner.png)

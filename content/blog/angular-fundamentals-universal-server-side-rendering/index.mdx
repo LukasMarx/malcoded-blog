@@ -4,6 +4,7 @@ title: 'Angular Universal and Server Side Rendering (Step By Step)'
 image: './img/Angular-Universal.png'
 date: 2017-09-22T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -39,11 +40,13 @@ At its core, angular is just an html parser. When you create your angular applic
 
 As we learned before, angular is also capable of running on node.js servers. Because of that, it is also possible to generate that parsed HTML on the server. The result is just a bunch of HTML, that the server can then send to the client.
 
-Classic Approach:
+### Classic Approach: 
+
 Here is how angular is normally loaded. The angular framework has to be downloaded. The user sees nothing in his browser window until the full angular code is downloaded and bootstrapped.
 ![regular-angular-serving](./img/regular-angular-serving.png)
 
-Server Side Rendered:
+### Server Side Rendered: 
+
 When we render angular on the server, all that has to travel over the wire is the html itself. To give you some numbers here. An html document for a blog article might be aground 50kb gzipped. Not counting images etc. of course. On the other side, you will have a hard time bringing angular to under 150kb gzipped. And that number does not contain the content of the page itself. It's just the size of angular JavaScript files. That is more than three times the size! Now imagine your mobile users. That is three times the time, your app takes to download (approximately).
 
 ![server-side-rendering-angular](./img/server-side-rendering-angular.png)
@@ -51,10 +54,12 @@ When we render angular on the server, all that has to travel over the wire is th
 
 Now we know the difference between both methods, it turns out, that there are multiple options for server-side rendering.
 
-Static
+### Static 
+
 The first one is the one you see in the picture above. We render the bare HTML of our page/application. That HTML does only contain the HTML itself, plus the required CSS to display the page. There is no JavaScript in that data. That can be a good or a bad thing. It is a good thing, if we do not rely on JavaScript for our app. That might be the case when rendering a blog post. As we do not need any JavaScript, the size of the downloaded data is relatively small. If you do rely on JavaScript, for example, to show a popup, that can not work, is it is not included in the downloaded file. There are, of course, ways around that, but that get's messy pretty quickly. Read more about that in this [article about common mistakes with server-side rendering](https://malcoded.com/posts/server-rendering-pitfalls).
 
-Dynamic
+### Dynamic 
+
 The other possible method could be called the dynamic one. Using that method, we still render our HTML at the server. But this time, we also include script tags, that instruct the browser, to download the angular code, once the page is fully loaded. That way, the page can be delivered much faster, than serving the framework right from the beginning. At the same time, we still can use all the JavaScript features, that we might rely on. 
 
 Note: Because the initial version of our application still does not contain JavaScript, we still have to be careful where to use it.
@@ -63,7 +68,8 @@ Note: Because the initial version of our application still does not contain Java
 
 Once the JavaScript is fully downloaded, the application bootstraps and replaces the static HTML version. From this point onward, we can rely on JavaScript code to execute, e.g. show our popup.
 
-Rendering at Build-Time
+### Rendering at Build-Time 
+
 Another possible solution could be, to render the static HTML at build time. With that, however, you have to re-build whenever your dynamic content changes. This method does save you from setting up a production server. On the other hand. this method can get messy very fast. I would only recommend it if you do not have any dynamic content, or it almost never changes.
 ![angular-thumbs-up](./img/angular-thumbs-up.png)
 ## Why should you render on the Server? 
@@ -74,23 +80,28 @@ At this point, you may think:
 
  It turns out, rendering angular on the server bring some great benefits. Here are some of them:
 
-SEO
+### SEO 
+
 ["Search Engine Optimization"](https://moz.com/beginners-guide-to-seo). Because angular applications rely heavily on JavaScript, most search engines have trouble scraping the content of the application. In fact, most search engines do not even execute JavaScript. I that case, we would present them a blank page. Ouch! To prevent that, we can render our application on the server and send back the rendered HTML. As the result is plain HTML, the crawler now can index our page properly.
 
-Social Media Embedding
+### Social Media Embedding 
+
 Search engines are not the only ones, that riot when they see JavaScript. Most content scrapers of social media sites ignore JavaScript, as well. So when a link to our page is shared, we would not get a nice little card with our page in it. Again, they have no problem handling HTML. Examples for social media sites that use content scrapers are Facebook, Twitter, Reddit and many more.
 
-User Experience
+### User Experience 
+
 As mentioned above, the application/page can be shown much faster to the user, if server side rendering is used. That has to reasons. First, the overall file size is much smaller, because it only contains HTML. Furthermore, the browser can immediately start rendering the page. In regular angular applications, the application has to be bootstrapped,  before anything can be shown to the user, taking additional time.
 ![angular-thumbs-down](./img/angular-thumbs-down.png)
 ## Angular Universal: A silver bullet? 
 
 Although server-side rendering (angular 4 universal) brings many advantages, it does have downsides, too. Here are some of them:
 
-Server Required
+### Server Required 
+
 As the name server side rendering already suggests, a web-server is required to pre-render the pages. While regular angular applications only contain static files, with server-side rendering, we need to calculate HTML at run-time. So why is this a downside? Well, although hosting does not cost the world, it usually not free/cheap. Not to mentions the administrative effort to sustain the server. With static files, on the other hand, you can get static file hosting for free or very cheap. Also, those services typically scale very well, without any effort on your side.
 
-Not easy to setup
+### Not easy to setup 
+
 The angular team has plans to make server-side rendering very easy, by integrating it into the cli. At the moment though, it is not too easy to set up. It requires you to know all the things, that currently don't work server side and avoid them completely. Furthermore, you probably need to get into the basics, of how server-side rendering works with angular, requiring you to look under the hood. There are modules in the universal project, that are trying to take this away from you, but they are still in beta.
 ![123](./img/123.png)
 ## An Angular Universal Example [Step-by-Step] 
@@ -107,7 +118,8 @@ So let's generate a new application using the angular-cli:
  ``` 
 The generated application will be the foundation for our next steps.
 
-Setting up the Angular Universal Application
+### Setting up the Angular Universal Application 
+
 To make our application ready for server-side rendering, we will need to make some adjustments. Because the code, executed on the server, is a little different than the code in the browser, our application will need to have two entry points. Also, we are going to have two separate root modules, enabling us to import different modules on the server. We need that functionality because not all modules are compatible with server-side rendering. Especially third-party ones. 
 
 Furthermore, some features just don't need to get rendered on the server. What sense would it make to execute e.g. Google Analytics on the server?
@@ -116,10 +128,12 @@ In our application, we will use dynamic server-side rendering, as it is the more
 
 So let's get started!
 
-Creating additional Modules
+### Creating additional Modules 
+
 First, we need to create two additional modules in the applications app directory. Next to app.module.ts create a file named browser.app.module.ts and a file named server.app.module.ts. If you want to learn more about modules, check out this [article about angular modules](https://malcoded.com/posts/angular-fundamentals-modules)!
 
-Browser Module
+### Browser Module 
+
 The browser app module is very simple. All we need to do here is to call BrowserModule.withServerTransition. This method tells angular, that we are using server-side rendering and that the view has to be swapped, once the full framework is loaded. This method expects an object with a key called appId. You can enter any string here. Just make sure, the string in our browser app module matches the one in the server app module.
 
 ```typescript title=src/app/browser.app.module.ts
@@ -145,7 +159,8 @@ export class BrowserAppModule {}
  ``` 
 You may have noticed, that we are still using the default AppModule by importing it into our browser module. We will also use AppModule in our server module later. Think of it as a shared module, between server and browser.
 
-Server Module
+### Server Module 
+
 For now, our server module looks basically the same as the browser module. The only difference is, that we need to import an angular module called ServerModule. This module is not installed by the angular-cli. To install it, use one of the following commands:
 
 ```undefined title=undefined
@@ -212,7 +227,8 @@ Bot files are really simple. Here is how they look like:
  ``` 
 At this point, you maybe have noticed, that there is a lot of boilerplate to set up. But we are not quite done yet...
 
-Creating a second app for the CLI
+### Creating a second app for the CLI 
+
 The last thing, we need to do, is to edit the angular-cli.json. We need to tell the CLI about all the changes, we have made, for it to work properly. Furthermore, we are going to create a second profile for the server bundle. The cli will then generate that bundle, containing only the code we require on the server for rendering.
 
 To keep things short, here is how the "apps" section of the angular-cli.json should look like.
@@ -284,7 +300,8 @@ Look:
 
 Now, that we have set up our angular application, we need a server, to actually render the application. In this chapter, we will create a node.js server to render our application.
 
-Setting up the Dynamic Rendering Server
+### Setting up the Dynamic Rendering Server 
+
 To do the server side rendering itself, we are going to use an external package, I mentioned earlier. This package is called [@nguniversal/express-engine](https://www.npmjs.com/package/@ngx-universal/express-engine). To install it, use one of the following commands.
 
 @nguniversal/express-engine
@@ -305,7 +322,8 @@ express
 npm install express --save
  
  ``` 
-Creating a Node.js Server
+### Creating a Node.js Server 
+
 To create our server, just create a new file called server.js in the root directory of the application.
 Afterward, we need to require some modules.
 ```javascript title=server.js
@@ -389,7 +407,8 @@ Finally, start the app by calling:
  
  ``` 
 
-Setting up the Static Renderer
+### Setting up the Static Renderer 
+
 As we learned before, when serving static files, the HTML does not contain script links to load the angular framework. All we have to do to prevent the whole framework from loading is to exclude the script links from our index.html. To do so, just use the index.html in our src folder instead of the dist folder, as it does not contain those links.
 
 ```javascript title=server.js
@@ -425,7 +444,8 @@ Note: I assume, that you already have an angular application that is using lazy-
 
 So let’s get started! 
 
-Setup
+### Setup 
+
 As I have mentioned before, we need to install the @nguniversal/module-map-ngfactory-loader package to continue. Go ahead and install it using your favorite package manager.
 
 ```undefined title=undefined
@@ -434,7 +454,8 @@ As I have mentioned before, we need to install the @nguniversal/module-map-ngfac
 npm install @nguniversal/module-map-ngfactory-loader --save
  
  ``` 
-Importing into the Universal Application
+### Importing into the Universal Application 
+
 To work correctly, the package provides an angular module, that has to be imported into our server app module.
 
 ```typescript title=src/app/server.app.module.ts
@@ -472,7 +493,8 @@ export class ServerAppModule {}
  ``` 
 Once that is done, we now have to alter our server just a little.
 
-Adjusting the Server to Support Lazy-Loading
+### Adjusting the Server to Support Lazy-Loading 
+
 On the server side, we need to import the @nguniversal/module-map-ngfactory-loader package as well. More precisely, we need a method called provideModuleMap(). To obtain this method, we can just require it from the package.
 
 ```javascript title=server.js
@@ -577,14 +599,16 @@ Of course, making an additional request also adds a delay in form of latency to 
 
 But it doesn't have to be all about HTTP-requests. Maybe you have some serious calculations to do. Wouldn't it be a waste, if you needed to calculate that twice?
 
-But how can we improve that?
+### But how can we improve that? 
+
 By using the transfer state API, we can instruct the rendering server, to include the downloaded/calculated information in a serialized form into the rendering output. That way, we can reuse the information, that the server used anyway. 
 
 ![Angular-Universal-With-Transfer-State](./img/Angular-Universal-With-Transfer-State.png)
 
 Because we get that all in one HTTP-response, we also save the latency of sending another request for the data.
 
-Implementing the Transfer State API
+### Implementing the Transfer State API 
+
 Adding the transfer state API to your application is quite simple. All we need to do is adding the Browser/Server-TranferStateModule to the corresponding module and we are good to go.
 
 To do so, we need to add the BrowserTransferStateModule to the BrowserAppModule and the ServerTransferStateModule to the ServerAppModule.
@@ -645,7 +669,8 @@ import { AppComponent } from './app.component';
 export class ServerAppModule {}
  
  ``` 
-Using the Transfer State API
+### Using the Transfer State API 
+
 Now that we have set everything up, we can use the transfer state API by requesting an instance of the service via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection). For this example, we are using a component called post.component.
 
 First, we request the transfer state service inside of the component's constructor. Because we probably also want to know, if we are running in the browser or on the server, we also request the current PLATFORM_ID.

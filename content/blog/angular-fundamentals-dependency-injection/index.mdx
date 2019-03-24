@@ -4,6 +4,7 @@ title: 'Angular Fundamentals: Dependency Injection'
 image: './img/Angular-DI.png'
 date: 2017-07-15T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -25,7 +26,8 @@ So let's find out, what Dependency Injection is all about.
 
 Dependency Injection is a design pattern. It has the purpose of increasing the maintainability and test-ability of your code. It does so, by allowing you to keep all required dependencies of your applications' components in one central location, also called container. These dependencies are instances of classes. 
 
-But why should I want to do that?
+### But why should I want to do that? 
+
 The great advantage of defining your dependencies is, that you know where to find them. Sounds obvious, doesn't it? Well, in classic object-oriented programming, it is not as natural as you may think. 
 
 Example:
@@ -100,7 +102,8 @@ All dependencies are passed as a singleton. That means, that every instance that
 For that reason, Angular resolves the requested dependency by going up the component/module tree. 
 In our example above, we set the provider of the app module. However, you can set the provider at any sub-module or sub-component. The provided instance is then only available at the module/component itself, or its children. Furthermore, each instance of the class with the provider has its own instance of the injectable, that is shared with all of its sub-modules or -components.
 
-Example
+### Example 
+
 If we add the Example injectable to our component, each instance of the component receives a separate instance of Example. However, nested components receive the same instance as their parent ExampleComponent instance.
 ```typescript title=
  @Component({

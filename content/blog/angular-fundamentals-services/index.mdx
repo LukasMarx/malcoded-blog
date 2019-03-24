@@ -4,6 +4,7 @@ title: 'Angular Services: How to reuse you business logic throughout you Applica
 image: './img/Angular-Service.png'
 date: 2017-07-22T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -33,10 +34,12 @@ That is because they can be easily requested via [Dependency Injection](https://
 
 They are also very useful if you want to use the same instance of a class everywhere in your class. 
 
-Services are just classes
+### Services are just classes 
+
 After all, services are just classes. Other than components, services may only contain logic. They should be completely separated from the view (anything visual). They also should only fulfill one purpose, following the single responsibility principle. 
 
-Use Cases
+### Use Cases 
+
 The most common use case is I/O (Input/Output). To get more specific: HTTP requests. Generally, all HTTP requests in Angular are wrapped by a service. Why? Because with the help of [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection), our code stays highly maintainable. Here is an example:
 
 Imagine you changed the route of your REST-Endpoint. Imagine you called that route in a billion different places. Good luck finding and replacing them all!
@@ -171,7 +174,8 @@ export class AppComponent implements OnInit {
 }
  
  ``` 
-Output
+### Output 
+
 
 ```undefined title=undefined
  Cached Http: Read from server

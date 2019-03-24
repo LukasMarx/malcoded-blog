@@ -4,6 +4,7 @@ title: 'How to use *ngIf else in Angular'
 image: './img/angular-ngif.png'
 date: 2018-05-11T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -66,7 +67,8 @@ Also, this condition does also apply to all child elements of the element that h
 </div>
  
  ``` 
-NgIf is a directive
+### NgIf is a directive 
+
 NgIf is a directive.
 
 That means, that it can be added to any tag in your template. 
@@ -106,7 +108,8 @@ Normally this would result in an empty box to be shown.
 
 With the help of the ngIf directive, we can hide this box altogether, if the corresponding property is null or undefined anyway.
 
-Avoiding "Cannot read property of undefined" errors
+### Avoiding "Cannot read property of undefined" errors 
+
 The ngIf directive can be very handy to prevent "Cannot read property of undefined" errors, as well.
 
 ```
@@ -129,7 +132,8 @@ But by checking the user-property for null before using its properties will prev
 
 The ngIf directive does also support logical operators, just like a regular JavaScript if statement would.
 
-Logical NOT (!)
+### Logical NOT (!) 
+
 To invert the boolean value of a variable, we can use the not operator (!). 
 The marked block is then shown when the variable is false.
 
@@ -139,7 +143,8 @@ The marked block is then shown when the variable is false.
 </p>
  
  ``` 
-Logical AND (&&)
+### Logical AND (&&) 
+
 We can also chain two or more statements together using the AND (&&) operator. Again, just like in JavaScript, the statement is only true when all chained values are true, as well.
 
 So the marked block is only shown when all values are true.
@@ -151,7 +156,8 @@ For example a AND b have to be true:
 </p>
  
  ``` 
-Logical OR (||)
+### Logical OR (||) 
+
 Just like the AND operator, the OR operator is used to chain one or more statements together. The difference with the OR operator is, that only one statement has to be true for the overall statement to be true, as well.
 
 The marked block is shown, if either a or b is true:

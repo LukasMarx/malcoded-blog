@@ -4,6 +4,7 @@ title: 'Storing Data on the Blockchain: The Developers Guide'
 image: './img/store-data-on-blockchain.png'
 date: 2018-07-05T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#00e575'
 colorMain: '#00e575'
 colorDark: '#00e575'
@@ -58,7 +59,8 @@ Look, all I want to say is, you should always choose the right tool for the job.
 
 Rant over!
 
-Where Blockchain really shines
+### Where Blockchain really shines
+
 You should only use blockchain if one or more point(s) apply to your use case:
 
 ![benefits-of-blockchain](./img/benefits-of-blockchain.png)
@@ -84,12 +86,14 @@ This approach is very intuitive when it comes to money-transactions, but how on 
 
 To store our custom data on the blockchain, we need to package our data into transactions to be able to store it.
 
-Using the Protocol
+### Using the Protocol
+
 Some blockchains offer the possibility to append data to a transaction within their protocols. In this case we can simply append our data to our transaction.
 
 If that is not the case, we need to get a little bit more creative.
 
-Getting creative
+### Getting creative
+
 Some blockchains do not have that feature.
 
 In this case we can still store a tiny amount of data on the chain by using addresses.
@@ -108,7 +112,8 @@ That is, because we do not own the address we send the transaction to, so the mo
 
 The biggest problem of storing data on a blockchain is the amount of data you can store. This is either because the amount is limited by the protocol or because of the huge transaction fees you would have to pay.
 
-The Cost of Storing Data
+### The Cost of Storing Data
+
 So why is storing data on the chain is so expensive?
 Because the amount of data you store has to be stored by every full node on this planet. Everyone that downloads the blockchain is downloading your piece of data, as well.
 
@@ -117,7 +122,8 @@ This is why even storing kilobytes can cost you are fortune.
 When storing data on the blockchain, most often we do pay a base price for the transaction itself plus an amount per byte we want to store.
 If smart contracts are involved, we also pay for the execution time of the smart contract.
 
-How much Data can be stored in a Blockchain?
+### How much Data can be stored in a Blockchain?
+
 Nether the less, the amount of data we can store is quite limited.
 To give you a feeling, most chains allow something in the range of kilobytes or less.
 
@@ -128,7 +134,8 @@ This is because we would have to pay the (large) base price of the transaction m
 
 So after all, the amount of data we can store is quite limited.
 
-Storing Sensible Information on the Blockchain
+### Storing Sensible Information on the Blockchain
+
 Another problem when storing data on the blockchain emerges, when we consider saving personal or confidential data.
 
 Actually there are two problems here:
@@ -141,7 +148,8 @@ One solution to this problem could be the encryption of the data. The downside o
 
 Another solution could be storing hashes of the data instead of the data itself. We will discuss this approach in a later chapter in more detail.
 
-Where did my data go? Querying data from the Blockchain
+### Where did my data go? Querying data from the Blockchain
+
 Alright. Despite the problems described above, we somehow managed to get our data on the blockchain...
 
 How do we get the back, in case we need them?
@@ -162,7 +170,8 @@ It turns out, there are many ways to store data on the blockchain. Storing the r
 
 But what are the other options?
 
-Storing Hashes on the Blockchain
+### Storing Hashes on the Blockchain
+
 One way of getting the benefits of a blockchain while not paying a fortune for transactions is only storing the hash of the data in the blockchain.
 
 What is a hash?
@@ -187,7 +196,8 @@ Any time, there is doubt about the data, we can hash the raw data and compare it
 
 Depending on your storage mechanism, benefits like decentralization and transparency are lost.
 
-Storing a Subset of the Data on the Blockchain
+### Storing a Subset of the Data on the Blockchain
+
 We can get back those benefits to a certain degree, by storing the hash of the data and parts of the data on the blockchain.
 
 ![storing-hashes-subset-in-blockchain](./img/storing-hashes-subset-in-blockchain.png)
@@ -202,7 +212,8 @@ As we discovered already, it is probably a good idea to use some sort of off-cha
 
 As always, there are many options to choose from. Some are totally old-school and some where developed in the last couple of years to work especially with blockchain.
 
-Traditional Database
+### Traditional Database
+
 Let's start with the obvious choice. A traditional database like MySQL or even a, a little bit more modern, MongoDB.
 
 Pros
@@ -216,7 +227,8 @@ Cons
 - Controlled by one central authority
 - Missing Transparency
 
-Distributed Database
+### Distributed Database
+
 In a distributed database, the data is replicated across many nodes in many locations. This does create a redundancy in case of failure of a single machine. It also can reduce latency for world-scale applications.
 Examples could be MongoDB with replica-sets enabled or cloud-solutions like Azure CosmosDB.
 
@@ -231,7 +243,8 @@ Cons
 - Controlled by one central authority
 - Missing Transparency
 
-Distributed Filesystem
+### Distributed Filesystem
+
 Distributed filesystems store their files across many machines, as well. Again, this is to create redundancy in case of a failure. The difference to distributed databases is, that a file system does not have the strong query capabilities. Instead, files can only be accessed by knowing the name/path of the file.
 
 Also, some distributed file-systems like IPFS (Inter-Planetary File System) are meant as a community effort. Just like with blockchain there is a public network where everybody can store their files. The difference here is, that not everybody has to store a copy of the data. A redundancy of x copies is considered enough.

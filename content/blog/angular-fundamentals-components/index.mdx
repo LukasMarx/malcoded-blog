@@ -4,6 +4,7 @@ title: 'Learn how to use Components in you Angular Application'
 image: './img/Angular-Component.png'
 date: 2017-07-08T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -38,7 +39,8 @@ Components consist of two parts. A logic part, represented by a JavaScript objec
 
 Just like classes, there can be many instances of a component in your application. Apart from an interface for in- and output, each component is completely separated from another. That is one of their great advantages: They can each have their own state.
 
-An Example
+### An Example 
+
 Let's say, you want to create a to-do list. Each element in the list can be rather done or not done. That is the state of an element. Based on the state of the element, the item changes its appearance. In angular, each list element would be represented by a component.
 
 
@@ -74,12 +76,14 @@ The first line is called an import statement. It can be compared to an import st
 
 In this case, we need the "Component" decorator. 
 
-What is a decorator?
+### What is a decorator? 
+
 Decorators are a part of the typescript language. They are equal to the annotations of Java and the attributes of C#. They also offer a simple way to add meta information to a class. Decorators are marked by starting with an @.
 
 In our example, we tell angular, which selector we want to use for our component. We also define where to find the template file and the corresponding style information.
 
-Just a class
+### Just a class 
+
 After all, a component is just a regular Typescript class. There is nothing special about it. Just a class. The name of our component is defined by the name of the class ("AppComponent"). In the code above, the class has a property title. That property is just for demonstration purposes and is not mandatory.
 
 ![angular-component-banner](./img/angular-component-banner.png)
@@ -96,7 +100,8 @@ While the class can only contain code logic, the template is used to define the 
 The h1 tags are just regular headline tags, 
 but what do these braces do?
 
-Data-Binding
+### Data-Binding 
+
 By encapsulating the name "title" in braces, we tell angular, that we want the content of the headline to be bound to the "title"-property of the component. This property is defined in the component class.  
 Data-Binding means, that, whenever the value of the property changes, the displayed value changes, as well.
 
@@ -161,7 +166,8 @@ export class TestComponent{
  ``` 
 Quite easy, right?
 
-"But where do we pass that input in?"
+### "But where do we pass that input in?" 
+
 To pass a title to our test-component, all we have to do, is to bind the input property to some other property. Sounds complicated? 
 Take a look at this example:
 

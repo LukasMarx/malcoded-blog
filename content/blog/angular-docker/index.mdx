@@ -4,6 +4,7 @@ title: 'Run Angular in a Docker Container using Multi-Stage builds'
 image: './img/angular-docker.png'
 date: 2018-06-01T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#006fb7'
 colorMain: '#006fb7'
 colorDark: '#006fb7'
@@ -52,7 +53,8 @@ After all, we are just publishing some HTML, CSS and JavaScript files. That they
 Now that we have something to run inside a container, it is time to set it up.
 But before we can run anything, we need to define a Docker image first.
 
-What is a Docker image?
+### What is a Docker image? 
+
 You can think about the Docker image as a blueprint. It does contain all the information that is required to set up the Docker container.
 
 The image defines the operating system we are using, which programs will be installed and which directories exist.
@@ -66,7 +68,8 @@ To define the image, we are using a Docker-specific syntax.
 
 Let's take a look at all the commands we need to create a working image!
 
-Choosing the Base of our image
+### Choosing the Base of our image 
+
 Probably the first line of every Docker file is the "FROM" statement. 
 This is because every image needs a base image to inherit from. Typically this is an image only containing the base operating system.
 
@@ -87,7 +90,8 @@ In the second stage, we will use that output to host the application itself.
 
 This is why we need to define a name for that state ("as node") so we can reference it later.
 
-Choosing a WORKDIR
+### Choosing a WORKDIR 
+
 Using the WORKDIR command, we define our current path inside of the container. This is important for other commands which use the relative path.
 In this case, we choose a directory called "/usr/src/app".
 
@@ -95,7 +99,8 @@ In this case, we choose a directory called "/usr/src/app".
  WORKDIR /usr/src/app
  
  ``` 
-Copying our project into the image
+### Copying our project into the image 
+
 In the next step, we copy both, the package.json and the package.lock.json into the image.
 
 ```
@@ -123,7 +128,8 @@ Afterward, we run the build script of the angular project using:
  RUN npm run build
  
  ``` 
-Ignoring files using .dockerignore
+### Ignoring files using .dockerignore 
+
 While our first stage is almost complete, we need to do one more thing to make it work properly.
 
 Notice that the COPY command copies everything? This does also include the node_modules folder and the dist directory. 
@@ -140,7 +146,8 @@ To exclude our two directories, we edit the .dockerignore file like this:
 node_modules
  
  ``` 
-Finishing stage one
+### Finishing stage one 
+
 Now we have defined a Docker image, that contains the compiled version of our angular app.
 The finished Dockerfile for that stage should look like this:
 
@@ -222,13 +229,15 @@ Now that we have the blueprint for our container, we can finally start thinking 
 
 There is only one question:
 
-What is a Docker container?
+### What is a Docker container? 
+
 
 ["A container image is a lightweight, stand-alone, executable package of a piece of software that includes everything needed to run it: code, runtime, system tools, system libraries, settings."](https://www.docker.com/what-container)  - docker.com
 
 The main advantage of a Docker container over a regular virtual machine is, that container can share resources (like the image). This allows containers to run in large clusters with a minimal resource-overhead.
 
-Building the Docker image from the Dockerfile
+### Building the Docker image from the Dockerfile 
+
 Now it is time to run our first container. But before we can do that, we need to build the image first.
 We can do so using this command:
 
@@ -239,7 +248,8 @@ We can do so using this command:
 With the -t argument, we define the name of the image. The second argument (".") defines the location of the Dockerfile.
 This command can take a while because images have to be downloaded and the angular app has to be compiled. 
 
-Spinning up a Docker container from our image
+### Spinning up a Docker container from our image 
+
 To start a Docker container using our image, we use this command: 
 
 ```

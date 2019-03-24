@@ -49,7 +49,11 @@ class Code extends Component<CodeProps> {
 
   render() {
     let result
-    if (this.props.language && !Prism.languages[this.props.language]) {
+    if (
+      this.props.language &&
+      this.props.language !== 'undefined' &&
+      !Prism.languages[this.props.language]
+    ) {
       try {
         require(`prismjs/components/prism-${this.props.language}.js`)
       } catch (e) {

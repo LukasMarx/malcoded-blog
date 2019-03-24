@@ -4,6 +4,7 @@ title: 'Reactive Forms with Angular [Using easy Examples]'
 image: './img/angular-reactive-forms-tutorial.png'
 date: 2018-03-03T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -155,7 +156,8 @@ But binding to the model directly comes with one large downside.
 
 We are altering the original data directly. 
 
-Reactive Programming and Immutability
+### Reactive Programming and Immutability 
+
 This has become bad-practice in the last couple years, as a paradigm called reactive programming took the programming world over more and more.
 
 Why?
@@ -166,7 +168,8 @@ What we do with reactive forms instead, is keeping the data in the form model, u
 
 Only then the data is copied over to the original model, replacing everything. This type of overwriting everything is called "immutable objects".
 
-Form Controls
+### Form Controls 
+
 To create this form-model, angular uses a class called FormGroup.
 
 To define our form-model, we create a new FormGroup. The constructor of this class then takes an object, that can contain sub-form-groups and FormControls.
@@ -332,7 +335,8 @@ You can just replace you previous code if you want to.
  ``` 
 Using this approach, we have to define the default values of each field. You can just pass them an empty string, or fill it with some default-data as I did with the "email"-field.
 
-Passing a Class to the Form-Builder
+### Passing a Class to the Form-Builder 
+
 I turns out, using the FormBuilder, we can further optimize our code. 
 
 Instead of defining our form-model inline, the FormBuilder allows us to pass in any JavaScript object.

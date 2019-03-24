@@ -4,6 +4,7 @@ title: 'Resizing Images in Node.js using Express & Sharp'
 image: './img/resizing-images-nodejs-sharp.png'
 date: 2018-03-18T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#689f63'
 colorMain: '#689f63'
 colorDark: '#689f63'
@@ -58,7 +59,8 @@ Please go ahead and create these two files in our project directory.
 Last but not least, we are going to need an image for testing purposes. You can use whatever you like here. Choose an image and place it inside of the project-directory, as well.
 This will be the image we will be serving through our API.
 
-External Dependencies
+### External Dependencies
+
 For this project, we are also relying on some external dependencies.
 
 The first one is express. It will make creating an API very easy and convenient.
@@ -151,7 +153,8 @@ Registering a route at the url-root looks like this:
 
 We are registering a callback, that is called, whenever the specified URL is requested. We are also getting detailed information about the request (headers etc.) in the first (req) parameter. The second parameter is for the response. We can modify it to alter the response we want to send.
 
-The Resize Function
+### The Resize Function
+
 Because we will need it later, we create and use a function called resize to load the image. This function sits inside of the resize.js file.
 
 We are exporting it as a module, so we can import it into our main server.js file later.
@@ -198,7 +201,8 @@ module.exports = function resize(path, format, width, height) {
 
 Of course, it has nothing to do with resizing yet. We are just loading the image and pass back the stream.
 
-Formulating a response
+### Formulating a response
+
 Next, we are going to use our function in our main server.js file.
 To do so, we first need to require it:
 
@@ -227,7 +231,7 @@ Now, when we start our server and visit http://localhost:8000 in any browser, yo
 
 Having a resizing API without actually resizing the images is quite pointless though. So let's take a look at how that can be done!
 
-Extracting Query-Parameter
+### Extracting Query-Parameter
 
 But first, we need to extract the information how to resize and format our image from the request. For that, we are using the HTTP-query-parameter.
 They are looking something like this in the URL of the request. I'm sure you have seen them before.
@@ -300,7 +304,8 @@ server.listen(8000, () => {
 })
 ```
 
-Extending the Resize Function to Actually Resize
+### Extending the Resize Function to Actually Resize
+
 For our resize function to work as expected, we actually just need to add a couple of lines.
 
 First, we need to require the sharp library:

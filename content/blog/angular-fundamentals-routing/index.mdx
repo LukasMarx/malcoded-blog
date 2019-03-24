@@ -4,6 +4,7 @@ title: 'How to use Routing in Angular'
 image: './img/Angular-Routing.png'
 date: 2017-08-11T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -122,10 +123,12 @@ All of them do contain a path property. That property defines the path or name o
 
 To define, which component should be shown at each route, we can pass a component class to the property called 'component'.
 
-Redirecting
+### Redirecting 
+
 In that example, we also used redirecting. To do so, we used the redirectTo in conjunction with the pathMatch property. First, we define the path of the route. In this case, it is empty. The route would be '/' and at the root of the route. We also specify, that if this route is hit, we want to redirect the user to the 'page' route. With the pathMatch property, we define to only redirect, if the route fully matches the given route.
 
-Children
+### Children 
+
 Routes can also have children. If we want our routes to have children, we can define them with the children property like this:
 
 ```typescript title=src/app/app.routing.ts
@@ -143,7 +146,8 @@ Routes can also have children. If we want our routes to have children, we can de
  ``` 
 Now, to display SampleComponent2, the route would be '/page/child'.
 
-Parameter
+### Parameter 
+
 It is also possible, to create routes that take dynamic parameters. For example, you would have an article component under the 'article' route. However, we want this component to show different articles, depending on the route. For that, we append the id of the article to the route: '/article/12345' or  '/article/738762'.  To define a route with a parameter, we add a ':' to the route. 
 
 ```typescript title=
@@ -173,7 +177,8 @@ We then use the active route, to read out route parameter. To do so, we subscrib
 }
  
  ``` 
-Importing Routes
+### Importing Routes 
+
 After defining the routes, we need to import them into the AppModule to take effect. Import routing from our .routing.ts file and add it to the import section of the module. Since we export the RouterModule in routing, we don't need to import that explicitly anymore.
 
 ```typescript title=src/app/app.module.ts
@@ -217,7 +222,8 @@ If the route changes, only the content of the router-outlet changes. everything 
 
 Angular offers multiple ways to change the route of your application. Without that ability, having routes would make no sense right?
 
-RouterLink
+### RouterLink 
+
 With the help of the routerLink directive, we can link to routes of our application right from the html template. Just add the directive to an HTML-Element. When the user clicks on that element, angular navigates to the specified location.
 
 ```html title=
@@ -226,7 +232,8 @@ With the help of the routerLink directive, we can link to routes of our applicat
  ``` 
 Note: For your application to work with server-side rendering, the element hosting the directive has the be a link (a) element. Just like in the example above.
 
-Code
+### Code 
+
 It is also possible, to navigate to a route from code. To do so, we need to the angular router.
 
 ```typescript title=
@@ -255,7 +262,8 @@ For example if we have a admin section in our application, we want the admin mod
 To define the routes for that admin module, we would create a file inside of the folder called {module-name}.routing.ts.
 In this example, we would call it admin.routing.ts because the module would be called admin.
 
-Use the ForChild Method!
+### Use the ForChild Method! 
+
 
 The content of that file is just like the routing-file of our applications main routing file. 
 
@@ -279,7 +287,8 @@ import { AdminComponent} from './admin';
 export  const routing: ModuleWithProviders = RouterModule.forChild(routes);
  
  ``` 
-Importing the Routes into the Sub-Module
+### Importing the Routes into the Sub-Module 
+
 Also, just like with routing for the main module, we need to import the routes into the sub-module.
 
 That looks almost exactly like we did before.
@@ -299,7 +308,8 @@ import { CommonModule} from '@angular/common';
 })
  
  ``` 
-Defining Routes to the Sub-Routes of the Module
+### Defining Routes to the Sub-Routes of the Module 
+
 The last thing we need to do to, is to register a route from our main app navigation to the sub-module's routes.
 
 For example, we would want our admin-module to handle all routes under the /admin URL.

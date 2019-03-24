@@ -4,6 +4,7 @@ title: 'Common mistakes with Angular Universal'
 image: './img/Angular-Logo+server.png'
 date: 2017-06-22T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -38,7 +39,8 @@ The framework is smart enough, to know when your application is done.
 
 For example, the renderer waits with its task, until your HTTP requests have returned, before delivering the content. That way it ensures, that the content is included in the rendered version of your app.
 
-Under The Hood
+### Under The Hood
+
 Angular is embedding all your html templates in your JavaScript code.
 
 This is why, if you take a look at the dist folder, you can't find any other HTML files than the index.html.
@@ -57,7 +59,8 @@ But enough background information for now. So, what do you need to do, to make y
 
 The biggest pitfall might be, that there is no (full) [DOM ](https://de.wikipedia.org/wiki/Document_Object_Model)implementation in a node.js environment. That means, that all methods of direct DOM manipulation, e.g. setting the class of an element, become unavailable to you. Since direct DOM access is not recommended in angular anyway, you are probably fine with that, if you stay within the boundaries of the framework.
 
-No JQuery for you, Sir!
+### No JQuery for you, Sir!
+
 Only because it is not recommended, does not mean that there are no cases where direct access to the DOM comes in handy. In that case people tend to fall back to old, proven frameworks like JQuery.
 
 But here comes the bad news: JQuery is directly accessing the DOM, which means that it is not working on the server.
@@ -85,13 +88,15 @@ Of course, that advice only applies to libraries which offer either components o
 So, if you can’t manipulate the DOM directly, how are you supposed to create some fancy components? Don’t worry, angular provides some ways to solve that problem, by creating an abstraction on top of the, browser only, DOM API.
 Here are some examples.
 
-ngClass & ngStyle
+### ngClass & ngStyle
+
 These two directives ([ngClass](https://angular.io/api/common/NgClass), [ngStyle](https://angular.io/api/common/NgStyle)) allow you to influence the appearance of your element by either binding an elements style to a JavaScript variable or applying classes to the element, based on JavaScript conditions.
 They are very simple to use and I would consider them as the fastest and easiest way shown here, to get your dynamic component styling to the server. However, they are also limited to what their names imply.
 
 Manipulating the style and the class of an element. Other modifications are not possible. You can learn how these directives work at this great article:[ https://scotch.io/tutorials/angular-2-classes-with-ngclass-and-ngstyle](https://scotch.io/tutorials/angular-2-classes-with-ngclass-and-ngstyle).
 
-ngIf
+### ngIf
+
 The ngIf directive allows you to add or remove DOM elements. Other than setting the css "display" to hidden, this directive fully removes the element and all its children from the output HTML, shrinking its size, as well. However, you need to declare these elements in the template at design time. Dynamically adding or removing unknown elements is not possible with this method.
 
 ```html title=undefined
@@ -100,7 +105,8 @@ The ngIf directive allows you to add or remove DOM elements. Other than setting 
 
 This div will only be shown when the variable post is not null.
 
-Renderer
+### Renderer
+
 If you need to do something fully dynamic, like creating a bunch of DOM-Elements at runtime, the renderer service is for you. It is an abstraction on top of the DOM-API and has a similar feeling to it, but is designed to run on the server, as well as in the browser. However, as Angular is evolving quite quickly, the original renderer is already deprecated, while the follow-up, with the odd name renderer2, is still in experimental phase (not anymore since 4.2).  
 Here is what the API looks like.
 

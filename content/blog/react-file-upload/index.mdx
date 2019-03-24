@@ -4,6 +4,7 @@ title: 'Creating a File Upload Component with React'
 image: './img/react-file-upload.png'
 date: 2019-02-13T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#9A68F2'
 colorMain: '#9A68F2'
 colorDark: '#9A68F2'
@@ -14,7 +15,7 @@ recommended:
     '5bb0cae79583501f64252703',
     '5c5c099be852ca001e040c05',
   ]
-tags: ['react', 'nodejs']
+tags: ['react']
 ---
 
 Creating a file upload component is a common task in web development.
@@ -43,7 +44,8 @@ Before we can have a react app upload anything, we need to have a server we can 
 
 In this tutorial, we are going to implement a file upload server using node.js and express, that allows file to be uploaded in in the multipart format.
 
-Setting up a new project
+### Setting up a new project
+
 To set up a new project, create a new project directory containing two folders app and server.
 
 Next, open the command line pointing at the server directory and initialize a new npm-project using the
@@ -62,7 +64,8 @@ upload.js
 
 Go ahead and create them inside of the server directory.
 
-External Dependencies
+### External Dependencies
+
 Our server will have three external dependencies.
 
 The first one is obviously express. [Express](http://expressjs.com) is a framework, that makes creating API very easy.
@@ -120,7 +123,8 @@ Although it does nothing useful, you can fire it up using the
 
 command. As this is using a relative path, make sure you have opened the terminal at the server directory. Otherwise, you need to adjust the relative path (for example server/server.js).
 
-Enabling CORS
+### Enabling CORS
+
 To be able to access our API from a react application with a different origin, we need to enable cors.
 To do so, we first need to require CORS.
 
@@ -143,7 +147,8 @@ Finally, we tell express to use the cors-middleware with our configuration.
 server.use(cors(corsOptions))
 ```
 
-Registering the upload route
+### Registering the upload route
+
 Afterward, we need to configure a route for our file upload.
 
 For that, we require our upload.js file and register a route with the HTTP-post method.
@@ -320,7 +325,8 @@ To make it look nice, we add some stylesheets:
 }
 ```
 
-Creating the upload component
+### Creating the upload component
+
 For this to work properly, we need to create the upload component we have used inside the app component.
 
 To do that, create a new folder inside the apps' src-directory called "upload".
@@ -471,7 +477,8 @@ As you can see, the dropzone component takes two properties. The first one, "onF
 
 With the disabled property, we can control whether the dropzone is accepting input.
 
-Adjusting the components' state
+### Adjusting the components' state
+
 To keep track of the upload components' state, we want to introduce some state variables.
 
 First of all, we need an array containing all files to be uploaded.
@@ -500,7 +507,8 @@ Finally, we want to keep track of the upload progress of all files. For that we 
 
 Because we are changing the constructor anyway, let's add some bindings for future methods, as well.
 
-Handling new files
+### Handling new files
+
 To handle new files added via the dropzone, we need to implement a method called "onFilesAdded".
 
 In this mehtod, we simply add the new files to the already added files by setting the state accordingly.
@@ -630,7 +638,8 @@ To make these divs look like progress bars, use CSS similar to this:
 }
 ```
 
-Adding the progress bar to the file list
+### Adding the progress bar to the file list
+
 Ok, let's add the progress bar to each file in the list. Because we need to check for multiple conditions, the rendering is extracted into a method called "renderProgress".
 
 ```jsx title=app/src/upload/Upload.js
@@ -816,7 +825,8 @@ Then, we wait until every upload is completed by awaiting .all promises.
 
 Finally, we set the successfullUploaded-flag to true and the uploading-flag to false.
 
-Uploading files to the server using XMLHttpRequest
+### Uploading files to the server using XMLHttpRequest
+
 To upload the files to the server, we implement the "sendRequest" method.
 
 All this method does for now, is creating a new Promise. Inside of that promise, we create a new XMLHttpRequest and send that to the url of our file upload server using a post request and the file to upload wrapped into a FromData object.

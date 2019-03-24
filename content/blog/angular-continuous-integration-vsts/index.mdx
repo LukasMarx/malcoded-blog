@@ -4,6 +4,7 @@ title: 'Angular: Continuous Integration with Visual Studio Team Services'
 image: './img/Angular-VSTS.png'
 date: 2017-09-08T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -40,7 +41,8 @@ Next, enter a project name and a description. Make sure to select git as version
 
 Now, we have created a new project. Next, we set up the git repository. If you want to get your source code from GitHub, you can skip that step.
 
-Visual Studio Team Services
+### Visual Studio Team Services 
+
 First, we take a look at how to create a new git repository in Team Services. From the previous steps, you should see a screen like this now:
 ![VSTS-AddRemote](./img/VSTS-AddRemote.png)
 
@@ -84,7 +86,8 @@ You have presented an empty template. Now you have to select an agent queue. Sel
 Afterward, we are ready to build our pipeline.
 
 
-NPM
+### NPM 
+
 For our angular app to build successfully, all npm packages have to be installed. Because of that, the first step in our pipeline is running an npm install. For that, just add a new npm task and select the command to be "install".
 
 ![VSTS-npm-install](./img/VSTS-npm-install.png)
@@ -94,7 +97,8 @@ Once we npm is done installing. We need to build our angular application. A stan
 
 ![VSTS-npm-build](./img/VSTS-npm-build.png)
 
-Azure App Service
+### Azure App Service 
+
 Our angular app is now built. By default, angular creates and builds into the dist folder. All we have to do now is to create an "Azure App Service Deploy"  task. To that, you will need an Azure account. You should also have created an App Service.
 
 When you fill out the settings for the task, Team Services will ask for your Azure account. Connect that, and select the App Service instance, you want to deploy to.

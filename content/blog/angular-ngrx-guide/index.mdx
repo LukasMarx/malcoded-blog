@@ -4,6 +4,7 @@ title: 'Learn Redux in Angular with NgRx Store (version 4)'
 image: './img/redux.png'
 date: 2017-10-20T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#764abc'
 colorMain: '#764abc'
 colorDark: '#764abc'
@@ -46,7 +47,8 @@ In angular, the state of the application is distributed in many small components
 
 While the separation into many different components is actually great for scaling an application, that goes not for the state. When splitting up the state, many different problems emerge, as the application increases in size.
 
-Persisting the State
+### Persisting the State 
+
 One common example is saving the state of the application. Let's say, we want to persist the current state of the app to disk, so when the user revisits our app, it looks exactly like when he left it. This behavior is often expected in games, that preserve the current progress, but also in regular applications. The shopping cart is a great example for this.
 
 While the task of saving the state to disk seems to be easy on paper, it is not when it comes to full-blown application. In fact, you would need to iterate over all components or services that contain any state, to collect it all to a global state. 
@@ -55,7 +57,8 @@ While the task of saving the state to disk seems to be easy on paper, it is not 
 
 Of course, that problem does not only occur when saving but also when loading the state. The whole procedure has to run in reverse.
 
-The flow of the State
+### The flow of the State 
+
 In angular, it is also possible, to pass objects between components. This can be done using the @Input & @Output decorators or via a shared service. Either way, keeping track of which components alters the state becomes an impossible task quite quickly. Especially when working with a big application and/or team.
 
 Furthermore, angular also allows a bi-directional flow. A component can not only receive data but also change and return it back. That makes tracking the value of a state even more complicated.
@@ -69,14 +72,16 @@ In such a scenario, tracking down bugs can be a quite challenging task.
 Redux promises to resolve the issues mentioned above, by saving the state in one single object, called the store. This concept is called Single Source of Truth. 
 It also ensures a one-directional flow, by making the state read-only.
 
-Single Source of Truth
+### Single Source of Truth 
+
 With that principle in place, saving or transferring our application state becomes incredibly easy. All we have to do is to serialize that one objects (store) e.g. into JSON.
 
 ![single-state](./img/single-state.png)
 
 Using this technique, our application also becomes more easy to debug, as all important variables are stored in that one object.
 
-Read-Only State
+### Read-Only State 
+
 Everything saved in the store is read-only. 
 
 ["](http://redux.js.org/docs/introduction/ThreePrinciples.html)[The only way to change the state is to emit an ](http://redux.js.org/docs/introduction/ThreePrinciples.html)[action](http://redux.js.org/docs/introduction/ThreePrinciples.html)[, an object describing what happened."](http://redux.js.org/docs/introduction/ThreePrinciples.html)
@@ -85,7 +90,8 @@ If we want to change the state in any way, we have to make a request in form of 
 
  This also prevents unwanted side-effects, because all changes happen centralized and in a strict order.
 
-Pure Functions
+### Pure Functions 
+
 We will later learn, that we can not only make requests in form of actions, but can also react to an action. For that, we will register a reducer. This reducer is a [pure function](https://medium.com/@jamesjefferyuk/javascript-what-are-pure-functions-4d4d5392d49c). That means, it takes the state, makes a copy of it and then applies the changes to the copy.
 
 ![pure-function-ngrx](./img/pure-function-ngrx.png)
@@ -109,7 +115,8 @@ I will be honest with you. I haven't worked with Redux before preparing for this
 
 Furthermore, while writing the example application, we will create together in this article, I had some "F*** this!" moments, and I'm certain, you will understand what I mean if you decide to follow me through this article.
 
-Redux is not for Everyone & Everything
+### Redux is not for Everyone & Everything 
+
 While I agree, that Redux can cause a lot of pain, especially if you are not used to it, I can also see the huge benefits, it adds at a certain scale. So here is what I would recommend:
 
 If you would call your application "tiny" or "small", I would suggest not to waste a thought on using Redux. Using services and components to manage the state is completely sufficient here and not worth the overhead Redux brings to the party.
@@ -126,10 +133,12 @@ ngrx is a collection of reactive libraries for angular, containing a redux imple
 
 In this tutorial, we are going to use ngrx to build an example application featuring the redux store and asynchronous effects.
 
-The Example Application
+### The Example Application 
+
  The example application will be a currency conversion app. The user will be able to enter a custom amount of USD into an input field. The application will then calculate the current amount in many other currencies.
 
-Installation
+### Installation 
+
 To get started, we first need to create a new application. We can use the angular-cli to do so.
 
 ```undefined title=undefined
@@ -154,7 +163,8 @@ Instead, they precisely describe what happened. Every action has a type. The typ
 Actions can also carry an (optional) payload. That is because often times, we need additional information, about the event. For example, we probably want to know, where the mouse went down.
 This payload can be any JavaScript object.
 
-Example Amount
+### Example Amount 
+
 Our example application needs an input field, with the amount in dollar, that we want to convert to other currencies. This amount will be part of our applications state. Because of that, we will also need an action, to report, that the amount was changed by the user.
 
 For that, we create a new folder called actions in our app directory. In there, we create a file called amount.ts.
@@ -177,7 +187,8 @@ We also define a constructor, that takes our payload, which is the new amount.
 
 Simple, isn't it?
 
-Example Currency-Rates
+### Example Currency-Rates 
+
 
 Later in our application, we will also need two more actions. The first one indicates that new currency data was requested. The second one specifies, that new currency data has been downloaded. 
 
@@ -218,7 +229,8 @@ Now that we have events in form of actions, we need corresponding event listener
 
 After all, a reducer is just a function. It takes the current state and the action as parameters. All we need to do is to create a function with that interface and register it at our store.
 
-Example Amount
+### Example Amount 
+
 As we have two different sections of the state, the amount and the list of currency-rates, we need two different reducers. One for each section or sub-state. Otherwise, you would end up with one giant switch/case statement. The reducers we create are later merged by the framework into one large reducer. So let's see how a reducer for the amount looks like:
 
 ```typescript title=src/app/reducers/amount.ts
@@ -239,7 +251,8 @@ Reducers are typically created in their own directory. Create the directory and 
 
 In this simple case, the sub-state amount is just a number. Because of that, we can either return the new amount, if the action is AMOUNTCHANGE or return the current state. Notice that we import the previously created action here.
 
-Example Currency-Rates
+### Example Currency-Rates 
+
 Of course, we also require a reducer for our currency-rates. This reducer looks quite the same as the previous one. The only difference is, that our sub-state is now an array of currency-rates.
 
 ```typescript title=src/app/reducers/currency.ts
@@ -257,7 +270,8 @@ export function reducer(state = [], action: currency.CurrenciesUpdatedAction) {
  
  ``` 
 
-The Principle of Immutable Objects & Pure Functions
+### The Principle of Immutable Objects & Pure Functions 
+
 In the beginning of this article I mentioned, that reducers have to be pure functions. So, what is a pure function?
 
 A pure function is called pure if it produces always the same output (return) when given the same input (parameter). Deterministic functions like this are especially easy to debug and test.
@@ -280,7 +294,8 @@ Also, a pure function is not allowed to produce any side effects. This is done, 
 
 For a complete walk-through of the topic, read this [great article about impure functions](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976).
 
-Creating the Application State
+### Creating the Application State 
+
 Now we have two sub-states of our application. The amount and the currency-rates. Next, we need to create one "Application State" out of this sub-states. This is because our Redux store can only consist of one JavaScript object.
 
 To define the application state, go ahead and create a new file called "index.ts" inside of the reducers folder. Inside of that file, we first create the interface of our app's state.
@@ -379,7 +394,8 @@ Using the state in our components is fortunately quite simple. That is when you 
 
 But before we can begin, we need to define some selectors.
 
-Selectors
+### Selectors 
+
 Selectors are a concept of ngrx-store. They are just small and simple functions, that allow us, to get only the part of the application state, that we are interested in. I've created this functions in the index.ts inside of the reducers directory.
 
 ```typescript title=src/app/reducers/index.ts
@@ -390,7 +406,8 @@ export const getCurrnecyRates = (state: State) => state.currencies;
  ``` 
 All they do is to return a sub-state from the big application state for convenience.
 
-Creating Observables from the Store
+### Creating Observables from the Store 
+
 Now that we have the selectors in place, we can get our observables from the store. For that, we can use the select() method.
 
 ```typescript title=src/app/app.component.ts
@@ -425,7 +442,8 @@ export class AppComponent {
  ``` 
 We have created to public variables amount$ & currencyRates$ which are both of the type Observable. In our constructor, we then get an observable of the corresponding sub-state using the select() method. To get updates from our store-state, we would subscribe to that observable or use an async pipe.
 
-Displaying State in Components with the Async Pipe
+### Displaying State in Components with the Async Pipe 
+
 The [async pipe](https://angular.io/api/common/AsyncPipe) is a little helper angular provides. It allows us, to resolve observables directly from our template's HTML code. It takes care of all the technical difficulties, including unsubscribing from the observable. 
 
 To show the value of our state on the screen, we can easily use the async pipe.
@@ -456,7 +474,8 @@ The most common example of a side effect is a HTTP-request. We make it at some p
 
 The goal of this module is, to wrap the side-effects and isolate them from the rest of the code. 
 
-Creating an Effect
+### Creating an Effect 
+
 Creating a ngrx effect is easy. All we need to do is to use the @Effect() decorator to decorate a method of an @Injectable. For our example, we need an effect, that downloads our currency-conversion-rates from an API.
 
 For that, we are listening on the observable of all actions, until an action of the type CURRENCIESUPDATE comes along. For each of these actions of the type CURRENCIESUPDATE  we call currencyService and ask it for the current rates. 
@@ -496,7 +515,8 @@ export class CurrencyEffects {
 }
  
  ``` 
-The Currency Service
+### The Currency Service 
+
 That service is quite simple. All we do here is to call the API-Endpoint and return the response as an observable. We also have to convert the answer from an object with key-value-pairs to an array of the type Currency. We do so by using the map operator.
 
 ```typescript title=src/app/services/currency.service.ts
@@ -519,7 +539,8 @@ export class CurrencyService {
 }
  
  ``` 
-Dispatching the Action
+### Dispatching the Action 
+
 For our effect to be triggered, we have to dispatch a CurrencyUpdateAction. For simplicity, I've done so once, when the app.component is initialized. You probably want to update the value periodically in a real application.
 
 ```typescript title=src/app/app.component.ts
@@ -560,7 +581,8 @@ export class AppComponent implements OnInit {
  
  ``` 
 
-Registering the Effect
+### Registering the Effect 
+
 Last but not least, we have to register our effect in the applications app.module. We also have to import he EffectsModule of ngrx. Also, don't forget to provide our CurrencyService at this point.
 
 ```typescript title=src/app/app.module.ts

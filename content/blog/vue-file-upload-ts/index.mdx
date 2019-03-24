@@ -4,6 +4,7 @@ title: 'File Upload Component with Vue.js, Express and TypeScript'
 image: './img/vue-file-upload.png'
 date: 2018-08-08T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#4dba87'
 colorMain: '#4dba87'
 colorDark: '#4dba87'
@@ -38,7 +39,9 @@ Let's start coding!
 Before we can start writing our angular file-uploader, we need to have an API to upload to right?
 
 In this tutorial, we are going to create a simple node.js server using express, that allows files to be uploaded in the multipart-format.
-Setting up a new Project
+
+### Setting up a new Project
+
 To set up a new server project, create a new directory and initialize a new project using the
 
 ```
@@ -53,7 +56,8 @@ We will also need two TypeScript files. Create the following files in the projec
 server.ts
 upload.ts
 
-External Dependencies
+### External Dependencies
+
 Our server will have three external dependencies.
 
 The first one is obviously express. [Express](http://expressjs.com/de/) is a framework, that makes creating API very easy.
@@ -82,7 +86,8 @@ Install formidable using this command:
 
 ```
 
-Types
+### Types
+
 Because we will be using TypeScript for our server, we also have to install the type for each library.
 We can easily do so like this:
 
@@ -125,7 +130,8 @@ The file itself looks like this:
 
 ```
 
-Scripts
+### Scripts
+
 Last but not least, we set up a script in the package.json script section. We will later use that script to compile and start our server:
 
 ```javascript title=package.json
@@ -162,7 +168,8 @@ This is already a working express server. Although it is not doing anything usef
 
 command.
 
-Enabling CORS
+### Enabling CORS
+
 To be able to access our API from an angular application, we need to enable cors.
 To do so, we first need to require CORS.
 
@@ -185,7 +192,8 @@ Finally, we tell express to use the cors-middleware with our configuration.
 server.use(cors(corsOptions))
 ```
 
-Registering The Upload Route
+### Registering The Upload Route
+
 Afterward, we need to configure a route for our file upload.
 
 For that, we require our upload.js file and register a route with the HTTP-post method.
@@ -358,7 +366,8 @@ As of all components, this file has the following base structure:
 The first part will contain our template written in HTML. The second part will hold the component's logic written in TypeScript (lang="ts") and the last part will contain the style-sheets (CSS).
 The CSS will be scoped, that means that the style does only apply for the component itself, not for other components or the entire app, as that would normally be the case.
 
-The Drop-Zone template
+### The Drop-Zone template
+
 We will kick this off by taking a look at the template first.
 
 ```html title=src/components/DropZone.vue
@@ -390,7 +399,8 @@ Also, we are using the v-bind directive here. This enables us to apply CSS-class
 
 That's already everything to say about this. So let's move on to the script-part of the component.
 
-The Drop-Zone script
+### The Drop-Zone script
+
 Before we do anything else, we need to import some decorators from a module called 'vue-property-decorator'. This module is automatically installed by the vue-cli, given the settings we chose.
 
 ```typescript title=src/components/DropZone.vue
@@ -550,7 +560,8 @@ export default class DropZone extends Vue {
 
 ```
 
-The Drop-Zone styles
+### The Drop-Zone styles
+
 I'm not a designer and not a CSS expert. These are just some styles I hacked together to make it look somewhat appealing.
 I think there is no need to explain them in detail.
 
@@ -742,7 +753,8 @@ Unfortunately, we need to deal with things like managing the state (for example 
 
 But let's begin by defining the template.
 
-The App template
+### The App template
+
 Our final design will look like this:
 
 ![vue-files-uploading](./img/vue-files-uploading.png)
@@ -794,7 +806,8 @@ We also provide default values, just in case the dictionary does not have that k
 We also place two buttons on the left side. Based on the "successfullUploaded"-flag there is only one button visible at any time. The first one will be used to start the upload while the second one is responsible for clearing the file-list.
 The first button will also be disabled when we are currently uploading a file.
 
-The App script
+### The App script
+
 There are a lot of variables we are referencing in our template.
 These variables now all have to implement in the script section.
 
@@ -907,7 +920,8 @@ All we do in this method is clear the "files" array. We also reset the "successf
 
 ```
 
-Uploading the files to the server
+### Uploading the files to the server
+
 Now it's finally time to upload the files to the server.
 
 All we need to do for that is to implement the "sendRequest" method in our App-component.
@@ -1035,7 +1049,8 @@ export default class App extends Vue {
 
 Great! All that's left now is adding some styles!
 
-The App style sheets
+### The App style sheets
+
 Again, I will just leave this here without a comment, in case you want to use the style sheets as well.
 
 ```css title=src/App.vue

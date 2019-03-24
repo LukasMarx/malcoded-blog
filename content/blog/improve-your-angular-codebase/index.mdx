@@ -4,6 +4,7 @@ title: '5 Things that Improve your Angular Codebase Right Now!'
 image: './img/5-things-to-improve-codebase.png'
 date: 2018-03-14T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -44,14 +45,16 @@ It will make your life a lot easier, when coming into new projects and will incr
 Here is the complete set of rules! You should at least have seen them once!
 [Angular Style Guide](https://angular.io/guide/styleguide)
 
-"We like to do things in our own way! We don't like to follow the rules of someone else!"
+### "We like to do things in our own way! We don't like to follow the rules of someone else!" 
+
 
 Why did you choose angular then?
 If this is your organization, I highly encourage you to re-consider the choice of your fronted-framework.
 There are a lot of other frameworks out there, that suite your expectations a lot better.
 You will not be happy with angular, neither in the short nor in the long run!
 
-Example: File Names
+### Example: File Names 
+
 One example of these rules is the naming of files.
 
 Files in angular follow a very specific theme, called a naming convention.
@@ -87,7 +90,8 @@ In fact, it would make things even worse.
 
 Fortunately, angular has some opinions on how we should decide our apps into modules.
 
-Feature Modules
+### Feature Modules 
+
 One category of modules are the so-called "Feature Modules". As you probably have guessed already, they are created to contain one specific feature.
 
 These modules are created in a separate folder with the name of the feature. 
@@ -109,7 +113,8 @@ For example, if we have an administration-section for a blog, it would not make 
 Instead, we separate the admin-section into a feature-module and load it using lazy-loading. Now, if a user is entering the site, he only has to download the code for the blog-section. Only if he is navigating to the admin-section, the additional JavaScript code is downloaded.
 
 
-Core and Shared-Module
+### Core and Shared-Module 
+
 Using feature-modules, every component, directive or pipe is encapsulated in a separate module. That way, it can't be used elsewhere in our application, without importing its module.
 
 But that would not make any sense, would it?
@@ -146,7 +151,8 @@ But the core-module is not just for services. Everything that is used applicatio
 An example for that are loading-spinners for the start of the application. They are never used anywhere else so creating a extra shared-module would be kind of overkill.
 
 
-Provide Private Services in your Component
+### Provide Private Services in your Component 
+
 Most services in angular are designed to act on a global scope. They are then provided at an application level (AppModule).
 
 This makes sense if the use of the global-singleton-pattern is required. For example, if your service is responsible for caching things. In this case, you want one global instance. Otherwise, each component has its individual cache. This is because of the scoped [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection) in angular.
@@ -182,7 +188,8 @@ Code that does not exist can increase the overall code-quality by a lot.
 
 Last but not least, having logic in a separate file makes the code also easier to read.
 
-State
+### State 
+
 When it comes to state, there are a bunch of problems that emerge from each component having its own state.
 
 Simply put, you lose track of which component is in which state pretty fast. That can make debugging a quite hard task and results in these kinds of bugs, nobody wants to have.
@@ -204,7 +211,8 @@ In this case, the angular team has decided to use the rxjs library for all async
 
 The library utilizes the [observer-pattern](http://www.dofactory.com/javascript/observer-design-pattern). If you want to learn more about the rxjs library, check out my guide on [rxjs for angular developers](https://malcoded.com/posts/rxjs-for-angular-devs).
 
-Avoid Promises
+### Avoid Promises 
+
 RxJs partly overlaps with its functionality with the standard JavaScript promise. Both are meant to handle asynchronous code.
 
 But rxjs can do so much more! Other than promises, the so-called rxjs-observables can resolve to more than just one value. Instead, they are a stream of values, we can contentiously listen to.
@@ -225,7 +233,8 @@ We can see that, by looking at the angular HTTP-client. It returns rxjs-observab
 
 I also don't think that mixing it up is a good solution. That way, you have completely different implementations, that are hardly compatible with each other in different parts of your application. Depending on who wrote the code. After all, that is exactly what we try to avoid by using angular.
 
-Use the Async Pipe
+### Use the Async Pipe 
+
 As stated above, rxjs-observables are a little bit more complex. Not using them correctly can lead to serious bugs.
 
 The most common mistake I make is forgetting to unsubscribe from the observable. This does not only lead to memory leaks, but also unnecessary calculations and potential unexpected changes in the state of your application.
@@ -282,7 +291,8 @@ Problems like component to component communication are solved by this, as well. 
 
 Depending on which form of central state management you choose, you also get nice features likes time-travel-debugging (Redux/ngrx).
 
-So should you just use Redux/ngrx?
+### So should you just use Redux/ngrx? 
+
 Again, there are millions of opinions out there. After all, you will have to come up with your own one.
 
 But here are is my point of view:

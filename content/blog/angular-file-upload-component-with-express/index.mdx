@@ -4,6 +4,7 @@ title: 'Creating a File Upload Component in Angular  (Including Backend) '
 image: './img/angular-file-upload-component.png'
 date: 2018-03-19T23:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -43,7 +44,8 @@ Before we can start writing our angular file-uploader, we need to have an API to
 
 In this tutorial, we are going to create a simple node.js server using express, that allows files to be uploaded in the multipart-format.
 
-Setting up a new Project
+### Setting up a new Project
+
 To set up a new server project, create a new directory and initialize a new project using the
 
 ```
@@ -58,7 +60,8 @@ We will also need two JavaScript files. Create the following files in the projec
 server.js
 upload.js
 
-External Dependencies
+### External Dependencies
+
 Our server will have three external dependencies.
 
 The first one is obviously express. [Express](http://expressjs.com/de/) is a framework, that makes creating API very easy.
@@ -112,7 +115,8 @@ This is already a working express server. Although it is not doing anything usef
 
 command.
 
-Enabling CORS
+### Enabling CORS
+
 To be able to access our API from an angular application, we need to enable cors.
 To do so, we first need to require CORS.
 
@@ -135,7 +139,8 @@ Finally, we tell express to use the cors-middleware with our configuration.
 server.use(cors(corsOptions))
 ```
 
-Registering The Upload Route
+### Registering The Upload Route
+
 Afterward, we need to configure a route for our file upload.
 
 For that, we require our upload.js file and register a route with the HTTP-post method.
@@ -257,7 +262,8 @@ Create a new application by opening a command prompt at the desired location and
 
 ```
 
-External Dependencies
+### External Dependencies
+
 Because we will need some complex ui-elements such as modal-windows, I decided to use the [angular material library](https://material.angular.io/) for this project.
 To install this library, use this command:
 
@@ -440,7 +446,8 @@ Using angular material, a dialog is just a component. So let's create this Dialo
 
 ```
 
-Adding Files
+### Adding Files
+
 The first thing we need to do is to add a file input element to our component.
 
 ```html title=src/app/upload/dialog/dialog.component.html
@@ -501,7 +508,7 @@ In that method, we need to collect the files from the native HTML element and st
 
 ```
 
-State
+### State
 
 We will also need some state variables in the future, so we should add them to our DialogComponent.
 
@@ -514,7 +521,8 @@ uploading = false
 uploadSuccessful = false
 ```
 
-DialogRef
+### DialogRef
+
 Next, we need some control over the dialog itself. For example, we want to close the dialog from the dialog component.
 To do that, we need to request the dialog reference via dependency injection in the DialogComponents' constructor. We also need to UploadService we have created earlier, so we request it, as well.
 
@@ -523,7 +531,8 @@ To do that, we need to request the dialog reference via dependency injection in 
 
 ```
 
-Closing the Dialog & Uploading the Files
+### Closing the Dialog & Uploading the Files
+
 Afterward, we take a look at the "closeDialog" method. We will be calling this method when the OK button of our dialog is pressed (it doesn't exist yet).
 Depending on which state we are in, we want the button to behave differently.
 
@@ -576,7 +585,7 @@ When the state of the component is "uploadSuccessful" we just want to close the 
 
 ```
 
-The Full Template
+### The Full Template
 
 Here is the template of the dialog. It contains a button to add new files, a primary button (Upload/Finish) and a cancel button. Depending on the state of the component, these buttons can be disabled.
 
@@ -635,7 +644,8 @@ Once the files are uploading, a progress-bar for each file appears. This progres
 </div>
 ```
 
-The Styles
+### The Styles
+
 Here are the styles for the DialogComponent. I don't think there is explanation needed.
 
 ```css title=src/app/upload/dialog/dialog.component.css

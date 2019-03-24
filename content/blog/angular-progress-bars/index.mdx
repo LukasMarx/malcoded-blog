@@ -4,6 +4,7 @@ title: 'Angular Progress Bars'
 image: './img/angular-progress-bars.png'
 date: 2018-08-16T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -53,7 +54,8 @@ This might be looking if you require some fancy shapes in your loading bar, but 
 
 So, let's begin by implementing the simple method first.
 
-Progress bar example using  HTML-DIV-elements
+### Progress bar example using  HTML-DIV-elements 
+
 The first approach works by placing two DIV-elements inside each other. 
 
 The outer one represents the outer border of our progress bar. Its width defines the width of the bar when the progress is at 100%.
@@ -74,7 +76,8 @@ or much shorter:
  ng g c bar
  
  ``` 
-Inputs
+### Inputs 
+
 Our progress bar component will have just one input. This will be the current progress in percent represented by a number (100 = 100%).
 
 All we need to do is to add a field to our new component that is decorated by the @Input decorator.
@@ -95,7 +98,8 @@ export class BarComponent {
  ``` 
 We also set its default value to 0, just in case.
 
-Template
+### Template 
+
 Our template will contain only one DIV, which is the inner DIV mentioned before. The outer DIV will be the angular host element. 
 This is just another DIV that angular creates for every component anyways. 
 
@@ -108,7 +112,8 @@ We can save a DIV here and just use this host element. We later style this eleme
 To show our progress bar with the right width, we define its style "width" at run time using the [ngStyle ](https://angular.io/api/common/NgStyle)directive.
 For our bar to show the current progress, its width has to be the value-input of our component.
 
-Style Sheets
+### Style Sheets 
+
 All that's left now are some style sheets (CSS). We have to implement the "bar" class we assigned erlier
 
 ```css title=src/app/bar/bar.component.css
@@ -127,7 +132,8 @@ and add some properties to our host element:
 }
  
  ``` 
-Progress bar example using SVGs
+### Progress bar example using SVGs 
+
 Using SVGs to create a progress bar is quite similar to using DIVs. The main difference might be, that we do not need to use any style sheets at all.
 We can control the SVG with its attributes instead.
 
@@ -152,7 +158,8 @@ export class SvgbarComponent {
 }
  
  ``` 
-Creating the SVG
+### Creating the SVG 
+
 When creating a SVG, the first thing we need to do, is to create the svg-tag. It is the wrapper of the svg-element.
 
 ```html title=src/app/svgbar/svgbar.component.html
@@ -170,7 +177,8 @@ We also use this attribute to define the aspect ration of our drawings.
  ``` 
 Note, that the "viewBox" attribute has to be spelled with a capital b!
 
-Using a rectangle as progress bar
+### Using a rectangle as progress bar 
+
 
 In this case we are using a view box starting at 0,0 and with a width of 100,10.
 
@@ -211,7 +219,8 @@ We do so by setting the [stroke-dasharray](https://developer.mozilla.org/en-US/d
 
 By just setting the stroke-dasharray attribute we still end up with a full circle. What does the trick is the [stroke-dashoffset](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset) attribute. With this attribute we define an offset of our dashes and gaps. This way we can align the dash and the gap, which both have the length of the circumference of our circle, in a way that only a percentage of the stroke of the circle is visible.
 
-Calculating dasharray and dashoffset
+### Calculating dasharray and dashoffset 
+
 The logic of our component looks exactly like the components we defined before.
 
 Additional, we have to calculate the dasharray and the dashoffset value this time.
@@ -237,7 +246,8 @@ The circumference, which will be our dasharray value, is defined as 2 times pi m
 
 As our default value is zero, the default stroke-dashoffset is zero, as well.
 
-Reacting to changed values
+### Reacting to changed values 
+
 You might have noticed, that stroke-dashoffset has to be calculated every time the value (progress) changes.
 
 To do that, we are implementing the [ngOnChanges](https://angular.io/api/core/OnChanges) callback in our component. This way, we are notified, when an input of the component changes its value.
@@ -275,7 +285,8 @@ export class SpinnerComponent {
  ``` 
 The circumference of the circle always stays the same.
 
-Creating the SVG
+### Creating the SVG 
+
 Inside of the components template we are defining the corresponding SVG once again.
 
 The main difference her is, that we are using a circle element instead of a rectangle.
@@ -301,7 +312,8 @@ Also, we are binding our components' fields to the style attributes "style.strok
  ``` 
 We also add a little text, that is placed in the center of the circle.
 
-Adding style sheets
+### Adding style sheets 
+
 As you can see, we have referenced some classes in our template.
 
 The most important thing we have to do here is to rotate the circle by 90 degrees, otherwise our progress is not starting at the top.

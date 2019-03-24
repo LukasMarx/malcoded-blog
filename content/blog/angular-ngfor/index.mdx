@@ -4,6 +4,7 @@ title: 'Angular NgFor: Everything you need to know'
 image: './img/angular-ngfor.png'
 date: 2018-05-09T22:00:00.000Z
 author: 'Lukas Marx'
+released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
@@ -61,7 +62,8 @@ And we want the result to be generated HTML that could look like this:
 </ul>
  
  ``` 
-Using ngFor to render an array
+### Using ngFor to render an array 
+
 This is exactly what ngFor can do for us. 
 
 All we need to do is to tell the directive, which array to use. 
@@ -105,7 +107,8 @@ export class ExampleComponent {
  ``` 
 To display that array, we need to use the ngFor directive in our components' template.
 
-How to use the ngFor directive?
+### How to use the ngFor directive? 
+
 The ngFor directive does create the HTML-Element it is placed in as many times as there are elements in the array.
 So to create a list-element for each array element, we place the ngFor directive inside of the li tag.
 
@@ -160,7 +163,8 @@ Now the output will look just as expected:
 </ul>
  
  ``` 
-Variable Scope
+### Variable Scope 
+
 It is important to know, that variables defined in the ngFor directive have a scope. 
 
 Again, this behavior is quite similar to a regular forEach loop. The defined variable (e.g. "element") is only accessible in the HTML-Element that holds the directive or its children.
@@ -291,7 +295,8 @@ With this function, we can tell angular, which properties cause an object to be 
 
 In the case of our example, we can use the guid field to identify each object. Because this value does (should) not change when the reference changes, angular can still identify them and apply the optimization.
 
-Angular Implementation
+### Angular Implementation 
+
 
 To specify a trackBy function, we first need to create one in our component.
 The function gets the index of the element and the element itself. I then have to return the unique value of the element.
@@ -347,7 +352,8 @@ This can be done like so:
 NgFor does only work with Iterables by design. This is fine, if your data structure is an array, but what about plain objects or maps?
 Here are some examples of how to use NgFor with different data-structures!
 
-Plain Old JavaScript Objects
+### Plain Old JavaScript Objects 
+
 I like to store many of my data in plain JavaScript objects, because they behave just like a map in other languages. They are very fast when it comes to accessing data by a key.
 
 Unfortunately, we can't just use objects with ngFor. But it is not impossible to do.
@@ -382,7 +388,8 @@ This pipe can then be used like this (note that it has to be declared in a modul
 </ul>
  
  ``` 
-Observables
+### Observables 
+
 If we deal with observables, like results from the HttpClient, we can use the async pipe, that is provided by the angular framework.
 
 ```html title=example.component.ts
