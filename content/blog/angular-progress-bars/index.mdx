@@ -1,0 +1,333 @@
+---
+id: '5bb0cae79583501f642526ee'
+title: 'Angular Progress Bars'
+image: './img/angular-progress-bars.png'
+date: 2018-08-16T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526f0","5bb0cae79583501f642526f2","5bb0cae79583501f642526fb"]
+tags: ["angular"]
+---
+In this tutorial, you will learn how to create loading indicators with angular.
+
+First, we will take at look at how to create a simple horizontal progress bar using just a DIV-element and some CSS.
+
+Afterward, we will dive into more advanced techniques using SVGs. We will use them to re-create our horizontal progress bar and then move on an create a circular loading spinner.
+
+Doing so, you will get a feeling how SVGs can be controled by angular using regular data-bindings.
+
+Ready?
+
+Let's go!
+
+![angular-new-banner](./img/angular-new-banner.png)
+## Setting up the angular project 
+
+For this project, we will be using the angular-cli.
+
+All we need to do is to set up a new project:
+
+```
+ ng new angular-progress-bars
+ 
+ ``` 
+Of course, you can use your existing CLI-project, as well!
+
+![angular-transfer-state](./img/angular-transfer-state.png)
+## How to create a horizontal progress bar 
+
+In this example we will take a look at two methods to create a progress bar in angular.
+
+The first is quite simple, as we will only use a plain old HTML-DIV-element and its with-attribute.
+
+In the second example we will be using a SVG (Scaleable Vector Graphic). Why?
+
+Well, in this case it is because we can, I guess. 
+It is not only more complicated but I can't see any benefit of using SVGs in this case.
+Other than the learnings we get by doing this, of course.
+
+This might be looking if you require some fancy shapes in your loading bar, but that is a different story.
+
+So, let's begin by implementing the simple method first.
+
+Progress bar example using  HTML-DIV-elements
+The first approach works by placing two DIV-elements inside each other. 
+
+The outer one represents the outer border of our progress bar. Its width defines the width of the bar when the progress is at 100%.
+This DIV is typically transparent.
+
+The inner DIV on the other hand displays the current progress. Its width depends on the current progress and its background-color represents the color of the progress bar.
+
+To make this work with angular, we create a new progress bar component. 
+You can do so by using the angular-cli:
+
+```
+ ng generate component bar
+ 
+ ``` 
+or much shorter:
+
+```
+ ng g c bar
+ 
+ ``` 
+Inputs
+Our progress bar component will have just one input. This will be the current progress in percent represented by a number (100 = 100%).
+
+All we need to do is to add a field to our new component that is decorated by the @Input decorator.
+Let's call that field "value" to be consistent with other HTML-elements like the input-element.
+
+```typescript title=src/app/bar/bar.component.ts
+ import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-bar',
+  templateUrl: './bar.component.html',
+  styleUrls: ['./bar.component.css']
+})
+export class BarComponent {
+  @Input() value: number = 0;
+}
+ 
+ ``` 
+We also set its default value to 0, just in case.
+
+Template
+Our template will contain only one DIV, which is the inner DIV mentioned before. The outer DIV will be the angular host element. 
+This is just another DIV that angular creates for every component anyways. 
+
+We can save a DIV here and just use this host element. We later style this element by using the :host selector in our style-sheets.
+
+```html title=src/app/bar/bar.component.html
+ <div [ngStyle]="{'width': value + '%'}" class="bar"></div>
+ 
+ ``` 
+To show our progress bar with the right width, we define its style "width" at run time using the [ngStyle ](https://angular.io/api/common/NgStyle)directive.
+For our bar to show the current progress, its width has to be the value-input of our component.
+
+Style Sheets
+All that's left now are some style sheets (CSS). We have to implement the "bar" class we assigned erlier
+
+```css title=src/app/bar/bar.component.css
+ .bar{
+    background-color: blueviolet;
+    height: 100%;
+}
+ 
+ ``` 
+and add some properties to our host element:
+
+```css title=src/app/bar/bar.component.css
+ :host{
+    display: block;
+    height: 100%;
+}
+ 
+ ``` 
+Progress bar example using SVGs
+Using SVGs to create a progress bar is quite similar to using DIVs. The main difference might be, that we do not need to use any style sheets at all.
+We can control the SVG with its attributes instead.
+
+Let's create a new component and cal it "svgbar".
+
+```
+ ng generate component svgbar 
+ 
+ ``` 
+The TypeScript part of this component looks exactly like the previous one:
+
+```typescript title=src/app/svgbar/svgbar.component.ts
+ import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-svgbar',
+  templateUrl: './svgbar.component.html',
+  styleUrls: ['./svgbar.component.css']
+})
+export class SvgbarComponent {
+  @Input() value: number = 0;
+}
+ 
+ ``` 
+Creating the SVG
+When creating a SVG, the first thing we need to do, is to create the svg-tag. It is the wrapper of the svg-element.
+
+```html title=src/app/svgbar/svgbar.component.html
+ <svg></svg>
+ 
+ ``` 
+Next, we define the view box. The view box spans up a local coordinate system we use when we want to set positions or dimensions of elements inside of the SVG.
+
+We also use this attribute to define the aspect ration of our drawings.
+
+```html title=src/app/svgbar/svgbar.component.html
+ <svg viewBox="0, 0, 100, 10">
+</svg>
+ 
+ ``` 
+Note, that the "viewBox" attribute has to be spelled with a capital b!
+
+Using a rectangle as progress bar
+
+In this case we are using a view box starting at 0,0 and with a width of 100,10.
+
+Now we need to insert the actual progress bar. To do that, we are using the rect (rectangle) element and define its width to be our "value".
+Because our view box has a width of 100 this represents a percentage.
+
+```html title=src/app/svgbar/svgbar.component.html
+ <svg viewBox="0, 0, 100, 10">
+  <rect [attr.width]="value" height="10" fill="blueviolet"></rect>
+</svg>
+ 
+ ``` 
+Note, that because we are using an angular data-binding for our width, we need to use "attr.width" instead of just "width". Otherwise angular will trow an error.
+
+We set the height of the bar to 10, which is 100% of the available height. Also we define the color our rectangle is filled with. You can choose any color here.
+
+That's already it.
+
+![angular-animation-banner](./img/angular-animation-banner.png)
+## How to create a circular progress spinner 
+
+Creating a circular progress bar is not more difficult than creating a horizontal one.
+
+As always, we are going to create a new component for this:
+
+```
+ ng generate component spinner
+ 
+ ``` 
+To create the progress bar effect, we need to use a little trick. 
+We are going to use a circle element instead of a rectangle this time. But with a circle we can't display the progress by just adjusting the width.
+
+To work around this, we are using two attributes called [stroke-dasharray](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray) and [stroke-dashoffset](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset). These attributes are normally used to created dashed lines.
+
+In our case, we will use the attributes to display only a percentage of the full circle.
+
+We do so by setting the [stroke-dasharray](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray) to the circumference of our circle. That way, we have a dotted line that has dashes and gaps of the circumference of our circle.
+
+By just setting the stroke-dasharray attribute we still end up with a full circle. What does the trick is the [stroke-dashoffset](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset) attribute. With this attribute we define an offset of our dashes and gaps. This way we can align the dash and the gap, which both have the length of the circumference of our circle, in a way that only a percentage of the stroke of the circle is visible.
+
+Calculating dasharray and dashoffset
+The logic of our component looks exactly like the components we defined before.
+
+Additional, we have to calculate the dasharray and the dashoffset value this time.
+
+```typescript title=src/app/spinner/spinner.component.ts
+ import { Component, Input, SimpleChanges } from '@angular/core';
+
+@Component({
+  selector: 'app-spinner',
+  templateUrl: './spinner.component.html',
+  styleUrls: ['./spinner.component.css']
+})
+export class SpinnerComponent {
+
+  @Input() value: number = 0;
+
+  public circumference: number =2 * Math.PI * 47
+  public strokeDashoffset: number = 0;
+}
+ 
+ ``` 
+The circumference, which will be our dasharray value, is defined as 2 times pi multiplied by the radius of the circle.
+
+As our default value is zero, the default stroke-dashoffset is zero, as well.
+
+Reacting to changed values
+You might have noticed, that stroke-dashoffset has to be calculated every time the value (progress) changes.
+
+To do that, we are implementing the [ngOnChanges](https://angular.io/api/core/OnChanges) callback in our component. This way, we are notified, when an input of the component changes its value.
+
+Inside of the callback we get a [SimpleChanges](https://angular.io/api/core/SimpleChanges) object. This contains all changes in a key/values style, where the key is the name of our input (value).
+
+Afterward, we just calculate the new offset.
+
+```typescript title=src/app/spinner/spinner.component.ts
+ import { Component, Input, SimpleChanges } from '@angular/core';
+
+@Component({
+  selector: 'app-spinner',
+  templateUrl: './spinner.component.html',
+  styleUrls: ['./spinner.component.css']
+})
+export class SpinnerComponent {
+
+  @Input() value: number = 0;
+
+  public circumference: number = 2 * Math.PI * 47
+  public strokeDashoffset: number = 0;
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['value']){
+      this.onPercentageChanged(changes['value'].currentValue)
+    }
+  }
+
+  onPercentageChanged(val: number){
+    const offset = this.circumference - val / 100 * this.circumference;
+    this.strokeDashoffset = offset;
+  }
+} 
+ ``` 
+The circumference of the circle always stays the same.
+
+Creating the SVG
+Inside of the components template we are defining the corresponding SVG once again.
+
+The main difference her is, that we are using a circle element instead of a rectangle.
+The circle needs to know its origin (cx, cy) and its radius (r).
+
+Also, we are binding our components' fields to the style attributes "style.strokeDasharray" and "style.strokeDashoffset". Again, we have to use the prefix to prevent angular from throwing an error.
+
+```html title=src/app/spinner/spinner.component.html
+ <svg viewBox="0, 0, 100, 100">
+  <circle
+      class="progress-circle"
+      stroke-width="6"
+      [style.strokeDasharray]="circumference"
+      [style.strokeDashoffset]="strokeDashoffset"
+      fill="transparent"
+      stroke="blueviolet"
+      r="47"
+      cx="50"
+      cy="50"/>
+      <text x="50" y="50"  class="text" text-anchor="middle">{{(value) + '%'}}</text>
+</svg>
+ 
+ ``` 
+We also add a little text, that is placed in the center of the circle.
+
+Adding style sheets
+As you can see, we have referenced some classes in our template.
+
+The most important thing we have to do here is to rotate the circle by 90 degrees, otherwise our progress is not starting at the top.
+Because elements are always rotated with the top-left corner as origin , we need to transform that origin to be in the middle of our circle.
+
+```css title=src/app/spinner/spinner.component.css
+ .progress-circle{
+  transition: stroke-dashoffset 0.3s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.text{
+    font-family: "Roboto"
+}
+ 
+ ``` 
+We also add a little transition and set the font to Roboto to make it look a little bit nicer.
+
+## Conclusion 
+
+In this tutorial you have learned how to create horizontal and circular progress bars.
+
+I hope you liked this post. If you did, please consider sharing it with your friends!
+
+As always, you can find the whole source code at the corresponding [GitHub repository](https://github.com/LukasMarx/angular-progress-bars).
+
+Happy coding!
+

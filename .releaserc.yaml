@@ -1,0 +1,3 @@
+plugins:
+  - - 'semantic-release-ado'
+    - varName: 'version'

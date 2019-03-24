@@ -1,0 +1,236 @@
+---
+id: '5bb0cae79583501f64252707'
+title: 'Angular Service Worker with Workbox'
+image: './img/Angular-Offline.png'
+date: 2017-09-01T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526fd","5bb0cae79583501f64252705","5bb0cae79583501f6425270b"]
+tags: ["angular"]
+---
+It's summertime. You are laying on the beach or at the pool, enjoying the sun on your skin. You remember an article, you discovered recently on your favorite blog. But you were too busy to read it at that time and forgot about it. 
+
+You realize you have plenty of time now. So why shouldn't you read it now? You pull out your phone and attempt to load the website. "Damn it! ...". You realize, that you have no internet connection. It turns out you will never read that article.
+
+Don't let that website be your website! In this article, you will learn, how you can offer your users an offline experience, that will be as enjoyable as if they were online.
+
+We will create a very basic angular application, that is showing static and dynamic content. Then, we will add offline capability using a technology called "Service Worker".
+
+![angular-question](./img/angular-question.png)
+
+## What is a Service Worker? 
+
+Service workers are a relatively new technology, designed to enable JavaScript applications, to execute code, even if the user is not actually browsing that site right now. It enables us, to register a code snippet at the browser, that can react to certain events, or, in our case, cache request to make them available offline. 
+
+Imagine the service worker cache as a proxy. If there is a registered service worker for the browsed domain, the traffic is sent through the service worker. The worker can then decide if the data is served from cache or from the network. Since the cache is exposed via the service worker API, we could define our very own caching strategies.
+
+![angular-service-worker](./img/angular-service-worker.png)
+
+Today, we are not going to do that. In fact, implementing caches yourself can be quite tricky. Fortunately, we don't have to reinvent the wheel. There are already libraries out there, that offer high-level interfaces to do so.
+
+In this article, we are going to use a library from Google called Workbox.
+
+Note: Currently, service worker are not supported in all major browsers. But all of them announced  supporting them in the future.
+
+## Why Workbox? 
+
+The angular-cli has a service worker integrated, as well. So why don't we use this one? 
+I really like the angular-cli and the conveniences it has to offer. And enabling the service worker is just as easy as you would expect. 
+
+However, I had some trouble using it. The biggest issue might be, that there is almost no documentation out there. Furthermore, I could not get certain features to work at all (but that could be just me... ). But hey, the package is still a 0.x.x release. I understand that. But as the version number already suggest, it might not be wise, to use it in production yet. 
+
+So, while integrating Workbox is a little bit more complicated, it gives us much more control over the behavior of the service worker. 
+
+So let's get started!
+
+![angular-cli](./img/angular-cli.png)
+
+## Setting up a new Angular Project 
+
+We will start with a clean angular-cli app. I'm using version 1.3 for this, but other versions should work just fine. So let's generate a new project by using the ng new command.
+
+```undefined title=undefined
+ ng new angular-service-worker
+ 
+ ``` 
+Make sure that all dependencies are installed. If not, use the npm install command.
+
+Next, we need the install the Workbox build API.
+
+```undefined title=undefined
+ npm i workbox-build --save-dev
+ 
+ ``` 
+And that's it. Now we are good to go.
+
+![angular-animation-banner](./img/angular-animation-banner.png)
+
+## Generating a Caching Service Worker for Angular 
+
+Once we have installed the Workbox build API, we can use it to generate an angular service worker. Wait, generate? Why do we have to generate one? Why don't we just code one?
+
+To cache our static application files, the service worker needs to know their names. Since we are using the angular-cli, these filenames change over time. That is because the cli appends a hash of the file to the filename. And that is a good thing! That way, the browser does not use old, cached files, when we deploy a new version of our app. 
+
+Because of the filenames changing that often, we can't define them in our worker-script. I mean, you could. But you would have to change them every time your angular app changes. Because of that, we use the Workbox build API.
+
+The Workbox build API enables us to write a little node.js script, that scans our /dist directory for files. 
+
+Afterward, it generates a service worker script, that has all filenames defined for caching. The result looks like this:
+
+```javascript title=dist/sw.js
+ ...
+const fileManifest = [
+  {
+    "url": "index.html",
+    "revision": "2a59e6e03216061ad8eebe5d302b63be"
+  },
+  {
+    "url": "inline.5f8f26e0d9e0b566019d.bundle.js",
+    "revision": "590f7d098ab30195f9f4761bf79ec18c"
+  },
+  {
+    "url": "main.c0c528c8c7636a1ce8fc.bundle.js",
+    "revision": "f1646bf6ca91be91e46d35a173846e5b"
+  },
+  {
+    "url": "polyfills.67d068662b88f84493d2.bundle.js",
+    "revision": "ad4076ac41e8c08e5b5f872136081192"
+  },
+  {
+    "url": "styles.d41d8cd98f00b204e980.bundle.css",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "vendor.dd97be8fb65ee0109dba.bundle.js",
+    "revision": "dad8873f5866215d28f6a9d07764de3b"
+  }
+];
+workboxSW.precache(fileManifest);
+...
+ 
+ ``` 
+Caching static Content
+
+So let's write a script, that generates that. To do so, create a new file in your project's root directory called "generate-service-worker.js".
+
+```javascript title=generate-service-worker.js
+ const build = require("workbox-build");
+const SRC_DIR = "./";
+const BUILD_DIR = "dist";
+
+const options = {
+  swDest: `${BUILD_DIR}/sw.js`, // target directory
+  globDirectory: BUILD_DIR,
+  navigateFallback: "/index.html", // redirect all reqest to the fallback, if no explicit route matches
+  clientsClaim: true
+};
+
+build.generateSW(options).then(() => {
+  console.log("Generated service worker with static cache");
+});
+ 
+ ``` 
+In that script, we create some options and pass them to the generateSW method of the builder. The builder then creates a service worker file in the BUILD_DIR build directory.
+
+That's basically it. The generated service worker will cache all static files, required by angular. So our application will work offline for now. However, most applications rely on dynamic content, such as blog post, to be useful. This content is not cached at the moment.
+
+Caching Dynamic Content
+To cache dynamic content, as well, we need to tell Workbox about the origin of that content. Let's say, we have a rest-API, that serves the content under the same domain as the application. To include this content in the cache, we use the runtimeCaching property of the Workbox builder. To specify the endpoint, we provide a regular expression.
+
+```javascript title=generate-service-worker.js
+ const options = {
+  swDest: `${BUILD_DIR}/sw.js`,
+  globDirectory: BUILD_DIR,
+  navigateFallback: "/index.html",
+  clientsClaim: true,
+  runtimeCaching: [
+    {
+      urlPattern: //api/(.*)/, // reg ex
+      handler: "networkFirst" // caching strategy
+    }
+  ],
+  handleFetch: true
+};
+ 
+ ``` 
+Now, all request that go to  /api/* are cached, as well.
+
+Caching Strategies
+You can also define different caching strategies. You can find a [list of all strategies here](https://workboxjs.org/reference-docs/latest/module-workbox-sw.Strategies.html).
+
+![angular-modules-banner](./img/angular-modules-banner.png)
+
+## Extending the Service Worker 
+
+Often times, the options that the builder provides, are not enough. For example, if you want to add push notifications to your service worker. Fortunately, you can provide a custom service worker to the options. The builder will then merge the two files into one service worker. Just define the swSource property.
+
+```javascript title=generate-service-worker.js
+ const options = {
+  swSource: `${SRC_DIR}/service-worker.js`,
+  swDest: `${BUILD_DIR}/sw.js`,
+  globDirectory: BUILD_DIR,
+  navigateFallback: "/index.html",
+  clientsClaim: true,
+  runtimeCaching: [
+    {
+      urlPattern: //api/(.*)/, // reg ex
+      handler: "networkFirst" // caching strategy
+    }
+  ],
+  handleFetch: true
+};
+ 
+ ``` 
+Also, we have to change the method call from generateSW() to injectManifest(). That way, our options will be merged with the actual service worker file.
+
+```javascript title=generate-service-worker.js
+ build.injectManifest(options).then(() => {
+    
+});
+ 
+ ``` 
+
+![angular-compiler-banner](./img/angular-compiler-banner.png)
+## Setting up Build Scripts for the Service Worker 
+
+Well to this point, using Workbox was not much more complicated than using the angular-cli service worker. But, while the cli service worker is automatically generated when you run ng build (in production mode), we need to include our service worker manually.
+
+One option to do that, is to eject the angular-cli and use the Workbox Webpack pluign. That works great, but I don't want to lose the comfort of the cli.
+
+Instead, what we could do, is to run our node.js script via "npm start" and serve our application with a custom express server afterward. Both solutions are not optimal at all. So if you have found a better way to include the service worker generation, please contact me.
+
+Here is the npm package.json:
+
+```javascript title=package.json
+ ...
+"scripts": {
+    "ng": "ng",
+    "start": "ng build --prod && npm run gn-sw && node server/server.js",
+    "build": "ng build --prod && npm run gn-sw",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "gn-sw": "node generate-service-worker.js"
+  },
+...
+
+const express = require("express");
+const app = express();
+
+app.use(express.static(__dirname + "/../dist/"));
+
+app.listen(process.env.PORT || 8080, () => {});
+ 
+ ``` 
+## Conclusion 
+
+In this article, we made a simple angular-cli application, that can be used online and offline, as well. We learned how to use Workbox, to generate a service worker, that achieves that.
+
+I hope you liked this article. If you did, click that button below, and share it with your friends and colleges!
+
+Never miss a post, by following me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).
+
+

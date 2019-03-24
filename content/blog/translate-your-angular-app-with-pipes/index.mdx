@@ -1,0 +1,203 @@
+---
+id: '5bb0cae79583501f64252713'
+title: 'Translate your Angular App with Pipes'
+image: './img/Angular-Logo-Pipe.png'
+date: 2017-04-14T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526ec","5bb0cae79583501f642526ed"]
+tags: ["angular"]
+---
+Translating you app to other languages is a pretty common task. Unfortunately it can be a very frustrating and boring topic. 
+
+You have to consider it in your app-architecture from the beginning, or you could end up with huge problems in a late stage of the development. 
+
+In this tutorial we will learn how to create our own, custom angular pipe. 
+
+We will do so by creating a translation-service and integrate it into a new angular pipe, to make it usable in every angular template.
+
+Ready?
+
+Lets get started!
+
+![angular-transfer-state](./img/angular-transfer-state.png)
+## Pipes 
+
+We all know pipes, don't we? You stuff something in on one end and (hopefully) it comes out at the other end. That's exactly how Angular [pipes ](https://angular.io/guide/pipes)work! 
+
+With one little difference: The object we put into the the pipe, gets transformed into another form, before coming out of the pipe again. 
+
+That way pipes are extremely useful if you want to transform data into nicely formatted, user friendly data. The most common example here is the date/time. 
+
+Wile a raw date like "Fri Apr 15 1988 00:00:00 GMT-0700 (Pacific Daylight Time)" is barley readable and ruins your layout, "April 15, 1988" does look much more appealing. 
+
+With pipes it is really easy, to format our date right before displaying it on the screen, without changing our [Date](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date) variable in any way.
+
+Example:
+Lets say we have a date variable in our component, that we want to display to the user.
+
+```typescript title=src/date/date.component.ts
+ import { Component } from '@angular/core';
+
+@Component({
+  selector: 'date',
+  template: `<p> {{ date | datePipe }}</p>`
+})
+export class DateComponent{
+  date= new Date(1988, 3, 15); // April 15, 1988
+} 
+ ``` 
+Inside the template, we now use a "datePipe" (not specified here) that will transform our date in a readable format. It is used right behind the field to bind to ("date"), separated by a "|".
+
+![angular-animation-banner](./img/angular-animation-banner.png)
+## Translation Service 
+
+In this tutorial we are going to create a translation-pipe, that transforms keys into the right translations at run-time.
+
+To do that, we first need a source for our translation. For that we are going to implement a translation service. 
+
+In this example we will store the translation in a Dictionary/Map-like data structure. In a real world scenario, you could easily extend this translation service to get the translation data from your own backend or e.g. the [Google Translate Api](https://cloud.google.com/translate/).
+
+So how does this data structure look like? 
+
+It's very simple. First, there is a so called TransaltionSet containing every translation in a key/value format. Furthermore it contains its own language code. It really doesn't matter where you create this class. I prefer to create this small classes right inside the services file.
+
+```typescript title=src/translation.service.ts
+ export class TranslationSet {
+   public languange: string;
+   public values: {[key: string]: string} = {};
+} 
+ ``` 
+As mentioned above, the translation service is working on a key/value basis. You give in any key and the service will return a string for the given language (if available). 
+
+Because of that, it is not only a translation service, but a dictionary for user-strings. That way, all strings showed to the user, are managed in one central place, or fetched from a server at runtime.
+
+Next, we need to add the service itself as an @Injectable.
+
+```typescript title=src/translation.service.ts
+ @Injectable()
+export class TranslationService {
+
+    public languages = ['ger', 'eng'];
+
+    public language = 'ger';
+
+    private dictionary: {[key: string]: TranslationSet} = {
+        'ger' : {
+            languange: 'ger',
+            values: {
+                'example' : 'Beispiel'
+            }
+        },
+        'eng' : {
+            languange: 'eng',
+            values: {
+                'example' : 'Example'
+            }
+        }
+    };
+
+    constructor() { }
+
+    translate(key: string): string {
+        if ( this.dictionary[this.language] != null) {
+            return this.dictionary[this.language].values[value];
+        }
+    }
+}
+ 
+ ``` 
+As you can see, the service has two public properties. 
+
+The first --languages-- is a list of all available languages, which is useful, e.g. to create a drop-down for the user to choose the language. 
+
+The second one, language, is the currently selected language.
+
+Of course there is also a variable called dictionary, containing TranslationSets in key/value format. I have filled the dictionary with some example data for the word 'example', which means 'Beispiel' in German. Of course you can replace it by your own data later.
+
+The service also contains a method called translate. It is later called by the pipe to get the translation for a specific key. It always uses the language specified in the 'language'-variable of the service, to lookup the translation.
+That's it. Now we have written our custom translation service. 
+
+Let's go ahead and write the pipe.
+
+![angular-translate-banner](./img/angular-translate-banner.png)
+## Translation Pipe 
+
+The pipe is quite easy to implement, as we already have our translation service in place. 
+
+The only thing we have to do now, is call the translate method of the service.
+
+But firsts things first. 
+
+Before we begin, we need to create a new file called 'translate.pipe.ts'. 
+
+The general structure of the pipe follows the pipe shown at the beginning:
+Pipes are marked by the pipe-decorator. To use this decorator, you need to import [Pipe ](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date)from '@angular/core'.
+
+Because we will need it later, we import [PipeTransform](https://angular.io/api/core/PipeTransform), as well.
+
+```typescript title=src/translate.pipe.ts
+ import { TranslationService } from './translation.service';
+import { Pipe, PipeTransform } from '@angular/core'; 
+ ``` 
+Next, we create and export a new class called 'TranslatePipe' that implements [PipeTransform](https://angular.io/api/core/PipeTransform). Afterwards we decorate it with the pipe decorator, containing it's name and a purity flag.
+
+```typescript title=src/translate.pipe.ts
+ @Pipe({
+  name: 'translate',
+  pure: false
+})
+export class TranslatePipe implements PipeTransform {
+
+    constructor(private translationService: TranslationService) {}
+
+  transform(value: any, args?: any): any {
+     return this.translationService.translate(value);
+  }
+
+} 
+ ``` 
+In the constructor, we request an instance of our TranslationService via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection). In the transform method of the pipe, we then call the translate method of the service, to transform the input to the translation. As we don't have any additional arguments, we can ignore the args parameter.
+
+![angular-code-banner](./img/angular-code-banner.png)
+## Pure and Impure Pipes 
+
+There a two different types of pipes in angular. 
+
+The [pure and the impure](https://angular.io/guide/pipes#pure-and-impure-pipes). 
+
+A pure pipe is only re-transforming the value, if the value actually changes. That makes a pure pipes really fast and efficient.
+
+ At the other hand there are the impure pipes. Impure pipes re-transform their value at every change detection cycle of the component. 
+
+Dependent of the component, that you use your pipe on, this can be multiple times per second. This can result in major performance problems, if you use impure pipes unconscious about that issue.
+
+Also make sure, that you don't make any request to your, or other people's server inside of impure pipes, as it can result in hundreds of unnecessary requests. If you rely on server data for your impure pipe, make sure to cache your data, to avoid to many request.
+
+Another option would be, to not use pipes at all, as they are no silver bullets for everything.
+
+What does that mean for our Translation Pipe?
+As you may have noticed, we are using an impure pipe for our translation pipe. You can see that, by looking at the 'pure' flag inside the pipe-decorator:
+
+```typescript title=src/translate.pipe.ts
+ @Pipe({
+  name: 'translate',
+  pure: false
+})
+ 
+ ``` 
+We need to do that, because the output of the translation is not only dependent of the value fed into the pipe, but also to the selected language. 
+
+If we change the value of the selected language of the TranslationService, we want our strings on the page to update as well, right?
+
+As the lookup of the translation is as fast it can be, due to the use of maps, I don't see to much of an issue in using impure pipes here. 
+
+Furthermore this is just an example to convey the concept of pipes and may needs further improvement to be production-ready.
+
+'I don't want to implement this myself...'
+No problem. There are already some nice translation libraries for Angular 2 out there, that cover much more features than this example. You may want to take a look at this Github repo [https://github.com/ngx-translate/core](https://github.com/ngx-translate/core). I haven't tried it myself, but it looks very promising to me.
+
+If you want to stick with my approach, and implement a solution your self, you can take a look at the [full code of this example](https://github.com/LukasMarx/angularTranslationService)[ here](https://github.com/LukasMarx/angularTranslationService).

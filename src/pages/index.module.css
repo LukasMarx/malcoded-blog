@@ -1,0 +1,150 @@
+.content {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto auto auto;
+  grid-gap: 20px;
+  grid-area: content;
+  grid-template-areas: 'a a a b b b' 'c c d d e e';
+  margin-top: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  .content {
+    grid-template-areas: 'a a a a a a' 'b b b b b b' 'c c c c c c' 'd d d d d d' 'e e e e e e';
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content content content content content right right';
+
+  background-repeat: no-repeat;
+
+  background-position: right;
+}
+
+.meteor {
+  background-image: url(./../assets/new-meteor-watermark.svg);
+}
+
+.angular {
+  background-image: url(./../assets/angular-planet-watermark.svg);
+}
+
+.react {
+  background-image: url(./../assets/react-planet-watermark.svg);
+}
+
+.vue {
+  background-image: url(./../assets/vue-planet-watermark.svg);
+}
+
+@media only screen and (max-width: 768px) {
+  .grid {
+    grid-template-areas: 'content content content content content content content content content content content content';
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .item {
+    grid-column: span 6 !important;
+  }
+}
+.item {
+  grid-column: span 2;
+}
+
+.hero {
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content right right right right right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+@media only screen and (max-width: 768px) {
+  .hero {
+    grid-template-areas: 'content content content content content content content content content content content content';
+    background-size: contain;
+  }
+}
+
+.heroText {
+  grid-area: content;
+}
+
+@media only screen and (max-width: 768px) {
+  .heroText {
+    padding: 16px;
+  }
+}
+
+.logoGalleryWrapper {
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content content content content content right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+@media only screen and (max-width: 768px) {
+  .logoGalleryWrapper {
+    grid-template-areas: 'content content content content content content content content content content content content';
+  }
+}
+
+.logoGallery {
+  grid-area: content;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+.latestPostTitle {
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content content content content content right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+}
+
+.title {
+  grid-area: content;
+  width: 100%;
+}
+
+.logo {
+  height: 184px;
+  box-sizing: border-box;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    height: 100px;
+  }
+}
+
+.logo:hover {
+  filter: none;
+  opacity: 0.7;
+}
+
+.buttonWrapper {
+  margin-top: 16px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

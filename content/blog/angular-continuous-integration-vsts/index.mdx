@@ -1,0 +1,130 @@
+---
+id: '5bb0cae79583501f64252706'
+title: 'Angular: Continuous Integration with Visual Studio Team Services'
+image: './img/Angular-VSTS.png'
+date: 2017-09-08T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526ec","5bb0cae79583501f642526ed"]
+tags: ["angular"]
+---
+Continuous Integration is, once set up, very useful. Gone are the days, when we had to deploy to our servers manually. Today, all we have to do is commit to a certain branch of our (git) repository. The rest is taken care of. 
+
+Of course, continuous integration is much more than automatic deploys. It can also automate our testing, ensure code quality and much more. 
+
+Today we are going to take a closer look at how to set up a continuous integration pipeline to build and deploy an angular application. 
+
+For that, we are going to use Visual Studio Team Services. Once built, our app will be deployed to Azure App Services.
+
+Ready? Let's get started!
+
+## Requirements 
+
+I assume, that you know how to create a simple angular application. A stock cli application will do. 
+You should also have a Team Services- and preferably an Azure account set up. If you don't want to deploy to Azure, you can do so as well.
+
+So let's assume, you have an angular application you want to integrate. If you have not, go ahead an create one. So how to build and deploy it to azure?
+
+## Creating a new Angular Project 
+
+To use the Team Services build system with our code, we have two options. We either use the build in git source control of Team Services, or we create a link to a GitHub repository. Bot solutions will work with the continuous integration. Both ways require us to create a new project. To do so, click the new project button.
+
+![VSTS-NewProject](./img/VSTS-NewProject.png)
+
+Next, enter a project name and a description. Make sure to select git as version control mechanism.
+
+![VSTS-NewProjectName](./img/VSTS-NewProjectName.png)
+
+Now, we have created a new project. Next, we set up the git repository. If you want to get your source code from GitHub, you can skip that step.
+
+Visual Studio Team Services
+First, we take a look at how to create a new git repository in Team Services. From the previous steps, you should see a screen like this now:
+![VSTS-AddRemote](./img/VSTS-AddRemote.png)
+
+Next, push your local git repository to the remote origin. To do that, use the URL, the page is providing you. If you have never pushed your code to VSTS before, you will also need to create git credentials. Click the corresponding button to do so.
+
+To push your repo to the remote, open a (git) command prompt where your angular app git repository is located. Open the prompt in the root directory. Make sure, you have committed all changes. Next, enter the following commands to add the remote repository. 
+
+```undefined title=undefined
+ git remote add origin {url-of -the-remote-repo}
+ 
+ ``` 
+Make sure to enter the actual url of the remote repository. It is the url provided in Team Services under "Clone to your computer". You can also define a name for the remote. The most common name is origin, but you can name it however you want.
+
+Afterward, push your master branch to the remote by entering this command.
+
+```undefined title=undefined
+ git push origin master
+ 
+ ``` 
+You can also push all branches to all remotes by using:
+
+```undefined title=undefined
+ git push --all
+ 
+ ``` 
+When you navigate to the "Code" section of the Team Services portal, you should see your files.
+
+## Creating a VSTS Build Definition 
+
+Now, that we have our code in a remote repository of choice, we can start setting up the continuous integration pipeline. To do so, go to the "Build & Releases" tab in the portal.
+
+![VSTS-NewBuildDefinition](./img/VSTS-NewBuildDefinition.png)
+To set up a pipeline, we need to create a new build definition. The build definition defines all steps and tasks of our pipeline. 
+Create a new build definition by pressing the blue button "new definition".
+
+A window will open, asking you to select a template. Select the "empty" template.
+
+![VSTS-Empty](./img/VSTS-Empty.png)
+
+You have presented an empty template. Now you have to select an agent queue. Select "Hosted". 
+Afterward, we are ready to build our pipeline.
+
+
+NPM
+For our angular app to build successfully, all npm packages have to be installed. Because of that, the first step in our pipeline is running an npm install. For that, just add a new npm task and select the command to be "install".
+
+![VSTS-npm-install](./img/VSTS-npm-install.png)
+
+
+Once we npm is done installing. We need to build our angular application. A standard angular-cli app comes with an npm build script. All we have to do is run it. Just create another npm task. This time select the command to be "custom". The command arguments should be "run build".
+
+![VSTS-npm-build](./img/VSTS-npm-build.png)
+
+Azure App Service
+Our angular app is now built. By default, angular creates and builds into the dist folder. All we have to do now is to create an "Azure App Service Deploy"  task. To that, you will need an Azure account. You should also have created an App Service.
+
+When you fill out the settings for the task, Team Services will ask for your Azure account. Connect that, and select the App Service instance, you want to deploy to.
+We also have to tell the task, what files to deploy. Enter "$(System.DefaultWorkingDirectory)/dist in the "Package or folder" field to do that.
+
+![VSTS-app-service](./img/VSTS-app-service.png)
+
+## Starting a Build in Azure 
+
+That was already it. Our pipeline is done. To start a build, press the "save & queue" button in the upper right corner. Your build is now running. This can take some minutes.
+
+![VSTS-BuildInProgress](./img/VSTS-BuildInProgress.png)
+
+You can also inspect the details of your build progress:
+
+![VSTS-BuildCMD](./img/VSTS-BuildCMD.png)
+
+Once your build is done, the UI will update accordingly.
+
+![VSTS-BuildSuccess](./img/VSTS-BuildSuccess.png)
+## Activating the Continuous 
+
+By default, our pipeline has to be triggered manually. To actually make it continuous, we have to add a trigger. For that, we need to edit our pipeline and go to the "trigger" tab. Here we can define when our application should be rebuild. I have set it up, that it rebuild when there are changes to the master branch.
+
+![VSTS-CI](./img/VSTS-CI.png)
+
+## Conclusion 
+
+In this article, we have learned, how to set up a simple continuous integration pipeline for angular application with Visual Studio Team Service. We also discovered, how to set up a new Project and push our code to a remote repository.
+
+I hope you liked this article. If you did, click that button below, and share it with your friends and colleges!
+
+Never miss a post, by following me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).

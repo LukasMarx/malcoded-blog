@@ -1,0 +1,16 @@
+.root {
+  font-size: 14px;
+  font-weight: 200;
+}
+
+.item {
+  cursor: pointer;
+  margin: 8px;
+}
+
+.wrapper {
+  border-left: 4px solid #ccc;
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,521 @@
+---
+id: '5bb0cae79583501f64252704'
+title: 'Why your Angular App is not Working: 11 common Mistakes'
+image: './img/Angular-Error.png'
+date: 2017-10-04T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526fb","5bb0cae79583501f642526fc","5bb0cae79583501f64252706"]
+tags: ["angular"]
+---
+Resolving problems of your angular application can be very challenging. When your angular app is not working and all it gives you are some cryptic red lines in a console. Especially when you are a beginner, these problems can turn the development process with angular into a real pain.
+
+But trust me, it does not have to be painful.
+In fact, I think angular development is one of the smoothest development experience I had so far. All you need to do is avoid some very common mistakes, almost every angular developer had to deal with.
+
+ At least I did. 
+
+ By reading this article, those mistakes will not slow you down on your angular journey. 
+
+We will take a closer look at each of 11 mistakes. I will explain to you, why it is actually a mistake and point you in the right direction with at least one possible solution.
+
+So let's get started!
+
+## 1. Import required Angular Modules 
+
+Probably the most common mistakes, beginners make, is not to import the required [modules](https://malcoded.com/posts/angular-fundamentals-modules). Why? Because they don't even know about them. Of course, they don't. Getting an overview of the angular framework takes some time. Unfortunately, that often results in mysteriously not working angular applications. The errors you get look something like this:
+
+```undefined title=undefined
+ Can't bind to 'ngModel' since it isn't a known property of 'input' 
+ ``` 
+This error indicates, that the [angular Forms Module](https://angular.io/guide/forms) has not been imported into your module. 
+
+```undefined title=undefined
+ Unhandled Promise rejection: No provider for HttpClient! 
+ ``` 
+This error tells you, that you have not imported the angular [HttpClient Module](https://angular.io/guide/http) into your (root) module.
+
+The Solution
+To resolve the problem, you need to import the missing module into your module. Most of the cases, that module would be the AppModule in your app directory.
+
+
+```typescript title=src/app/app.module.ts
+ @NgModule({
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule {}
+ 
+ ``` 
+Note: Only import the modules you really need! Importing unnecessarily module bloats your application size significantly.
+
+This advice does not only apply to framework [angular modules](https://malcoded.com/posts/angular-fundamentals-modules). It also applies to any angular module you might want to use, including third-party ones.
+
+Here are some common modules you might need to import:
+
+```undefined title=undefined
+ BrowserModule
+FormsModule // required to use ngModel directive
+HttpClientModule // formerly HttpModule 
+RouterModule
+BrowserAnimationsModule / NoopAnimationsModule
+ 
+ ``` 
+It is good practice for third party libraries to split up in as many modules as possible, to keep the size of your application small. With [Angular Material](https://material.angular.io/), for example, you have to import a module, for every component you use.
+
+For example:
+```undefined title=undefined
+ MatMenuModule
+MatSidenavModule
+MatCheckboxModule
+MatDatepickerModule
+MatInputModule
+...
+ 
+ ``` 
+## 2. Don't use DOM references before they exist (@ViewChild) 
+
+With the help of the @ViewChild decorator, angular makes it very easy to reference specific child elements (html nodes or components) of your component. 
+All you need to do is to add a reference identifier to the node or component inside of your template. Just add a # followed by a name beside the nodes attributes.
+
+```html title=
+ <div #myDiv></div> 
+ 
+ ``` 
+We can now reference that element from our component. If it is a component, we can call its public methods and access its properties. If it is a plain HTML element, we can change its style, its attributes or its children.
+
+Angular automatically assigns the reference to a property of our component, if we decorate that property with the @ViewChild() decorator. Make sure, to pass the reference name to the decorator. For example @ViewChild('myDiv').
+
+```typescript title=
+ import { ViewChild } from '@angular/core';
+
+@Component({})
+export class ExampleComponent {
+	@ViewChild('myDiv') divReference;
+}
+ 
+ ``` 
+The Problem
+The @ViewChild() directive is very useful. But you have to keep this in mind:
+
+You can only use the reference to the element if the element actually exists!
+
+Why shouldn't it? There are multiple reasons why the element you are referencing could not actually exist. 
+
+The most common reason, is, that the browser has not finished creating it and has not yet added it to the DOM. If you try to use it before it has been added, it will not work and crash your app. If you are familiar with JavaScript in general, you have probably stumbled across that problem, as it is not specific to angular.
+
+One example of accessing the DOM when it does not exist is in the constructor of the component. Another one would be in the [ngOnInit](https://angular.io/guide/lifecycle-hooks) lifecycle callback.
+
+THIS DOES NOT WORK:
+```typescript title=
+ import { ViewChild, OnInit } from '@angular/core';
+
+@Component({})
+export class ExampleComponent implements OnInit{
+	@ViewChild('myDiv') divReference;
+
+	constructor(){
+		let  ex = this.divReference.nativeElement; // divReference is undefined
+	}
+
+	ngOnInit(){
+		let  ex = this.divReference.nativeElement; // divReference is undefined
+	}
+}
+ 
+ ``` 
+
+The Solution
+Just like the [DOMContentLoaded ](https://developer.mozilla.org/de/docs/Web/Events/DOMContentLoaded)event or the [$(document).ready()](https://learn.jquery.com/using-jquery-core/document-ready/) callback in JQuery, angular has a similar mechanism, to notify you, that all HTML elements have been created. It is called the [ngAfterViewInit ](https://angular.io/guide/lifecycle-hooks)lifecycle hook. It is a callback you should implement, that gets triggered when all of the components views and child-views got initialized. That way you, it is (almost) safe to access the viewChild reference inside of that callback.
+
+```typescript title=
+ import { ViewChild, AfterViewInit } from '@angular/core';
+
+@Component({})
+export class ExampleComponent implements AfterViewInit {
+	@ViewChild('myDiv') divReference;
+
+	ngAfterViewInit(){
+		let  ex = this.divReference.nativeElement; // divReference is NOT undefined
+	}
+}
+ 
+ ``` 
+Great, it is working now. But wait. There is one more trap to step into.
+
+As I mentioned before, you can only access elements, that actually exists. As we will discuss in a later chapter, elements that have a false *ngIf directive, are completely removed from the DOM. Hence we can not access them in that case.
+
+To prevent your application from crashing, you should check your references for null before using them. By the way, that advice does not only apply to components or angular, but for any programming language in general.
+
+```typescript title=
+ import { ViewChild, AfterViewInit } from '@angular/core';
+
+@Component({})
+export class ExampleComponent implements AfterViewInit {
+	@ViewChild('myDiv') divReference;
+
+	ngAfterViewInit(){
+		let  ex;
+		if( this.divReference ){
+			ex = this.divReference.nativeElement; // divReference is NOT undefined
+		}
+	}
+}
+ 
+ ``` 
+
+## 3. Don't manipulate the DOM directly - Angular Universal 
+
+Manipulating the DOM in angular directly is not only considered bad practice. It can also result in your angular app not working in a different environment other than the browser. The most popular example is the so-called [Angular Universal](https://github.com/angular/universal) project, which enables your angular application to be rendered server-side. But why should you even care? Read [all about Angular universal and server-side rendering in this step-by-step guide.](https://malcoded.com/posts/angular-fundamentals-universal-server-side-rendering)
+
+THIS EXAMPLE DOES NOT WORK
+```typescript title=
+ import { ViewChild, AfterViewInit } from '@angular/core';
+
+@Component({})
+export class ExampleComponent implements AfterViewInit {
+	@ViewChild('myDiv') divReference;
+
+	ngAfterViewInit(){
+		let  ex = this.divReference.nativeElement;
+		ex.style.color = 'red'; // does not work on the server
+	}
+}
+ 
+ ``` 
+The Solution
+Instead of changing the elements directly, you should manipulate them indirectly. For that, angular offers a rendering API in the form of the [Renderer2](https://angular.io/api/core/Renderer2) class. Yes, that '2' is intentional and yes there was a [Renderer (1)](https://angular.io/api/core/Renderer). Not the best name, but it is what it is.
+
+With the help of that renderer, we can still do everything we are used to when working with the DOM. But by using the renderer, we are making sure, that our code works as well on the server, as it does on the client. 
+
+Here is how it should be done:
+
+1. Obtain an instance of the Renderer2 by requesting it via Dependency Injection in the constructor
+```typescript title=
+ import { ViewChild, Renderer2 } from '@angular/core';
+
+@Component({})
+export class ExampleComponent{
+	@ViewChild('myDiv') divReference;
+
+	constructor(private renderer: Renderer2){
+	}
+}
+ 
+ ``` 
+2. Use the renderer to manipulate the DOM indirectly. Again, make sure that the reference to the element actually exists.
+```typescript title=
+ import { ViewChild, Renderer2, AfterViewInit } from '@angular/core';
+
+@Component({})
+export class ExampleComponent implements AfterViewInit{
+	@ViewChild('myDiv') divReference;
+
+	constructor(private renderer: Renderer2){
+	}
+
+	ngAfterViewInit(){
+		if(this.divReference)
+			this.renderer.setStyle(this.divReference.nativeElement, 'color', 'red');
+	}
+}
+ 
+ ``` 
+The Renderer2 has many different methods to alter an element. Many of them look very familiar to the JavaScript DOM API. Guessing what they do, should not be the issue. You can find the full list of methods at the [official documentation](https://angular.io/api/core/Renderer2).
+
+## 4. Avoid duplicate providers overriding each other 
+
+You may have heard that angular utilizes a concept called [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection). With the help of dependency injection, you can request instances of your services in your constructor. 
+
+For that to work, services or broader injectables have to be registered in the provider section of your component or module decorator. The most common method is to provide it at a module level.
+
+![dependency-injection](./img/dependency-injection.png)
+
+The problem here, is, that angular uses a hierarchical dependency injection system. That means, that services/injectables provided in the root module (AppModule) are available to all components in that module. And because that module should contain all other components and modules, the services provided here are available in the whole application.
+
+![hierarchical-dependency-injection](./img/hierarchical-dependency-injection.png)
+
+If you provide a service to a sub-module, it is only available to that sub-module. That also means, that if you provide the services in both modules, the components in the sub-module get a different instance of the service than any other component. That can lead to all kinds of errors if you assume your service to be the only instance in your application (singleton).
+
+The solution is simple. Do only provide your services once. Generally in the AppModule. Unless you know what you are doing, you should stick to that, especially in the beginning. In 99% of the cases, you should be fine doing so.
+
+## 5. Angular Guards are not a Security Feature 
+
+Angular Guards are a great way to artificially restrict access to certain routes. For example, to check if a user is logged in, before actually showing him the page.
+Here is a quick example of such a guard:
+
+```typescript title=
+ import { Injectable } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
+import { CanActivate } from '@angular/router';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+
+  constructor(private authService: AuthenticationService) {}
+
+  canActivate() {
+    return this.authService.isAuthenticated();
+  }
+} 
+ ``` 
+ 
+Of course, because the guard is an observable, it has to be provided, as well.
+
+```typescript title=src/app/app.module.ts
+ @NgModule({
+  providers: [
+    AuthGuard,
+    AuthenticationService
+  ]
+})
+export class AppModule {}
+ 
+ ``` 
+Finally, we have to tell it, which routes to protect:
+
+```typescript title=src/app/app.module.ts
+ @NgModule({
+  imports: [
+  	RouterModule.forRoot([
+	{ 
+  		path: '',
+  		component: SomeComponent,
+  		canActivate: [AuthGuard]	
+	])
+  ],
+  providers: [
+    AuthGuard,
+    AuthenticationService
+  ]
+})
+export class AppModule {}
+ 
+ ``` 
+The Problem
+So why are guards a problem? The truth is, they are not!
+
+But many people seem to be confused about the topic. They become a problem if people get a false sense of security because of them. Fact is, nothing you do on the client is 'secure'. Because you deliver the full source code to the potential harmful users, the application can be altered in any way. That means, that our guard can be easily circumvented by commenting some lines.
+
+No, especially with AOT compilation, it is not THAT easy, but with enough criminal energy, definitely possible in a few hours.
+
+That way, data that is only protected by a route guard client side, can be accessed without too much effort. You definitively do not want that!
+
+The Solution
+Because of that, if you need to protect any sensitive data, you also need to have an actually secure, server-based, solution. For example with signed [JavaScript Web Tokens](https://jwt.io/introduction/).
+
+## 6. Declare your Components only once 
+
+For [components ](https://malcoded.com/posts/angular-fundamentals-components)to work in angular, they have to be declared in a module. So as long as we have only one module (AppModule) and we register our components inside of it, there is no problem. 
+
+But when we start to bundle our application in modules, what you definitely should, by the way, you probably will encounter a common problem.
+
+A component can only be declared in one module!
+
+That is pretty much all there is to it. But what can we do, if we want to use our component in multiple modules?
+
+The solution is simple. Just wrap your component into a module. Maybe a module per component is a bit too much, so why don't we create a components module? That module can then be imported into other modules and you can use your components there.
+When you do so, make sure that you don't only declare your components in that components module, but to also export them. Otherwise, they can only be accessed from within the module itself.
+
+```typescript title=src/app/authentication/authentication.module.ts
+ @NgModule({
+  imports: [
+    CommonModule
+  ],
+  declarations: [
+    LoginComponent,
+    RegisterComponent,
+    HelpComponent
+  ],
+  exports:[
+    LoginComponent,
+    RegisterComponent,
+    HelpComponent
+  ]
+})
+export class AuthenticationModule { }
+ 
+ ``` 
+
+## 7. Speed up your application by using *ngIf instead of the [hidden] attribute 
+
+Another common mistake is to confuse *ngIf and [hidden]. Choosing the right one of these can make quite a difference performance wise. So let's take a closer look at both techniques.
+
+The [hidden] Attribute
+The hidden attribute toggles the visibility of an element. Just as we would expect. right? 
+That means, that if we set [hidden] to true, the css property "display" is set to "none". Afterward, the element is no longer visible, but still present on the DOM.
+
+```html title=
+ <div [hidden]="isHidden"></div>
+ 
+ ``` 
+One problem with using the hidden attribute, that the toggled css property can be easily overridden by other css properties by accident. If you, for example, define that elements "display" property to be "block" in your stylesheet, it will always override the display: none property. This results in your element being always visible.
+
+Kudos to Kara Erickson for her findings of that. You can learn more about the topic in [her great article here](https://angularjs.blogspot.de/2016/04/5-rookie-mistakes-to-avoid-with-angular.html)!
+
+Another, although very theoretical, problem is, that all these elements stay on the DOM, although they are not visible. If we talk about hundreds or thousands of elements, these elements can slow down the browser quite a bit. So why don't we remove them, if we don't need them?
+
+The *ngIf directive
+The main difference of the *ngIf directive is exactly that. Instead of just hiding the marked elements, it completely removed them from the DOM. Aside from the possible performance improvement, this solution also appears a lot cleaner to me. But that is my opinion. It just seems like the standard way of hiding things in angular to me. Because of that, I almost exclusively use *ngIf.
+
+```html title=
+ <div *ngIf="!isHidden"></div>
+ 
+ ``` 
+When it comes to downsides of the *ngIf directive, it is sometimes hard to debug these sections, because the removed elements can no longer be inspected with the browsers DOM explorer.
+
+## 8. Avoid maintainability issues by wrapping in Services 
+
+As you may have noticed, we transitioned from critical errors to recommendations on how to improve your application. The last points will right about that: Making your applications faster, smaller, and better to maintain.
+
+As a general advice, it is always good practice, to extract your core business logic into [services](https://malcoded.com/posts/angular-fundamentals-services). That way, it becomes much easier to maintain, as it can be swapped out and replaced by a new implementation in just a few seconds.
+The same goes for testing. Often times you need services that fetch external data, to fake the results in a test environment. If you fetch your data in services, that is an easy one. If not, good luck changing all the lines that need to be changed for that.
+
+That advice is certainly true when using angular HttpClient. It should always be wrapped inside of a centralized service. That way, it not only stays testable, it is also easy to make changes to it. Imagine, your backend requires a new header to be passed with every request after a recent update. Without a centralized service, you now have to find all the lines across your whole app that are affected. Needless to say, that this would be far from optimal.
+
+Instead, you should always wrap your HTTP-requests into services.  In the worst case, that does not hurt you anyway. In the best case, it saves you (and your team) hours for the simplest tasks.
+ 
+## 9. Gain performance and shrink size by using AOT in production 
+
+Starting an angular cli application via
+
+```undefined title=undefined
+ ng serve
+ 
+ ``` 
+or 
+
+```undefined title=undefined
+ ng build
+ 
+ ``` 
+results in your application being build in regular mode. That means, that your application is shipped to the browsers, as it is. The browser has then to execute the angular compiler to convert your components and templates into executable JavaScript code. That process does not only take a lot of time. It also requires the whole angular compiler to be shipped with your application. In the current version of angular, the compiler has a size of ~1 MB (167kb gzipped). That's huge!
+
+![angular-bundle-size-default](./img/angular-bundle-size-default.png)
+
+Don't believe me? You can analyze the angular bundle itself, by using a tool called [webpack-bundle-analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer). All you need to do is to create your bundle with the stats-json parameter.
+
+```undefined title=undefined
+ ng build --stats-json
+ 
+ ``` 
+Afterward, start the bundle analyzer like so:
+
+```undefined title=undefined
+ webpack-bundle-analyzer dist/stats.json
+ 
+ ``` 
+The tool will automatically open a browser window, showing you a similar result to the one above.
+
+The Solution
+The solution to that is to use the so-called [AOT (Ahead of Time) compilation](https://angular.io/guide/aot-compiler). When using the AOT mode, your angular application is compiled at build time. That way, the browser does not has to do that work. Instead, we do it once and for all. This results in your application starting much faster. 
+
+Even more important, the bundle size, every user has to download, decreases dramatically, because the angular compiler no longer has to be included in the bundle.
+
+In older versions of the angular-cli, you had to enable AOT manually in production builds. Fortunately, AOT has been the default of production builds for some time now. All you have to do is to add the production flag to your build command. That does not only give you AOT compilation, but also other benefits that reduce the bundle size, like excluded source-maps.
+
+Older Versions
+
+```undefined title=undefined
+ ng build --prod --aot
+ 
+ ``` 
+Newer Versions
+
+```undefined title=undefined
+ ng build --prod
+ 
+ ``` 
+Here is how the production bundle looks like. The gzipped size of the vendor bundle is now around 55 KB. From 330 KB to 55 KB. That is what I call an improvement!
+You will also notice, that the compiler is no longer included.
+
+![angular-bundle-size-production](./img/angular-bundle-size-production.png)
+
+
+## 10. Keep your Application Size small by only importing what you need 
+
+The next point is directly related to the previous. Again, we will take a look at the bundle size. 
+
+This time, the advice I give you is, to be careful what you import.
+
+Every import statement you use increases the size of your bundle. Makes sense right? We are adding more code, so the size goes up. 
+
+The problem here is, that some libraries are quite huge. When using the wrong import statement, you can end up with the whole library in your application. Here is a much to popular mistake, that imports the whole RxJs library in your application.
+
+```typescript title=
+ import 'rxjs';
+ 
+ ``` 
+This tiny statement almost doubles the size of our application.
+
+![angular-rxjs-import-mistake](./img/angular-rxjs-import-mistake.png)
+
+The point here is that this additional size is completely unnecessary. If you compare this bundle to the previous ones, you will notice, that these included RxJs as well. The difference is, that the previous bundle only contained the modules that are actually required. Using this import statement, we have imported just everything.
+
+The Solution
+Well, there are multiple solutions to this. The most general solutions would be, to evaluate every library you add to your project. Do you really need that shiny button at a cost of additional 100 KB? Does the library offer sub-modules, so you can only import the stuff you need? If not, it is probably not worth it.
+
+If your library offers sub-modules, make sure to only import the stuff you need. Regularly check the resulting bundle using the bundle-analyzer. 
+
+So how do you only import the stuff you need? Let's take a look at out RxJs example.
+RxJs has split up almost everything into its own module. That requires you to eventually write a lot of imports, but it helps you to keep your application size small.
+
+For example, you need to import every operator you want to use:
+
+```typescript title=
+ import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+ 
+ ``` 
+NEVER USE THIS:
+```typescript title=
+ import 'rxjs';
+ 
+ ``` 
+Unfortunately, not all libraries do a great job at splitting up their code. And they all do it differently. So taking a closer look at your libraries is crucial for small and fast applications.
+
+
+## 11. Do not leak Memory - Unsubscribe your Subscriptions 
+
+When dealing with RxJs Observables and Subscriptions, it can easily happen, that you leak some memory. That is because your component is destroyed, but the function you registered inside of the observable is not. That way, you not only leak memory but probably also encounter some odd behavior.
+
+The Solution
+
+To prevent that, make sure to unsubscribe from your subscriptions, when the component is destroyed. One good place to do so, would be the [ngOnDestroy](https://angular.io/guide/lifecycle-hooks) lifecycle hook. Here is an example:
+
+```typescript title=
+ @Component({})
+export class ExampleComponent implements OnDestroy{
+
+	private subscriptions = [];	
+
+	constructor(){
+		this.subscriptions.push(this.anyObservable.subscribe());
+	}
+	
+	ngOnDestroy(){
+		for(let subscription of this.subscriptions){
+			subscriptions.unsubscribe();
+		}
+	}
+}
+ 
+ ``` 
+## Conclusion 
+
+In this article, we went through all the mistakes that are very commonly made in the beginning. Well, at least I did most of them...
+
+I hope by sharing my mistakes, I could help you avoid them completely and provide you a better angular development experience that way.
+
+ If you liked this article, click the buttons below, and share it with your friends and colleges! 
+
+Never miss a post, by following me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).

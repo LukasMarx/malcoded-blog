@@ -1,0 +1,13 @@
+.title {
+  font-size: 24px;
+}
+
+.excerpt {
+  font-size: 16px;
+}
+
+.dateRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

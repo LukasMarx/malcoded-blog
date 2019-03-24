@@ -1,0 +1,577 @@
+---
+id: '5c5c099be852ca001e040c05'
+title: 'Creating a File Dropzone with React'
+image: './img/react-dropzone-component.png'
+date: 2019-02-06T23:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#A828FD'
+colorMain: '#A828FD'
+colorDark: '#A828FD'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526fe',
+    '5bb0cae79583501f64252703',
+    '5bf03126e852ca001e040a7e',
+  ]
+tags: ['react']
+---
+
+In this tutorial you are going to learn how create a file dropzone component from scratch using react.
+
+We will discover how to open a file selection dialog in react using some nifty tricks.
+
+Furthermore, we will learn how to listen for file drop events and use that to build a reusable dropzone component.
+
+Ready?
+
+Let's get started!
+
+![react-dropzone-new-banner](./img/react-dropzone-new-banner.png)
+
+## Setting up a new React project with create-react-app
+
+The first thing we do is setting up a new project.
+We will do so by using the create-react-app-cli.
+
+To create a new project, use the following command:
+
+```
+ create-react-app react-dropzone
+
+```
+
+![react-dropzone-build-banner](./img/react-dropzone-build-banner.png)
+
+## Preparing the application
+
+For this project to look good, I've adjusted the App.js a little bit.
+
+It is now rendering the component we are going to create inside of a simple card:
+
+```jsx title=src/App.js
+import React, { Component } from 'react'
+import Dropzone from './dropzone/Dropzone'
+import './App.css'
+
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <div className="Card">
+          <Dropzone onFilesAdded={console.log} />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default App
+```
+
+The corresponding styles look something like this. Feel free to adjust any of this at is just a nice piece to present the dropzone component.
+
+```css title=src/App.css
+.App {
+  text-align: center;
+  background-color: rgb(206, 213, 223);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.Card {
+  background-color: white;
+  padding: 64px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+```
+
+![react-dropzone-create-banner](./img/react-dropzone-create-banner.png)
+
+## Creating the Dropzone component
+
+Now that we have a nice foundation, it is time to start creating the dropzone component itself.
+
+To do so, create a new directory inside of the src-folder. Inside of that directory, create two new files: Dropzone.js and Dropzone.css.
+
+Next, create a new react component inside of Dropzone.js called Dropzone.
+
+```jsx title=src/dropzone/Dropzone.js
+import React, { Component } from 'react'
+import './Dropzone.css'
+
+class Dropzone extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return <p>Dropzone</p>
+  }
+}
+```
+
+Basic structure
+The HTML-structure of our component will be quite simple.
+
+It is just a wrapper div containing an image a span.
+
+```jsx title=src/dropzone/Dropzone.js
+ render() {
+    return (
+      <div className="Dropzone">
+        <img
+          alt="upload"
+          className="Icon"
+          src="baseline-cloud_upload-24px.svg"
+        />
+        <span>Upload Files</span>
+      </div>
+    );
+  }
+
+```
+
+To make it look like a dropzone, we are defining the CSS class "Dropzone":
+
+```css title=src/dropzone/Dropzone.css
+.Dropzone {
+  height: 200px;
+  width: 200px;
+  background-color: #fff;
+  border: 2px dashed rgb(187, 186, 186);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 16px;
+}
+```
+
+For the icon you can use any image you want. Just make sure to place it in the /public directory of your application and pass the filename to the src-attribure above.
+
+You can find the icon used here at the [material design website](https://material.io/tools/icons/?search=cloud_upload&style=baseline).
+
+Because the icon is pure black, we are adjusting it's opacity to look nice.
+
+```css title=src/dropzone/Dropzone.css
+.Icon {
+  opacity: 0.3;
+  height: 64px;
+  width: 64px;
+}
+```
+
+How to open a file dialog
+Now it is time to implement some functionality.
+
+First of all, we want the dropzone to open a file-selection-dialog when it is clicked. This dialog as to be provided by the browser (and the operating system) because we don't have access to the file system from a website (which is actually a good thing).
+
+The bad news is that there is no JavaScript API to open a file dialog.
+
+The only way to open the dialog is by clicking on a HTML-input element with the type-attribute "file".
+
+Of course we don't that. We want our dropzone-div to open the dialog when clicked.
+
+Fortunately there is a little trick to make this work anyway. We just place the input-element somewhere, make it invisible and then click it using JavaScript.
+
+This does look something like this:
+
+```jsx title=src/dropzone/Dropzone.js
+ render() {
+    return (
+      <div className="Dropzone">
+        <img
+          alt="upload"
+          className="Icon"
+          src="baseline-cloud_upload-24px.svg"
+        />
+		 <input
+          ref={this.fileInputRef}
+          className="FileInput"
+          type="file"
+          multiple
+          onChange={this.onFilesAdded}
+        />
+        <span>Upload Files</span>
+      </div>
+    );
+  }
+
+```
+
+We make the input invisible by using display: none.
+
+```css title=src/dropzone/Dropzone.css
+.FileInput {
+  display: none;
+}
+```
+
+To be able to reference the input element from code we are using a ref. Because we haven't done so already, we need to initialize this.fileInputRef in the components constructor before we can use it.
+
+```jsx title=src/dropzone/Dropzone.js
+ constructor(props) {
+  super(props);
+  this.fileInputRef = React.createRef();
+}
+
+```
+
+Click event listener
+To actually open the file dialog, we need to click on the input element using JavaScript.
+
+```javascript title=src/dropzone/Dropzone.js
+ openFileDialog() {
+  if (this.props.disabled) return;
+  this.fileInputRef.current.click();
+}
+
+```
+
+Notice that we only do this if the property disabled is not true. This is a flag we are going to utilize later to disable our dropzone and reject any input.
+
+For this method to execute, we need to call it when our dropzone is clicked. To do that, we are adding an onClick listener to the outer div of the component:
+
+```jsx title=src/dropzone/Dropzone.js
+ render() {
+  return (
+    <div
+      className="Dropzone"
+      onClick={this.openFileDialog}
+      style={{ cursor: this.props.disabled ? "default" : "pointer" }}
+    >
+      ...
+    </div>
+  )
+}
+
+```
+
+Notice, that we also set the cursor to "pointer" when the component is not disabled.
+
+Furthermore we have to bind the openFileDialog to the component. Otherwise it would loose its this-reference.
+
+We do so in the components' constructor.
+
+```jsx title=src/dropzone/Dropzone.js
+ constructor(props) {
+  super(props);
+  this.fileInputRef = React.createRef();
+
+  this.openFileDialog = this.openFileDialog.bind(this);
+}
+
+```
+
+Defining an output property
+Next, we need to implement the onFilesAdded() we referenced earlier. This method will be called when the file dialog is closed and files have been selected.
+
+Because our component does not know what to do with these files, we are passing it to the parent component.
+
+We do so by calling a property called onFilesAdded.
+
+```jsx title=src/dropzone/Dropzone.js
+ onFilesAdded(evt) {
+  if (this.props.disabled) return;
+  const files = evt.target.files;
+  if (this.props.onFilesAdded) {
+    const array = this.fileListToArray(files);
+    this.props.onFilesAdded(array);
+  }
+}
+
+```
+
+But before we can do so, we need to convert the files we received from a FileList to a plain JavaScript array, because that is much easier to work with.
+
+To do that, we are defining the fileListToArray method we used in the mehtod above.
+
+```jsx title=src/dropzone/Dropzone.js
+ fileListToArray(list) {
+  const array = [];
+  for (var i = 0; i < list.length; i++) {
+    array.push(list.item(i));
+  }
+  return array;
+}
+
+```
+
+Finally, we have to bind the onFilesAdded method to the component because we are using this here.
+
+```jsx title=src/dropzone/Dropzone.js
+ constructor(props) {
+  super(props);
+  this.fileInputRef = React.createRef();
+
+  this.openFileDialog = this.openFileDialog.bind(this);
+  this.onFilesAdded = this.onFilesAdded.bind(this);
+}
+
+```
+
+![react-dropzone-map-banner](./img/react-dropzone-map-banner.png)
+
+## Handling Drag & Drop Events
+
+The dropzone component can now be used to select files by clicking it.
+
+But it wouldn't be called a dropzone if we can't drop files onto it, right?
+
+Fortunately it does not take much to add that functionality. All we need to do is to add three new methods called onDragOver, onDragLeave and onDrop.
+
+Because all of these methods will need access to the components' this, let's go ahead and bind them first:
+
+```jsx title=src/dropzone/Dropzone.js
+ constructor(props) {
+  super(props);
+  this.state = { hightlight: false };
+  this.fileInputRef = React.createRef();
+
+  this.openFileDialog = this.openFileDialog.bind(this);
+  this.onFilesAdded = this.onFilesAdded.bind(this);
+  this.onDragOver = this.onDragOver.bind(this);
+  this.onDragLeave = this.onDragLeave.bind(this);
+  this.onDrop = this.onDrop.bind(this);
+}
+
+```
+
+Notice that we also introduced a new state variable called "highlight" and set it to false. We will use it to highlight the dropzone when a file is dragged over it.
+
+Let's go ahead and register all these methods for their corresponding event:
+
+```jsx title=src/dropzone/Dropzone.js
+   render() {
+    return (
+      <div
+        className={`Dropzone ${this.state.hightlight ? "Highlight" : ""}`}
+        onDragOver={this.onDragOver}
+        onDragLeave={this.onDragLeave}
+        onDrop={this.onDrop}
+        onClick={this.openFileDialog}
+        style={{ cursor: this.props.disabled ? "default" : "pointer" }}
+      >
+     ...
+     </div>
+    )
+  }
+
+```
+
+Also, we are applying the CSS class "Highlight" in case the state variable "highlight" is true. Use any color you want!
+
+```css title=src/dropzone/Dropzone.css
+.Highlight {
+  background-color: rgb(188, 185, 236);
+}
+```
+
+Now it is time to implement each method...
+
+onDragOver
+The onDragOver method is quite simple.
+
+All we need to is to set the highlight-state to true in case the component is not disabled.
+
+```jsx title=src/dropzone/Dropzone.js
+ onDragOver(evt) {
+  evt.preventDefault();
+
+  if (this.props.disabled) return;
+
+  this.setState({ hightlight: true });
+}
+
+```
+
+We also need to call evt.preventDefault to prevent the default behavior of the browser.
+
+onDragLeave
+This mehtod is even simpler.
+
+We just set the highlight-state to false.
+
+We don't even check if the component is disabled to not get stuck in the highlight-state in case the component is disabled when a file is dragged above it.
+
+```jsx title=src/dropzone/Dropzone.js
+ onDragLeave() {
+  this.setState({ hightlight: false });
+}
+
+```
+
+onDrop
+In case a file is dropped onto the component, we need to notify the parent component about that. We do so by calling the onFilesAdded property.
+
+Also, we set the highlight state to false.
+
+If the component is disabled we do nothing.
+
+```jsx title=src/dropzone/Dropzone.js
+ onDrop(event) {
+  event.preventDefault();
+
+  if (this.props.disabled) return;
+
+  const files = event.dataTransfer.files;
+  if (this.props.onFilesAdded) {
+    const array = this.fileListToArray(files);
+    this.props.onFilesAdded(array);
+  }
+  this.setState({ hightlight: false });
+}
+
+```
+
+![react-dropzone-360-banner](./img/react-dropzone-360-banner.png)
+
+## The full dropzone component
+
+Here is the full code for the dropzone component:
+
+```jsx title=src/dropzone/Dropzone.js
+import React, { Component } from 'react'
+import './Dropzone.css'
+
+class Dropzone extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { hightlight: false }
+    this.fileInputRef = React.createRef()
+
+    this.openFileDialog = this.openFileDialog.bind(this)
+    this.onFilesAdded = this.onFilesAdded.bind(this)
+    this.onDragOver = this.onDragOver.bind(this)
+    this.onDragLeave = this.onDragLeave.bind(this)
+    this.onDrop = this.onDrop.bind(this)
+  }
+
+  openFileDialog() {
+    if (this.props.disabled) return
+    this.fileInputRef.current.click()
+  }
+
+  onFilesAdded(evt) {
+    if (this.props.disabled) return
+    const files = evt.target.files
+    if (this.props.onFilesAdded) {
+      const array = this.fileListToArray(files)
+      this.props.onFilesAdded(array)
+    }
+  }
+
+  onDragOver(evt) {
+    evt.preventDefault()
+
+    if (this.props.disabled) return
+
+    this.setState({ hightlight: true })
+  }
+
+  onDragLeave() {
+    this.setState({ hightlight: false })
+  }
+
+  onDrop(event) {
+    event.preventDefault()
+
+    if (this.props.disabled) return
+
+    const files = event.dataTransfer.files
+    if (this.props.onFilesAdded) {
+      const array = this.fileListToArray(files)
+      this.props.onFilesAdded(array)
+    }
+    this.setState({ hightlight: false })
+  }
+
+  fileListToArray(list) {
+    const array = []
+    for (var i = 0; i < list.length; i++) {
+      array.push(list.item(i))
+    }
+    return array
+  }
+
+  render() {
+    return (
+      <div
+        className={`Dropzone ${this.state.hightlight ? 'Highlight' : ''}`}
+        onDragOver={this.onDragOver}
+        onDragLeave={this.onDragLeave}
+        onDrop={this.onDrop}
+        onClick={this.openFileDialog}
+        style={{ cursor: this.props.disabled ? 'default' : 'pointer' }}
+      >
+        <input
+          ref={this.fileInputRef}
+          className="FileInput"
+          type="file"
+          multiple
+          onChange={this.onFilesAdded}
+        />
+        <img
+          alt="upload"
+          className="Icon"
+          src="baseline-cloud_upload-24px.svg"
+        />
+        <span>Upload Files</span>
+      </div>
+    )
+  }
+}
+
+export default Dropzone
+```
+
+And here is the used stylesheet:
+
+```css title=src/dropzone/Dropzone.css
+.Dropzone {
+  height: 200px;
+  width: 200px;
+  background-color: #fff;
+  border: 2px dashed rgb(187, 186, 186);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 16px;
+}
+
+.Highlight {
+  background-color: rgb(188, 185, 236);
+}
+
+.Icon {
+  opacity: 0.3;
+  height: 64px;
+  width: 64px;
+}
+
+.FileInput {
+  display: none;
+}
+```
+
+## Conclusion
+
+In this tutorial, you have learned how to create a file dropzone component from scratch.
+
+I hope you liked this article. If you did, please share it with your friends and colleges. It would mean a lot to me!
+
+You can find the full source code in the corresponding [GitHub repository](https://github.com/LukasMarx/react-dropzone.git).
+
+Thanks for reading!

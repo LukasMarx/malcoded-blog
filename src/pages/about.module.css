@@ -1,0 +1,161 @@
+/* .root {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content content content content content right right';
+} */
+
+@media only screen and (max-width: 768px) {
+  .root {
+    grid-template-areas: 'content content content content content content content content content content content content';
+  }
+}
+
+.content {
+  grid-area: content;
+  margin-top: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  .content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.hero {
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content right right right right right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 768px) {
+  .hero {
+    grid-template-areas: 'content content content content content content content content content content content content';
+    background-size: contain;
+    padding: 16px;
+  }
+}
+
+.heroText {
+  grid-area: content;
+}
+
+.heroAbout {
+  background-repeat: no-repeat;
+  margin-top: 128px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left image image image empty content content content content right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 768px) {
+  .heroAbout {
+    grid-template-areas: 'content content content content content content content content content content content content';
+    background-size: contain;
+    padding: 16px;
+    margin-top: 32px;
+  }
+}
+
+.heroAboutText {
+  grid-area: content;
+}
+
+.heroAboutImage {
+  grid-area: image;
+}
+
+@media only screen and (max-width: 768px) {
+  .heroAboutImage {
+    display: none;
+  }
+}
+
+.heroAboutLukas {
+  background-repeat: no-repeat;
+  margin-top: 248px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content empty image image image right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  box-sizing: border-box;
+  margin-bottom: 128px;
+}
+
+@media only screen and (max-width: 768px) {
+  .heroAboutLukas {
+    grid-template-areas: 'content content content content content content content content content content content content';
+    background-size: contain;
+    padding: 16px;
+    margin-top: 32px;
+  }
+}
+
+.heroAboutLukasText {
+  grid-area: content;
+}
+
+.heroAboutLukasImage {
+  grid-area: image;
+}
+
+@media only screen and (max-width: 768px) {
+  .heroAboutLukasImage {
+    display: none;
+  }
+}
+
+.logoGalleryWrapper {
+  background-repeat: no-repeat;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content content content content content right right';
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 768px) {
+  .logoGalleryWrapper {
+    grid-template-areas: 'content content content content content content content content content content content content';
+  }
+}
+
+.logoGallery {
+  grid-area: content;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+}
+
+.logo {
+  height: 184px;
+  box-sizing: border-box;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    height: 100px;
+  }
+}
+
+.logo:hover {
+  filter: none;
+  opacity: 0.7;
+}

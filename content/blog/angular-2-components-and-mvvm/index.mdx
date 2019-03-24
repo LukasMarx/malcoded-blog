@@ -1,0 +1,95 @@
+---
+id: '5bb0cae79583501f64252714'
+title: 'Is Angular 2+ MVVM?'
+image: './img/Angular-MVVM.png'
+date: 2016-12-06T23:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526eb',
+    '5bb0cae79583501f642526ec',
+    '5bb0cae79583501f642526ed',
+  ]
+tags: ['angular']
+---
+
+I've read about that at various places now: "Angular is MVVM" or "Angular is MVC". Huh, is it? I don't think so.
+
+Actually the question can not be answered with a plain yes or no. First of all, angular 2+ is not [MVC](https://de.wikipedia.org/wiki/Model_View_Controller)! Honestly, I don't know, how people come up with that stuff, sometimes.
+
+Instead, it follows a component oriented architecture. So it is MVVM neither. However, angular implements a lot of the concepts of [MVVM](https://de.wikipedia.org/wiki/Model_View_ViewModel). So if you need to, you can say that angular follows the MVVM principle. To see the similarities, we are going to take a closer look at the principle in the context of angular components.
+
+## "Very nice... but what is MVVM?"
+
+[MVVM ](https://de.wikipedia.org/wiki/Model_View_ViewModel)stands for Model, View, ViewModel. It is a software desing pattern and suposed to increase readability and maintainability of the source code, by deviding the code into the 3 sections mentioned before. So how does it look like in angular?
+
+Model
+A Model is a container defining the structure of an entity, following the object oriented principle. It is defined by your content. So if you want to use a Model for a User, it could look like this.
+
+```undefined title=undefined
+ class User {
+  name:string;
+  email:string;
+  address:string;
+}
+```
+
+In angular, we typically use Typescript classes or interfaces to define the model. However, models are just plain-old Javascript objects.
+
+Note that Models should not contain any logic. All your logic should be defined in the ViewModel.
+
+View
+The View is the visual layer of the application, including all visual elements shown on the user's screen. In the case of Angular 2 the view is defined in a template. These templates are written in HTML and CSS but also contain angular specific elements. These templates a connected to the ViewModel via data-binding. Templates are always part of a [component](https://malcoded.com/posts/angular-fundamentals-components).
+
+ViewModel
+The ViewModel is an abstract part of the View, managing the models and properties to show on the screen. It contains all the logic for the page. View and ViewModel are often connected via data binding. That means, that changes in the ViewModel, for example on a property, are instantly applied to the view, changing e.g. the text shown on the screen. In angular, the ViewModel is represented by the Typescript part of a component.
+
+So we found out, that an angular component consists of two parts. Template (View) and a Class (ViewModel). Here is an overview of angular components.
+
+## Angular Components
+
+A basic component in angular consist of two part. The first part is the Component definition. It is surrounded by @Component({}). Inside of that definition you can specify properties of that component like a selector, wich will allow us to place our component via HTML.
+
+In that block we also define the view. You can do so by adding html inline or use a extra file. I usually prefer the second option for better readability and a clear separation of these two elements. So this it what this part could look like:
+
+```undefined title=undefined
+ @Component({
+    selector:"nav-bar",
+    templateUrl:"./component.html",
+    styleUrls: ["./component.css"]
+})
+
+```
+
+The second part is the corresponding class to implement the logic. This class is placed in the same file right beneath the definition. It's basically a normal typescript class, so you can do whatever you want in there.
+
+```undefined title=undefined
+ export class NavBar{
+}
+
+```
+
+To show our component on the screen we need to attach it to an html view, that is already shown. The starting point is the app.component.html. So by writing
+
+```undefined title=undefined
+ <nav-bar></nav-bar>
+
+```
+
+our component is added to the view. In Angular, components can't be there by them self, but have always to be added to a module. To do so, just add our component to the declarations section of the parent module. The root module is inside the app.module.ts
+
+```undefined title=undefined
+ @NgModule({
+  declarations: [
+    AppComponent,
+    NavBar
+   ]
+})
+```
+
+Everything defined in the components' html file will be placed inside of the selector-tag of the component and therefore shown on the screen.
+To learn more about components, check out my [in-depth guide about components in angular](https://malcoded.com/posts/angular-fundamentals-components).

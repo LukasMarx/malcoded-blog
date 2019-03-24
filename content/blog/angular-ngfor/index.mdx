@@ -1,0 +1,402 @@
+---
+id: '5bb0cae79583501f642526f5'
+title: 'Angular NgFor: Everything you need to know'
+image: './img/angular-ngfor.png'
+date: 2018-05-09T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: []
+tags: ["angular"]
+---
+In this tutorial, we are going to learn about the ngFor directive.
+
+We will discover, how we can use the ngFor directive to display multiple elements directly from a JavaScript array. 
+
+Also, we will take a look at the utilities of the ngFor directive, like the index, or even and odd.
+
+When we got the basics, we will move on to some more advanced topics like change-detection and DOM manipulation to tweak the performance of our for-loop using trackBy.
+
+Ready?
+
+Let's get started!
+
+![angular-modules-banner](./img/angular-modules-banner.png)
+## Displaying multiple elements with ngFor 
+
+The so-called ngFor directive is a core directive, that comes with the angular framework itself.
+
+We can use this directive, if we want to display a dynamic list, for example, an array of elements on the screen.
+This array could look like this example data:
+
+```
+ const array = [
+ {
+  "guid": "900ea552-ef68-42cc-b6a6-b8c4dff10fb7",
+  "age": 32,
+  "name": "Powers Schneider"
+ },
+ {
+  "guid": "880381d3-8dca-4aed-b207-b3b4e575a15f",
+  "age": 25,
+  "name": "Adrian Lawrence"
+ },
+ {
+  "guid": "87b47684-c465-4c51-8c88-3f1a1aa2671b",
+  "age": 32,
+  "name": "Boyer Stanley"
+ }
+]
+ 
+ ``` 
+And we want the result to be generated HTML that could look like this:
+
+```
+ <ul>
+    <li>Powers Schneider, 32</li>
+    <li>Adrian Lawrence, 25</li>
+    <li>Boyer Stanley, 32</li>
+</ul>
+ 
+ ``` 
+Using ngFor to render an array
+This is exactly what ngFor can do for us. 
+
+All we need to do is to tell the directive, which array to use. 
+
+Let's say we have a component that we call example-component. 
+
+This component has a property that is an array. 
+
+That array could be static and look like the array above or could be filled at runtime. For example when data is received from a REST-API.
+
+Now we want to display that array, which sits in the .ts file of the component:
+
+```typescript title=example.component.ts
+ import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css']
+})
+export class ExampleComponent {
+  array = [
+    {
+      guid: '900ea552-ef68-42cc-b6a6-b8c4dff10fb7',
+      age: 32,
+      name: 'Powers Schneider'
+    },
+    {
+      guid: '880381d3-8dca-4aed-b207-b3b4e575a15f',
+      age: 25,
+      name: 'Adrian Lawrence'
+    },
+    {
+      guid: '87b47684-c465-4c51-8c88-3f1a1aa2671b',
+      age: 32,
+      name: 'Boyer Stanley'
+    }
+  ];
+}
+ 
+ ``` 
+To display that array, we need to use the ngFor directive in our components' template.
+
+How to use the ngFor directive?
+The ngFor directive does create the HTML-Element it is placed in as many times as there are elements in the array.
+So to create a list-element for each array element, we place the ngFor directive inside of the li tag.
+
+```html title=example.component.html
+ <ul>
+  <li *ngFor="let element of array"></li>
+</ul>
+ 
+ ``` 
+The rendered output, give the array above would then look like this:
+
+```html title=Output
+ <ul>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+ 
+ ``` 
+But that is not exactly what we want right?
+
+We also want to insert the value of each element in between the tags, right?
+
+![angular-build-banner](./img/angular-build-banner.png)
+## Working with each element of the list 
+
+To do that, we need kind of a reference to each element of the array right?
+
+Fortunately, the angular ngFor directive does provide just that. 
+
+Did you notice that the syntax looks like a regular forEach loop? Well, actually it works quite the same way.
+
+With the statement "let element of array" we are defining a variable "element", that holds a reference to the current array element.
+
+Knowing that we can now add the persons' name and the age to each list element. We do so by using the "element" variable we defined inside of the ngFor directive:
+
+```html title=example.component.html
+ <ul>
+  <li *ngFor="let element of array">
+    {{element.name}}, {{element.age}}
+  </li>
+</ul>
+ 
+ ``` 
+Now the output will look just as expected:
+
+```
+ <ul>
+    <li>Powers Schneider, 32</li>
+    <li>Adrian Lawrence, 25</li>
+    <li>Boyer Stanley, 32</li>
+</ul>
+ 
+ ``` 
+Variable Scope
+It is important to know, that variables defined in the ngFor directive have a scope. 
+
+Again, this behavior is quite similar to a regular forEach loop. The defined variable (e.g. "element") is only accessible in the HTML-Element that holds the directive or its children.
+
+For example, this would be valid syntax:
+
+```html title=null
+ <ul>
+  <li *ngFor="let element of array" [type]="element">
+    {{element.name}}, {{element.age}}
+  </li>
+</ul>
+ 
+ ``` 
+While this is not:
+
+```html title=Invalid
+ <ul>
+  <li *ngFor="let element of array" [type]="element">
+  </li>
+  {{element.name}}, {{element.age}}
+</ul>
+ 
+ ``` 
+
+![angular-code-banner](./img/angular-code-banner.png)
+## How to get the index of each element 
+
+Depending on the use case, only having a reference to each element is not enough.
+
+For example, if we wanted to number each list-element. We would not only require each element, but also its index inside of the array.
+
+To get the index of each element, we can define another variable in the ngFor directive. We can name that variable however we like. Let's call it "i" for now.
+To get the value of the index, we also need to assign "index" to that variable. 
+
+```html title=example.component.html
+ <ul>
+  <li *ngFor="let element of array; let i = index">
+    {{i}}. {{element.name}}, {{element.age}}
+  </li>  
+</ul>
+ 
+ ``` 
+Afterward, we can use "i" inside of the directives' scope, just like the other variables.
+
+![angular-transfer-state](./img/angular-transfer-state.png)
+## The first and the last element of the list 
+
+It turns out, the index is not the only value we can get from the ngFor directive.
+
+We can also get the first ("first") or the last ("last") element by assigning its value to a variable, as well.
+The value of the variable is boolean, depending if the current element is first or last.
+
+This makes sense, if we want to style the first or the last element of the list differently. Using this variables, we can then assign each of them a different class:
+
+```html title=example.component.ts
+ <ul>
+  <li *ngFor="let element of array; let first = first; let last = last" 
+      [ngClass]="{ first: first, last: last }">
+  </li>
+</ul>
+ 
+ ``` 
+If an element is neither the first nor the last element, it does not get assigned any CSS-class.
+
+![angular-forms-banner](./img/angular-forms-banner.png)
+## Using even and odd to increase readability 
+
+Another set of values that are available are even and odd.
+
+Just like first and last, this is useful if we want to style elements with an even index differently than those with a odd index.
+This is commonly used in tables, to increase readability. In that example, every second row has a slightly different color.
+
+Again, we can achieve that effect by assigning CSS-classes depending on the values:
+
+```html title=example.component.html
+ <ul>
+  <li *ngFor="let element of array; let even = even; let odd = odd" 
+      [ngClass]="{ odd: odd, even: even }">
+  </li>
+</ul>
+ 
+ ``` 
+![angular-animation-banner](./img/angular-animation-banner.png)
+## When are changes propagated to the DOM? 
+
+Now that we know the basics of ngFor, we are going to take a closer look at how it is working.
+
+One aspect of that, is to know, when changes are applied to the DOM. 
+
+Why?
+
+Well, first of all, manipulations to the DOM are quite expensive performance wise, compared to regular JavaScript code.
+
+Generally, re-rendering of the list occurs in one of three cases:
+
+1. When an element is added to the array
+2. When an element is removed from the array
+3. When items are reordered
+
+![angular-healing-banner](./img/angular-healing-banner.png)
+## How ngFor is optimizing 
+
+To reduce DOM-manipulation to a bare minimum, angulars' ngFor directive is heavily optimized.
+
+For example, if a element is added to the array, it is not re-rendering the whole list. Instead, all the existing DOM-elements are re-used and only the additional element is created.
+
+The same thing happens when a element is removed from the array.
+
+Furthermore, when a element changes its position in the array, angular notices that and only changes the position of the one DOM-element.
+
+To do all that optimization though, angular needs a way to identify each object in the array. Otherwise it cannot determine what happened.
+By default, it uses the reference of the object for that.
+
+![angular-settings-banner](./img/angular-settings-banner.png)
+## Can we increase the performance of ngFor? 
+
+Unfortunately, the default method of identifying objects by reference is quite limited in many cases.
+Especially in scenarios where a change of the reference cannot be avoided.
+
+For example when working with a REST-API or using immutable data structures, the reference of each object changes all the time.
+
+This would force angular to give up all optimization and re-render the whole list. This is because every reference has changed, so every object looks unfamiliar to angular.
+Especially with long lists, this can have a big performance impact.
+
+To prevent that behavior, we can help angular with the identification of each object, by providing a so-called trackBy function.
+With this function, we can tell angular, which properties cause an object to be unique.
+
+In the case of our example, we can use the guid field to identify each object. Because this value does (should) not change when the reference changes, angular can still identify them and apply the optimization.
+
+Angular Implementation
+
+To specify a trackBy function, we first need to create one in our component.
+The function gets the index of the element and the element itself. I then have to return the unique value of the element.
+
+In our case this is the guid. But it could also be the hash of the element.
+
+```typescript title=example.component.ts
+ import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.css']
+})
+export class ExampleComponent {
+  array = [
+    {
+      guid: '900ea552-ef68-42cc-b6a6-b8c4dff10fb7',
+      age: 32,
+      name: 'Powers Schneider'
+    },
+    {
+      guid: '880381d3-8dca-4aed-b207-b3b4e575a15f',
+      age: 25,
+      name: 'Adrian Lawrence'
+    },
+    {
+      guid: '87b47684-c465-4c51-8c88-3f1a1aa2671b',
+      age: 32,
+      name: 'Boyer Stanley'
+    }
+  ];
+
+  trackElement(index: number, element: any) {
+    return element ? element.guid : null;
+  }
+}
+ 
+ ``` 
+We also need to tell the ngFor directive which function it should use to track the element. 
+This can be done like so:
+
+```html title=example.component.html
+ <ul>
+  <li *ngFor="let element of array; trackBy: trackElement" >
+  </li>
+</ul>
+ 
+ ``` 
+![angular-rxjs-banner](./img/angular-rxjs-banner.png)
+## Hot to use NgFor with Non-Iterables 
+
+NgFor does only work with Iterables by design. This is fine, if your data structure is an array, but what about plain objects or maps?
+Here are some examples of how to use NgFor with different data-structures!
+
+Plain Old JavaScript Objects
+I like to store many of my data in plain JavaScript objects, because they behave just like a map in other languages. They are very fast when it comes to accessing data by a key.
+
+Unfortunately, we can't just use objects with ngFor. But it is not impossible to do.
+To make objects compatible with ngFor, we need to convert the object to an array. Easy right?
+But how can we do so in a convenient way?
+
+In my opinion, the best way to do this is in a angular pipe. That way it is convenient to use and also quite efficient.
+
+The pipe to do this looks like this:
+
+```typescript title=values.pipe.ts
+ import { PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({name: 'values'})
+export class ValuesPipe implements PipeTransform {
+ transform(value, args:string[]) : any {
+  let values= [];
+  for (let key in value) {
+   values.push(value[key]);
+  }
+  return values;
+ }
+}
+ 
+ ``` 
+This pipe can then be used like this (note that it has to be declared in a module first):
+
+```html title=example.component.ts
+ <ul>
+  <li *ngFor="let element of object | values" >
+  </li>
+</ul>
+ 
+ ``` 
+Observables
+If we deal with observables, like results from the HttpClient, we can use the async pipe, that is provided by the angular framework.
+
+```html title=example.component.ts
+ <ul>
+  <li *ngFor="let element of observable$ | async" >
+  </li>
+</ul>
+ 
+ ``` 
+## Conclusion 
+
+In this tutorial we discovered, how we can use the power of the ngFor directive in our angular application.
+
+I hope you liked this article. If you did, please share it with your friends!
+
+Happy Coding!
+

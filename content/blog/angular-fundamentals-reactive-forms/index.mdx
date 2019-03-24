@@ -1,0 +1,446 @@
+---
+id: '5bb0cae79583501f642526fc'
+title: 'Reactive Forms with Angular [Using easy Examples]'
+image: './img/angular-reactive-forms-tutorial.png'
+date: 2018-03-03T23:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526ed","5bb0cae79583501f642526fd","5bb0cae79583501f64252703"]
+tags: ["angular"]
+---
+Forms are arguably one point where angular really shines.
+
+So learning how forms work in angular is an essential skill.
+
+In this tutorial we are going to take a close look at one of the two ways to create forms in angular. The reactive forms.
+
+We will dive right into code and discover all the details about reactive forms in the angular framework step by step and with easy examples.
+
+So, without further ado, let's get started!
+
+![angular-forms-banner](./img/angular-forms-banner.png)
+## Forms in Angular 
+
+There are two different approaches to forms in Angular. 
+
+The first category are the template-driven forms.
+Using this method, you first create html-input-elements and then use directives like ngModel to bind their value to a component's variable.
+
+Personally, I've used this technique a lot. But that way only because I did not know about the other category.
+
+Reactive Forms.
+
+Reactive Forms a kind of the opposite to template-driven forms. 
+Instead of defining the form in your template, the structure of the form is defined in code.
+
+This maybe sounds a little bit odd now. At least I felt like this.
+
+"Isn't it twice the work, to define the form in code?"
+
+"And isn't it much harder to read?"
+
+That was what I asked myself and that is what you should ask yourself, too! 
+
+But please wait with that, until you read this article and fully understand the topic.
+
+To answer these questions, let's dive right in and just build a small example using reactive forms together!
+
+![angular-modules-banner](./img/angular-modules-banner.png)
+## Importing the Module 
+
+For this example we are going to use a blank angular-cli application. 
+
+I you haven't done so already, please go ahead and create one:
+
+```
+ ng new [name]
+ 
+ ``` 
+As you probably know, Angular is organized in modules.
+
+To use certain features, we first need to import the modules that contain that feature, before we can use it.
+
+This is true for reactive forms, as well.
+
+To use reactive forms, we need to import the ReactiveFormsModule into our parent module. 
+
+In our case, the parent module is the AppModule.
+
+Let's import the required module into it:
+
+```typescript title=src/app.module.ts
+ import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, ReactiveFormsModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+ 
+ ``` 
+![angular-code-banner](./img/angular-code-banner.png)
+## Defining a Model 
+
+In this example we are going to create a simple contact-form, because I couldn't think of something more creative.
+
+Before we start creating our form, we first need to define, which information we would like to gather with it. 
+
+To do so, we are creating a so called model. 
+
+A model is just a class, that contains all the fields, that our data can have.
+
+All we need to do, is to create a new file for that class. Also, I typically create a new folder called models to contain all models of the application.
+
+Inside of that file, we create our model. In this case, the data will be split in two parts.
+
+Personal data about the person using the contact-form and the actual data he/she wants to submit.
+
+The model for that looks like this:
+
+```typescript title=src/models/contact-request.ts
+ export class ContactRequest {
+  personalData: PersonalData;
+  requestType: any = '';
+  text: string = '';
+}
+
+export class PersonalData {
+  email: string = '';
+  mobile: string = '';
+  country: string = '';
+}
+ 
+ ``` 
+As you can see, I have also added default values to each field, as we will require them later.
+
+![angular-new-banner](./img/angular-new-banner.png)
+## Setting up a Contact-Component 
+
+Next, we need a component, to create our form in.
+
+So let's just create one!
+
+Just use the following command of the angular-cli:
+
+```
+ ng generate component contact
+ 
+ ``` 
+This will create a basic component for us to use. It will also import that component into our AppModule automatically.
+
+
+![angular-animation-banner](./img/angular-animation-banner.png)
+## Creating a Reactive Form in Angular 
+
+Now we can finally start creating our form.
+
+Other than with template-driven forms, we can not simply use the model we have created earlier. 
+
+Instead we have to create a different one. One, that is only responsible for the form-representation.
+
+But why doe we have to do that? Isn't that much more complex that just binding to the model ?
+
+Of course it is. 
+
+But binding to the model directly comes with one large downside.
+
+We are altering the original data directly. 
+
+Reactive Programming and Immutability
+This has become bad-practice in the last couple years, as a paradigm called reactive programming took the programming world over more and more.
+
+Why?
+
+Well, the simplest answer might be, that we loose the original data. If the user decides to abort his action, we can not recover the previous state, as we have overwritten it.
+
+What we do with reactive forms instead, is keeping the data in the form model, until the user hits the submit button.
+
+Only then the data is copied over to the original model, replacing everything. This type of overwriting everything is called "immutable objects".
+
+Form Controls
+To create this form-model, angular uses a class called FormGroup.
+
+To define our form-model, we create a new FormGroup. The constructor of this class then takes an object, that can contain sub-form-groups and FormControls.
+
+FormControls represent the leafs in this tree. They are the smallest possible unit and typically represent a HTML-control (input, select, ...) of your template.
+
+In actuall code, let's create a new method, that creates a new instance of the form-model for us. We call this mehtod: createFormGroup.
+
+```typescript title=src/contact/contact.component.ts
+ createFormGroup() {
+  return new FormGroup({
+    personalData: new FormGroup({
+      email: new FormControl(),
+      mobile: new FormControl(),
+      country: new FormControl()
+     }),
+    requestType: new FormControl(),
+    text: new FormControl()
+  });
+}
+ 
+ ``` 
+You will notice the similarities with our contact-request model.
+
+In fact, I would recommend that you always keep them that similar. That way, you wont have any trouble converting the form-model to your actual model.
+
+Because we want the country and the request Type to be select-able as a drop-down, we also have to provide some options to choose from:
+
+```typescript title=src/contact/contact.component.ts
+ countries = ['USA', 'Germany', 'Italy', 'France'];
+
+requestTypes = ['Claim', 'Feedback', 'Help Request'];
+ 
+ ``` 
+
+Finally, we save the result of that method to a public field, to be accessible in our template.
+
+```typescript title=src/contact/contact.component.ts
+ contactForm: FormGroup;
+constructor() {
+    this.contactForm = this.createFormGroup();
+}
+ 
+ ``` 
+Here is how your component should look like now:
+
+
+```typescript title=src/contact/contact.component.ts
+ import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+
+@Component({
+  selector: 'app-contact',
+  templateUrl: './contact.component.html',
+  styleUrls: ['./contact.component.css']
+})
+export class ContactComponent implements OnInit {
+  contactForm: FormGroup;
+
+  countries = ['USA', 'Germany', 'Italy', 'France'];
+
+  requestTypes = ['Claim', 'Feedback', 'Help Request'];
+
+  constructor() {
+    this.contactForm = this.createFormGroup();
+  }
+
+  // Step 1
+  createFormGroup() {
+    return new FormGroup({
+      personalData: new FormGroup({
+        email: new FormControl(),
+        mobile: new FormControl(),
+        country: new FormControl()
+      }),
+      requestType: new FormControl(),
+      text: new FormControl()
+    });
+  }
+
+  ngOnInit() {}
+}
+ 
+ ``` 
+![angular-ui-banner](./img/angular-ui-banner.png)
+## Implementing the Template 
+
+For now that is all we need to do code-wise.
+
+Let's take a look how the counterpart, the template will look like.
+
+Basically, our HTML does look just like a regular form. The only difference is, that we have to tell angular, which FormGroup and which FormControl to use for each control.
+
+To see the result, I've also added a paragraph to print out our form-model as json.
+
+```html title=src/contact/contact.component.html
+ <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+  <div formGroupName="personalData" novalidate>
+    <input formControlName="email">
+    <input formControlName="mobile">
+    <select formControlName="country">
+      <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+    </select>
+  </div>
+  <select formControlName="requestType">
+    <option *ngFor="let requestType of requestTypes" [value]="requestType">{{requestType}}</option>
+  </select>
+  <input formControlName="text">
+  <button type="submit" [disabled]="contactForm.pristine">Save</button>
+  <button type="reset" (click)="revert()" [disabled]="contactForm.pristine">Revert</button>
+</form>
+ 
+ ``` 
+At this point, your app should be in a runable state again.
+
+In case you didn't know: You can start your application using the
+
+```
+ ng serve
+ 
+ ``` 
+command.
+
+
+![angular-build-banner](./img/angular-build-banner.png)
+## Using the Angular Form-Builder 
+
+From the example of our TypeScript code above, we can say that the code is starting to look cluttered already. 
+
+To solve that, angular provides a service called FormBuilder. This FormBuilder allows us to build our form-model with less code.
+
+To use the FormBuilder, we need to request it via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection).
+We do so in the constructor of our component.
+
+```typescript title=src/contact/contact.component.ts
+ constructor(private formBuilder: FormBuilder) {
+    this.contactForm = this.createFormGroup();
+}
+ 
+ ``` 
+The FormBuilder class has to be imported from @angular/forms:
+
+```typescript title=src/contact/contact.component.ts
+ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
+ 
+ ``` 
+Now we can use that FromBuilder to build our form-model. For demonstration-purposes, I have created a new method called "createFormGroupWithBuilder".
+You can just replace you previous code if you want to.
+
+```typescript title=src/contact/contact.component.ts
+   createFormGroupWithBuilder(formBuilder: FormBuilder) {
+    return formBuilder.group({
+      personalData: formBuilder.group({
+        email: 'defaul@email.com',
+        mobile: '',
+        country: ''
+      }),
+      requestType: '',
+      text: ''
+    });
+  }
+ 
+ ``` 
+Using this approach, we have to define the default values of each field. You can just pass them an empty string, or fill it with some default-data as I did with the "email"-field.
+
+Passing a Class to the Form-Builder
+I turns out, using the FormBuilder, we can further optimize our code. 
+
+Instead of defining our form-model inline, the FormBuilder allows us to pass in any JavaScript object.
+
+So we can just pass in a new instance of our PersonalData class.
+
+```typescript title=src/contact/contact.component.ts
+ createFormGroupWithBuilderAndModel(formBuilder: FormBuilder) {
+    return formBuilder.group({
+      personalData: formBuilder.group(new PersonalData()),
+      requestType: '',
+      text: ''
+    });
+  }
+ 
+ ``` 
+However, we have to make sure, that all fields of the form are also present in this object. This is why we have assigned the default values in our contact-request-model.
+
+![angular-test-banner](./img/angular-test-banner.png)
+## Extracting the Data from the Form 
+
+Now that have talked about our more than enough, it's time to worry about getting our data out of that form into an contact-request object.
+
+For that, we are using the submit-button, we have created earlier in our template. We also already registered the callback-method "onSubmit".
+
+To be able to listen to the button-press, we need to implement that callback in our component.
+
+Inside of that callback, we can access the form's values by its values property.
+
+```
+ this.contactForm.value
+ 
+ ``` 
+But we need to be careful here. 
+These values are still referenced by our form. If we just copy that reference and modify the data elsewhere, the form will be impacted, as well. This can cause weird side-effects.
+
+This is why we need to create a copy of the data. 
+In this example we are using Object.assign for that.
+
+```
+ const result: ContactRequest = Object.assign({}, this.contactForm.value);
+ 
+ ``` 
+However, that is not enough. Object.assign creates something called a shallow copy. That means that all primary-fields of the object are copied properly, but the references to sub-objects or lists are still the same.
+Not noticing this problem does cause even more weird side-effects.
+
+Instead what we want to do is create a deep copy. We can either achieve that by doing it copying everything manually or use a utility like lodash's cloneDeep function.
+We will use the manual method here.
+
+```
+ result.personalData = Object.assign({}, result.personalData);
+ 
+ ``` 
+Overall, the onSubmit method should now look something like this:
+
+```typescript title=src/contact/contact.component.ts
+   onSubmit() {
+    // Make sure to create a deep copy of the form-model
+    const result: ContactRequest = Object.assign({}, this.contactForm.value);
+    result.personalData = Object.assign({}, result.personalData);
+
+    // Do useful stuff with the gathered data
+    console.log(result);
+  }
+ 
+ ``` 
+![angular-healing-banner](./img/angular-healing-banner.png)
+## Resetting the Form 
+
+Resetting the form is definitely one of the easier parts with reactive forms.
+
+Again, we are going to use the reset-button, we have included into our template already.
+
+All we need to do now, is to implement the revert-callback into our component.
+
+To reset the form, we can either use the form's reset method without any parameter,
+
+```
+ // Resets to blank object
+this.contactForm.reset();
+ 
+ ``` 
+which results in an empty object, or pass a set of default parameters along:
+
+```
+ // Resets to provided model
+this.contactForm.reset({ personalData: new PersonalData(), requestType: '', text: '' });
+ 
+ ``` 
+All in all the revert method simply looks like this:
+
+```typescript title=src/contact/contact.component.ts
+   revert() {
+    // Resets to blank object
+    this.contactForm.reset();
+
+    // Resets to provided model
+    this.contactForm.reset({ personalData: new PersonalData(), requestType: '', text: '' });
+  }
+ 
+ ``` 
+## Conclusion 
+
+
+In this tutorial we learned how to create forms with angular using the reactive-forms method.
+
+I hope you enjoyed this post. 
+
+If you did please hit the share button below and help other people understand reactive-forms in angular, as well.
+
+Have a fantastic day!

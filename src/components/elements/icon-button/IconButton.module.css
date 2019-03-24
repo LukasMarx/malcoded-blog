@@ -1,0 +1,23 @@
+.button {
+  position: relative;
+
+  display: block;
+  padding: 8px;
+  overflow: hidden;
+  border-width: 0;
+  outline: none;
+  border-radius: 50%;
+
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.3s;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin: 0;
+}
+
+.button:hover {
+  background-color: #55555566;
+}

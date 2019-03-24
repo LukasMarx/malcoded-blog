@@ -1,0 +1,56 @@
+.image {
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  margin-left: -54px;
+  border-radius: 50%;
+  display: grid;
+  grid-template-columns: 50px 1fr 1fr;
+  align-items: center;
+  grid-gap: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 20px;
+}
+
+.root {
+  margin-bottom: 32px;
+}
+
+.reply {
+  margin-left: 64px;
+  margin-top: 32px;
+}
+
+.actions {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+
+.content {
+  padding-left: 24px;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  height: 200px;
+  border: 0;
+  padding: 10px 5px;
+  resize: none;
+  border: 2px solid #555;
+  background-color: transparent;
+  border-radius: 5px;
+  font-family: 'Roboto';
+  box-sizing: border-box;
+}
+
+.textarea:focus {
+  outline: none;
+}

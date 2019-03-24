@@ -1,0 +1,399 @@
+---
+id: '5bb0cae79583501f642526fa'
+title: 'Resizing Images in Node.js using Express & Sharp'
+image: './img/resizing-images-nodejs-sharp.png'
+date: 2018-03-18T23:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#689f63'
+colorMain: '#689f63'
+colorDark: '#689f63'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526ef',
+    '5bb0cae79583501f642526f9',
+    '5bb0cae79583501f64252701',
+  ]
+tags: ['nodejs']
+---
+
+Resizing images on the fly as a common task for an API.
+
+Implementing the API however can be a challenge.
+
+In this tutorial, we are going to take a look at how you can implement your own image-resizing API using node.js, express and sharp.
+
+We are doing so by looking closely at each step, so you have no problems understanding the details.
+
+In fact, our first running server does only consist of 3 lines!
+
+From there we will expand step by step until we have a working image-resizing API.
+
+Ready?
+
+Let's get started!
+
+![nodejs-cli-banner](./img/nodejs-cli-banner.png)
+
+## Setting up a new Express Project
+
+To get started, we need to initialize a new node.js project first. To do so, create a new directory for your project.
+
+Next, open the terminal in that location and use the command
+
+```
+ npm init
+
+```
+
+to initialize a new project. This will create a simple package.json file.
+
+Next, we are going to need two files:
+
+server.js
+resize.js
+
+Please go ahead and create these two files in our project directory.
+
+Last but not least, we are going to need an image for testing purposes. You can use whatever you like here. Choose an image and place it inside of the project-directory, as well.
+This will be the image we will be serving through our API.
+
+External Dependencies
+For this project, we are also relying on some external dependencies.
+
+The first one is express. It will make creating an API very easy and convenient.
+Install it using:
+
+```
+ npm install express --save
+
+```
+
+Furthermore, we need a library to transform our images. In this tutorial, we are going to use the library "sharp" because it promising to be the fastest solution out there.
+Install sharp using:
+
+```
+ npm install sharp --save
+
+```
+
+Now we are ready to start coding!
+
+![nodejs-takeoff-banner](./img/nodejs-takeoff-banner.png)
+
+## Creating a basic Express Server
+
+In the next step, we will need to create a basic express server.
+
+Don't worry. Creating a basic express server is very easy. All we need are three simple lines.
+
+Our basic server will live in the server.js file.
+
+First, we need to require express. This is pulling the express-library into our project. Just like import or using statements in other languages.
+
+```javascript title=server.js
+const express = require('express')
+```
+
+Actually, what we are importing here is a function. We can now use that "express" function to create a new server instance.
+
+```javascript title=server.js
+const server = express()
+```
+
+Finally, we need to tell our new server to listen on a specific port. We are going to do that using the listen method of our server.
+
+```javascript title=server.js
+server.listen(8000, () => {
+  console.log('Server started!')
+})
+```
+
+That's it! We have created a working express server. Of course, it is not doing anything useful.
+
+You can start our new server by opening a terminal (console) window inside of the project-directory and using the following command:
+
+```
+ node server.js
+
+```
+
+The whole server.js file now looks like this:
+
+```javascript title=server.js
+const express = require('express')
+const server = express()
+server.listen(8000, () => {
+  console.log('Server started!')
+})
+```
+
+![nodejs-images-banner](./img/nodejs-images-banner.png)
+
+## Serving our Image with Express
+
+Next, we are going to take a look at how we can serve the image in our directory.
+
+For that, we need to register a so-called route. The route defines, which URL has to be requested to get the image.
+
+In our example, we are going to do so using the HTTP-get-method, because we want to get something from the server.
+
+Also, this method is very easy to test using any browser.
+
+Registering a route at the url-root looks like this:
+
+```javascript title=server.js
+ server.get('/', (req, res) => {
+
+}
+
+```
+
+We are registering a callback, that is called, whenever the specified URL is requested. We are also getting detailed information about the request (headers etc.) in the first (req) parameter. The second parameter is for the response. We can modify it to alter the response we want to send.
+
+The Resize Function
+Because we will need it later, we create and use a function called resize to load the image. This function sits inside of the resize.js file.
+
+We are exporting it as a module, so we can import it into our main server.js file later.
+
+```javascript title=resize.js
+module.exports = function resize(path, format, width, height) {}
+```
+
+The function does take some parameters, which are the path to the image, the requested format, the requested with and the requested height. For now, let's ignore all but the first parameter and concentrate on loading the image.
+
+For that, we are going to need the file-system module of node.js. So we need to require it at the top of the resize.js file.
+
+```javascript title=resize.js
+const fs = require('fs')
+```
+
+To read the file of our image, we are going to create a read stream using the node.js streaming API. A stream is a very efficient way of handling large amounts of data because a stream does not load the data into memory all at once. Instead, it is passing it through in small chunks, never keeping more than one or two chunks in memory at once.
+
+That way, we do need far less system memory.
+
+Although that is true for just passing through the data, depending on the image format, we may need to load the full image into memory all at once, to modify it. So although we are continuing to use streams in the whole tutorial, please keep in mind that the image library sharp could load the full image into memory in the background.
+
+To create a readstream, we are using the method of the file-system api.
+We are passing in the path we got as a parameter.
+
+```javascript title=resize.js
+const readStream = fs.createReadStream(path)
+```
+
+Next, we are just returning it.
+
+```javascript title=resize.js
+return readStream
+```
+
+So our function looks like this:
+
+```javascript title=resize.js
+module.exports = function resize(path, format, width, height) {
+  const readStream = fs.createReadStream(path)
+  return readStream
+}
+```
+
+Of course, it has nothing to do with resizing yet. We are just loading the image and pass back the stream.
+
+Formulating a response
+Next, we are going to use our function in our main server.js file.
+To do so, we first need to require it:
+
+```javascript title=server.js
+const resize = require('./resize')
+```
+
+Afterward, we use the function inside of our route callback to pass the loaded image into the response.
+Because the response does support streams, we can just pipe it from our readStream into the response.
+
+```javascript title=server.js
+ server.get('/', (req, res) => {
+	res.type('image/png');
+	resize('nodejs.png').pipe(res);
+}
+
+```
+
+Notice, that we are specifying the content-type of our response, so the browser knows what to do with it. Also notice, that my image is called "nodejs.png". You need to replace that with the name of your image in your directory.
+
+Now, when we start our server and visit http://localhost:8000 in any browser, you should see your image.
+
+![nodejs-image-resize-banner](./img/nodejs-image-resize-banner.png)
+
+## Resizing Images using Sharp
+
+Having a resizing API without actually resizing the images is quite pointless though. So let's take a look at how that can be done!
+
+Extracting Query-Parameter
+
+But first, we need to extract the information how to resize and format our image from the request. For that, we are using the HTTP-query-parameter.
+They are looking something like this in the URL of the request. I'm sure you have seen them before.
+
+Here is an example of how our query-parameter will look like:
+
+```
+ http://localhost:8000?format=png&width=200&height=200
+
+```
+
+Extracting these from the request is quite simple. We can do so using the "query" property of the request-object.
+
+```javascript title=server.js
+const widthString = req.query.width
+const heightString = req.query.height
+const format = req.query.format
+```
+
+Since these values are strings, but we need our image dimensions to be numbers, we need to parse them into integers. Because every query-parameter is supposed to be optional, we need to check if they are null first.
+
+```javascript title=server.js
+let width, height
+if (widthString) {
+  width = parseInt(widthString)
+}
+if (heightString) {
+  height = parseInt(heightString)
+}
+```
+
+Now we can use these variables and pass them into our resize function. Also, we setting the content-type of the response to the given format.
+
+```javascript title=server.js
+res.type(`image/${format || 'png'}`)
+resize('nodejs.png', format, width, height).pipe(res)
+```
+
+The whole thing should now look like this:
+
+```javascript title=server.js
+const express = require('express')
+const resize = require('./resize')
+
+const server = express()
+
+server.get('/', (req, res) => {
+  // Extract the query-parameter
+  const widthString = req.query.width
+  const heightString = req.query.height
+  const format = req.query.format
+
+  // Parse to integer if possible
+  let width, height
+  if (widthString) {
+    width = parseInt(widthString)
+  }
+  if (heightString) {
+    height = parseInt(heightString)
+  }
+  // Set the content-type of the response
+  res.type(`image/${format || 'png'}`)
+
+  // Get the resized image
+  resize('nodejs.png', format, width, height).pipe(res)
+})
+
+server.listen(8000, () => {
+  console.log('Server started!')
+})
+```
+
+Extending the Resize Function to Actually Resize
+For our resize function to work as expected, we actually just need to add a couple of lines.
+
+First, we need to require the sharp library:
+
+```javascript title=resize.js
+const sharp = require('sharp')
+```
+
+Next, we are creating a new transform using the imported sharp-function. This transform holds all the information how to transform our image.
+
+```javascript title=resize.js
+let transform = sharp()
+```
+
+Depending on which input-parameters are given, we are chaining different sharp-methods together.
+
+If the format is given, we use the "toFormat" method to convert our image into that format.
+
+```javascript title=resize.js
+if (format) {
+  transform = transform.toFormat(format)
+}
+```
+
+If width or height is defined, we adjust the size of the image using the "resize" method.
+
+```javascript title=resize.js
+if (width || height) {
+  transform = transform.resize(width, height)
+}
+```
+
+It is important to understand that we have not modified our image in any way. We have just configured the configuration.
+To actually transform our image, we need to pipe the readStream into it. We are then returning the resulting stream, which will then be piped into our response.
+
+```javascript title=resize.js
+return readStream.pipe(transform)
+```
+
+The whole resize file now looks like this:
+
+```javascript title=resize.js
+const fs = require('fs')
+const sharp = require('sharp')
+
+module.exports = function resize(path, format, width, height) {
+  const readStream = fs.createReadStream(path)
+  let transform = sharp()
+
+  if (format) {
+    transform = transform.toFormat(format)
+  }
+
+  if (width || height) {
+    transform = transform.resize(width, height)
+  }
+
+  return readStream.pipe(transform)
+}
+```
+
+If we start our server now using
+
+```
+ node server.js
+
+```
+
+we have a fully function image-resize API. Feel free to test the URL we discussed above to verify that everything is working properly.
+
+![nodejs-error-banner](./img/nodejs-error-banner.png)
+
+## A Word of Warning!
+
+Before you go, I want to tell you about my experience with the "sharp" library.
+
+Mainly there are two things you should know.
+
+First, "sharp" is a native nodej.js plugin. That means that there is c++ code running in the background. And that is great, as it makes "sharp" blazing fast.
+
+But this can also cause some problems. Because c++ needs to be compiled differently, depending on the platform you are on, you might run into trouble when switching them.
+For example, if you are testing on windows but deploy to Linux. Especially if you are using a bundler like webpack, this leads to a lot of problems.
+
+Secondly, image manipulation does cost some memory. I had sharp running on Heroku for a while to serve the images on this blog. Unfortunately, the machine had only 512MB of memory to work with. Even with garbage-collection set to "rampage"-mode, the server would occasionally hit the memory limit. That being said, I suspect that there was a memory leak going on, too.
+
+On another machine with 2GB of RAM, everything works just fine. Surprisingly, the application does not even use close to 512MB there.
+
+## Conclusion
+
+In this tutorial, we learned how to set up a node.js server-application from scratch and created a very basic image-resizer using the sharp-library.
+
+I hope you enjoyed this post.
+
+If you did please hit the share buttons below and help other people building their own image-resizer, as well.
+
+Have a fantastic day!

@@ -1,0 +1,33 @@
+.root {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-areas: 'left left content content content content content content content content right right';
+}
+
+@media only screen and (max-width: 768px) {
+  .root {
+    grid-template-areas: 'content content content content content content content content content content content content';
+  }
+}
+
+.content {
+  grid-area: content;
+  margin-top: 16px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 768px) {
+  .content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.image {
+  margin-bottom: 32px;
+  width: 300px;
+}

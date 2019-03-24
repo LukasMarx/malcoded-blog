@@ -1,0 +1,230 @@
+---
+id: '5bffb10fe852ca001e040abb'
+title: 'Vue.js Computed Properties'
+image: './img/vue-computed-properties.png'
+date: 2018-11-28T23:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#4dba87'
+colorMain: '#4dba87'
+colorDark: '#4dba87'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526eb',
+    '5bb0cae79583501f642526ef',
+    '5bf03126e852ca001e040a7e',
+  ]
+tags: ['vue']
+---
+
+In this tutorial, you will learn what Vue computed properties are and how to use them.
+
+We will compare them to regular Vue methods and discover when to use computed properties instead.
+
+Ready?
+
+Let's get started!
+
+![vuejs-question](./img/vuejs-question.png)
+
+## Why using Vue methods is not always best
+
+When you have worked with Vue before, you probably have used regular methods to do your computations.
+
+These methods are declared in the "methods" section of your component and behave just like a regular JavaScript function.
+
+```
+  methods: {
+    formatDate() {
+	}
+}
+
+```
+
+So what's the problem?
+The problem with Vue methods emerges when they are used in parts of your component, that are executed with every re-render of the component itself.
+
+For example, if you need to format a date to use it inside a template:
+
+```
+ <template>
+    <p>{{formatDate()}}</p>
+</template>
+
+```
+
+When using methods like this, the method is executed every time the component needs to be rendered. Depending on your component, that can be multiple times per second.
+
+Even if your method is quite fast, that can have a huge performance impact. Not to mention what happens when calling computation heavy methods.
+
+This is where computed properties really shine.
+
+Computed properties are cached
+We can avoid all the performance issues mentioned by simply using computed properties.
+
+This is because the result of a computed property is cached, as long the values of the properties used inside of the computed property stay the same.
+
+Using the "formatDate" example, the formatting of the date would happen only once, every time the date changes.
+
+Even if the component is re-rendering like crazy in the meantime, the logic is not executed again but the cached result is used.
+
+![vuejs-new-banner](./img/vuejs-new-banner.png)
+
+## Setting up a Vue project
+
+Now that you know why computed properties are awesome, let's implement a computed "formatedDate" property using the formatDate example we have talked about.
+
+To do this, you can create a new project using the vue-cli.
+
+```
+ vue create computed-properties
+
+```
+
+Of course, you can use your existing vue projects, as well.
+
+![vuejs-build-banner](./img/vuejs-build-banner.png)
+
+## Creating a Vue computed date property
+
+Creating a computed property in Vue is very easy.
+
+In fact, there are not many differences compared to declaring a regular method.
+
+Probably the biggest difference is, that we are declaring our computed property inside of the "computed" instead of the "methods" section of the component.
+
+So instead of declaring a "formatDate" method like this:
+
+```javascript title=src/components/Date.vue
+ methods: {
+    formatDate() {
+      console.log("method");
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+      return this.date.toLocaleString("en-us", options);
+    }
+  }
+
+```
+
+We are defining our computed property called "formatedDate" like so:
+
+```javascript title=src/components/Date.vue
+  computed: {
+    formatedDate() {
+      console.log("computed");
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+      return this.date.toLocaleString("en-us", options);
+    }
+  }
+
+```
+
+Note: Because computed properties are properties and not methods, I would recommend using a naming scheme like used for variables instead of functions. The name of the property is describing the current state ("formatedDate") and is not a call to do something ("formatDate").
+
+Using computed properties
+As the name might imply, computed properties are used like properties and not like methods.
+
+The difference here is that we don't need braces.
+
+So instead of calling a method:
+
+```javascript title=src/components/Date.vue
+ <template>
+    <p>Method: {{formatDate()}}</p>
+</template>
+
+```
+
+We are using a property:
+
+```javascript title=src/components/Date.vue
+<template>
+  <p>Computed: {{ formatedDate }}</p>
+</template>
+```
+
+That's all there is to computed properties!
+
+![vuejs-compare-banner](./img/vuejs-compare-banner.png)
+
+## Comparing the computed property to regular Vue methods
+
+To see the difference in the number of called functions between a computed property and a method, we need to implement both.
+
+Also, we need a way to cause the component to re-render. For that, we add a function that is periodically generating a random number that is used in the template.
+
+Also, we add console.log statements inside of our computed property and our method.
+
+The whole component should now look like this:
+
+```javascript title=src/components/Date.vue
+ <template>
+  <div>
+    <p>Computed: {{formatedDate}}</p>
+    <p>Method: {{formatDate()}}</p>
+    <p>{{random}}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "Date",
+  props: {
+    date: Date
+  },
+  data() {
+    return {
+      random: 1
+    };
+  },
+  created() {
+    setInterval(() => {
+      this.random = Math.random();
+    }, 500);
+  },
+  computed: {
+    formatedDate() {
+      console.log("computed");
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+      return this.date.toLocaleString("en-us", options);
+    }
+  },
+  methods: {
+    formatDate() {
+      console.log("method");
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      };
+      return this.date.toLocaleString("en-us", options);
+    }
+  }
+};
+</script>
+
+```
+
+When showing the component, you will notice that the method is called every time the component re-renders, while the computed property is executed only once.
+
+You can find the full source code at the corresponding [GitHub repository](https://github.com/LukasMarx/vue-computed-properties).
+
+## Conclusion
+
+In this tutorial, you have learned what computed properties are, how to use them and why they could help to avoid performance issues.
+
+I hope you liked this article. If you did, please share it with your friends and colleges. It would mean a lot to me!
+
+Thanks for reading!

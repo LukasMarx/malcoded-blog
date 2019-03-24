@@ -1,0 +1,760 @@
+---
+id: '5bb0cae79583501f64252705'
+title: 'Angular Universal and Server Side Rendering (Step By Step)'
+image: './img/Angular-Universal.png'
+date: 2017-09-22T22:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526ec","5bb0cae79583501f642526f0"]
+tags: ["angular"]
+---
+You probably agree with me when I say:
+
+Angular Universal is not easy to get right the first time.
+
+Well, it turns out, it is not that hard at all!
+
+Once you understand how it actually works, setting up a working application will be easy for you. In fact, creating a fully functional angular universal application will not take you longer than 1 hour!
+
+In this tutorial, I will show you exactly what angular universal is and how it works. Once we got the basics, we will dive right into code! By turning a basic angular-cli project into a functional universal application, you will not only see how it is done step-by-step. You will also end up with a working template for server side rendering, you can use for your future angular adventures. All you need to get started is in this angular universal tutorial.
+
+So let's dive right in!
+![angular-question](./img/angular-question.png)
+## What is Angular Universal? 
+
+[Angular Universal](https://github.com/angular/universal) once was a standalone project. Its main purpose was, to enable angular to run angular completely platform independent.
+
+ "Wait? Why do you speak in past tense?"
+
+ Because with version 4.0 of angular, angular universal got merged into the main framework. It now ships together with the core angular packages. The names of the packages are platform-server and platform-browser.
+
+Angular is now capable of running equally on most platforms. Most importantly, it can be run on a server now. This enables a whole set of new capabilities, like rendering angular to html on the server. But how does that even work?
+
+## Rendering Angular on a Server 
+
+At its core, angular is just an html parser. When you create your angular application, your templates are parsed from HTML markup to JavaScript code. This JavaScript code will then create the parsed HTML elements at run-time in the browser. But rendering that HTML now requires the full angular (core) framework to be downloaded. 
+
+As we learned before, angular is also capable of running on node.js servers. Because of that, it is also possible to generate that parsed HTML on the server. The result is just a bunch of HTML, that the server can then send to the client.
+
+Classic Approach:
+Here is how angular is normally loaded. The angular framework has to be downloaded. The user sees nothing in his browser window until the full angular code is downloaded and bootstrapped.
+![regular-angular-serving](./img/regular-angular-serving.png)
+
+Server Side Rendered:
+When we render angular on the server, all that has to travel over the wire is the html itself. To give you some numbers here. An html document for a blog article might be aground 50kb gzipped. Not counting images etc. of course. On the other side, you will have a hard time bringing angular to under 150kb gzipped. And that number does not contain the content of the page itself. It's just the size of angular JavaScript files. That is more than three times the size! Now imagine your mobile users. That is three times the time, your app takes to download (approximately).
+
+![server-side-rendering-angular](./img/server-side-rendering-angular.png)
+## Static vs. Dynamic 
+
+Now we know the difference between both methods, it turns out, that there are multiple options for server-side rendering.
+
+Static
+The first one is the one you see in the picture above. We render the bare HTML of our page/application. That HTML does only contain the HTML itself, plus the required CSS to display the page. There is no JavaScript in that data. That can be a good or a bad thing. It is a good thing, if we do not rely on JavaScript for our app. That might be the case when rendering a blog post. As we do not need any JavaScript, the size of the downloaded data is relatively small. If you do rely on JavaScript, for example, to show a popup, that can not work, is it is not included in the downloaded file. There are, of course, ways around that, but that get's messy pretty quickly. Read more about that in this [article about common mistakes with server-side rendering](https://malcoded.com/posts/server-rendering-pitfalls).
+
+Dynamic
+The other possible method could be called the dynamic one. Using that method, we still render our HTML at the server. But this time, we also include script tags, that instruct the browser, to download the angular code, once the page is fully loaded. That way, the page can be delivered much faster, than serving the framework right from the beginning. At the same time, we still can use all the JavaScript features, that we might rely on. 
+
+Note: Because the initial version of our application still does not contain JavaScript, we still have to be careful where to use it.
+
+![dynamic-server-side-rendering-angular](./img/dynamic-server-side-rendering-angular.png)
+
+Once the JavaScript is fully downloaded, the application bootstraps and replaces the static HTML version. From this point onward, we can rely on JavaScript code to execute, e.g. show our popup.
+
+Rendering at Build-Time
+Another possible solution could be, to render the static HTML at build time. With that, however, you have to re-build whenever your dynamic content changes. This method does save you from setting up a production server. On the other hand. this method can get messy very fast. I would only recommend it if you do not have any dynamic content, or it almost never changes.
+![angular-thumbs-up](./img/angular-thumbs-up.png)
+## Why should you render on the Server? 
+
+At this point, you may think: 
+
+"Why do we even think about all of this?"
+
+ It turns out, rendering angular on the server bring some great benefits. Here are some of them:
+
+SEO
+["Search Engine Optimization"](https://moz.com/beginners-guide-to-seo). Because angular applications rely heavily on JavaScript, most search engines have trouble scraping the content of the application. In fact, most search engines do not even execute JavaScript. I that case, we would present them a blank page. Ouch! To prevent that, we can render our application on the server and send back the rendered HTML. As the result is plain HTML, the crawler now can index our page properly.
+
+Social Media Embedding
+Search engines are not the only ones, that riot when they see JavaScript. Most content scrapers of social media sites ignore JavaScript, as well. So when a link to our page is shared, we would not get a nice little card with our page in it. Again, they have no problem handling HTML. Examples for social media sites that use content scrapers are Facebook, Twitter, Reddit and many more.
+
+User Experience
+As mentioned above, the application/page can be shown much faster to the user, if server side rendering is used. That has to reasons. First, the overall file size is much smaller, because it only contains HTML. Furthermore, the browser can immediately start rendering the page. In regular angular applications, the application has to be bootstrapped,  before anything can be shown to the user, taking additional time.
+![angular-thumbs-down](./img/angular-thumbs-down.png)
+## Angular Universal: A silver bullet? 
+
+Although server-side rendering (angular 4 universal) brings many advantages, it does have downsides, too. Here are some of them:
+
+Server Required
+As the name server side rendering already suggests, a web-server is required to pre-render the pages. While regular angular applications only contain static files, with server-side rendering, we need to calculate HTML at run-time. So why is this a downside? Well, although hosting does not cost the world, it usually not free/cheap. Not to mentions the administrative effort to sustain the server. With static files, on the other hand, you can get static file hosting for free or very cheap. Also, those services typically scale very well, without any effort on your side.
+
+Not easy to setup
+The angular team has plans to make server-side rendering very easy, by integrating it into the cli. At the moment though, it is not too easy to set up. It requires you to know all the things, that currently don't work server side and avoid them completely. Furthermore, you probably need to get into the basics, of how server-side rendering works with angular, requiring you to look under the hood. There are modules in the universal project, that are trying to take this away from you, but they are still in beta.
+![123](./img/123.png)
+## An Angular Universal Example [Step-by-Step] 
+
+In the following chapters, we will build a basic angular application using the angular-cli. 
+
+Afterward, we are going to make it ready for server-side rendering. We are also going to implement the required server in node.js. 
+
+So let's generate a new application using the angular-cli:
+
+```undefined title=undefined
+ ng new server-side-rendering
+ 
+ ``` 
+The generated application will be the foundation for our next steps.
+
+Setting up the Angular Universal Application
+To make our application ready for server-side rendering, we will need to make some adjustments. Because the code, executed on the server, is a little different than the code in the browser, our application will need to have two entry points. Also, we are going to have two separate root modules, enabling us to import different modules on the server. We need that functionality because not all modules are compatible with server-side rendering. Especially third-party ones. 
+
+Furthermore, some features just don't need to get rendered on the server. What sense would it make to execute e.g. Google Analytics on the server?
+
+In our application, we will use dynamic server-side rendering, as it is the more common use case. We will take a look at converting it to static rendering later.
+
+So let's get started!
+
+Creating additional Modules
+First, we need to create two additional modules in the applications app directory. Next to app.module.ts create a file named browser.app.module.ts and a file named server.app.module.ts. If you want to learn more about modules, check out this [article about angular modules](https://malcoded.com/posts/angular-fundamentals-modules)!
+
+Browser Module
+The browser app module is very simple. All we need to do here is to call BrowserModule.withServerTransition. This method tells angular, that we are using server-side rendering and that the view has to be swapped, once the full framework is loaded. This method expects an object with a key called appId. You can enter any string here. Just make sure, the string in our browser app module matches the one in the server app module.
+
+```typescript title=src/app/browser.app.module.ts
+ import { AppModule } from './app.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [],
+    imports: [
+        BrowserModule.withServerTransition({
+            appId: 'my-app-id'
+        }),
+        AppModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class BrowserAppModule {}
+ 
+ ``` 
+You may have noticed, that we are still using the default AppModule by importing it into our browser module. We will also use AppModule in our server module later. Think of it as a shared module, between server and browser.
+
+Server Module
+For now, our server module looks basically the same as the browser module. The only difference is, that we need to import an angular module called ServerModule. This module is not installed by the angular-cli. To install it, use one of the following commands:
+
+```undefined title=undefined
+ yarn add @angular/platform-server
+
+npm install @angular/platform-server --save
+
+import { AppModule } from './app.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+//Installed separatly
+import { ServerModule } from '@angular/platform-server';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [],
+    imports: [
+        //Make sure the string matches
+        BrowserModule.withServerTransition({
+            appId: 'my-app-id'
+        }),
+        ServerModule,
+        AppModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class ServerAppModule {}
+ 
+ ``` 
+Creating a second entry point
+Normally our angular application has only one entry point. That is, where the bootstrap method gets called. In a cli project, that call is located in the main.ts file in the src directory. 
+We can leave that file as it is. It will be the entry point for our browser version.
+
+To create an entry point for our server version, just create another file right next to main.ts. Let's call it server.main.ts. The content of that file is really simple. Just export our server module in there.
+
+```typescript title=src/server.main.ts
+ export { ServerAppModule } from './app/server.app.module';
+ 
+ ``` 
+Telling the angular compiler about our Entry-Modules
+To make this, work, we also have to tell the angular compiler, which ones our entry modules are. To do so, we need two separate tsconfig.json files, located in the applications src directory. By default, the cli has generated a file called tsconfig.app.json here. Just rename that one to tsconfig.browser.json. Just to make things clear. Additionally, create another file called tsconfig.server.json.
+
+Bot files are really simple. Here is how they look like:
+
+```javascript title=src/tsconfig.browser.json
+ {
+    "extends": "../tsconfig.json",
+    "angularCompilerOptions": {
+        "entryModule": "./app/browser.app.module#BrowserAppModule"
+    },
+    "exclude": ["test.ts", "**/*.spec.ts"]
+}
+
+{
+    "extends": "../tsconfig.json",
+    "angularCompilerOptions": {
+        "entryModule": "./app/server.app.module#ServerAppModule"
+    },
+    "exclude": []
+}
+ 
+ ``` 
+At this point, you maybe have noticed, that there is a lot of boilerplate to set up. But we are not quite done yet...
+
+Creating a second app for the CLI
+The last thing, we need to do, is to edit the angular-cli.json. We need to tell the CLI about all the changes, we have made, for it to work properly. Furthermore, we are going to create a second profile for the server bundle. The cli will then generate that bundle, containing only the code we require on the server for rendering.
+
+To keep things short, here is how the "apps" section of the angular-cli.json should look like.
+
+```javascript title=angular-cli.json
+ "apps": [
+        {
+            "root": "src",
+            "outDir": "dist",
+            "assets": ["assets", "favicon.ico"],
+            "index": "index.html",
+            "main": "main.ts",
+            "polyfills": "polyfills.ts",
+            "test": "test.ts",
+            "tsconfig": "tsconfig.browser.json",
+            "testTsconfig": "tsconfig.spec.json",
+            "prefix": "app",
+            "styles": ["styles.css"],
+            "scripts": [],
+            "environmentSource": "environments/environment.ts",
+            "environments": {
+                "dev": "environments/environment.ts",
+                "prod": "environments/environment.prod.ts"
+            }
+        },
+        {
+            "root": "src",
+            "outDir": "dist-server",
+            "assets": ["assets", "favicon.ico"],
+            "index": "index.html",
+            "main": "server.main.ts",
+            "platform": "server",
+            "polyfills": "polyfills.ts",
+            "test": "test.ts",
+            "tsconfig": "tsconfig.server.json",
+            "testTsconfig": "tsconfig.spec.json",
+            "prefix": "app",
+            "styles": ["styles.css"],
+            "scripts": [],
+            "environmentSource": "environments/environment.ts",
+            "environments": {
+                "dev": "environments/environment.ts",
+                "prod": "environments/environment.prod.ts"
+            }
+        }
+    ],
+ 
+ ``` 
+Next, let the CLI create our bundles. We can do so using the following commands one after another.
+
+Client-Side bundle:
+```undefined title=undefined
+ ng build --prod
+ 
+ ``` 
+Server-Side bundle:
+```undefined title=undefined
+ ng build --prod --app 1
+ 
+ ``` 
+Your applications root directory should now contain a "dist" and a "dist-server" folder. 
+
+Next, we are going to use these files, with our dynamic rendering server.
+
+![angular-ssr](./img/angular-ssr.png)
+## Server-Side Rendering 
+
+Look:
+
+Now, that we have set up our angular application, we need a server, to actually render the application. In this chapter, we will create a node.js server to render our application.
+
+Setting up the Dynamic Rendering Server
+To do the server side rendering itself, we are going to use an external package, I mentioned earlier. This package is called [@nguniversal/express-engine](https://www.npmjs.com/package/@ngx-universal/express-engine). To install it, use one of the following commands.
+
+@nguniversal/express-engine
+
+```undefined title=undefined
+ yarn add @nguniversal/express-engine
+
+npm install @nguniversal/express-engine --save
+ 
+ ``` 
+Of course, we also require [express ](https://www.npmjs.com/package/express)itself.
+
+express
+
+```undefined title=undefined
+ yarn add express
+
+npm install express --save
+ 
+ ``` 
+Creating a Node.js Server
+To create our server, just create a new file called server.js in the root directory of the application.
+Afterward, we need to require some modules.
+```javascript title=server.js
+ // Angular requires Zone.js
+require('zone.js/dist/zone-node');
+
+const express = require('express');
+const ngExpressEngine = require('@nguniversal/express-engine/modules/express-engine')
+    .ngExpressEngine;
+const fs = require('fs');
+ 
+ ``` 
+Next, we need to import the main.{hash}.bundle.js file from our dist-server directory, generated by the angular-cli. But there is a problem: Because the filename does contain the hash of the file, the filename changes with every new build (if something changed). One option to solve that problem would be, to use the --output-hashing none flag of the angular-cli. That way, the hash is not added to the filename.
+
+```undefined title=undefined
+  ng build --prod --app 1 --output-hashing none
+ 
+ ``` 
+If you want to keep the hash, you can do so, as well:
+
+```javascript title=server.js
+ // Find the main.hash.bundle in the dist-server folder
+var files;
+try {
+    files = fs.readdirSync(`${process.cwd()}/dist-server`);
+} catch (error) {
+    console.error(error);
+}
+var mainFiles = files.filter(file => file.startsWith('main'));
+var split = mainFiles[0].split('.');
+var hash = '';
+if (split.length > 3) hash = split[1] + '.';
+var {
+    ServerAppModuleNgFactory,
+    LAZY_MODULE_MAP
+} = require(`./dist-server/main.${hash}bundle`);
+ 
+ ``` 
+Next, we create out express app by calling express().
+```javascript title=server.js
+ const app = express();
+ 
+ ``` 
+Afterward, create and specify the view engine. For that, we use the ngExpressEngine we imported and installed before.
+
+```javascript title=server.js
+ app.engine(
+    'html',
+    ngExpressEngine({
+        bootstrap: ServerAppModuleNgFactory,
+        providers: [provider]
+    })
+);
+
+app.set('view engine', 'html');
+app.set('views', __dirname);
+ 
+ ``` 
+We also need to serve our static angular files. For that, we add the dist and the assets folder to the application.
+```javascript title=server.js
+ app.use(express.static(__dirname + '/assets', { index: false }));
+app.use(express.static(__dirname + '/dist', { index: false }));
+ 
+ ``` 
+Then we need to set up a default route, that calls the ngExpress view engine.
+
+```javascript title=server.js
+ app.get('/*', (req, res) => {
+    console.time(`GET: ${req.originalUrl}`);
+    res.render('./dist/index', {
+        req: req,
+        res: res
+    });
+    console.timeEnd(`GET: ${req.originalUrl}`);
+});
+ 
+ ``` 
+Finally, start the app by calling:
+```javascript title=server.js
+ app.listen(process.env.PORT || 8080, () => {});
+ 
+ ``` 
+
+Setting up the Static Renderer
+As we learned before, when serving static files, the HTML does not contain script links to load the angular framework. All we have to do to prevent the whole framework from loading is to exclude the script links from our index.html. To do so, just use the index.html in our src folder instead of the dist folder, as it does not contain those links.
+
+```javascript title=server.js
+ app.get('/*', (req, res) => {
+    console.time(`GET: ${req.originalUrl}`);
+    res.render('./src/index', {
+        req: req,
+        res: res
+    });
+    console.timeEnd(`GET: ${req.originalUrl}`);
+});
+ 
+ ``` 
+Now we are serving completely static files, that only contain HTML and the corresponding style-sheets.
+Depending on your applications use case, it can make sense to only serve those static files to your customer. If your application does not contain fancy JavaScript functionality, for example, a blog, you can get great performance increases. By not serving the angular JavaScript code you are generally saving about 100 KB of gzipped data. A large application can easily go above that. 
+
+On the other hand, if you do not need JavaScript anyway, why have you chosen a JavaScript framework? Well, maybe it is because you wanted to reuse your skills or just to learn angular itself. That is what I did with this blog. It is not only about angular, but also written in angular. All I say is, that you have to choose your tools carefully...
+
+![angular-lazy-loading](./img/angular-lazy-loading.png)
+## Lazy-Load Angular Universal Applications 
+
+Not long ago, lazy loading was not possible with angular universal. Fortunately, the universal-team recently published a package that enables that feature.
+
+That package is called @nguniversal/module-map-ngfactory-loader. What it does, is to create a map of all lazy-loaded modules and it routes. 
+
+This map is needed because when running on the server, there is no need to lazy-load a module. Instead, we want to know about all those lazy-loaded routes beforehand, so we can render them accordingly when the route is requested.
+
+That may sound a little bit complex, but don’t worry. The hard work has already been done for us.
+
+All we need to do is to install that package and add a few lines of code to our application.
+
+Note: I assume, that you already have an angular application that is using lazy-loading. If you don’t know how you can utilize lazy-loading, you should check out this [great article from rangle.io about lazy-loading modules](https://angular-2-training-book.rangle.io/handout/modules/lazy-loading-module.html).
+
+So let’s get started! 
+
+Setup
+As I have mentioned before, we need to install the @nguniversal/module-map-ngfactory-loader package to continue. Go ahead and install it using your favorite package manager.
+
+```undefined title=undefined
+ yarn add @nguniversal/module-map-ngfactory-loader
+
+npm install @nguniversal/module-map-ngfactory-loader --save
+ 
+ ``` 
+Importing into the Universal Application
+To work correctly, the package provides an angular module, that has to be imported into our server app module.
+
+```typescript title=src/app/server.app.module.ts
+ import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
+ 
+ ``` 
+Afterwards your server app module should look something like this: 
+
+```typescript title=src/app/server.app.module.ts
+ import { AppModule } from './app.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+//Installed separatly
+import { ServerModule } from '@angular/platform-server';
+import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+   declarations: [],
+   imports: [
+       //Make sure the string matches
+       BrowserModule.withServerTransition({
+           appId: 'my-app-id'
+       }),
+       ServerModule,
+       AppModule,
+       ModuleMapLoaderModule // The new module
+   ],
+   providers: [],
+   bootstrap: [AppComponent]
+})
+export class ServerAppModule {}
+ 
+ ``` 
+Once that is done, we now have to alter our server just a little.
+
+Adjusting the Server to Support Lazy-Loading
+On the server side, we need to import the @nguniversal/module-map-ngfactory-loader package as well. More precisely, we need a method called provideModuleMap(). To obtain this method, we can just require it from the package.
+
+```javascript title=server.js
+ const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
+ 
+ ``` 
+Furthermore, we need to import the module map that our angular application has created for us. To do so, we require it from our angular server bundle.
+
+```javascript title=server.js
+ const {
+   ServerAppModuleNgFactory,
+   LAZY_MODULE_MAP
+} = require(`./dist-server/main.bundle`);
+ 
+ ``` 
+Note: I’ve used the --output-hashing none flag of the angular-cli, when creating this bundle, to remove the hash from the filename.
+
+Next, we call the provideModuleMap() method and pass it the module map.
+
+```javascript title=server.js
+ const provider = provideModuleMap(LAZY_MODULE_MAP);
+ 
+ ``` 
+We get a provider, that we can pass to the ngExpressEngine like so:
+
+```javascript title=server.js
+ app.engine(
+   'html',
+   ngExpressEngine({
+       bootstrap: ServerAppModuleNgFactory,
+       providers: [provider]
+   })
+);
+ 
+ ``` 
+That’s it. Now our server-side angular universal application knows about all routes. Lazy-loaded or not. 
+
+Easy wasn’t it? Now, for your convenience, here is the complete server.js application again. Again, using the  --output-hashing none flag of the angular-cli like so:
+
+```undefined title=undefined
+  ng build --prod --app 1 --output-hashing none
+
+// Angular requires Zone.js
+require('zone.js/dist/zone-node');
+
+const express = require('express');
+const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
+
+const {
+    ServerAppModuleNgFactory,
+    LAZY_MODULE_MAP
+} = require(`./dist-server/main.bundle`);
+
+const app = express();
+
+const {
+    provideModuleMap
+} = require('@nguniversal/module-map-ngfactory-loader');
+
+const provider = provideModuleMap(LAZY_MODULE_MAP);
+
+app.engine(
+    'html',
+    ngExpressEngine({
+        bootstrap: ServerAppModuleNgFactory,
+        providers: [provider]
+    })
+);
+
+app.set('view engine', 'html');
+app.set('views', __dirname);
+
+app.use(express.static(__dirname + '/assets', { index: false }));
+app.use(express.static(__dirname + '/dist', { index: false }));
+
+app.get('/*', (req, res) => {
+    console.time(`GET: ${req.originalUrl}`);
+    res.render('./dist/index', {
+        req: req,
+        res: res
+    });
+    console.timeEnd(`GET: ${req.originalUrl}`);
+});
+
+app.listen(process.env.PORT || 8080, () => {}); 
+ ``` 
+![angular-transfer-state](./img/angular-transfer-state.png)
+## Angular Transfer State API (Angular 5 only) 
+
+
+Angular 5 has added the transfer state API to the angular package. This enables us, to send information from the server, that is rendering our application, to the client. Why is this useful?
+
+The most common application for transferring state to the client is when your application is making any HTTP-request, to populate your app with content. 
+
+Normally, when we use angular universal, the API that delivers the content, is hit twice. Once, when the server is rendering the page and another time when the application is bootstrapped.
+
+![Angular-Universal-Without-Transfer-State](./img/Angular-Universal-Without-Transfer-State.png)
+
+This behavior does not only produce unnecessary server load but also causes your application to reload and re-evaluate the page and the downloaded content. This can cause a very disruptive flickering effect in your application. 
+
+Of course, making an additional request also adds a delay in form of latency to your application load time. It can be a significant factor if the angular application is loaded on mobile devices.
+
+But it doesn't have to be all about HTTP-requests. Maybe you have some serious calculations to do. Wouldn't it be a waste, if you needed to calculate that twice?
+
+But how can we improve that?
+By using the transfer state API, we can instruct the rendering server, to include the downloaded/calculated information in a serialized form into the rendering output. That way, we can reuse the information, that the server used anyway. 
+
+![Angular-Universal-With-Transfer-State](./img/Angular-Universal-With-Transfer-State.png)
+
+Because we get that all in one HTTP-response, we also save the latency of sending another request for the data.
+
+Implementing the Transfer State API
+Adding the transfer state API to your application is quite simple. All we need to do is adding the Browser/Server-TranferStateModule to the corresponding module and we are good to go.
+
+To do so, we need to add the BrowserTransferStateModule to the BrowserAppModule and the ServerTransferStateModule to the ServerAppModule.
+
+```typescript title=src/app/browser.app.module.ts
+ import { AppModule } from './app.module';
+import {
+    BrowserModule,
+    BrowserTransferStateModule // <--- Added
+} from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [],
+    imports: [
+        BrowserModule.withServerTransition({
+            appId: 'my-app-id'
+        }),
+        BrowserTransferStateModule, // <--- Added
+        AppModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class BrowserAppModule {}
+ 
+ ``` 
+And the same for the server...
+
+```typescript title=src/app/server.app.module.ts
+ import { AppModule } from './app.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import {
+    ServerModule,
+    ServerTransferStateModule // <--- Added
+} from '@angular/platform-server';
+import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+    declarations: [],
+    imports: [
+        BrowserModule.withServerTransition({
+            appId: 'my-app-id'
+        }),
+        ServerModule,
+        AppModule,
+        ModuleMapLoaderModule,
+        ServerTransferStateModule // <--- Added
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
+})
+export class ServerAppModule {}
+ 
+ ``` 
+Using the Transfer State API
+Now that we have set everything up, we can use the transfer state API by requesting an instance of the service via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection). For this example, we are using a component called post.component.
+
+First, we request the transfer state service inside of the component's constructor. Because we probably also want to know, if we are running in the browser or on the server, we also request the current PLATFORM_ID.
+
+```typescript title=src/app/post/post.component.ts
+     private isServer: boolean;
+    constructor(
+        private tstate: TransferState,
+        @Inject(PLATFORM_ID) platformId
+    ) {
+        this.isServer = isPlatformServer(platformId);
+    }
+ 
+ ``` 
+The TS-API can be seen as some kind of storage container, we can get or set values from. To achieve our goal, we want to insert values into the container when we are on the server and retrieve them in the browser.
+
+Each value can be accessed via a key. To create, get or set the value to the container, we actually need that key. This key is not just a string, as we are used to in a JavaScript environment, but an instance of the StateKey class.
+
+To create such a StateKey, we can call the makeStateKey<>() method provided by the framework.
+
+ Let's create a key for our so called-result. In a real scenario, you would name this key according to the value it can access (e.g. POST_KEY). Notice, that the method is strongly typed to the type of the value. In our case, we want to transfer a string.
+
+```typescript title=src/app/post/post.component.ts
+ import { TransferState, makeStateKey } from '@angular/platform-browser';
+
+const RESULT_KEY = makeStateKey<string>('result');
+ 
+ ``` 
+Afterward, we can use the key, to get the value if we are in the browser. On the server, we use the onSerialize() callback, to return the value for the key. That way, we can set the value.
+
+```typescript title=src/app/post/post.component.ts
+     ngOnInit() {
+        if (this.tstate.hasKey(RESULT_KEY)) {
+            // We are in the browser
+            this.result = this.tstate.get(RESULT_KEY, '');
+        } else {
+            // No result received (browser)
+            this.result = 'Im created in the browser!';
+        }
+
+        this.tstate.onSerialize(RESULT_KEY, () => {
+            // On the server
+            return 'Im created on the server!';
+        });
+    }
+ 
+ ``` 
+Simple isn't it? 
+
+While the above solution is totally valid, it may not be the most obvious solution. To make it more clear, what is executed on the server, we can use our isServer flag and the set method of the API.
+
+```typescript title=src/app/post/post.component.ts
+     ngOnInit() {
+        if (this.tstate.hasKey(RESULT_KEY)) {
+            // We are in the browser
+            this.result = this.tstate.get(RESULT_KEY, '');
+        } else if (this.isServer) {
+            // We are on the server
+            this.tstate.set(RESULT_KEY, 'Im created on the server!');
+        } else {
+            // No result received (browser)
+            this.result = 'Im created in the browser!';
+        }
+    }
+ 
+ ``` 
+That's it. Now we know, how to transfer any value(s) from the rendering server to the client! Here is the complete PostComponent:
+
+```typescript title=src/app/post/post.component.ts
+ import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+import { isPlatformServer } from '@angular/common';
+
+const RESULT_KEY = makeStateKey<string>('result');
+
+@Component({
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.css']
+})
+export class PostComponent implements OnInit {
+    public result;
+    private isServer: boolean;
+    constructor(
+        private tstate: TransferState,
+        @Inject(PLATFORM_ID) platformId
+    ) {
+        this.isServer = isPlatformServer(platformId);
+    }
+
+    ngOnInit() {
+        if (this.tstate.hasKey(RESULT_KEY)) {
+            // We are in the browser
+            this.result = this.tstate.get(RESULT_KEY, '');
+        } else if (this.isServer) {
+            // We are on the server
+            this.tstate.set(RESULT_KEY, 'Im created on the server!');
+        } else {
+            // No result received 
+            this.result = 'Im created in the browser!';
+        }
+    }
+}
+ 
+ ``` 
+## Conclusion 
+
+In this article, we have learned, how to set up a  Angular Universal project. what server side-rendering is and why it should be used to increase user experience. We also stepped through the creation of an application from the beginning
+
+I hope you liked this article. If you did, click that button below, and share it with your friends and colleges!
+
+Never miss a post, by following me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).

@@ -1,0 +1,425 @@
+---
+id: '5bb0cae79583501f64252701'
+title: 'Building a REST-Backend for Angular with Node.js & Express'
+image: './img/angular+nodejs.png'
+date: 2017-11-16T23:00:00.000Z
+author: 'Lukas Marx'
+colorLight: '#fd3b6c'
+colorMain: '#c40030'
+colorDark: '#a50016'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526ef',
+    '5bb0cae79583501f642526f9',
+    '5bb0cae79583501f642526fe',
+  ]
+tags: ['angular', 'nodejs']
+---
+
+Angular is a single page application framework. Unfortunately, that does not mean that you don't require a server for certain tasks.
+
+After all, your data has to be served from somewhere...
+
+But don't worry, setting up a server is easier than you might think. In fact, the first server we will create does only consist of three lines of code! For that, we will be using Node.js that allows us to use JavaScript to write our server-applications. We will also use the Express framework to create your first REST-API in just a few, simple steps.
+
+In this tutorial, we will take a look at creating server-applications with Node.js and the Express framework in relation to angular. We will not only create our first small server-application, but also create a functional REST-API to serve our data.
+
+Afterward, we take a close look, how we can utilize our new API, to request and send data from any angular application.
+
+Now you might ask yourself: "What the .... is a REST-API?"
+
+Don't worry, we will come to that, as well!
+
+Ready?
+
+Let's get started!
+
+REST is not what you are looking for?
+[Try GraphQL with Angular Apollo & Express instead!](https://malcoded.com/posts/graphql-with-angular-apollo)
+
+Not a fan of Node.js backends?
+[Then this guide to building a REST-API with ASP.Core is for you!](https://malcoded.com/posts/angular-backend-asp-core)
+
+![angular-cli](./img/angular-cli.png)
+
+## Setting up a new Express Project
+
+As angular developers, we are used to generating our project structure with the angular-cli. Unfortunately, there is no such thing as a node-cli. That means we have to create our project files by hand. Can you believe that?
+
+Well, it is not that bad as it sounds. To create our first functional node.js server application, we only have to create one file.
+
+That file is a simple JavaScript file. It is the entry point for our server application. These files are typically called index.js or server.js.
+
+I like server.js, so let's go ahead and create that file in a new directory of your choice.
+
+Done! Not that hard, was it?
+
+Setting up the node.js Environment
+To run a node.js application, we have to install node.js on our machine first. You can download it at the [official node.js website](https://nodejs.org/en/). For this tutorial, it does not matter, which version you choose. If you want to be on the save side, choose the long-term-support version (LTS).
+
+Download the setup-executable and follow the instructions to install node.js on your computer. At one point, the wizard will ask if you want to install npm, as well. Make sure you do so. On Windows machines, you may need to restart your computer afterward.
+
+Now that we have everything installed, we can initialize a new npm-project. What this will do for us, is generate a new package.json file and fill in its basic structure. As an angular developer, you should be familiar with this file already. It is also included in your angular projects. It keeps track of all dependencies of your application.
+
+Let's generate the package.json file, by opening a command line interface in your server-application's directory. Use the command
+
+```
+ npm init
+
+```
+
+and answer the questions, the tool is asking you. It does not matter what you type in. It will have no effect on your application itself. It is just meta-data.
+
+![angular-takeoff](./img/angular-takeoff.png)
+
+## Creating our first Node.js Server-Application
+
+In this tutorial, we are going to create a server using the Express framework. While it is certainly possible, to create a server application without any frameworks, it makes development much easier.
+
+So, the first line of our application looks like this:
+
+```javascript title=server.js
+const express = require('express')
+```
+
+In this piece of code, we first create a constant called "express" that we will later use to set up the express framework.
+
+What does require do?
+
+Express is an external dependency. By using "require" we tell node.js that it has to be pulled into our code because we need it.
+
+In angular, we are doing just the same very often. The only difference here is, that we use a little bit different syntax.
+
+Because we are using Typescript in angular, we are used to import statements. In fact, these import statements are compiled to the require statements when the TypeScript is compiled to JavaScript.
+
+The above line would look this in TypeScript:
+
+```typescript title=TypeScript equivalent
+import * as express from 'express'
+```
+
+Looks more familiar, doesn't it?
+
+Installing External Dependencies
+Just like in angular, external dependencies have to be pulled and installed, before they can be used. Installed dependencies are located in a directory called "node_modules" inside of the root directory.
+
+To install external dependencies, we are using package-managers like npm.
+
+Use the following command to install express using npm:
+
+```
+ npm install express --save
+
+```
+
+This command should have created the "node_modules" folder inside of your project directory.
+
+Initializing the Express Framework
+To initialize the express framework, we need to call the constant express function we just required. It will return an Express-Object. This Express-Object is essential and used to set up the application itself, add routes and rest-endpoints initialize middleware.
+
+Doing so looks like this:
+
+```javascript title=server.js
+const app = express()
+```
+
+Again, nothing fancy, right?
+
+Starting our Server
+Now that we have initialized the framework, we can fire up our server. This is done by calling the "listen"-method of our Express-Object. This method tells the server to listen for incoming requests on the given port.
+
+```javascript title=server.js
+app.listen(8000, () => {
+  console.log('Server started!')
+})
+```
+
+In this case, we tell it to listen on port 8000. We also pass in a callback-function, that is called, once the server has successfully started. Inside there we log our successful start to the console.
+
+Running our Server with Node.js
+To run our script, we need to tell node.js to execute it. This can be done, using the node command in your command line interface.
+
+Open a new command line interface in your project root directory and start your server by typing:
+
+```
+ node server.js
+
+```
+
+Alternatively, you can also use
+
+```
+ npm start
+
+```
+
+because npm has created a script inside of our package.json that is internally calling the node command.
+
+If you are using Visual Studio Code, you can also start your server by hitting F5. This also automatically attaches the debugger to the process, which is quite useful.
+
+![angular-question](./img/angular-question.png)
+
+## "REST-API"? Can you eat that?
+
+As I told you already, we are going to create a REST-API. But what is that exactly? Let's find out!
+
+I will try to keep this short: REST is a standardized way of building http-endpoints.
+
+It uses standard HTTP-verbs like get, post, put & delete to express read, create update & delete (CRUD) operations.
+
+All these methods (verbs) are applied to one endpoint, which represents the object to be modified. This has an object-oriented touch to it,
+
+For example, if I wanted to modify a cat in any way, the endpoint would be named "cats" or "cat", depending on who you ask. I prefer the plural form fro myself.
+
+Here is how the CRUD operations are modeled.
+
+CRUD Operations
+
+Create: To create a new object under an endpoint, a post-request is sent to the REST-Endpoint containing the new object to create in the post-body.
+
+Read: To read all objects from an endpoint, e.g if you want to know about all cats, a get-request is sent to the "cats" endpoint. If you are interested in one specific cat, you append the id/name of the cat to the route "cats/cat1".
+
+Update: To update an object, a put request is sent to the endpoint. The identifier is added to the route e.g. "cat/cat1". The information of the object is added to the put-body.
+
+Delete: To delete an object, a delete request is sent to the endpoint with the identifier of the wanted object added to the route.
+
+These crud-operations can be directly mapped to the database, for example mongodb, if you are using the MEAN-stack.
+
+![angular-transfer-state](./img/angular-transfer-state.png)
+
+## Our first REST-Endpoint
+
+Enough theory for now, let's dive right into the code. For our example, we are going to create a cat-endpoint, possibly serving a database of all cats in the world. Yes, all of them!
+
+Getting all Objects from an Endpoint
+As discussed before, we get a list of all objects of an endpoint, by sending a get request to that endpoint directly.
+
+Now, we have to tell our server, what to do, if it receives a request at that endpoint.
+
+To do so, we are defining a so-called route, which is the "path" to the endpoint. In this example, the base path to our REST-API will be "api". This enables us to serve other things next to the REST-API. For example, we could serve our angular application under the "app" route.
+
+To define a route, we call the route-method on our express object.
+Next, we wall the get-method on that route, to tell express that we want to register a callback for the HTTP-get request at that specific route.
+
+```javascript title=server.js
+app.route('/api/cats').get((req, res) => {})
+```
+
+Inside of this callback method, we can decide, what should happen, when a user requests that route. For that, we get two objects. The request-object and the response-object.
+
+The request-object does contain details about the request of the user. With this object, we get access to all the data of the request, for example, the headers or the body.
+
+The response-object on the other hand helps us to send a response back. It does not only contain all the information of the response but also convenient methods, we can use to shape our response.
+
+In our example, we are going to use the send-method, to send back any JavaScript object as JSON in the response body.
+
+```javascript title=server.js
+app.route('/api/cats').get((req, res) => {
+  res.send({
+    cats: [{ name: 'lilly' }, { name: 'lucy' }],
+  })
+})
+```
+
+Getting one specific Object from an Endpoint
+The second method of a REST-endpoint, is getting one specific element from the API. By convention, the identifier of that object is appended to the route.
+
+For example, if we want to get everything about the cat called "lucy", we would call the following route:
+
+```
+ api/cats/lucy
+
+```
+
+But now we got a problem. The last of the element of the route is completely dynamic, as it could be any cat's name. So how do we tell express that we want to handle that route?
+
+For that, express has a concept called route parameter and it works surprisingly similar to angular route parameters. We declare a parameter by using a colon.
+
+The code to set this route up looks like this:
+
+```javascript title=server.js
+app.route('/api/cats/:name').get((req, res) => {})
+```
+
+The ":name" tells express, that we expect a dynamic string as input. We can get the value of this route-parameter by getting the params-object from the request object. We query it using the name of our route-parameter ("name").
+
+```javascript title=server.js
+app.route('/api/cats/:name').get((req, res) => {
+  const requestedCatName = req.params['name']
+})
+```
+
+All we have to do now is to return the cat with that name. In a real-world application, we would now search our database for that cat. But for demonstration purposes, we just return a new cat-object with the requested name.
+
+```javascript title=server.js
+app.route('/api/cats/:name').get((req, res) => {
+  const requestedCatName = req.params['name']
+  res.send({ name: requestedCatName })
+})
+```
+
+Sending a new Object to an Endpoint
+Another method of a REST-API is creating a new object at the endpoint. This method is different to the methods we looked at before because it is using the HTTP-post-request instead of the get-request.
+
+This REST-method is used to send new objects to the server. For example, if we would want to insert a new cat into our (not existing) cat-database, we would use this method for that.
+
+To get access to the post-body of the request, we need to add a little tool called body-parser. This parses the body of the requests and adds it as a new property to the request object.
+We need the body of the post request, because it contains the information about the new cat we are about to create.
+
+Just add the body-parser to the dependencies of our server by using this command:
+
+```
+ npm install body-parser --save
+
+```
+
+We then require it and tell express to use it for every request (more on that later).
+
+```javascript title=server.js
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+app.route('/api/cats').post((req, res) => {
+  res.send(201, req.body)
+})
+```
+
+You may have noticed that something else looks different here. We are using the "send"-method with two parameters instead of one. Now, the first parameter is the HTTP-status-code and the second one our payload. Normally, the "send"-method uses the status code "200" - OK. Because the request "created" something, a new cat entry in our database, for example, the status code "201" - Created is a much better fit.
+
+Changing an Object at an Endpoint
+Inserting new Objects might not cover all of your needs. Depending on your use-case, you probably want to modify existing objects. We can create a route that allows for that using the express-put-method.
+
+```javascript title=server.js
+app.route('/api/cats/:name').put((req, res) => {
+  res.send(200, req.body)
+})
+```
+
+Deleting an Object at an Endpoint
+Creating a delete method is quite simple. All we have to do is the delete-method from express. Again, we are using a route-parameter, to determine which cat to delete from the database.
+
+```javascript title=server.js
+app.route('/api/cats/:name').delete((req, res) => {
+  res.sendStatus(204)
+})
+```
+
+The status-code "204" -No Content, means that we are not sending back any payload, but the request was successful.
+
+![angular-component-banner](./img/angular-component-banner.png)
+
+## Plug & Play Functionality using Express-Middleware
+
+That's almost it. We have successfully created a REST-API!
+
+Before we continue, by building the corresponding angular application, we should take a short look at middleware in express, because it is such an important concept of the framework.
+
+It will also help as to prevent a very common mistake.
+
+So what is Middleware?
+Middleware is a very broad and abstract concept. Basically, it is software, that is placed between two other components. Well, I told you it is abstract...
+
+What does that mean for our application?
+
+Everything in express is middleware. There is some component that takes the incoming requests and there is something that spits out the responses. Everything in between is handled by middleware.
+
+Middleware in Express
+
+Our routes with their callbacks, for example, are a kind of middleware. We get a request and help to shape a response from that.
+
+It turns out, the body-parser we used already, is middleware as well. It intercepts every request and looks for their bodies. It then modifies the request object to contain that body information.
+
+Middleware in express builds a kind of chain. The request is passed from the first registered middleware to the last one. Once there is no one left that wants to intercept the request, the response is sent back.
+
+Enabling CORS
+The first thing I realize, when I want to test my brand new API with my angular app, is, that I forgot to enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
+
+CORS or cross-origin-resource sharing is the process of making an HTTP-request to a top-level domain that is different to the domain, the browser is currently at. For example, if I would make a request from this page to google.com, it would be a cross-origin-request.
+
+This same-origin-policy prevents us from making HTTP-requests from our JavaScript code to APIs, that don't want to be called from a different origin. And that makes absolute sense. I don't want my API to be used by other sites, possibly doing malicious things with the gathered data.
+
+When it comes to single-page-applications (like angular) though, almost every HTTP-request is made from JavaScript (AJAX). Furthermore is not to uncommon, that the API is not hosted under the same domain as the angular app.
+
+We then have to enable CORS. But it is not just an on/off feature. We can enable COR only from certain domains.
+
+We can do so with express by using the CORS middleware.
+
+```
+ npm install cors --save
+
+const cors = require('cors')
+
+var corsOptions = {
+  origin: 'http://example.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
+
+app.use(cors(corsOptions))
+
+```
+
+This middleware will now intercept every request and add the corresponding cors headers to the response.
+![angular-code-banner](./img/angular-code-banner.png)
+
+## Consuming our Express-API in an Angular Application
+
+Now I will show you real quick, how to integrate your API into your angular application.
+For that, I assume that you know how to set up a basic application using the angular-cli. Some basic understanding could help, as well.
+
+If you feel like you are lacking knowledge in one or both of the mentioned things, I recommend you read my [Angular Beginners Guide ](https://malcoded.com/posts/angular-beginners-guide)first.
+
+So first we create a basic angular-cli application. Of course, you can do this with any existing application, as well. All we are going to do here is to create an angular service, that consumes our new REST-API.
+
+For that, we are using the angular HttpClient. So you need to import the HttpClientModule into a [module ](https://malcoded.com/posts/angular-fundamentals-modules)of your choice, but typically the App-Module.
+
+Next, create a new service. I will call that one "CatService".
+
+Here is what this service looks like:
+
+```typescript title=cat.service.ts
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { HttpClient } from '@angular/common/http'
+
+export interface Cat {
+  name: string
+}
+
+@Injectable()
+export class CatService {
+  constructor(private http: HttpClient) {}
+
+  getAllCats(): Observable<Cat[]> {
+    return this.http.get<Cat[]>('http://localhost:8000/api/cats')
+  }
+
+  getCat(name: string): Observable<Cat> {
+    return this.http.get<Cat>('http://localhost:8000/api/cats/' + name)
+  }
+
+  insertCat(cat: Cat): Observable<Cat> {
+    return this.http.post<Cat>('http://localhost:8000/api/cats/', cat)
+  }
+
+  updateCat(cat: Cat): Observable<void> {
+    return this.http.put<void>(
+      'http://localhost:8000/api/cats/' + cat.name,
+      cat
+    )
+  }
+
+  deleteCat(name: string) {
+    return this.http.delete('http://localhost:8000/api/cats/' + name)
+  }
+}
+```
+
+## Conclusion
+
+In this tutorial, we learned how to set up a node.js server-application from scratch and created a very basic but functional REST-API using the express framework.
+
+I hope you enjoyed this post.
+
+If you did please hit the share buttons below and help other people building their APIs, as well.
+
+Have a fantastic day!
