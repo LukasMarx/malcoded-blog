@@ -32,7 +32,7 @@ function SEO({ description, lang, meta, keywords, title, image }) {
               },
               {
                 property: 'og:image',
-                content: image,
+                content: 'https://malcoded.com' + image,
               },
               {
                 property: `og:type`,
@@ -51,8 +51,20 @@ function SEO({ description, lang, meta, keywords, title, image }) {
                 content: title,
               },
               {
+                name: `twitter:site`,
+                content: '@malcoded',
+              },
+              {
+                name: `twitter:title`,
+                content: title,
+              },
+              {
                 name: `twitter:description`,
                 content: metaDescription,
+              },
+              {
+                name: `twitter:image`,
+                content: 'https://malcoded.com' + image,
               },
             ].concat(meta)}
           />
