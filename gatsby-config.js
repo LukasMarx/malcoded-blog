@@ -1,12 +1,9 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog MDX`,
-    author: `Matt Hagner`,
-    description: `An extension of the gatsby starter blog, with support for MDX`,
+    title: `malcoded`,
+    author: `Lukas Marx`,
+    description: `Learn to build modern web applications using Angular, React & Vue!`,
     siteUrl: `https://gatsby-starter-blog-mdx-demo.netlify.com/`,
-    social: {
-      twitter: `mattinthecouch`,
-    },
   },
   plugins: [
     `gatsby-plugin-typescript`,

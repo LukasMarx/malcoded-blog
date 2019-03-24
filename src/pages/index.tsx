@@ -85,10 +85,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
 
     return (
       <HeaderFooterLayout>
-        <SEO
-          title="All posts"
-          keywords={[`blog`, `gatsby`, `javascript`, `react`]}
-        />
+        <SEO title="Learn to build modern web applications" />
         <div className={styles.root}>
           <div
             className={styles.hero}
@@ -150,7 +147,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
                       display: 'flex',
                     }}
                     className={styles.item}
-                    to={'posts' + node.fields.slug}
+                    to={'/posts' + node.fields.slug}
                   >
                     <PostCard node={node} />
                   </Link>
@@ -184,7 +181,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
                       display: 'flex',
                     }}
                     className={styles.item}
-                    to={'posts' + node.fields.slug}
+                    to={'/posts' + node.fields.slug}
                   >
                     <PostCard node={node} />
                   </Link>
@@ -218,7 +215,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
                       display: 'flex',
                     }}
                     className={styles.item}
-                    to={'posts' + node.fields.slug}
+                    to={'/posts' + node.fields.slug}
                   >
                     <PostCard node={node} />
                   </Link>
@@ -252,7 +249,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
                       display: 'flex',
                     }}
                     className={styles.item}
-                    to={'posts' + node.fields.slug}
+                    to={'/posts' + node.fields.slug}
                   >
                     <PostCard node={node} />
                   </Link>

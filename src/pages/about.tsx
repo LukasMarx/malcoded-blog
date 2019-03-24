@@ -13,6 +13,7 @@ import angular from './../assets/angular.svg'
 import vue from './../assets/vue.svg'
 import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
 import { subscribeNewsletter } from '../state/actions/newsletter.actions'
+import SEO from '../components/Seo'
 
 export interface AboutPageProps {
   theme: ThemeState
@@ -57,6 +58,7 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
   render() {
     return (
       <HeaderFooterLayout>
+        <SEO title="About" />
         <div className={styles.root}>
           <div
             className={styles.hero}

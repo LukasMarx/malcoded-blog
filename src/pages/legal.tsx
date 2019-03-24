@@ -1,6 +1,7 @@
 import React from 'react'
 import HeaderFooterLayout from './../layouts/HeaderFooterLayout'
 import styles from './legal.module.css'
+import SEO from '../components/Seo'
 
 export interface LegalPageProps {}
 
@@ -13,6 +14,7 @@ class LegalPage extends React.Component<LegalPageProps, LegalPageState> {
   render() {
     return (
       <HeaderFooterLayout>
+        <SEO title="Legal Notice" />
         <div className={styles.root}>
           <div className={styles.content}>
             <h1 style={{ fontSize: 40 }}>About this Website</h1>

@@ -7,6 +7,7 @@ import Chip from '../components/elements/chip/Chip'
 import { graphql, Link } from 'gatsby'
 import PostCard from '../components/blocks/post-card/PostCard'
 import newMeteor from './../assets/new-meteor.svg'
+import SEO from '../components/Seo'
 
 export interface PostsPageProps {
   data: any
@@ -67,6 +68,7 @@ class PostsPage extends React.Component<PostsPageProps, PostsPageState> {
   render() {
     return (
       <HeaderFooterLayout>
+        <SEO title="All Posts" />
         <div className={styles.search}>
           <div className={styles.searchContent}>
             <img src={newMeteor} className={styles.image} />
@@ -96,7 +98,7 @@ class PostsPage extends React.Component<PostsPageProps, PostsPageState> {
                     display: 'flex',
                   }}
                   className={styles.item}
-                  to={'posts' + node.fields.slug}
+                  to={'/posts' + node.fields.slug}
                 >
                   <PostCard node={node} />
                 </Link>

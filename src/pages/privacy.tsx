@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './privacy.module.css'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
+import SEO from '../components/Seo'
 
 export interface PrivacyPageProps {}
 
@@ -13,6 +14,7 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
   render() {
     return (
       <HeaderFooterLayout>
+        <SEO title="Privacy Policy" />
         <div className={styles.root}>
           <div className={styles.content}>
             <h1>Privacy Policy</h1>
