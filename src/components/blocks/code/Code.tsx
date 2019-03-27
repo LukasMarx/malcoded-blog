@@ -5,6 +5,11 @@ import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkBackground, lightBackground } from '../../../theme/background'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/components/prism-typescript'
+import 'prismjs/components/prism-jsx'
+// import 'prismjs/components/prism-tsx'
+import 'prismjs/components/prism-css'
 
 export interface CodeProps {
   codeString: string
@@ -46,21 +51,16 @@ class Code extends Component<CodeProps> {
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;')
   }
+  languages = {
+    js: 'javascript',
+    ts: 'typescript',
+    jsx: 'jsx',
+    tsx: 'tsx',
+    css: 'css',
+  }
 
   render() {
     let result
-    if (
-      this.props.language &&
-      this.props.language !== 'undefined' &&
-      !Prism.languages[this.props.language]
-    ) {
-      try {
-        require(`prismjs/components/prism-${this.props.language}.js`)
-      } catch (e) {
-        // Language wasn't loaded so let's bail.
-        console.error(e)
-      }
-    }
     if (Prism.languages[this.props.language]) {
       result = Prism.highlight(
         this.props.codeString,
