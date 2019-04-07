@@ -221,7 +221,11 @@ class NewsletterDialog extends React.Component<
                   },
                 }}
                 InputProps={{
-                  style: { color: 'white' },
+                  style: {
+                    color: this.props.theme.darkMode
+                      ? darkText.primary
+                      : lightText.primary,
+                  },
                   classes: {
                     root: this.props.theme.darkMode
                       ? classes.cssOutlinedInputDark
