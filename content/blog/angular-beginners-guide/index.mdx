@@ -18,15 +18,13 @@ recommended:
 tags: ['angular']
 ---
 
-Want to learn how to build Angular Applications?
+You want to learn how to build Angular applications?
 
 You have come to the right place!
 
 In this getting started tutorial, I want to take you by the hand and give you a gentle introduction to the angular ecosystem.
 
-We will start from scratch and build our first angular app.
-
-Afterward, we will take a closer look at all the parts, it consists of, to give you a feeling for the framework.
+We will start from scratch and build our first example angular app.
 
 You will discover the angular fundamentals step by step with a practical example on each topic.
 
@@ -34,7 +32,7 @@ This guide aims at giving you a quick start, as well as explaining angular conce
 
 It does not require any knowledge in AngularJs or Angular (the current version) at all.
 
-After reading this angular tutorial, you will be able to write your own, fully featured angular applications with ease. You will know about all the critical "components" of such an app and know exactly what they are doing.
+After reading this angular tutorial, you will be able to write your own, fully featured angular applications with ease. You will know about all the critical part of such an app and know exactly what they are doing.
 
 Ready?
 
@@ -45,7 +43,8 @@ Let's get started!
 
 Let's see, what the angular developers have to say about that:
 
-["Angular is a platform that makes it easy to build applications with the web. Angular combines declarative templates, dependency injection, end to end tooling, and integrated best practices to solve development challenges. Angular empowers developers to build applications that live on the web, mobile, or the desktop" - ](https://angular.io/docs)[https://angular.io/docs](https://angular.io/docs)
+> "Angular is a platform that makes it easy to build applications with the web. Angular combines declarative templates, dependency injection, end to end tooling, and integrated best practices to solve development challenges. Angular empowers developers to build applications that live on the web, mobile, or the desktop"
+> [https://angular.io/docs](https://angular.io/docs)
 
 Sounds great, doesn't it? But what does this all mean?
 
@@ -67,16 +66,20 @@ Thanks to technologies like [Service Workers](https://malcoded.com/posts/angular
 
 The Angular framework enables us to write these single page applications with ease. It comes with features like data-binding, change-detection, forms, routing & navigation and an HTTP-implementation right out of the box.
 
-Angular was originally intended to be used with the programming languages JavaScript, TypeScript and Dart. And although it is still possible to use it with all of these languages, the by far most popular language of choice became TypeScript. I would highly recommend using TypeScript, as the other versions are not only lacking documentation and community, but updates are also released much later (months not days) than for the TypeScript version.
+Angular was originally intended to be used with the programming languages JavaScript, TypeScript and Dart. And although it is still possible to use it with all of these languages, the by far most popular language of choice became TypeScript.
+
+I would highly recommend using TypeScript, as the other versions are not only lacking documentation and community, but updates are also released much later (months not days) than for the TypeScript version.
 
 ### The Platform
 
-Over time, the angular developers have developed a great ecosystem around the framework. Tools like the Angular-Cli, Angular Universal and Angular Material got added to the project. These tools added great features like fast project generation, server-side rendering, and stunning UI components, that are not coupled with the core-framework itself, but completely optional.
+Over time, the angular developers have developed a great ecosystem around the framework.
+
+Tools like the Angular-Cli, Angular Universal and Angular Material got added to the project. These tools added great features like fast project generation, server-side rendering, and stunning UI components, that are not coupled with the core-framework itself, but completely optional.
 
 That is why angular is referred to as a platform. It provides all the tools, that you need, to develop great angular applications, without relying too much on third-party libraries. Because of this opinionated approach, most developers are using these tools, resulting in a great documentation, community help, and blog posts.
 ![123](./img/123.png)
 
-## AngularJS or Angular 4/5/6?
+## Is it called AngularJS or Angular 7?
 
 Maybe one of the greatest downsides of angular, to me, is the version and naming chaos that emerged after the Angular 2 release. Google decided to row back from the terms Angular 2, Angular 4, Angular 5, but to refer to them as just "Angular".
 
@@ -135,46 +138,46 @@ Using the ng new command, we can then generate a new project. This command takes
 
 We can use additional flags with ng new, to alter the output accordingly. If you are new to angular, I recommend not to use any of these flags.
 
---directory
+**\-\-directory:**
 Normally, the angular-cli creates a new folder that is named like the project in the current directory. It then generates the project files inside of that directory. With this command, you can change the name of the folder.
 
---dry-run
+**\-\-dry-run:**
 Using this option, the angular-cli will not make any changes to your file system. It will print the changes it would have made to the console. That way you can check if the result would be as you want. Very useful option, especially when getting started.
 
---inline-style
+**\-\-inline-style:**
 Using angular, you can choose, whether you want to use inline css styles or a separate style-sheet file. The default is the separate file and I would definitely recommend that. Only use this flag if you want inline styles.
 
---inline-template
+**\-\-inline-template:**
 Just as you can choose to inline your css, you can do the same with your html. The default is a separate html file and you should really keep that! It get's really messy, really fast otherwise. Only use this flag if you want inline html templates.
 
---minimal
+**\-\-minimal:**
 Just as you would expect, creates a minimalist angular application. Maybe not the best option to start with, but can be useful, to reduce unnecessary bloat files.
 
---prefix
+**\-\-prefix:**
 Every component in angular has a so-called selector that is later used in the html template to create a component. These selectors usually have a prefix, to avoid duplicate names. The default prefix is "app". Use this flag to change that.
 
---routing
+**\-\-routing:**
 Generates an additional module to contain the angular routing definitions. This is turned off by default.
 
---skip-commit
+**\-\-skip-commit:**
 The angular-cli does not only initialize a Git repository for your project by default but also issues a commit after file generation is done. Use this option to turn that off.
 
---skip-git
+**\-\-skip-git:**
 Turns off the automatic Git repository initialization for your project.
 
---skip-install
+**\-\-skip-install:**
 After creating all files, the angular-cli runs an npm install command, to download and install all required dependencies. Because this process can take a while, it can be very useful to turn that behavior off. Especially when there is no or a bad internet connection.
 
---skip-tests
+**\-\-skip-tests:**
 Per default, the cli generates test files for each component (.spec files). With this option, you can turn that off. Who needs tests anyway (sarcasm)?
 
---source-dir
+**\-\-source-dir:**
 The cli generates all source files inside of an "src" directory. With this flag, you can change the directory for your source files.
 
---style
+**\-\-style:**
 The angular-cli leaves it up to you, whether you want to use a css pre-compiler. It generates plain css files per default. With this option you can change that. Possible values are css, scss, less, sass, styl (stylus).
 
---verbose
+**\-\-verbose:**
 Enables advanced detail logging.
 
 ### Generating Angular's Building-Blocks
@@ -182,15 +185,15 @@ Enables advanced detail logging.
 The angular-cli can do more for you than you might think. You can not only generate entirely new projects, but also the fundamental "components" of an angular application, like classes, components, modules, service and pipes.
 The full list includes:
 
-Component
-Directive
-Pipe
-Service
-Class
-Guard
-Interface
-Enum
-Module
+- Component
+- Directive
+- Pipe
+- Service
+- Class
+- Guard
+- Interface
+- Enum
+- Module
 
 All these structures can be generated using the ng generate (ng g in short) command. For example this command:
 
@@ -227,7 +230,7 @@ This command will run your application in a debug configuration. This means, tha
 
 Also, there are no files created on your disk. The debugging server keeps them all in memory only.
 
-However, if you want to ship your application, the CLI helps you with that, as well. You can either serve your app in production mode, by using the --prod flag,
+However, if you want to ship your application, the CLI helps you with that, as well. You can either serve your app in production mode, by using the \-\-prod flag,
 
 ```
  ng serve --prod
@@ -243,14 +246,14 @@ or write your application files to disk using
 
 The prod-flag will cause the CLI to use [ahead-of-time compilation](https://angular.io/guide/aot-compiler) (AOT). Additional bloat like source-maps are not included in the build.
 
-It is important to know, that the server, that comes with the angular-cli , is not intended to be an internet-facing production server. It is just for debugging and testing purposes. So even if you use ng serve --prod, this is just for testing, not for actual production.
+It is important to know, that the server, that comes with the angular-cli , is not intended to be an internet-facing production server. It is just for debugging and testing purposes. So even if you use ng serve \-\-prod, this is just for testing, not for actual production.
 
 ### Common Flags of ng serve
 
---port [port-number]
+**\-\-port \[port-number\]:**
 This comes in handy, if the default port (4200) is already in use, e.g. when running multiple CLI-projects at one. With this flag, you can change the port over which your application is served.
 
---host
+**\-\-host:**
 With this options, you can change the host of your application. The default is localhost, which prevents your application to be accessible from the local network. Change this to your network ip-address, to make it accessible. Again, the server is not meant to be used as a production server. This option is useful if you want to test your application on other devices e.g. your phone.
 
 A [full list of possible options can be found here](https://github.com/angular/angular-cli/wiki/serve).
@@ -266,11 +269,11 @@ If you want the CLI, to write your application files to disk, use the
 
 command.
 
-Just like the serve command, the build command does build the debug configuration by default. If you want a production build, use the --prod flag.
+Just like the serve command, the build command does build the debug configuration by default. If you want a production build, use the \-\-prod flag.
 
 ### Common Flags of ng build
 
-We have already discussed the --prod flag. The --prod flag is a preset, that includes a bunch of default values of different options. Depending if you build for dev or prod, these presets apply. I do not recommend to change these presets, unless you know what you're doing. No seriously, in almost all of the cases, the default presets are working just fine.
+We have already discussed the \-\-prod flag. The \-\-prod flag is a preset, that includes a bunch of default values of different options. Depending if you build for dev or prod, these presets apply. I do not recommend to change these presets, unless you know what you're doing. No seriously, in almost all of the cases, the default presets are working just fine.
 
 If you want to learn more about each option, here is [the complete list](https://github.com/angular/angular-cli/wiki/build).
 
@@ -452,7 +455,7 @@ Components in angular consist of three things/files.
 
 ![angular-component-structure](./img/angular-component-structure.png)
 
-TypeScript File
+#### TypeScript File
 
 First a TypeScript file, containing the component itself. It contains a class, that is marked as a component by the @component decorator. You may know the decorator concept from other languages like Java (annotations) or C# (attributes). A decorator is basically metadata (data about data) about the class. With the @component decorator, we tell angular, that this class should be considered a component. This file is the heart of the component, because the location of the other two files is described in here.
 
@@ -461,7 +464,9 @@ This convention is the rule of naming every file, that is related to a component
 
 The file we are currently talking about, the TypeScript file, is typically named like this:
 
+```
 {name of the component}.component.ts
+```
 
 You should always call your files after this convention.
 
@@ -478,7 +483,8 @@ import { Component } from '@angular/core'
 export class ExampleComponent {}
 ```
 
-The Html-Template
+#### The Html-Template
+
 The second file is the template file. Although the template does not have to be located in a separate file, I recommend that you do so. This does not only enable your development environment to give you html-syntax highlighting but clearly separates the view from the business logic.
 
 Because that is what a template is. An html-representation of the view. Everything that has to do with displaying stuff on a screen should go inside of the template.
@@ -487,7 +493,9 @@ A template in angular does look like a normal piece of html, but it is not. Its 
 
 The template file does follow the same naming convention as the component-file itself. It starts with the components name, followed by the word component and finally the file extension all separated by a full-stop.
 
+```
 {name of the component}.component.html
+```
 
 The template file is typically placed right next to the other component files. One component typically has its separate folder.
 Technically it does not have to be this way, because you can change the location of the template file in the components decorator. Just change the "templateUrl" option to you templates location.
@@ -499,7 +507,8 @@ Here is what the CLI creates when it creates a new component.
 <p>example works!</p>
 ```
 
-The Stylesheet
+#### The Stylesheet
+
 The last file for a component is the stylesheet. Well, you already guessed it, it contains your css-styles.
 
 One thing to notice may be, that the styles of a component are scoped by default. That means, that if you have two components that both have the css-class "container" (that are supposed to look different= do no interfere with each other.
@@ -507,7 +516,9 @@ You can also disable this behavior using the [encapsulation ](https://blog.thoug
 
 Again, the file follows the same naming convention.
 
+```
 {name of the component}.component.css
+```
 
 As stated before, you do not have to use plain css but can also use pre-processed formats like scss.
 
