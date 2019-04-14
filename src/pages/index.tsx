@@ -102,12 +102,16 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
                   color: this.props.theme.darkMode
                     ? this.props.theme.primaryColor.light
                     : this.props.theme.primaryColor.main,
+                  marginTop: 16,
+                  marginBottom: 32,
+                  fontSize: '24px',
                 }}
               >
                 using Angular, React & Vue
               </h3>
               <Button
                 onClick={() => this.setState({ isNewsletterDialogOpen: true })}
+                style={{ height: 64, fontSize: '18px' }}
               >
                 Join the newsletter
               </Button>
