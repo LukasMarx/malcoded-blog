@@ -1,6 +1,6 @@
 ---
 id: '5bb0cae79583501f642526f9'
-title: 'Creating a File Upload Component in Angular  (Including Backend) '
+title: 'Angular File Upload Component [with Node.js backend] '
 image: './img/angular-file-upload-component.png'
 date: 2018-03-19T23:00:00.000Z
 author: 'Lukas Marx'
@@ -194,7 +194,7 @@ We also get a response-object (res). We can use this object, to send back a resp
 module.exports = function upload(req, res) {}
 ```
 
-Inside of that method, we create a new form.
+Inside that method, we create a new form.
 
 ```javascript title=upload.js
 var form = new IncomingForm()
@@ -376,7 +376,7 @@ export class UploadService {
 }
 ```
 
-This upload method will return a map of progress objects. One for every file to upload. This object contains a observable of type number because it contains the progress of the upload in percent.
+This upload method will return a map of progress objects. One for every file to upload. This object contains an observable of type number because it contains the progress of the upload in percent.
 
 ```typescript title=src/app/upload/upload.service.ts
  public upload(files: Set<File>):

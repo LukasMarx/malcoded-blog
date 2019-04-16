@@ -31,7 +31,11 @@ class Code extends Component<CodeProps> {
         <div className={`${styles.bar} `}>
           <div
             className={styles.iconWrapper}
-            style={{ backgroundColor: this.props.theme.primaryColor.main }}
+            style={{
+              backgroundColor: this.props.theme!.darkMode
+                ? this.props.theme.primaryColor.light
+                : this.props.theme.primaryColor.main,
+            }}
           >
             <img className={styles.icon} src="/icons/languages/js.svg" />
           </div>
