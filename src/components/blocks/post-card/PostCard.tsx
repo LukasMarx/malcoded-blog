@@ -36,7 +36,7 @@ class PostCard extends React.Component<PostCardProps, PostCardState> {
         />
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.dateRow}>
-          <small>{node.frontmatter.date}</small>
+          <small style={{ marginRight: 8 }}>{node.frontmatter.date}</small>
 
           {node.frontmatter.tags.map((tag: string) => {
             return <Chip key={tag} label={tag} />

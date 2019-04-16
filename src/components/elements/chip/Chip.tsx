@@ -80,7 +80,7 @@ class Chip extends React.Component<ChipProps, ChipState> {
           height: 21,
 
           width: 'fit-content',
-          marginLeft: 8,
+          marginRight: 8,
         }}
       >
         <small color="inherit">

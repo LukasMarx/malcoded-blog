@@ -69,6 +69,8 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
     setOpen(false)
   }
 
+  const isUpdated = post.frontmatter.lastUpdated !== post.frontmatter.date
+
   return (
     <HeaderFooterLayout>
       <SEO
@@ -85,16 +87,33 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
           />
           <h1>{post.frontmatter.title}</h1>
           <div className={styles.subtitle}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginBottom: 16,
+              }}
+            >
+              {post.frontmatter.tags.map((tag: string) => {
+                return <Chip key={tag} label={tag} />
+              })}
+            </div>
             <small
               style={{
                 display: `block`,
+                fontSize: 16,
               }}
             >
-              {post.frontmatter.date} - {post.frontmatter.author}
+              <strong>Published:</strong> {post.frontmatter.date} -{' '}
+              {isUpdated && (
+                <>
+                  <strong>Last Updated: </strong>
+                  {post.frontmatter.lastUpdated} -{' '}
+                </>
+              )}
+              <strong>Author: </strong>
+              {post.frontmatter.author}
             </small>
-            {post.frontmatter.tags.map((tag: string) => {
-              return <Chip key={tag} label={tag} />
-            })}
           </div>
           <MDXRenderer>{post.code.body}</MDXRenderer>
           <br />
@@ -149,6 +168,7 @@ export const pageQuery = graphql`
           }
         }
         date(formatString: "MMMM DD, YYYY")
+        lastUpdated(formatString: "MMMM DD, YYYY")
       }
       code {
         body
