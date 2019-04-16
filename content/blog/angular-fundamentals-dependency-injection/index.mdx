@@ -3,59 +3,66 @@ id: '5bb0cae79583501f6425270e'
 title: 'Angular Fundamentals: Dependency Injection'
 image: './img/Angular-DI.png'
 date: 2017-07-15T22:00:00.000Z
+lastUpdated: 2017-07-15T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f64252707","5bb0cae79583501f64252708","5bb0cae79583501f6425270c"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f64252707',
+    '5bb0cae79583501f64252708',
+    '5bb0cae79583501f6425270c',
+  ]
+tags: ['angular']
 ---
-"Dependency what ...?"  That 's exactly what I thought when I first heard about Dependency Injection. It sounded like a very complex and technical thing, you better keep your hands off. 
 
-Well, it is kind of complex under the hood. But fortunately, we don't have to care about the implementation. 
+"Dependency what ...?" That 's exactly what I thought when I first heard about Dependency Injection. It sounded like a very complex and technical thing, you better keep your hands off.
 
-We just use it. And at that point, it is not that hard to understand. 
+Well, it is kind of complex under the hood. But fortunately, we don't have to care about the implementation.
+
+We just use it. And at that point, it is not that hard to understand.
 
 So let's find out, what Dependency Injection is all about.
 
-
 ![angular-question](./img/angular-question.png)
-## What is Dependency Injection? 
 
-Dependency Injection is a design pattern. It has the purpose of increasing the maintainability and test-ability of your code. It does so, by allowing you to keep all required dependencies of your applications' components in one central location, also called container. These dependencies are instances of classes. 
+## What is Dependency Injection?
 
-### But why should I want to do that? 
+Dependency Injection is a design pattern. It has the purpose of increasing the maintainability and test-ability of your code. It does so, by allowing you to keep all required dependencies of your applications' components in one central location, also called container. These dependencies are instances of classes.
 
-The great advantage of defining your dependencies is, that you know where to find them. Sounds obvious, doesn't it? Well, in classic object-oriented programming, it is not as natural as you may think. 
+### But why should I want to do that?
+
+The great advantage of defining your dependencies is, that you know where to find them. Sounds obvious, doesn't it? Well, in classic object-oriented programming, it is not as natural as you may think.
 
 Example:
-Let's say you have a house-class. This house has a basement, windows, a roof, ..., which are all classes, as well. Traditionally, we would new up all these classes in the houses constructor, right? And there is nothing wrong with that. But now we want to model a bunch of different objects, that have windows as well. Cars, planes, submarines (do they?), whatever you want. They all new up their windows on their own. 
+Let's say you have a house-class. This house has a basement, windows, a roof, ..., which are all classes, as well. Traditionally, we would new up all these classes in the houses constructor, right? And there is nothing wrong with that. But now we want to model a bunch of different objects, that have windows as well. Cars, planes, submarines (do they?), whatever you want. They all new up their windows on their own.
 
 At a later point in development, we find out, that our windows need to have multiple layers of class. No problem, just add a parameter to window's constructor. But WAIT! That will break our existing code! Every class that news up some windows, has to be changed now. What if there are hundreds of them? You get the point here.
 
 But that is not the only problem. For testing purposes, we want to see what happens, if the airplane's windows have no glass, but are just some holes. To do that, you would have to change the airplane class, because it creates regular windows, instead of our special ones. Do you really want to break your working code, every time you want to test a special scenario? No, you don't.
 
 ![angular-compiler-banner](./img/angular-compiler-banner.png)
-## How it works 
+
+## How it works
 
 So, instead of instantiating everything in the classes, we get it from a central place. But how do we access the instances?
 
-That is quite simple. We just request it in your constructor. 
+That is quite simple. We just request it in your constructor.
 
 Let's take a closer look at how it is done in angular.
 
 Classes that are later injected, mostly called services, are marked with the @Injectable decorator. This is only required if your injected class also has external dependencies, that have to be injected. However, it is highly recommended, to add this decorator to every service. This not only ensures consistency but prevents future problems.
 
 ```typescript title=undefined
- import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable()
-export class Example{
-}
- 
- ``` 
+export class Example {}
+```
+
 That's it for the class. To make this class available through Dependency Injection, we have to register it in the container (that central place I talked about). In angular this is done with the provider property. There are many places, where you can set that property. For now, add it to the AppModule.
 
 ```typescript title=src/app/app.module.ts
@@ -76,52 +83,54 @@ export class AppModule {
   constructor(public appState: AppState) {
   }
 }
- 
- ``` 
+
+```
+
 Now, that we have successfully registered our class, we can request it from anywhere in our app. For example in this component.
 
 ```typescript title=
- @Component({
-  selector: 'example',
-  templateUrl: './example.component.html',
-  styleUrls: ['./example.component.scss']
-})
-export class ExampleComponent {
-	constructor(private example: Example){
-		console.log(this.example)
-	}
-} 
- ``` 
- 
-
-![angular-convention](./img/angular-convention.png)
-## Injection Tree 
-
-All dependencies are passed as a singleton. That means, that every instance that requests a specific class, gets the same instance of that. That's great for most use cases, but sometimes that is not good enough. For example, when every component requires its own instance of a class. 
-
-For that reason, Angular resolves the requested dependency by going up the component/module tree. 
-In our example above, we set the provider of the app module. However, you can set the provider at any sub-module or sub-component. The provided instance is then only available at the module/component itself, or its children. Furthermore, each instance of the class with the provider has its own instance of the injectable, that is shared with all of its sub-modules or -components.
-
-### Example 
-
-If we add the Example injectable to our component, each instance of the component receives a separate instance of Example. However, nested components receive the same instance as their parent ExampleComponent instance.
-```typescript title=
- @Component({
+@Component({
   selector: 'example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
-  providers: [Example]
 })
 export class ExampleComponent {
-	constructor(private example: Example){
-		console.log(this.example)
-	}
+  constructor(private example: Example) {
+    console.log(this.example)
+  }
 }
- 
- ``` 
-## Conclusion 
+```
 
-Congratulations! You have now know the basic concepts of Dependency Injection in Angular. 
+![angular-convention](./img/angular-convention.png)
+
+## Injection Tree
+
+All dependencies are passed as a singleton. That means, that every instance that requests a specific class, gets the same instance of that. That's great for most use cases, but sometimes that is not good enough. For example, when every component requires its own instance of a class.
+
+For that reason, Angular resolves the requested dependency by going up the component/module tree.
+In our example above, we set the provider of the app module. However, you can set the provider at any sub-module or sub-component. The provided instance is then only available at the module/component itself, or its children. Furthermore, each instance of the class with the provider has its own instance of the injectable, that is shared with all of its sub-modules or -components.
+
+### Example
+
+If we add the Example injectable to our component, each instance of the component receives a separate instance of Example. However, nested components receive the same instance as their parent ExampleComponent instance.
+
+```typescript title=
+@Component({
+  selector: 'example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss'],
+  providers: [Example],
+})
+export class ExampleComponent {
+  constructor(private example: Example) {
+    console.log(this.example)
+  }
+}
+```
+
+## Conclusion
+
+Congratulations! You have now know the basic concepts of Dependency Injection in Angular.
 Share this post and help others understand it, as well!
 
 If you want to get more awesome content about and around Angular, follow me on Twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).

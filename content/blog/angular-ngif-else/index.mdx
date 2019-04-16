@@ -3,15 +3,22 @@ id: '5bb0cae79583501f642526f4'
 title: 'How to use *ngIf else in Angular'
 image: './img/angular-ngif.png'
 date: 2018-05-11T22:00:00.000Z
+lastUpdated: 2018-05-11T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526ee","5bb0cae79583501f642526f5","5bb0cae79583501f64252702"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526ee',
+    '5bb0cae79583501f642526f5',
+    '5bb0cae79583501f64252702',
+  ]
+tags: ['angular']
 ---
+
 In this tutorial, we are going to take a look at the ngIf directive.
 
 We will discover how we can use it to show or hide parts of our angular application.
@@ -26,89 +33,87 @@ Ready?
 
 Let's get started!
 
-
 ![angular-explore-banner](./img/angular-explore-banner.png)
-## What does ngIf do? 
+
+## What does ngIf do?
 
 NgIf is very useful if you want to show or hide parts of your application based on a condition.
 
 For example, we could have a simple flag inside of our component:
 
 ```typescript title=example.component.ts
- import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-example',
   templateUrl: './example.component.html',
-  styleUrls: ['./example.component.css']
+  styleUrls: ['./example.component.css'],
 })
 export class ExampleComponent {
-  show: boolean = true;
+  show: boolean = true
 }
- 
- ``` 
+```
+
 Based on that flag, a certain HTML element is added or removed from the DOM:
 
 ```html title=example.component.ts
- <p>Show this all the time</p>
-<p *ngIf="show">
-  Show this only if "show" is true
-</p>
- 
- ``` 
+<p>Show this all the time</p>
+<p *ngIf="show">Show this only if "show" is true</p>
+```
+
 Also, this condition does also apply to all child elements of the element that has the ngIf directive:
 
 ```html title=example.component.ts
- <p>Show this all the time</p>
-<div *ngIf="show">
-  <p>
-    Show this only if "show" is true
-  </p>
-</div>
- 
- ``` 
-### NgIf is a directive 
+<p>Show this all the time</p>
+<div *ngIf="show"><p>Show this only if "show" is true</p></div>
+```
+
+### NgIf is a directive
 
 NgIf is a directive.
 
-That means, that it can be added to any tag in your template. 
+That means, that it can be added to any tag in your template.
 This includes regular HTML-tags like the "p"-tag shown above and even angular component selectors.
 
 ```
  <another-component *ngIf="show">
 </another-component>
- 
- ``` 
-![angular-transfer-state](./img/angular-transfer-state.png)
-## NgIf vs hidden 
 
-At first sight, the angular ngIf directive seems to just the same thing as binding to the HTML5 "hidden" attribute. 
+```
+
+![angular-transfer-state](./img/angular-transfer-state.png)
+
+## NgIf vs hidden
+
+At first sight, the angular ngIf directive seems to just the same thing as binding to the HTML5 "hidden" attribute.
 So why do we need two ways to do the same thing?
 
 ```
  <p [hidden]="!show">
   Show this only if "show" is true
 </p>
- 
- ``` 
+
+```
+
 Because they actually do two completely different things.
 
-While the hidden attribute is literally hiding the selected part of the DOM, just like the CSS "display: none" property, the element still sit on the DOM. 
+While the hidden attribute is literally hiding the selected part of the DOM, just like the CSS "display: none" property, the element still sit on the DOM.
 They are just invisible.
 
 Angulars' ngIf directive, on the other hand, is completely removing the selected part from the DOM.
 The great advantage of that is, that this method is not interfering with any CSS-Style-sheets at all. It is simply removing anything.
 
 ![angular-error-banner](./img/angular-error-banner.png)
-## Null Check with ngIf 
+
+## Null Check with ngIf
 
 Another very useful application of ngIf is when you need to check if a bound property is null before displaying some of its properties.
-For example, displaying a box with the users' information wouldn't make much sense if there is no information to display. 
+For example, displaying a box with the users' information wouldn't make much sense if there is no information to display.
 Normally this would result in an empty box to be shown.
 
 With the help of the ngIf directive, we can hide this box altogether, if the corresponding property is null or undefined anyway.
 
-### Avoiding "Cannot read property of undefined" errors 
+### Avoiding "Cannot read property of undefined" errors
 
 The ngIf directive can be very handy to prevent "Cannot read property of undefined" errors, as well.
 
@@ -116,8 +121,9 @@ The ngIf directive can be very handy to prevent "Cannot read property of undefin
  <p>
   {{user.name}}
 </p>
- 
- ``` 
+
+```
+
 Maybe we are using sub-properties of the bound property. For example the name of the user. Accessing this property if user is undefined will result in an error.
 But by checking the user-property for null before using its properties will prevent this.
 
@@ -125,25 +131,28 @@ But by checking the user-property for null before using its properties will prev
  <p *ngIf="user">
   {{user.name}}
 </p>
- 
- ``` 
+
+```
+
 ![angular-build-banner](./img/angular-build-banner.png)
-## Logical operators 
+
+## Logical operators
 
 The ngIf directive does also support logical operators, just like a regular JavaScript if statement would.
 
-### Logical NOT (!) 
+### Logical NOT (!)
 
-To invert the boolean value of a variable, we can use the not operator (!). 
+To invert the boolean value of a variable, we can use the not operator (!).
 The marked block is then shown when the variable is false.
 
 ```
  <p *ngIf="!show">
   Show this only if "show" is NOT true
 </p>
- 
- ``` 
-### Logical AND (&&) 
+
+```
+
+### Logical AND (&&)
 
 We can also chain two or more statements together using the AND (&&) operator. Again, just like in JavaScript, the statement is only true when all chained values are true, as well.
 
@@ -154,9 +163,10 @@ For example a AND b have to be true:
  <p *ngIf="a && b">
   Show this only if a AND b are true
 </p>
- 
- ``` 
-### Logical OR (||) 
+
+```
+
+### Logical OR (||)
 
 Just like the AND operator, the OR operator is used to chain one or more statements together. The difference with the OR operator is, that only one statement has to be true for the overall statement to be true, as well.
 
@@ -166,10 +176,12 @@ The marked block is shown, if either a or b is true:
  <p *ngIf="a || b">
   Show this only if a AND b are true
 </p>
- 
- ``` 
+
+```
+
 ![angular-performance-banner](./img/angular-performance-banner.png)
-## Working with "else" 
+
+## Working with "else"
 
 Just as we are used to from other programming languages, the angular ngFor directive does also allow us to declare an else-block.
 This block is shown if the statement defined in the main block happens to be false.
@@ -186,24 +198,26 @@ This block is shown if the statement defined in the main block happens to be fal
     Show this only if "show" is not true
   </p>
 </ng-template>
- 
- ``` 
-Notice, that the else block has to be an ng-template. The ng-template is a special element that is interpreted by angular and has no DOM counterpart. That means, that this tag is not included in the final HTML result, but only its content. 
+
+```
+
+Notice, that the else block has to be an ng-template. The ng-template is a special element that is interpreted by angular and has no DOM counterpart. That means, that this tag is not included in the final HTML result, but only its content.
 
 We have to use ng-content, because a normal div would be picked up by the browser and be rendered all the time.
 
 Also, we have to give that block an ID (#notShow) so we can reference it in our ngIf directive as the "else"-block.
 
 ![angular-code-banner](./img/angular-code-banner.png)
-## NgIf also has a "then" 
 
-In some rare cases, it might be useful to have the ngIf directive from its actual result-block. 
+## NgIf also has a "then"
+
+In some rare cases, it might be useful to have the ngIf directive from its actual result-block.
 This would enable us to swap the result of the block out on the fly, by just referencing another ng-template.
 
-For that reason, angulars' ngIf directive also has a then property. 
+For that reason, angulars' ngIf directive also has a then property.
 
 ```
- <ng-template 
+ <ng-template
   *ngIf="show;then showBlock; else notShowBlock">
 </ng-template>
 
@@ -218,21 +232,22 @@ For that reason, angulars' ngIf directive also has a then property.
     Show this only if "show" is not true
   </p>
 </ng-template>
- 
- ``` 
+
+```
 
 However, this is not the common and not the recommended way to do this, unless you really need that dynamic swapping.
 Personally, I have never used this before.
 
 ![angular-lock-banner](./img/angular-lock-banner.png)
-## The hidden syntax of ngIf and ng-template 
+
+## The hidden syntax of ngIf and ng-template
 
 Last but not least, we are going to take a look under the hood.
 
-It turns out, the sweet syntax with the * asterisk is just syntactic sugar.
+It turns out, the sweet syntax with the \* asterisk is just syntactic sugar.
 What this directive does internally, is convert its content to regular binding.
 
-Also, it wraps its content with an additional ng-template. 
+Also, it wraps its content with an additional ng-template.
 
 For example, this template
 
@@ -246,8 +261,9 @@ For example, this template
     Show this only if "show" is not true
   </p>
 </ng-template>
- 
- ``` 
+
+```
+
 is converted to this internally:
 
 ```
@@ -262,15 +278,15 @@ is converted to this internally:
     Show this only if "show" is not true
   </p>
 </ng-template>
- 
- ``` 
-You can use either of these methods. They have the same result. 
+
+```
+
+You can use either of these methods. They have the same result.
 But notice, that you can save a few lines with the first method.
 
 Personally, I only use the first method and have not seen the second one to be used anywhere.
 
-## Conclusion 
-
+## Conclusion
 
 In this tutorial we discovered, how we can use the power of the ngIf directive in our angular application.
 

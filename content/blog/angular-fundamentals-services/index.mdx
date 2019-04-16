@@ -3,42 +3,49 @@ id: '5bb0cae79583501f6425270d'
 title: 'Angular Services: How to reuse you business logic throughout you Application'
 image: './img/Angular-Service.png'
 date: 2017-07-22T22:00:00.000Z
+lastUpdated: 2017-07-22T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f64252701","5bb0cae79583501f6425270a","5bb0cae79583501f6425270c"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f64252701',
+    '5bb0cae79583501f6425270a',
+    '5bb0cae79583501f6425270c',
+  ]
+tags: ['angular']
 ---
-Did you ever want to reuse your business logic in other parts of your app? 
 
-Or did you want to have one central instance in your app, managing a certain task? 
+Did you ever want to reuse your business logic in other parts of your app?
+
+Or did you want to have one central instance in your app, managing a certain task?
 
 Then services are made for you. If you answered that questions with no... well, maybe you should continue reading anyways!
 
-Services are a fundamental concept in Angular. They are great for centralizing and reusing business logic. 
+Services are a fundamental concept in Angular. They are great for centralizing and reusing business logic.
 
 In this article, we will take a closer look at how they are set up. We will do so with some real-world examples.
 
-
 ![angular-question](./img/angular-question.png)
-## What are Services? 
 
-Services solve one big problem: They prevent us from copying logic over and over. Instead, they centralize business logic. 
+## What are Services?
 
-Also, they are very useful everywhere in our application. 
+Services solve one big problem: They prevent us from copying logic over and over. Instead, they centralize business logic.
 
-That is because they can be easily requested via [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection). 
+Also, they are very useful everywhere in our application.
 
-They are also very useful if you want to use the same instance of a class everywhere in your class. 
+That is because they can be easily requested via [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection).
 
-### Services are just classes 
+They are also very useful if you want to use the same instance of a class everywhere in your class.
 
-After all, services are just classes. Other than components, services may only contain logic. They should be completely separated from the view (anything visual). They also should only fulfill one purpose, following the single responsibility principle. 
+### Services are just classes
 
-### Use Cases 
+After all, services are just classes. Other than components, services may only contain logic. They should be completely separated from the view (anything visual). They also should only fulfill one purpose, following the single responsibility principle.
+
+### Use Cases
 
 The most common use case is I/O (Input/Output). To get more specific: HTTP requests. Generally, all HTTP requests in Angular are wrapped by a service. Why? Because with the help of [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection), our code stays highly maintainable. Here is an example:
 
@@ -47,7 +54,8 @@ Imagine you changed the route of your REST-Endpoint. Imagine you called that rou
 By wrapping our Http calls in a service, we know exactly where the change has to be made. And it is only one line affected.
 
 ![angular-compiler-banner](./img/angular-compiler-banner.png)
-## Caching Example 
+
+## Caching Example
 
 My favorite example for a service is a cached HTTP service. So let's build one together!
 
@@ -56,126 +64,116 @@ So let's say we want to create a wrapper service for a specific REST-Endpoint. F
 First, we define what kind of object our endpoint returns. In this case, we do so, by defining the Whatever interface.
 
 ```typescript title=src/app/services/cached.http.service.ts
- interface Whatever{
-    id: string;
+interface Whatever {
+  id: string
 }
- 
- ``` 
-In this case, our response object only contains an id. Of course, this object can look however you want. 
+```
+
+In this case, our response object only contains an id. Of course, this object can look however you want.
 
 Next, we create our service. It is a simple injectable with the public getWhatever method. It also has a cache object, where we save the responses we got. Finally, we have a private getWhateverHttpRequest that does the actual Http request.
 
 ```typescript title=src/app/services/cached.http.service.ts
- import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs/Observable'
+import { HttpClient } from '@angular/common/http'
 
 // of-operator has to be imported separatly
-import  'rxjs/add/observable/of';
-import  'rxjs/add/operator/first';
+import 'rxjs/add/observable/of'
+import 'rxjs/add/operator/first'
 
-interface Whatever{
-    id: string;
+interface Whatever {
+  id: string
 }
 
 @Injectable()
 export class CachedHttpService {
+  private cache = {}
 
-    private cache = {};
+  // Note: I'm using the 4.3 Http client here.
+  constructor(private http: HttpClient) {}
 
-    // Note: I'm using the 4.3 Http client here. 
-    constructor(private http: HttpClient) { }
+  public getWhatever(id: string): Observable<Whatever> {
+    if (this.cache[id] == null) {
+      // If we have no response in chache, reach out to the web
+      const observable = this.getWhateverHttpRequest(id)
 
-    public getWhatever(id: string):Observable<Whatever> {
-        if (this.cache[id] == null) {
-            // If we have no response in chache, reach out to the web
-            const observable = this.getWhateverHttpRequest(id);
+      // We need to subscribe to the result, to write the result to our cache
+      let subscription = observable.first().subscribe(response => {
+        // Wite the response to cache
+        this.cache[id] = response
+      })
 
-            // We need to subscribe to the result, to write the result to our cache
-            let subscription = observable.first().subscribe( response => {
-                // Wite the response to cache
-                this.cache[id] = response;
-            });
-
-            console.log("Cached Http: Read from server");
-            return observable;
-        }
-        else {
-            //If we have the response in our cache already, just serve that response
-            console.log("Cached Http: Read from cache")
-            return Observable.of(this.cache[id]);
-        }
+      console.log('Cached Http: Read from server')
+      return observable
+    } else {
+      //If we have the response in our cache already, just serve that response
+      console.log('Cached Http: Read from cache')
+      return Observable.of(this.cache[id])
     }
-    
-    private getWhateverHttpRequest(id: string): Observable<Whatever> {
-        
-        // Only for test purposes
-        return Observable.of({id: "result"});
-        // return this.http.get<Whatever>("anyurl.com/api/any/" + id);
-    }
+  }
+
+  private getWhateverHttpRequest(id: string): Observable<Whatever> {
+    // Only for test purposes
+    return Observable.of({ id: 'result' })
+    // return this.http.get<Whatever>("anyurl.com/api/any/" + id);
+  }
 }
- 
- ``` 
-Every class (or service) served via [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection), has to be provided somewhere. We do so in our AppModule. We also need to import the HttpClientModule here, if we actually want to make any requests. 
+```
+
+Every class (or service) served via [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection), has to be provided somewhere. We do so in our AppModule. We also need to import the HttpClientModule here, if we actually want to make any requests.
 
 Note: I'm using the HttpClient of Angular version 4.3+. If you are on older versions, you can use the old client, as well. However, the syntax might look a little different.
 
 ```typescript title=src/app/app.module.ts
- import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
-import { CachedHttpService } from './services/cached.http.service';
+import { AppComponent } from './app.component'
+import { HttpClientModule } from '@angular/common/http'
+import { CachedHttpService } from './services/cached.http.service'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule
-  ],
-  providers: [ CachedHttpService], // provide our service here
-  bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  imports: [BrowserModule, HttpClientModule],
+  providers: [CachedHttpService], // provide our service here
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
- 
- ``` 
+export class AppModule {}
+```
+
 All that is left now, is to actually use our service somewhere. We do so in our AppComponent.
 
 ```typescript title=src/app/app.component.ts
- import { Component, OnInit } from '@angular/core';
-import { CachedHttpService } from './services/cached.http.service';
+import { Component, OnInit } from '@angular/core'
+import { CachedHttpService } from './services/cached.http.service'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  
-  title = 'app';
-  constructor( private cachedHttpService: CachedHttpService){}
+  title = 'app'
+  constructor(private cachedHttpService: CachedHttpService) {}
 
   ngOnInit(): void {
-    this.cachedHttpService.getWhatever("1").subscribe( result => {
-      console.log("Received Response: " + result.id);
-    });
+    this.cachedHttpService.getWhatever('1').subscribe(result => {
+      console.log('Received Response: ' + result.id)
+    })
 
-    this.cachedHttpService.getWhatever("1").subscribe( result => {
-      console.log("Received Response: " + result.id);
-    });
+    this.cachedHttpService.getWhatever('1').subscribe(result => {
+      console.log('Received Response: ' + result.id)
+    })
 
-    this.cachedHttpService.getWhatever("1").subscribe( result => {
-      console.log("Received Response: " + result.id);
-    });
+    this.cachedHttpService.getWhatever('1').subscribe(result => {
+      console.log('Received Response: ' + result.id)
+    })
   }
 }
- 
- ``` 
-### Output 
+```
 
+### Output
 
 ```undefined title=undefined
  Cached Http: Read from server
@@ -186,11 +184,12 @@ Received Response: result
 
 Cached Http: Read from cache
 Received Response: result
- 
- ``` 
+
+```
+
 As you can see, only the first request is actually hitting the web. Exactly what we wanted to achieve.
 
-## Conclusion 
+## Conclusion
 
 I hope you found this article informative. If you did, please share it!
 To get informed about new content, go ahead and follow me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).

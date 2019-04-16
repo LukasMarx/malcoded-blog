@@ -3,16 +3,23 @@ id: '5bb0cae79583501f6425270a'
 title: 'Connect your Angular App with your Backend using the Http-Client'
 image: './img/Angular-Http.png'
 date: 2017-08-18T22:00:00.000Z
+lastUpdated: 2017-08-18T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f6425270b","5bb0cae79583501f6425270c","5bb0cae79583501f6425270e"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f6425270b',
+    '5bb0cae79583501f6425270c',
+    '5bb0cae79583501f6425270e',
+  ]
+tags: ['angular']
 ---
-Most angular applications require data from web-servers and APIs. 
+
+Most angular applications require data from web-servers and APIs.
 
 To talk to the outside world known as "the internet" we use the build in angular HttpClient.
 
@@ -26,38 +33,37 @@ Ready?
 
 Let's get started!
 
-
 ![angular-build-banner](./img/angular-build-banner.png)
-## Importing the HttpClient-Module 
 
-First of all, we need to import the HttpClient-module into the parent module. If you have just started a new angular project, that would be the AppModule. 
+## Importing the HttpClient-Module
+
+First of all, we need to import the HttpClient-module into the parent module. If you have just started a new angular project, that would be the AppModule.
 
 To import the module, just add it to the import section of the parent module.
 
 ```typescript title=src/app/app.module.ts
- import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './app.component'
 // Make sure you use exactly this import, to use the new version of the module
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    HttpClientModule // import module
+    HttpClientModule, // import module
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
- 
- ``` 
+export class AppModule {}
+```
+
 ![angular-new-banner](./img/angular-new-banner.png)
-## Creating a Wrapper-Service for the HttpClient 
+
+## Creating a Wrapper-Service for the HttpClient
 
 Since most HTTP requests are completely independent of the components, it is best practice to wrap them in a separate service. That way, your service can be mocked and your application becomes more testable. It is also more tidy, too.
 
@@ -66,37 +72,35 @@ To create a new service, we can use the angular-cli. To do that, open a command 
 
 ```
  ng generate service catPicture
- 
- ``` 
+
+```
+
 Every service has a specific purpose. For example, if we want to request pictures of cats via HTTP, our service would be called CatPictureService. The basic service will look like this:
 
 ```typescript title=src/app/catPicture.service.ts
- import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable()
 export class CatPictureService {
-
-constructor() { }
-
+  constructor() {}
 }
- 
- ``` 
+```
+
 To make HTTP-request from our service, we need the angular HttpClient. We can easily request this client via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection).
 
 ```typescript title=src/app/catPicture.service.ts
- import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
 
 @Injectable()
 export class CatPictureService {
-
-constructor(private httpClient: HttpClient) { }
-
+  constructor(private httpClient: HttpClient) {}
 }
- 
- ``` 
+```
+
 ![angular-services-banner](./img/angular-services-banner.png)
-## Using the HttpClient to Make HTTP Requests 
+
+## Using the HttpClient to Make HTTP Requests
 
 To make a request, we create a new method in our service. These methods are typically named after their HTTP verb (get, post, put, etc.), but using get set or remove does work, as well. Here is an HTTP get example in angular. For now, we call the method 'get'. It will take the URL of a cat photo.
 
@@ -104,69 +108,79 @@ To make a request, we create a new method in our service. These methods are typi
  public get(url: string): Observable<any>{
     return this.httpClient.get(url);
 }
- 
- ``` 
+
+```
+
 As you can see, the angular HttpClient is quite simple. All we need to do is call the get method and pass it an url. This get method returns an Observable. This class is part of the [rxjs](http://reactivex.io/) library, that is used by angular in many places. One example is the HttpClient.
 
 Just like a promise, the Observable does not contain a value immediately. Instead, it has a subscribe method, where we can register a callback. This callback is called, once the result is available. Other than a promise, an Observable can return more than one value. You can think of as a stream of results. But that does not matter for this tutorial. In our case, the Observable does only return one value.
 
-### Subscribing to HttpClient Observables 
+### Subscribing to HttpClient Observables
 
-So how do we subscribe to the observable, returned by our new method, to get the actual value?  That is quite easy. We just call the subscribe method register one (or two) callbacks. The first callback is called when the result is available. It gets the result as a parameter. The second callback is triggered when an error occurs with the request. It gets an error object as the parameter.
+So how do we subscribe to the observable, returned by our new method, to get the actual value? That is quite easy. We just call the subscribe method register one (or two) callbacks. The first callback is called when the result is available. It gets the result as a parameter. The second callback is triggered when an error occurs with the request. It gets an error object as the parameter.
 
 Here is how it looks like in code. I have made up the picService instance. You need to provide and request that service yourself.
+
 ```typescript title=src/app/catPicture.service.ts
- this.picService.get('http://anyurl.com').subscibe(value =>{
+this.picService.get('http://anyurl.com').subscibe(
+  value => {
     // value is the result
-},
-error => {
+  },
+  error => {
     // error is an error object
-});
- 
- ``` 
+  }
+)
+```
+
 NOTE: You always have to subscribe to the request's Observable. Otherwise, the request is not actually made!
 
 ![angular-settings-banner](./img/angular-settings-banner.png)
-## HttpClient Options 
+
+## HttpClient Options
 
 HTTP supports a huge range of different options, parameters, headers and formats. To make all of these different requests from the HttpClient, all of its methods take an optional options object.
 
-### Response Formats 
+### Response Formats
 
 As of angular 4.3, the default response format is JSON. That makes the usage of the HttpClient very easy. You no longer have to parse the response manually. Angular does it for you.
 
-Although JSON is the most common response format, there are many examples where you cant use JSON. Requesting pictures of cats for example. 
+Although JSON is the most common response format, there are many examples where you cant use JSON. Requesting pictures of cats for example.
 
 To prevent angular from automatically parsing the response, we can define the 'responseType' property of the options object.
 
 ```
  { responseType: 'text' }
- 
- ``` 
-### Angular HttpClient Headers 
+
+```
+
+### Angular HttpClient Headers
 
 To add headers to the request, we utilize the headers property of the options object. For that, we need a HttpHeaders object. It contains all our header definitions. Don't use the Headers object, since it is part of the old HTTP client.
 
 ```
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
  const options = { headers: headers };
- 
- ``` 
-### URL Parameters 
 
-We can also define URL parameters inside the options object. To do so, we need to create a HttpParams object.  That way, we don't have to add them to the URL-string. 
+```
+
+### URL Parameters
+
+We can also define URL parameters inside the options object. To do so, we need to create a HttpParams object. That way, we don't have to add them to the URL-string.
 
 ```
  const params = new HttpParams().set('id', '3');
 const options = {params: params};
- 
- ``` 
-![angular-animation-banner](./img/angular-animation-banner.png)
-## Tracking Progress-Events with the HttpClient 
 
-One new feature of the new HttpClient is, to track the progress of a request. For example, if you want to upload a large file, you probably want to report the progress/status to the user. 
+```
+
+![angular-animation-banner](./img/angular-animation-banner.png)
+
+## Tracking Progress-Events with the HttpClient
+
+One new feature of the new HttpClient is, to track the progress of a request. For example, if you want to upload a large file, you probably want to report the progress/status to the user.
 
 To do that, we need to split our request in a separate request object. To receive progress, we need to set the 'reportProgress' property of the options to true.
+
 ```
  import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
@@ -193,21 +207,22 @@ public post(url: string, file: File): Observable<number>{
     });
     return subject.asObservable();
 }
- 
- ``` 
+
+```
+
 The post method returns an Observable which represents the progress of the upload.
 
 To see a full example of tracking progress, check out my guide on [how to create a file-upload-component in angular](https://malcoded.com/posts/angular-file-upload-component-with-express).
 
-
 ![angular-transfer-state](./img/angular-transfer-state.png)
-## Angular HTTP Interceptors 
+
+## Angular HTTP Interceptors
 
 Another great feature of the new HttpClient are interceptors. In some use cases, you may need to modify the request before it hits the server. Or you want to modify every response. You can do that with Interceptor. They are some kind of middleware between the HTTP-API and the actual request.
 
 One common use case could be authentication. To get a response from the server, you often need to add some kind of authentication mechanism to the request. Of course, you can simply modify the authorization header in your service. But this task is always the same, right? It is always the same protocol. It never changes, even between application. So why don't we write the logic once and reuse it everywhere?
 
-### Defining an Interceptor 
+### Defining an Interceptor
 
 Just like a service, an interceptor is an Injectable.
 
@@ -223,48 +238,49 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 }
- 
- ``` 
+
+```
+
 Because an application can have multiple interceptors, they are organized in a chain structure. The first element is called by the framework. Afterward, it is our responsibility to pass the request to the next interceptor. To do that, we call the handle method of the next element in the chain, once we are done.
 
 Before we do that, we can modify the request however we like. For example, add a token to the Authorization header.
 
 This example is by no means complete or reusable. But it should give you the idea how to continue from here.
 
-### Providing Interceptors  
+### Providing Interceptors
 
 Just like services, we have to provide Interceptors, as well. To do that, your parent (AppModule) module should look something like this:
 
 ```typescript title=src/app/app.module.ts
- import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppComponent } from './app.component';
+import { AppComponent } from './app.component'
 // Make sure you use exactly this import, to use the new version of the module
-import { HttpClientModule } from '@angular/common/http';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS } from '@angular/common/http'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    HttpClientModule // import module
+    HttpClientModule, // import module
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthenticationInterceptor,
-    multi: true,
-  }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
- 
- ``` 
-## Conclusion 
+export class AppModule {}
+```
 
-Now we know, how we can send or receive external data via HTTP. We also learned, which different options we can use and how to track progress. 
+## Conclusion
+
+Now we know, how we can send or receive external data via HTTP. We also learned, which different options we can use and how to track progress.
 
 I hope you liked this article. If you did, click that button below, and share it with your friends and colleges!
 

@@ -3,10 +3,11 @@ id: '5bb0cae79583501f642526f9'
 title: 'Angular File Upload Component [with Node.js backend] '
 image: './img/angular-file-upload-component.png'
 date: 2018-03-19T23:00:00.000Z
+lastUpdated: 2018-04-16T23:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
-colorMain: '#c40030'
+colorMain: '#FD3B6C'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
 recommended:
@@ -24,7 +25,7 @@ Not only because you need to deal with files in JavaScript. Also, because you ne
 
 In this tutorial, we will learn how to do both.
 
-First, we will create a simple express server with just one route to accept file uploads.
+First, we will create a simple node.js express server with just one route to accept file uploads.
 
 Afterward, we will create an angular application from scratch and build a beautiful file-upload component using the angular material ui-component-library.
 
@@ -38,13 +39,15 @@ Let's start coding!
 
 ![nodejs-upload-red-banner](./img/nodejs-upload-red-banner.png)
 
-## Creating the Express Server to Upload To
+## Creating the Express server for the file upload
 
 Before we can start writing our angular file-uploader, we need to have an API to upload to right?
 
+![app-architecture-upload](./img/angular-app-architecture-upload.png)
+
 In this tutorial, we are going to create a simple node.js server using express, that allows files to be uploaded in the multipart-format.
 
-### Setting up a new Project
+### Setting up a new project
 
 To set up a new server project, create a new directory and initialize a new project using the
 
@@ -60,7 +63,7 @@ We will also need two JavaScript files. Create the following files in the projec
 server.js
 upload.js
 
-### External Dependencies
+### External dependencies
 
 Our server will have three external dependencies.
 
@@ -92,7 +95,7 @@ Install formidable using this command:
 
 ![nodejs-takeoff-red-banner](./img/nodejs-takeoff-red-banner.png)
 
-## Setting up a basic Express Server
+## Setting up a basic Express server
 
 First, we need to create a basic express server in the server.js file. This part looks always the same and consists of only 3 lines.
 
@@ -139,7 +142,7 @@ Finally, we tell express to use the cors-middleware with our configuration.
 server.use(cors(corsOptions))
 ```
 
-### Registering The Upload Route
+### Registering the upload route
 
 Afterward, we need to configure a route for our file upload.
 
@@ -175,7 +178,7 @@ server.listen(8000, () => {
 
 ![nodejs-explore-red-banner](./img/nodejs-explore-red-banner.png)
 
-## Implementing the Upload Route
+## Implementing the upload route
 
 Let's start implementing the upload functionality. We will place it into the upload.js file.
 
@@ -250,7 +253,7 @@ module.exports = function upload(req, res) {
 
 ![angular-new-banner](./img/angular-new-banner.png)
 
-## Creating a new Angular Project
+## Creating a new Angular file upload project
 
 Now that we have a working API we can code against, we can start creating the actual file-uploader.
 
@@ -262,7 +265,7 @@ Create a new application by opening a command prompt at the desired location and
 
 ```
 
-### External Dependencies
+### External dependencies
 
 Because we will need some complex ui-elements such as modal-windows, I decided to use the [angular material library](https://material.angular.io/) for this project.
 To install this library, use this command:
@@ -288,7 +291,7 @@ Install the library like this:
 
 ![angular-modules-banner](./img/angular-modules-banner.png)
 
-## Creating a Feature Module
+## Creating a feature module
 
 To make our desired file-upload component as re-usable as possible, I decided to bundle it into a separate feature module.
 
@@ -338,7 +341,7 @@ Notice, that we are also exporting the UploadComponent, to make it available out
 
 ![angular-upload-banner](./img/angular-upload-banner.png)
 
-## The File Upload Service
+## The file upload service
 
 Before we can create the visuals of our file-uploader, we first need to implement the upload logic.
 This logic will be placed in the UploadService.
@@ -434,7 +437,7 @@ Finally, we need to provide that service in our upload-module.
 
 ![angular-ui-banner](./img/angular-ui-banner.png)
 
-## The File Upload Dialog
+## The file upload dialog
 
 Our UploadComponent will only consist of a single button. This button will then open a dialog to upload the files.
 In this chapter, we are going to create this dialog.
@@ -446,7 +449,7 @@ Using angular material, a dialog is just a component. So let's create this Dialo
 
 ```
 
-### Adding Files
+### Adding files
 
 The first thing we need to do is to add a file input element to our component.
 
@@ -531,7 +534,7 @@ To do that, we need to request the dialog reference via dependency injection in 
 
 ```
 
-### Closing the Dialog & Uploading the Files
+### Closing the dialog & uploading the files
 
 Afterward, we take a look at the "closeDialog" method. We will be calling this method when the OK button of our dialog is pressed (it doesn't exist yet).
 Depending on which state we are in, we want the button to behave differently.
@@ -585,7 +588,7 @@ When the state of the component is "uploadSuccessful" we just want to close the 
 
 ```
 
-### The Full Template
+### The full angular template
 
 Here is the template of the dialog. It contains a button to add new files, a primary button (Upload/Finish) and a cancel button. Depending on the state of the component, these buttons can be disabled.
 
@@ -644,7 +647,7 @@ Once the files are uploading, a progress-bar for each file appears. This progres
 </div>
 ```
 
-### The Styles
+### The CSS styles
 
 Here are the styles for the DialogComponent. I don't think there is explanation needed.
 

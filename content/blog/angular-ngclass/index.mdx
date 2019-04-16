@@ -3,15 +3,22 @@ id: '5bb0cae79583501f642526f3'
 title: 'NgClass: How to assign CSS classes in Angular'
 image: './img/angular-ngclass.png'
 date: 2018-05-15T22:00:00.000Z
+lastUpdated: 2018-05-15T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526f4","5bb0cae79583501f642526f5","5bb0cae79583501f64252702"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f5',
+    '5bb0cae79583501f64252702',
+  ]
+tags: ['angular']
 ---
+
 In this tutorial, we are going to take a look how we can use CSS classes with angular.
 
 We will take a look at different methods to dynamically assign a CSS class to an element using the className directive.
@@ -25,7 +32,8 @@ Ready?
 Let's get started!
 
 ![angular-performance-banner](./img/angular-performance-banner.png)
-## Adding CSS Classes without Angular 
+
+## Adding CSS Classes without Angular
 
 So how did we assign CSS classes in JavaScript before we knew angular?
 
@@ -33,22 +41,25 @@ First of all, we had to find the DOM-element we wanted to assign the class to. I
 
 ```
  let element = document.getElementById('exampleDiv');
- 
- ``` 
+
+```
+
 Afterward, we could use the JavaScript DOM-API to assign a className.
 
 ```
  element.className = 'example-class';
- 
- ``` 
-DOM-Manipulation in plain old JavaScript always felt like a pain. 
+
+```
+
+DOM-Manipulation in plain old JavaScript always felt like a pain.
 
 This is no exception.
 
 Maybe this example is to simple to point that out properly, but what would you do if you wanted to assign a class based on a codition?
 
 ![angular-explore-banner](./img/angular-explore-banner.png)
-## How to assign a CSS Class in Angular using [className] 
+
+## How to assign a CSS Class in Angular using [className]
 
 Angular, like other single page application frameworks, realy shines when it comes to data-binding.
 That means, that the DOM is automatically updated, whenever the corresponding JavaScript object changes.
@@ -59,30 +70,34 @@ We can just bind a property to the className attribute of our HTML-elements. Jus
 
 ```
  <div [className]="'example-class'"></div>
- 
- ``` 
+
+```
+
 This example would have exactly the same result as the exmaple above.
 
 But what is the point of having dynamically updated DOM-bindings when using static values?
 
-Basically we can execute any statement inside of that binding, that results in a string. 
+Basically we can execute any statement inside of that binding, that results in a string.
 
 This allows us to add classes based on a condition:
 
 ```
  <div [className]="condition ? 'example-class' : 'other-class'"></div>
- 
- ``` 
+
+```
+
 That way, the example-class is added, when the codition is true. If the conditions is false, the example-class is removed and the other-class added to the DOM-element instead.
 
 Or we could build the class name at runtime:
 
 ```
  <div [className]="'class' + someValue"></div>
- 
- ``` 
+
+```
+
 ![angular-modules-banner](./img/angular-modules-banner.png)
-## How to toggle CSS Classes in Angular 
+
+## How to toggle CSS Classes in Angular
 
 When it comes to toggling CSS classes based on a condition, the syntax shown above is quite inconvenient.
 
@@ -90,16 +105,17 @@ A better way to do this, is by using the class.name directive. With that directi
 
 ```
  <div [class.example-class]="condition"></div>
- 
- ``` 
+
+```
+
 As you can see, this directive starts with the keyword "class" followed by the name of the CSS class you want to toggle, separated by a dot.
 While this syntax is not much shorter, it has the advantage, that its meaning is clear at first sight: We want to toggle a class.
 
 Using the general syntax shown in the previous chapter, that is not the case. The programmer has to read the whole statement first, before it is clear what it does.
 
-### Using NgClass for Convenience 
+### Using NgClass for Convenience
 
-I turns out, all the methods we discovered above can be replaced by the ngClass directive. 
+I turns out, all the methods we discovered above can be replaced by the ngClass directive.
 
 This directive is just syntactic sugar, to make the code look more streamlined. In some cases, it is also shorter or convenient to use, as well.
 
@@ -109,14 +125,16 @@ For example, if we just wanted to assign a static class name, we would do so lik
 
 ```
  <div [ngClass]="'example-class'"></div>
- 
- ``` 
+
+```
+
 NgClass can also assign multiple static class names all at once:
 
 ```
  <div [ngClass]="['example-class', 'other-class']"></div>
- 
- ``` 
+
+```
+
 If we want to toggle CSS classes based on a condition, we pass in a JavaScript object. The keys of the object are the class names and the values represent the conditions.
 
 ```
@@ -124,8 +142,9 @@ If we want to toggle CSS classes based on a condition, we pass in a JavaScript o
   'example-class': condition
 }">
 </div>
- 
- ``` 
+
+```
+
 We can also use ngClass to assign multiple CSS based on multiple conditions.
 
 ```
@@ -134,9 +153,10 @@ We can also use ngClass to assign multiple CSS based on multiple conditions.
   'other-class': !condition
 }">
 </div>
- 
- ``` 
-## Conclusion 
+
+```
+
+## Conclusion
 
 In this tutorial, we discovered how we can use the ngClass directive to assign classes dynamically using angular.
 

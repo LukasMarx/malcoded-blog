@@ -3,16 +3,23 @@ id: '5bb0cae79583501f6425270b'
 title: 'How to use Routing in Angular'
 image: './img/Angular-Routing.png'
 date: 2017-08-11T22:00:00.000Z
+lastUpdated: 2017-08-11T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f6425270a","5bb0cae79583501f6425270c","5bb0cae79583501f6425270e"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f6425270a',
+    '5bb0cae79583501f6425270c',
+    '5bb0cae79583501f6425270e',
+  ]
+tags: ['angular']
 ---
-Most applications have more than one page. 
+
+Most applications have more than one page.
 
 The user clicks links, presses buttons and returns to previous pages. And although angular runs completely client side, it all behaves like the user is used to. Just like any other website.
 
@@ -29,41 +36,44 @@ Ready?
 Let's get started!
 
 ![angular-question](./img/angular-question.png)
-## What are Routes? 
+
+## What are Routes?
 
 We have all used a browser before, right? If not, how the heck are you reading this?
-However, we all have used the address bar of the browser to go to websites or to search on google. 
+However, we all have used the address bar of the browser to go to websites or to search on google.
 
 You may also have noticed, that some sites have some slashes with some names behind the domain name. Something like this:
 
 ```undefined title=undefined
  https://www.reddit.com/r/Angular2/new/
- 
- ``` 
-That are routes. With routes, we tell the server of the site, which page we want to see. For example, we tell reddit.com that we are interested in /Angular2. 
 
-That brings us to the Angular2 sub-reddit. That is followed by a /new. That specifies, that we want to see the list of new posts. 
+```
 
-With the help of routes, the server can exactly determine, which page we want to see. Also, they are typically human readable.That means, that it is not only clear for the server, where to go, but for the user, as well. 
+That are routes. With routes, we tell the server of the site, which page we want to see. For example, we tell reddit.com that we are interested in /Angular2.
 
-Just change the  /Angular2 to any sub-reddit you want and here you go. You can directly go there, without clicking any buttons or using the search.
+That brings us to the Angular2 sub-reddit. That is followed by a /new. That specifies, that we want to see the list of new posts.
 
-Because it has been the default format for such a long time, browsers can handle routes very well, as well. They can exactly track the users' navigation and provide functionality like a back-button or a history. 
+With the help of routes, the server can exactly determine, which page we want to see. Also, they are typically human readable.That means, that it is not only clear for the server, where to go, but for the user, as well.
+
+Just change the /Angular2 to any sub-reddit you want and here you go. You can directly go there, without clicking any buttons or using the search.
+
+Because it has been the default format for such a long time, browsers can handle routes very well, as well. They can exactly track the users' navigation and provide functionality like a back-button or a history.
 
 ![angular-ui-banner](./img/angular-ui-banner.png)
-## Client Side Routing with Angular 
+
+## Client Side Routing with Angular
 
 So we noticed that routes are very handy. For humans and machines. That is why angular mimics that behavior. It is just expected, and any other way of solving navigation would seem odd to the user.
 
-It is very important to notice, that angular is running completely client side. Even though,  the routes look just like normal server routes; 
+It is very important to notice, that angular is running completely client side. Even though, the routes look just like normal server routes;
 
-They are NOT! 
+They are NOT!
 
 None of these route changes are actually leaving the browser. They are all intercepted and handled by the angular framework.
 
-
 ![angular-modules-banner](./img/angular-modules-banner.png)
-## The Angular Router Module 
+
+## The Angular Router Module
 
 All routing related things are inside of the RouterModule. This module comes with angular. So to use routing, we need to import that module into our AppModule. If you are not sure about modules, you can check out my [guide to modules](https://malcoded.com/posts/angular-fundamentals-modules).
 
@@ -89,12 +99,14 @@ export class AppModule {
   constructor() {
   }
 }
- 
- ``` 
+
+```
+
 Now, our app is ready to use routing.
 
 ![angular-code-banner](./img/angular-code-banner.png)
-## Defining Angular Routes 
+
+## Defining Angular Routes
 
 To tell our application, which routes we want to have, we need to specify them. At the same time, we will define, which components to show at which route. But let's start simple...
 
@@ -103,31 +115,30 @@ To define routes, it is best practice, to create a separate routing file. This r
 In that file, we create a static array, wich contains all our routes for the module. Afterward, we export a ModuleWithProviders. We can then use that ModuleWithProviders, to register the routes at out module.
 
 ```typescript title=src/app/app.routing.ts
- import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
-import { SampleComponent} from '.';
- 
- ``` 
+import { Routes, RouterModule } from '@angular/router'
+import { ModuleWithProviders } from '@angular/core'
+import { SampleComponent } from '.'
+```
 
 ```typescript title=src/app/app.routing.ts
- export  const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: 'page', pathMatch: 'full' },
-  { path: 'page', component: SampleComponent }
-];
+  { path: 'page', component: SampleComponent },
+]
 
-export  const routing: ModuleWithProviders = RouterModule.forRoot(routes);
- 
- ``` 
-So what are we doing here? The most important part is the Routes array, we defined. Inside of that array, we can define our routes. As you can see, these routes are defined as objects. 
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes)
+```
+
+So what are we doing here? The most important part is the Routes array, we defined. Inside of that array, we can define our routes. As you can see, these routes are defined as objects.
 All of them do contain a path property. That property defines the path or name of the route. For example, to get to our SampleComponent, the route would be /page.
 
 To define, which component should be shown at each route, we can pass a component class to the property called 'component'.
 
-### Redirecting 
+### Redirecting
 
 In that example, we also used redirecting. To do so, we used the redirectTo in conjunction with the pathMatch property. First, we define the path of the route. In this case, it is empty. The route would be '/' and at the root of the route. We also specify, that if this route is hit, we want to redirect the user to the 'page' route. With the pathMatch property, we define to only redirect, if the route fully matches the given route.
 
-### Children 
+### Children
 
 Routes can also have children. If we want our routes to have children, we can define them with the children property like this:
 
@@ -142,18 +153,20 @@ Routes can also have children. If we want our routes to have children, we can de
     ]
   }
 ];
- 
- ``` 
+
+```
+
 Now, to display SampleComponent2, the route would be '/page/child'.
 
-### Parameter 
+### Parameter
 
-It is also possible, to create routes that take dynamic parameters. For example, you would have an article component under the 'article' route. However, we want this component to show different articles, depending on the route. For that, we append the id of the article to the route: '/article/12345' or  '/article/738762'.  To define a route with a parameter, we add a ':' to the route. 
+It is also possible, to create routes that take dynamic parameters. For example, you would have an article component under the 'article' route. However, we want this component to show different articles, depending on the route. For that, we append the id of the article to the route: '/article/12345' or '/article/738762'. To define a route with a parameter, we add a ':' to the route.
 
 ```typescript title=
  { path: 'article/:id', component: ArticleComponent},
- 
- ``` 
+
+```
+
 Reading Route Parameter
 To read out the current route parameter in the component, we need the active route. That can be requested via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection).
 
@@ -162,8 +175,9 @@ To read out the current route parameter in the component, we need the active rou
 ...
  constructor(private route: ActivatedRoute) { }
 ...
- 
- ``` 
+
+```
+
 We then use the active route, to read out route parameter. To do so, we subscribe to the params observable of the active route. The registered callback will fire when any route parameter changes.
 
 ```typescript title=
@@ -175,9 +189,10 @@ We then use the active route, to read out route parameter. To do so, we subscrib
 		}
 	}
 }
- 
- ``` 
-### Importing Routes 
+
+```
+
+### Importing Routes
 
 After defining the routes, we need to import them into the AppModule to take effect. Import routing from our .routing.ts file and add it to the import section of the module. Since we export the RouterModule in routing, we don't need to import that explicitly anymore.
 
@@ -194,62 +209,67 @@ After defining the routes, we need to import them into the AppModule to take eff
 	routing
   ]
 })
- 
- ``` 
+
+```
 
 ![angular-transfer-state](./img/angular-transfer-state.png)
-## Injecting Content with Angular Router Outlets 
+
+## Injecting Content with Angular Router Outlets
 
 If we start our application now, we will notice, that it does not work as expected. First, we need to tell angular, at which point in the DOM to inject the component of each route into.
-To do that, we use the 
+To do that, we use the
+
 ```html title=
- <router-outlet></router-outlet> 
- ``` 
-tag. Just add that to the requested position e.g. of your AppComponent. 
+<router-outlet></router-outlet>
+```
+
+tag. Just add that to the requested position e.g. of your AppComponent.
 
 It is important to know, that angular will insert the component right into that position of the DOM. Any HTML-Elements, before or afterward, stay the same. That way, it is possible, to create e.g. a navigation-bar or a footer.
 
 ```html title=
- <header></header>
+<header></header>
 <router-outlet></router-outlet>
 <footer></footer>
- 
- ``` 
+```
+
 If the route changes, only the content of the router-outlet changes. everything else will stay the same.
 
 ![angular-animation-banner](./img/angular-animation-banner.png)
-## Navigation: Changing the Active Route 
+
+## Navigation: Changing the Active Route
 
 Angular offers multiple ways to change the route of your application. Without that ability, having routes would make no sense right?
 
-### RouterLink 
+### RouterLink
 
 With the help of the routerLink directive, we can link to routes of our application right from the html template. Just add the directive to an HTML-Element. When the user clicks on that element, angular navigates to the specified location.
 
 ```html title=
- <a routerLink="/page">Page</a>
- 
- ``` 
+<a routerLink="/page">Page</a>
+```
+
 Note: For your application to work with server-side rendering, the element hosting the directive has the be a link (a) element. Just like in the example above.
 
-### Code 
+### Code
 
 It is also possible, to navigate to a route from code. To do so, we need to the angular router.
 
 ```typescript title=
  import { Router } from '@angular/router';
 constructor(private router: Router) {}
- 
- ``` 
+
+```
+
 Once we have that router, navigation is quite simple. Just call the navigate function of Router. This function takes an array. The first entry of the array defines the string of the route, we want to navigate to. The second is optional and allows us to pass in a route parameter.
 
 ```typescript title=
- this.router.navigate(['/article', 738762]);
- 
- ``` 
-## Module-Based Routing: Keep it Organized! 
+this.router.navigate(['/article', 738762])
+```
 
-Once our application is getting bigger than a simple example app, we want to separate parts of our app into modules. 
+## Module-Based Routing: Keep it Organized!
+
+Once our application is getting bigger than a simple example app, we want to separate parts of our app into modules.
 This is because we want our code to be easily understand. And that is a lot easier if each part or feature lives inside of its own module in its own folder.
 
 But with this separation comes a problem!
@@ -262,32 +282,30 @@ For example if we have a admin section in our application, we want the admin mod
 To define the routes for that admin module, we would create a file inside of the folder called {module-name}.routing.ts.
 In this example, we would call it admin.routing.ts because the module would be called admin.
 
-### Use the ForChild Method! 
+### Use the ForChild Method!
 
-
-The content of that file is just like the routing-file of our applications main routing file. 
+The content of that file is just like the routing-file of our applications main routing file.
 
 With one small but important difference!
 
 Instead of using the forRoot method on the router module, we need to use the forChild method. That way angular knows that these routes belong to a sub-module.
 
 ```typescript title=admin.routing.ts
- import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
-import { AdminComponent} from './admin';
- 
- ``` 
+import { Routes, RouterModule } from '@angular/router'
+import { ModuleWithProviders } from '@angular/core'
+import { AdminComponent } from './admin'
+```
 
 ```typescript title=admin.routing.ts
- export  const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: 'mainAdminPage', pathMatch: 'full' },
-  { path: 'mainAdminPage', component: AdminComponent }
-];
+  { path: 'mainAdminPage', component: AdminComponent },
+]
 
-export  const routing: ModuleWithProviders = RouterModule.forChild(routes);
- 
- ``` 
-### Importing the Routes into the Sub-Module 
+export const routing: ModuleWithProviders = RouterModule.forChild(routes)
+```
+
+### Importing the Routes into the Sub-Module
 
 Also, just like with routing for the main module, we need to import the routes into the sub-module.
 
@@ -306,9 +324,10 @@ import { CommonModule} from '@angular/common';
 	routing
   ]
 })
- 
- ``` 
-### Defining Routes to the Sub-Routes of the Module 
+
+```
+
+### Defining Routes to the Sub-Routes of the Module
 
 The last thing we need to do to, is to register a route from our main app navigation to the sub-module's routes.
 
@@ -320,33 +339,32 @@ But we have one problem here!
 
 We cant just reference our admin-component here. If we would do that, the routing file for the sub-module would be completely ignored.
 
-Instead, we need to load the whole module. 
+Instead, we need to load the whole module.
 
 We can do that by using the loadChildren property.
 
 ```typescript title=app.routing.ts
- import { Routes, RouterModule } from '@angular/router';
-import { ModuleWithProviders } from '@angular/core';
-import { SampleComponent} from '.';
- 
- ``` 
+import { Routes, RouterModule } from '@angular/router'
+import { ModuleWithProviders } from '@angular/core'
+import { SampleComponent } from '.'
+```
 
 ```typescript title=app.routing.ts
- export  const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: 'page', pathMatch: 'full' },
   { path: 'page', component: SampleComponent },
   {
     path: 'admin',
-    loadChildren: './admin.module#AdminModule'
-  }
-];
+    loadChildren: './admin.module#AdminModule',
+  },
+]
 
-export  const routing: ModuleWithProviders = RouterModule.forRoot(routes);
- 
- ``` 
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes)
+```
+
 We need to give that property the path to our module. We also need to give it the name of our module. The path and the name are separated by a '#'.
 
-## We've just implemented Lazy-Loading! 
+## We've just implemented Lazy-Loading!
 
 Using routing in combination with modules isn't just tidy...
 
@@ -363,7 +381,7 @@ And I have great news for you!
 Using the method I showed you below, you do not need to do anything to use lazy-loading!
 We have already implemented it!
 
-## Conclusion 
+## Conclusion
 
 That we know, what routes are, how we define and how we navigate to them. However, this article covers only a subset of what is possible with routes. Never the less, it covers the fundamentals that will suffice most of the time. To learn everything about routing, visit the [official documentation.](https://angular.io/guide/router#navigating-back-to-the-list-component)
 

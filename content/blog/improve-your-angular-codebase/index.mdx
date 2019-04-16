@@ -3,29 +3,37 @@ id: '5bb0cae79583501f642526fb'
 title: '5 Things that Improve your Angular Codebase Right Now!'
 image: './img/5-things-to-improve-codebase.png'
 date: 2018-03-14T23:00:00.000Z
+lastUpdated: 2018-03-14T23:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526f0","5bb0cae79583501f642526fd","5bb0cae79583501f64252702"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526f0',
+    '5bb0cae79583501f642526fd',
+    '5bb0cae79583501f64252702',
+  ]
+tags: ['angular']
 ---
+
 Angular can have quite a learning curve.
 
 Building applications that are maintainable and easy to read, is a form of art by itself.
 
 In this article I will share 5 actionable tips and tricks with you, that can help you improve the quality of your code.
 
-From most basic things, like how to name your files, to kind of complex topics like redux and state management. 
+From most basic things, like how to name your files, to kind of complex topics like redux and state management.
 
 We will discover how we can unitize those things to increase the quality of our angular applications.
 
 Let's get started!
 
 ![angular-explore-banner](./img/angular-explore-banner.png)
-## 1. Follow the Convention 
+
+## 1. Follow the Convention
 
 One of the core arguments to choose angular over other single page application frameworks is its clearly defined way of how things are supposed to be done.
 It has an opinion, so to speak.
@@ -45,15 +53,14 @@ It will make your life a lot easier, when coming into new projects and will incr
 Here is the complete set of rules! You should at least have seen them once!
 [Angular Style Guide](https://angular.io/guide/styleguide)
 
-### "We like to do things in our own way! We don't like to follow the rules of someone else!" 
-
+### "We like to do things in our own way! We don't like to follow the rules of someone else!"
 
 Why did you choose angular then?
 If this is your organization, I highly encourage you to re-consider the choice of your fronted-framework.
 There are a lot of other frameworks out there, that suite your expectations a lot better.
 You will not be happy with angular, neither in the short nor in the long run!
 
-### Example: File Names 
+### Example: File Names
 
 One example of these rules is the naming of files.
 
@@ -62,20 +69,23 @@ Every file that contains an angular-structure, like a component, a module or a p
 
 ```
  [name].[structure].[file-extension]
- 
- ``` 
+
+```
+
 So if we want to create a component to display our customers, the name would be "customer". The structure would be component an the file extension is either ".ts", ".css" or ".html".
 For example:
 
 ```
  custumer.component.ts
- 
- ``` 
+
+```
+
 If you are using the angular-cli, that part is taken care of, by using the ng-generate commands to create any structure. The resulting file will automatically follow the naming convention.
 If you want to learn more about the angular-cli and the ng-generate command, check out my [tutorial on the angular-cli](https://malcoded.com/posts/angular-fundamentals-cli).
 
 ![angular-folder](./img/angular-folder.png)
-## 2. Bundle your Code into Modules 
+
+## 2. Bundle your Code into Modules
 
 A very common thing to do, when learning angular is to place everything into the app-module.
 Needless to say, that your application will evolve into a complete mess. Modules are there for a reason!
@@ -90,11 +100,11 @@ In fact, it would make things even worse.
 
 Fortunately, angular has some opinions on how we should decide our apps into modules.
 
-### Feature Modules 
+### Feature Modules
 
 One category of modules are the so-called "Feature Modules". As you probably have guessed already, they are created to contain one specific feature.
 
-These modules are created in a separate folder with the name of the feature. 
+These modules are created in a separate folder with the name of the feature.
 
 For example, the feature-module for the feature "feature" would be placed into a directory called feature. The module file itself follows the naming convention mentioned above: feature.module.ts
 
@@ -106,14 +116,13 @@ Well, first of all, they provide a way to structure our code in a way that is re
 They also separate different features completely. That way there can't be any weird overlap that could cause confusion and potential bugs.
 
 Another great advantage of feature-modules is that they allow us to use a technique called lazy-loading.
-With lazy loading, we only download a module to the client device, if the module is actually needed. 
+With lazy loading, we only download a module to the client device, if the module is actually needed.
 
 For example, if we have an administration-section for a blog, it would not make much sense to serve the code for the admin-section to every user visiting the site.
 
 Instead, we separate the admin-section into a feature-module and load it using lazy-loading. Now, if a user is entering the site, he only has to download the code for the blog-section. Only if he is navigating to the admin-section, the additional JavaScript code is downloaded.
 
-
-### Core and Shared-Module 
+### Core and Shared-Module
 
 Using feature-modules, every component, directive or pipe is encapsulated in a separate module. That way, it can't be used elsewhere in our application, without importing its module.
 
@@ -150,8 +159,7 @@ But the core-module is not just for services. Everything that is used applicatio
 
 An example for that are loading-spinners for the start of the application. They are never used anywhere else so creating a extra shared-module would be kind of overkill.
 
-
-### Provide Private Services in your Component 
+### Provide Private Services in your Component
 
 Most services in angular are designed to act on a global scope. They are then provided at an application level (AppModule).
 
@@ -165,12 +173,13 @@ Otherwise, you should try to provide the services in a module, so that can only 
 
 That way, services can be related to features (feature-modules), which makes them easier to find and understand in the right context.
 
-Also, they are contained by a feature module, which --again-- enables lazy-loading capabilities. 
+Also, they are contained by a feature module, which --again-- enables lazy-loading capabilities.
 
 It also minimizes the risk of dead code, in case the only module that uses the service is deleted.
 
 ![angular-compiler-banner](./img/angular-compiler-banner.png)
-## 3. Keep Logic out of your Components 
+
+## 3. Keep Logic out of your Components
 
 As you build your application, it may be a good idea to keep your logic and especially state out of your components.
 
@@ -188,7 +197,7 @@ Code that does not exist can increase the overall code-quality by a lot.
 
 Last but not least, having logic in a separate file makes the code also easier to read.
 
-### State 
+### State
 
 When it comes to state, there are a bunch of problems that emerge from each component having its own state.
 
@@ -199,7 +208,8 @@ Especially in large applications, this can be a huge problem.
 More on the topic of centralized state in chapter 5.
 
 ![angular-transfer-state](./img/angular-transfer-state.png)
-## 4. Get your async Code right 
+
+## 4. Get your async Code right
 
 As we already discussed above, angular is an opinionated framework.
 
@@ -211,7 +221,7 @@ In this case, the angular team has decided to use the rxjs library for all async
 
 The library utilizes the [observer-pattern](http://www.dofactory.com/javascript/observer-design-pattern). If you want to learn more about the rxjs library, check out my guide on [rxjs for angular developers](https://malcoded.com/posts/rxjs-for-angular-devs).
 
-### Avoid Promises 
+### Avoid Promises
 
 RxJs partly overlaps with its functionality with the standard JavaScript promise. Both are meant to handle asynchronous code.
 
@@ -223,7 +233,7 @@ So what should we use? The simple promise, that allows us to use the TypeScript 
 
 Those questions are not easy to answer. In fact, people have different opinions on this.
 
-Here is what I think: 
+Here is what I think:
 
 I really like the style of the await operator for promises, but I think we should stick to the opinion of the framework. And this opinion is quite clear.
 
@@ -233,7 +243,7 @@ We can see that, by looking at the angular HTTP-client. It returns rxjs-observab
 
 I also don't think that mixing it up is a good solution. That way, you have completely different implementations, that are hardly compatible with each other in different parts of your application. Depending on who wrote the code. After all, that is exactly what we try to avoid by using angular.
 
-### Use the Async Pipe 
+### Use the Async Pipe
 
 As stated above, rxjs-observables are a little bit more complex. Not using them correctly can lead to serious bugs.
 
@@ -246,8 +256,9 @@ The most common mistake I make is forgetting to unsubscribe from the observable.
       this.result = result;
     })
   }
- 
- ``` 
+
+```
+
 But avoiding this mistake is quite easy in angular. All you need to do is to use the angular async pipe. This pipe will automatically unsubscribe from the observable, once the component is destroyed.
 
 ```typescript title=Do this instead
@@ -255,19 +266,20 @@ But avoiding this mistake is quite easy in angular. All you need to do is to use
   ngOnInit() {
     this.result$ = this.http.get('');
   }
- 
- ``` 
+
+```
+
 And bind in the template to the observable using the async pipe:
 
 ```html title=And This...
- <p>{{result$ | async}}</p>
- 
- ``` 
+<p>{{result$ | async}}</p>
+```
+
 A nice side effect of this is, that the code looks a look simpler and cleaner, as well.
 
-
 ![angular-modules-banner](./img/angular-modules-banner.png)
-## 5. Try Centralized State Management (like Redux) 
+
+## 5. Try Centralized State Management (like Redux)
 
 As your app grows, the code-quality of can decrease dramatically. Hundreds of components, each having their own state is not only confusing.
 It also is almost impossible to debug.
@@ -279,7 +291,7 @@ It usually also means, that the state is controlled by one instance, that is the
 
 Having such a central state brings some advantages:
 
-The first point might be obvious: You don't have to search for it. 
+The first point might be obvious: You don't have to search for it.
 
 As it is all in one place, you don't need to navigate through the component tree (e.g. with debugging-tools like [augury](https://augury.angular.io/)).
 
@@ -291,7 +303,7 @@ Problems like component to component communication are solved by this, as well. 
 
 Depending on which form of central state management you choose, you also get nice features likes time-travel-debugging (Redux/ngrx).
 
-### So should you just use Redux/ngrx? 
+### So should you just use Redux/ngrx?
 
 Again, there are millions of opinions out there. After all, you will have to come up with your own one.
 
@@ -299,7 +311,7 @@ But here are is my point of view:
 
 Despite of the hype, I don't think that everybody should start re-writing their apps to integrate redux. Even if you start from scratch, I don't think redux is the way to go a lot of time.
 
-Of course, that highly depends on the kind of application you plan to build. 
+Of course, that highly depends on the kind of application you plan to build.
 
 Are you building large applications with hundreds of components, developed by a large team?
 Sure, go ahead and use redux. It will save you a lot of trouble.
@@ -315,7 +327,7 @@ Are you building a small application? A side-project or a prototype even? Don't 
 The value that redux could provide in those situations is almost zero. At the cost of creating hundreds of boilerplate-files.
 You will not only make your app a lot more complex than it needs to be, but it will also take away all the fun you might have had otherwise.
 
-As you can see, I am not a fan of boilerplate code. 
+As you can see, I am not a fan of boilerplate code.
 
 But there is hope!
 
@@ -323,7 +335,7 @@ There is currently a library in the works, that promises zero boilerplate-code w
 It is called [angular-ngrx-data](https://github.com/johnpapa/angular-ngrx-data) and is maintained by John Papa.
 Definitely, check that out!
 
-## Conclusion 
+## Conclusion
 
 These are my 5 recommendations on how to increase the quality of your angular code base.
 
@@ -332,4 +344,3 @@ I hope you liked it!
 If you did, please share this article with your friends and colleges and help them improve their code-quality, as well!
 
 Happy Coding!
-

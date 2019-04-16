@@ -3,18 +3,25 @@ id: '5bb0cae79583501f642526ed'
 title: 'Validating Reactive Forms in Angular'
 image: './img/angular-validating-reactive-forms.png'
 date: 2018-09-09T22:00:00.000Z
+lastUpdated: 2018-09-09T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526ec","5bb0cae79583501f642526f9","5bb0cae79583501f642526fc"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526ec',
+    '5bb0cae79583501f642526f9',
+    '5bb0cae79583501f642526fc',
+  ]
+tags: ['angular']
 ---
+
 Forms are a fundamental part of every angular application.
 
-One of the greatest features of forms is, that you can validate the input of the user before it is send to the server. 
+One of the greatest features of forms is, that you can validate the input of the user before it is send to the server.
 
 In this tutorial you are going to learn how you can validate your angular reactive forms.
 
@@ -29,7 +36,8 @@ Ready?
 Let's get started!
 
 ![angular-new-banner](./img/angular-new-banner.png)
-## Creating a new angular project 
+
+## Creating a new angular project
 
 To get started, let's create a new angular project first.
 Of course, you can also use an existing angular-cli project.
@@ -39,12 +47,14 @@ Just type the following command:
 
 ```
  ng new angular-form validation
- 
- ``` 
-That is already it. 
+
+```
+
+That is already it.
 
 ![angular-forms-banner](./img/angular-forms-banner.png)
-## A basic reactive form 
+
+## A basic reactive form
 
 Before we can get into validating forms, we first create a form first, right?
 
@@ -53,9 +63,10 @@ To create that component we again use the angular cli:
 
 ```
  ng generate component contact
- 
- ``` 
-### Defining the form group 
+
+```
+
+### Defining the form group
 
 In this tutorial, we are going to use the reactive approach to forms. So to create a form we need to define a [FormGroup](https://angular.io/api/forms/FormGroup).
 We are doing this in a method called createFromGroup
@@ -68,8 +79,9 @@ We are doing this in a method called createFromGroup
     country: new FormControl('')
   });
 }
- 
- ``` 
+
+```
+
 We then create a field called contactForm and initialize this field in the component constructor using our new method.
 Also, we need some options for the select-element we will use later.
 
@@ -80,9 +92,10 @@ contactForm: FormGroup;
 constructor() {
   this.contactForm = this.createFormGroup();
 }
- 
- ``` 
-### Submit & revert 
+
+```
+
+### Submit & revert
 
 Our will also need submit and revert functionality.
 For that, we create two methods, as well.
@@ -95,11 +108,12 @@ For that, we create two methods, as well.
 onSubmit() {
   // ...
 }
- 
- ``` 
+
+```
+
 That's all we need to add to our component.ts for now.
 
-### The template 
+### The template
 
 Now that we have our FormControl, it is time to define the visuals in our template.
 
@@ -107,28 +121,24 @@ For that, we are using just a regular form tag. We then assign our FromControl t
 The form itself does only contain of some input fields and a select-element.
 
 ```html title=src/app/contact/contact.component.html
- <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  Email: <input formControlName="email" /> <br />
 
-  Email:
-  <input formControlName="email">
-  <br />
-
-  Mobile:
-  <input formControlName="mobile">
-  <br />
+  Mobile: <input formControlName="mobile" /> <br />
 
   Country:
   <select formControlName="country">
-    <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+    <option *ngFor="let country of countries" [value]="country"
+      >{{country}}</option
+    >
   </select>
   <br />
 
- <button type="submit" [disabled]="!contactForm.valid">Save</button>
- <button type="reset" (click)="revert()">Revert</button>
-
+  <button type="submit" [disabled]="!contactForm.valid">Save</button>
+  <button type="reset" (click)="revert()">Revert</button>
 </form>
- 
- ``` 
+```
+
 We also assign each field of our FormControl to one HTML-Element using "formControlName".
 
 You might have noticed, that we are using our first form of validation here. The submit-button will disabled while our contactForm is not valid.
@@ -136,7 +146,8 @@ You might have noticed, that we are using our first form of validation here. The
 If that was a little bit to fast for you, check out my [guide on reactive forms in angular](https://malcoded.com/posts/angular-fundamentals-reactive-forms), where you can find much more detailed information about reactive forms.
 
 ![angular-lock-banner](./img/angular-lock-banner.png)
-## Making fields "required" 
+
+## Making fields "required"
 
 Now that we have created a form to validate, we can finally start thinking about the actual validation.
 
@@ -156,13 +167,15 @@ So let's make all of our fields required like this:
     country: new FormControl('', [Validators.required])
   });
 }
- 
- ``` 
+
+```
+
 That is all there is to it!
 You should now notice, that the submit-button is disabled until all form-fields have a value.
 
 ![angular-security](./img/angular-security.png)
-## Validating email addresses with the built-in angular validator 
+
+## Validating email addresses with the built-in angular validator
 
 Now that we have talked about the first use-case that comes to mind, let's talk about the second one: email address validation.
 
@@ -177,16 +190,18 @@ We can just add it to the array of validators like this:
     country: new FormControl('', [Validators.required])
   });
 }
- 
- ``` 
+
+```
+
 Easy, right?
 
 ![angular-build-banner](./img/angular-build-banner.png)
-## Using a custom validator to validate a number 
+
+## Using a custom validator to validate a number
 
 That was very basic, wasn't it?
 
-But what if we want to validate something a little bit more unusual? 
+But what if we want to validate something a little bit more unusual?
 
 For that, we can create a custom validator.
 
@@ -194,42 +209,46 @@ A custom validator is just a function with a specifiic signature that we pass in
 
 To validate our phone number, we are going to create a custom validator, that will check if the input actually is a number (let's keep it simple for this example).
 
-### Defining a custom validator 
-
+### Defining a custom validator
 
 To do that, create a new folder called validators inside of the app directory. Then create a new file called phone-validator.ts.
 
 Inside of that file we need to export a function, that takes a FromControl and either returns a JavaScript map or null.
 
 ```typescript title=src/app/validators/phone-validator.ts
- import { AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms'
 
-export function phoneNumberValidator(control: AbstractControl): { [key: string]: any } | null {
-}
- 
- ``` 
+export function phoneNumberValidator(
+  control: AbstractControl
+): { [key: string]: any } | null {}
+```
+
 Inside of that function, we then read the value of the FormControl. We then return null if the value should be valid, or an object if not.
 This object is meant to describe why the value is invalid. We will later use it to prompt specific messages to the user.
 
 ```typescript title=src/app/validators/phone-validator.ts
- import { AbstractControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms'
 
-export function phoneNumberValidator(control: AbstractControl): { [key: string]: any } | null {
-  const valid = /^\d+$/.test(control.value);
-  return valid ? null : { invalidNumber: { valid: false, value: control.value } };
+export function phoneNumberValidator(
+  control: AbstractControl
+): { [key: string]: any } | null {
+  const valid = /^\d+$/.test(control.value)
+  return valid
+    ? null
+    : { invalidNumber: { valid: false, value: control.value } }
 }
- 
- ``` 
+```
+
 In this example, we use a simple regex to test if the value is valid.
 
-### Using the custom validator 
+### Using the custom validator
 
 To use our new validator, we need to import it first.
 
 ```typescript title=src/app/contact/contact.component.ts
- import { phoneNumberValidator } from '../validators/phone-validator';
- 
- ``` 
+import { phoneNumberValidator } from '../validators/phone-validator'
+```
+
 Afterward, we just use it like any other validator:
 
 ```typescript title=src/app/contact/contact.component.ts
@@ -240,10 +259,12 @@ Afterward, we just use it like any other validator:
     country: new FormControl('', [Validators.required])
   });
 }
- 
- ``` 
+
+```
+
 ![angular-ui-banner](./img/angular-ui-banner.png)
-## Letting the user know why the value is invalid 
+
+## Letting the user know why the value is invalid
 
 With custom validators, we now have the possibility to check the input in many ways.
 
@@ -251,7 +272,7 @@ But in case the value is invalid, all that happens for the user is the submit-bu
 
 To give the user some feedback whats wrong, we can display a specific error message on the screen, based on which validator failed.
 
-### Defining Getter 
+### Defining Getter
 
 To be able to check the status of each form-field, we need an easy way to access each control.
 To do that, we are defining some getters in our component.
@@ -264,86 +285,97 @@ To do that, we are defining some getters in our component.
 get email() {
   return this.contactForm.get('email');
 }
- 
- ``` 
-### Adjusting the template to show error messages 
+
+```
+
+### Adjusting the template to show error messages
 
 Now we can access each form-controll and check if it valid.
 
 For example, if the value is missing or not a valid number:
 
 ```html title=src/app/contact/contact.component.html
- Mobile:
-  <input formControlName="mobile">
-  <span *ngIf="mobile.invalid && mobile.errors.required">
-    Mobile is required.
-  </span>
-  <span *ngIf="mobile.invalid && mobile.errors.invalidNumber">
-    Value has to be a number.
-  </span>
- 
- ``` 
+Mobile: <input formControlName="mobile" />
+<span *ngIf="mobile.invalid && mobile.errors.required">
+  Mobile is required.
+</span>
+<span *ngIf="mobile.invalid && mobile.errors.invalidNumber">
+  Value has to be a number.
+</span>
+```
+
 Notice, that "invalidNumber" is the value we defined in our custom validator.
 
-### Only showing errors if the user touched the control 
+### Only showing errors if the user touched the control
 
-With that we have done above, the errors are also shown when the page just loaded and the user has not even started to fill values in. 
+With that we have done above, the errors are also shown when the page just loaded and the user has not even started to fill values in.
 
-We don't want that. Instead it would be nice, if the errors would only appear after the user started typing. 
+We don't want that. Instead it would be nice, if the errors would only appear after the user started typing.
 
 To implement that, we also need to check if the control is dirty or got touched (on mobile).
 
 ```html title=src/app/contact/contact.component.ts
- Mobile:
-  <input formControlName="mobile">
-  <span *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.required">
-    Mobile is required.
-  </span>
-  <span *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.invalidNumber">
-    Value has to be a number.
-  </span>
- 
- ``` 
-### Applying that to all fields 
+Mobile: <input formControlName="mobile" />
+<span
+  *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.required"
+>
+  Mobile is required.
+</span>
+<span
+  *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.invalidNumber"
+>
+  Value has to be a number.
+</span>
+```
+
+### Applying that to all fields
 
 If we the apply that to all fields of the form, your template should look like this:
 
 ```html title=src/app/contact/contact.component.html
- <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-
-  Email:
-  <input formControlName="email">
-  <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.required">
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  Email: <input formControlName="email" />
+  <span
+    *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.required"
+  >
     Email is required.
   </span>
-  <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.invalidEmail">
+  <span
+    *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.invalidEmail"
+  >
     Value has to be a valid email address.
   </span>
   <br />
 
-  Mobile:
-  <input formControlName="mobile">
-  <span *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.required">
+  Mobile: <input formControlName="mobile" />
+  <span
+    *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.required"
+  >
     Mobile is required.
   </span>
-  <span *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.invalidNumber">
+  <span
+    *ngIf="(mobile.dirty || mobile.touched) && mobile.invalid && mobile.errors.invalidNumber"
+  >
     Value has to be a number.
   </span>
   <br />
 
   Country:
   <select formControlName="country">
-    <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+    <option *ngFor="let country of countries" [value]="country"
+      >{{country}}</option
+    >
   </select>
   <br />
 
   <button type="submit" [disabled]="!contactForm.valid">Save</button>
   <button type="reset" (click)="revert()">Revert</button>
 </form>
- 
- ``` 
+```
+
 ![angular-test-banner](./img/angular-test-banner.png)
-## Using angular CSS classes to highlight invalid form fields 
+
+## Using angular CSS classes to highlight invalid form fields
 
 If showing a plain error message is not enough, we can also adjust the appearance of each form-controll using CSS.
 
@@ -357,12 +389,13 @@ For that, angular automatically assigns some classes to each control, depending 
 .ng-dirty
 .ng-untouched
 .ng-touched
- 
- ``` 
-For example, if we wanted invalid controls to appear red and valid ones to be green, we could use  a style sheet like this to accomplish that.
+
+```
+
+For example, if we wanted invalid controls to appear red and valid ones to be green, we could use a style sheet like this to accomplish that.
 
 ```css title=src/app/contact/contact.component.css
- .ng-valid,
+.ng-valid,
 .ng-valid.required {
   background-color: lightgreen;
 }
@@ -370,11 +403,11 @@ For example, if we wanted invalid controls to appear red and valid ones to be gr
 .ng-invalid:not(form) {
   background-color: lightcoral;
 }
- 
- ``` 
-## Conclusion 
+```
 
-In this tutorial, we have learned how to validate our reactive forms with angular. 
+## Conclusion
+
+In this tutorial, we have learned how to validate our reactive forms with angular.
 
 If you want to see the full source code, take a look at the [GitHub repository](https://github.com/LukasMarx/angular-reactive-form-validation).
 

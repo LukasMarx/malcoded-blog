@@ -3,15 +3,22 @@ id: '5bb0cae79583501f642526fd'
 title: 'Angular CLI: The best Commands to boost your productivity'
 image: './img/angular-cli-tutorial.png'
 date: 2018-03-02T23:00:00.000Z
+lastUpdated: 2018-03-02T23:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526ec","5bb0cae79583501f642526ed"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526eb',
+    '5bb0cae79583501f642526ec',
+    '5bb0cae79583501f642526ed',
+  ]
+tags: ['angular']
 ---
+
 "Developers are lazy!"
 
 Whether you agree to that sentence or not, you will probably agree with me, that angular projects consist of a bunch of files.
@@ -28,36 +35,38 @@ Developing a angular application!
 
 Ready to see the magic?
 
-
 ![angular-build-banner](./img/angular-build-banner.png)
-## Setup 
 
-To use the [angular-cli](https://cli.angular.io/), we need to install it first. 
+## Setup
+
+To use the [angular-cli](https://cli.angular.io/), we need to install it first.
 
 Installing the angular-cli is quite easy. All you need to do, is to paste the following command into a terminal window.
 
 ```
  npm install @angular/cli -g
- 
- ``` 
+
+```
+
 For this to work, you need to have node.js with npm installed on your machine.
 
 The installation may take a while.
 
-
 ![angular-new-banner](./img/angular-new-banner.png)
-## Creating your first Angular CLI App 
+
+## Creating your first Angular CLI App
 
 Now it's time to create your first angular app with the CLI (Command Line Interface)
 
-Doing so is not complex at all. 
+Doing so is not complex at all.
 
 All you need to do, is choose a file-directory for your application to live in. Once that's done, open a terminal at that location and use the command
 
 ```
  ng new [project-name]
- 
- ``` 
+
+```
+
 to generate a new project. Make sure to replace [project-name] with a actual project name of your choice.
 
 The CLI will now go ahead and create a new directory named just like the project.
@@ -66,9 +75,9 @@ Inside of that folder, it will create all the files for a basic but already exec
 
 It will also install all required external dependencies. This can actually take some time.
 
-
 ![angular-school-banner](./img/angular-school-banner.png)
-## What you need to know about ng New 
+
+## What you need to know about ng New
 
 The command we used above is not the only way to create a new angular application.
 
@@ -78,21 +87,22 @@ Of course, you do not need to know all of them by heart, but some of them are pr
 
 Here are some of them:
 
-### Dry Run 
+### Dry Run
 
 Sometimes you want to try out, what a command does, before it actually does something.
 
 Specifically if you are new to the CLI, the dry-run option will be very useful.
 
-This option will stop the CLI from making any changes to the file system. Instead it will print everything it would have done to the console. 
+This option will stop the CLI from making any changes to the file system. Instead it will print everything it would have done to the console.
 That way you can check if the command actually does what you thought it does, before it causes any harm.
 
 For example, the option could be used like this:
 
 ```
  ng new example --dry-run
- 
- ``` 
+
+```
+
 And will result in the following output:
 
 ```
@@ -126,13 +136,14 @@ And will result in the following output:
  create example/src/app/app.component.css (0 bytes)
 
 NOTE: Run with "dry run" no changes were made.
- 
- ``` 
+
+```
+
 The last line is kind off important.
 
 You can append it to almost all of the angular-cli commands.
 
-### Skipping the Installation of External Dependencies 
+### Skipping the Installation of External Dependencies
 
 There might be situations, where you don't want to install the external dependencies right after the creation of a new project.
 
@@ -144,19 +155,21 @@ If you create a new application with this flag, it won't install external depend
 
 ```
  ng new example --skip-install
- 
- ``` 
-Unfortunately, you then have to install them manually at a later point in time. 
+
+```
+
+Unfortunately, you then have to install them manually at a later point in time.
 
 You can use the following command at the root of your project to do so:
 
 ```
  npm install
- 
- ``` 
+
+```
+
 Also, you have to have the external dependencies installed to run or test your application.
 
-### Who needs Test anyway? 
+### Who needs Test anyway?
 
 Seriously, there are legit scenarios where you just don't need them.
 
@@ -170,9 +183,10 @@ We can tell the CLI not to create test by using the --skip-tests option:
 
 ```
  ng new example --skip-tests
- 
- ``` 
-### Using Sass instead of Css? No problem! 
+
+```
+
+### Using Sass instead of Css? No problem!
 
 Using pre-processed Css like [Sass ](https://sass-lang.com/)has become quite popular.
 
@@ -182,11 +196,12 @@ But not only Sass-files (.scss) are supported. You can find a list of all suppor
 
 ```
  ng new example --style scss
- 
- ``` 
+
+```
 
 ![angular-compiler-banner](./img/angular-compiler-banner.png)
-## Generate all the Things using the Angular CLI 
+
+## Generate all the Things using the Angular CLI
 
 Generating working angular application with just one command is pretty convenient isn't it?
 
@@ -200,13 +215,14 @@ That is why the angular-cli can create these files for you.
 
 To do this, you can use the ng generate command.
 
-For example, if you need a new component, you could open a terminal at the desired location and use the 
+For example, if you need a new component, you could open a terminal at the desired location and use the
 
 ```
  ng generate component [name]
- 
- ``` 
-command to generate all the files you need to create a new component. 
+
+```
+
+command to generate all the files you need to create a new component.
 
 The CLI will generate a new folder for you, as well. Isn't that great?
 
@@ -214,8 +230,9 @@ By the way, if you don't want that extra folder, you can use the --flat option:
 
 ```
  ng generate component [name] --flat
- 
- ``` 
+
+```
+
 Of course this does not only work for components. You can create a whole bunch of different angular-blueprints by replacing component by one of the following.
 
 class
@@ -228,18 +245,20 @@ pipe
 service
 
 ![angular-cli](./img/angular-cli.png)
-## Running your App with just One Command 
+
+## Running your App with just One Command
 
 Once we are done creating and developing our angular application, we also want to test and run it.
 
 Fortunately doing so is very easy as well, thanks to the CLI.
 
-All we need to do, is to open a terminal at the root of our project and use the command 
+All we need to do, is to open a terminal at the root of our project and use the command
 
 ```
  ng serve
- 
- ``` 
+
+```
+
 to start our application in development mode.
 
 It will also watch the directory of our application for changes.
@@ -250,21 +269,22 @@ Personally, I have the app running in watch mode, almost all of the time during 
 
 It is important to know, that this feature is for development purposes only. Do not use this small web-server in an production environment!
 
-### Building 
+### Building
 
 When you are happy with your angular app, it is time to deploy it to a web-server.
 
-To get the files, that are required for that, we can use the 
+To get the files, that are required for that, we can use the
 
 ```
  ng build
- 
- ``` 
+
+```
+
 command.
 
 This command will cause the CLI to build your application and places the output in a directory called "dist" (by default).
 
-Using this command, the app is still in an development state. 
+Using this command, the app is still in an development state.
 
 This means, that certain optimizations where not performed and the app is still using the development[ environment variables](https://medium.com/beautiful-angular/angular-2-and-environment-variables-59c57ba643be).
 
@@ -272,11 +292,12 @@ To change that, use the --prod flag like this:
 
 ```
  ng build --prod
- 
- ``` 
+
+```
 
 ![angular-eject-banner](./img/angular-eject-banner.png)
-## Pull the Ripcord - Angular CLI Eject 
+
+## Pull the Ripcord - Angular CLI Eject
 
 Over the past year, the angular-cli has become more and more flexible.
 
@@ -285,9 +306,10 @@ But there might be still some scenarios that are not achievable with the CLI.
 In this case, you can use the
 
 ```
- ng eject 
- 
- ``` 
+ ng eject
+
+```
+
 command.
 
 It will disable the CLI for your project and create you a webpack configuration file.
@@ -303,12 +325,11 @@ However, keep in mind, that this command is a one way ticket.
 
 There is no command that coverts the project pack to angular-cli-mode.
 
-## Conclusion 
-
+## Conclusion
 
 In this tutorial we learned how to set up the angular-cli and how to use it to do all the work, like-creating a new project or creating a bunch of files for a component, for us.
 
-I hope you enjoyed this post. 
+I hope you enjoyed this post.
 
 If you did please hit the share buttons below and help other people enjoy angular a little bit more, as well.
 

@@ -3,15 +3,22 @@ id: '5bb0cae79583501f642526f0'
 title: 'Push Notifications with Angular & Express'
 image: './img/angular-push-notification.png'
 date: 2018-08-05T22:00:00.000Z
+lastUpdated: 2018-08-05T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526ee","5bb0cae79583501f64252701"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526eb',
+    '5bb0cae79583501f642526ee',
+    '5bb0cae79583501f64252701',
+  ]
+tags: ['angular']
 ---
+
 In this tutorial, we are going to take a look at how to display push notifications using angular.
 
 These push notifications will be the same as the native notifications you get on your smartphone or your computer.
@@ -22,7 +29,7 @@ Doesn't that sound great?
 
 Native app like features in the browser!
 
-Reading this, you will learn how to use the angular service worker to subscribe to push notifications. 
+Reading this, you will learn how to use the angular service worker to subscribe to push notifications.
 
 Also, you will discover how to build your own node.js express server to send the notifications. No previous backend-knowledge required!
 
@@ -31,7 +38,8 @@ Ready?
 Let's get started!
 
 ![nodejs-new-banner](./img/nodejs-new-banner.png)
-## Setting up a new Angular project 
+
+## Setting up a new Angular project
 
 Let's start by setting up a new angular project fist.
 As we are using the official angular service worker, we also need to use the angular-cli.
@@ -43,9 +51,10 @@ To generate a new project, you can use this command:
 
 ```
  ng new angular-push-notifications
- 
- ``` 
-### Adding the service worker module 
+
+```
+
+### Adding the service worker module
 
 A service worker is a small JavaScript snippet that is registered at the browser when the page loads. Afterward, that snippet is alive all the time.
 That way our users can get our notifications, even if they are not on the site anymore.
@@ -54,34 +63,39 @@ Although the service worker we are going to use is the official one, it is not s
 To add the service worker to project, we can use the new angular schematics, introduced with the angular-cli v6.
 
 Important: As of today, there is a bug with the module we are going to install and the angular-cli. To make things work, we have to downgrade to a previous version of the cli. Use this command to do so:
+
 ```
  yarn add @angular/cli@6.0.8 --dev
- 
- ``` 
+
+```
+
 To add the module, just use this command:
 
 ```
  ng add @angular/pwa@0.6.8 --project angular-push-notifications
- 
- ``` 
+
+```
+
 The specified project has to match the project in your angular.json file.
 
 Before we begin, we also need to install some sort of webserver to serve our angular project. This is because the service worker is only generated when building for production.
 
 ```
  yarn global add http-server
- 
- ``` 
+
+```
+
 ![angular-key-banner](./img/angular-key-banner.png)
-## Generating VAPID keys 
+
+## Generating VAPID keys
 
 Before we can send any push notifications, we need to generate a so-called VAPID key-pair. This pair consists of a private and a public key.
 The public key is used when subscribing to the push notifications and the private one is needed to send them.
 
 Basically, this is a protection mechanism so that only you can send messages to your users.
-That said, it is probably a good idea to keep your private key actually private. 
+That said, it is probably a good idea to keep your private key actually private.
 
-### Generating a VAPID key-pair 
+### Generating a VAPID key-pair
 
 To generate the key-pair we are going to use a tool called web-push that we can download with our package manager.
 
@@ -89,17 +103,20 @@ To install the tool, use:
 
 ```
  yarn global add web-push
- 
- ``` 
+
+```
+
 Afterward, you can generate a key-pair by using this command:
 
 ```
  web-push generate-vapid-keys --json
- 
- ``` 
+
+```
+
 Keep the output in mind, we will need it later.
 ![angular-error-banner](./img/angular-error-banner.png)
-## Subscribing to push notifications 
+
+## Subscribing to push notifications
 
 Now its time to write some code!
 Open the angular application in your editor of choice.
@@ -110,23 +127,22 @@ The AppComponent seems like a good place for that.
 To interact with our service worker and request a subscription, angular provides a service called [SwPush](https://angular.io/api/service-worker/SwPush). To get access to this service we request it in the constructor of the component via [dependency injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection).
 
 ```typescript title=src/app/app.component.ts
- import { Component } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
+import { Component } from '@angular/core'
+import { SwPush } from '@angular/service-worker'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(swPush: SwPush) {
-  }
+  constructor(swPush: SwPush) {}
 }
- 
- ``` 
-### Checking availability 
+```
 
-Service workers are a relatively new feature. 
+### Checking availability
+
+Service workers are a relatively new feature.
 
 Therefore we should check if they are available and running before we try to use them.
 To do that, the SwPush service provides a flag "isEnabled" that we can simply check for.
@@ -134,9 +150,10 @@ To do that, the SwPush service provides a flag "isEnabled" that we can simply ch
 ```
  if (swPush.isEnabled) {
 }
- 
- ``` 
-### Requesting a subscription 
+
+```
+
+### Requesting a subscription
 
 Now that we know that we can use the service worker, let's ask it to request a subscription.
 
@@ -144,67 +161,73 @@ Again, this is quite straightforward. We just call its method called "requestSub
 This method requires the public VAPID key as a parameter.
 
 ```typescript title=src/app/app.component.ts
- import { Component } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
+import { Component } from '@angular/core'
+import { SwPush } from '@angular/service-worker'
 
-const VAPID_PUBLIC = 'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg';
+const VAPID_PUBLIC =
+  'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'angular-push-notifications';
+  title = 'angular-push-notifications'
 
   constructor(swPush: SwPush) {
     if (swPush.isEnabled) {
       swPush
         .requestSubscription({
-          serverPublicKey: VAPID_PUBLIC
+          serverPublicKey: VAPID_PUBLIC,
         })
         .then(subscription => {
           // send subscription to the server
         })
-        .catch(console.error);
+        .catch(console.error)
     }
   }
 }
- 
- ``` 
+```
+
 This method returns a promise that resolves to a [PushSubscription ](https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription)object. This subscription contains all the information that we need to send push notification to the client.
 But before we can do so, we need to send the subscription to our server.
 
-Also, this is probably a good point to test what we have accomplished. 
+Also, this is probably a good point to test what we have accomplished.
 As mentioned before, we need to compile the angular app to production for the service worker to be built.
 
 So let's do that:
+
 ```
  ng build --prod
- 
- ``` 
+
+```
+
 Afterward, we can serve the build application by starting any webserver:
+
 ```
  http-server dist/angular-push-notifications
- 
- ``` 
+
+```
+
 When opening the application in the browser (e.g. http://localhost:8080), the browser should ask for permission to subscribe you to push notifications.
 
 ![notification-banner](./img/notification-banner.png)
 
-
-### Deleting the subscription for debugging 
+### Deleting the subscription for debugging
 
 Once you have chosen one of the options in the dialog, the browser will not ask you again.
 Because we probably want to test our application more that one time, we can revoke our decision by opening the (chrome) browser settings here:
 
 ```
  chrome://settings/content/notifications
- 
- ``` 
+
+```
+
 Just delete our application from the list.
 ![angular-ssr](./img/angular-ssr.png)
-## Sending the subscription to our server 
+
+## Sending the subscription to our server
 
 To send the subscription to our server, we need to make an HTTP-request, right?
 
@@ -213,90 +236,94 @@ Let's create a new server called PushNotificationService by using the angular-cl
 
 ```
  ng generate service pushNotification
- 
- ``` 
+
+```
+
 This service will have only one method called "sendSubscriptionToTheServer". What this does should be obvious right now.
 We are just making a POST request to a specific server URL.
 
 ```typescript title=src/app/pushNotification.service.ts
- import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
 
-const SERVER_URL = 'http://localhost:3000/subscription';
+const SERVER_URL = 'http://localhost:3000/subscription'
 
 @Injectable()
 export class PushNotificationService {
   constructor(private http: HttpClient) {}
 
   public sendSubscriptionToTheServer(subscription: PushSubscription) {
-    return this.http.post(SERVER_URL, subscription);
+    return this.http.post(SERVER_URL, subscription)
   }
 }
- 
- ``` 
-### Calling the service method 
+```
+
+### Calling the service method
 
 Now, all that is left is to use the service in our AppComponent.
 We are just calling the "sendSubscriptionToTheServer"-method and subscribe to its result.
 
 ```typescript title=src/app/app.component.ts
- import { Component } from '@angular/core';
-import { SwPush } from '@angular/service-worker';
-import { PushNotificationService } from './pushNotification.service';
+import { Component } from '@angular/core'
+import { SwPush } from '@angular/service-worker'
+import { PushNotificationService } from './pushNotification.service'
 
-const VAPID_PUBLIC = 'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg';
+const VAPID_PUBLIC =
+  'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'angular-push-notifications';
+  title = 'angular-push-notifications'
 
   constructor(swPush: SwPush, pushService: PushNotificationService) {
     if (swPush.isEnabled) {
       swPush
         .requestSubscription({
-          serverPublicKey: VAPID_PUBLIC
+          serverPublicKey: VAPID_PUBLIC,
         })
         .then(subscription => {
-          pushService.sendSubscriptionToTheServer(subscription).subscribe();
+          pushService.sendSubscriptionToTheServer(subscription).subscribe()
         })
-        .catch(console.error);
+        .catch(console.error)
     }
   }
 }
- 
- ``` 
+```
+
 Also, don't forget to provide the service in the AppModule. We also have to import the HttpClientModule there:
 
 ```typescript title=src/app/app.module.ts
- import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { PushNotificationService } from './pushNotification.service';
-import { HttpClientModule } from '@angular/common/http';
+import { AppComponent } from './app.component'
+import { ServiceWorkerModule } from '@angular/service-worker'
+import { environment } from '../environments/environment'
+import { PushNotificationService } from './pushNotification.service'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [PushNotificationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
- 
- ``` 
+```
 
 ![nodejs-new-banner](./img/nodejs-new-banner.png)
-## Setting up a new Express project 
+
+## Setting up a new Express project
 
 That was all we had to do about the angular application. Now it is time to implement the server we where talking about.
 
@@ -306,17 +333,18 @@ Afterward, open the new directory and initialize a new project by using the
 
 ```
  npm init
- 
- ``` 
+
+```
+
 command.
 
 Answer the questions or just hit return a couple of times.
 
-### Installing dependencies 
+### Installing dependencies
 
-Now we need to install some dependencies. Our little server will have 4 dependencies. 
+Now we need to install some dependencies. Our little server will have 4 dependencies.
 
-First, there is express, which is a framework that makes writing web servers a lot easier. 
+First, there is express, which is a framework that makes writing web servers a lot easier.
 Also, there are cors and body-parser that are express plugins.
 Last but not least there is web-push. We will use it to send push notifications.
 
@@ -324,11 +352,12 @@ Install all of those using this command:
 
 ```
  yarn add body-parser cors express web-push
- 
- ``` 
+
+```
 
 ![nodejs-express-banner](./img/nodejs-express-banner.png)
-## Creating an Express server 
+
+## Creating an Express server
 
 Before we start sending push notifications, we need to write the core of the web server.
 Fortunately, thanks to express these are only a couple of lines.
@@ -338,22 +367,23 @@ Our server will live in just one file. Let's call it server.js.
 First, we need to require all our dependencies. Require is the old school way of "importing" stuff in plain node.js.
 
 ```javascript title=server.js
- const express = require('express');
-const webpush = require('web-push');
-const cors = require('cors');
-const bodyParser = require('body-parser');
- 
- ``` 
+const express = require('express')
+const webpush = require('web-push')
+const cors = require('cors')
+const bodyParser = require('body-parser')
+```
+
 Next, we need our private and public VAPID keys here, as well.
 Let's just use a static variable here, but don't do that in production! Otherwise, your private key ends up in source control, which is bad practice at best.
 In the worst key, everyone can see your private key.
 
 ```javascript title=server.js
- const PUBLIC_VAPID = 'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg';
-const PRIVATE_VAPID = '_kRzHiscHBIGftfA7IehH9EA3RvBl8SBYhXBAMz6GrI';
- 
- ``` 
-### A basic server 
+const PUBLIC_VAPID =
+  'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg'
+const PRIVATE_VAPID = '_kRzHiscHBIGftfA7IehH9EA3RvBl8SBYhXBAMz6GrI'
+```
+
+### A basic server
 
 A basic express app always looks the same.
 
@@ -361,27 +391,28 @@ Call express and listen for requests. It's that easy!
 Oh, and in between, we are registering some plugins...
 
 ```javascript title=server.js
- const app = express();
+const app = express()
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors())
+app.use(bodyParser.json())
 
-webpush.setVapidDetails('mailto:you@domain.com', PUBLIC_VAPID, PRIVATE_VAPID);
+webpush.setVapidDetails('mailto:you@domain.com', PUBLIC_VAPID, PRIVATE_VAPID)
 
 app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
- 
- ``` 
+  console.log('Server started on port 3000')
+})
+```
+
 Also, we are initializing web-push to use the private and public key. It also want's to know your email address.
 
 This server does nothing at the moment but we can already start it by calling:
 
 ```
  node server.js
- 
- ``` 
-### Registering routes 
+
+```
+
+### Registering routes
 
 Next, we are registering some routers. That way we tell the web server to listen to request to that URL and call our callback in that case.
 
@@ -390,14 +421,14 @@ Essentially, we want to do two things. Take subscription objects from our angula
 For that, we are creating one route each. Both routes are listening on HTTP-POST requests.
 
 ```javascript title=server.js
- app.post('/subscription', (req, res) => {
-});
+app.post('/subscription', (req, res) => {})
 
-app.post('/sendNotification', (req, res) => {
-}); 
- ``` 
+app.post('/sendNotification', (req, res) => {})
+```
+
 ![nodejs-register-banner](./img/nodejs-register-banner.png)
-## Saving subscriptions at the subscription route 
+
+## Saving subscriptions at the subscription route
 
 All we want to do when an angular client sends us a subscription object is to save that object, to use it later to send push notifications.
 In a real scenario, we would use some kind of database. For example purposes, we just use a JavaScript array to store the information.
@@ -405,21 +436,22 @@ In a real scenario, we would use some kind of database. For example purposes, we
 Let's call that array fakeDatabase:
 
 ```javascript title=server.js
- const fakeDatabase = [];
- 
- ``` 
+const fakeDatabase = []
+```
+
 Inside of our subscription route callback we then take the POST-body of the request and push it into the array:
 
 ```javascript title=server.js
- app.post('/subscription', (req, res) => {
-  const subscription = req.body;
-  fakeDatabase.push(subscription);
-});
- 
- ``` 
+app.post('/subscription', (req, res) => {
+  const subscription = req.body
+  fakeDatabase.push(subscription)
+})
+```
+
 That's all for the subscription route.
 ![nodejs-notification-banner](./img/nodejs-notification-banner.png)
-## Sending push notifications to everyone 
+
+## Sending push notifications to everyone
 
 When the sendNotification route is called, we just iterate through our fakeDatabase and use the subscription-objects to send a push notification to everyone subscribed.
 
@@ -428,78 +460,88 @@ To send the notification we are using webpush's "sendNotification" method. It ta
 The payload contains the title, the body and the icon of the push notification.
 
 ```javascript title=server.js
- app.post('/sendNotification', (req, res) => {
+app.post('/sendNotification', (req, res) => {
   const notificationPayload = {
     notification: {
       title: 'New Notification',
       body: 'This is the body of the notification',
-      icon: 'assets/icons/icon-512x512.png'
-    }
-  };
+      icon: 'assets/icons/icon-512x512.png',
+    },
+  }
 
-  const promises = [];
+  const promises = []
   fakeDatabase.forEach(subscription => {
-    promises.push(webpush.sendNotification(subscription, JSON.stringify(notificationPayload)));
-  });
-  Promise.all(promises).then(() => res.sendStatus(200));
-});
- 
- ``` 
+    promises.push(
+      webpush.sendNotification(
+        subscription,
+        JSON.stringify(notificationPayload)
+      )
+    )
+  })
+  Promise.all(promises).then(() => res.sendStatus(200))
+})
+```
+
 We then wait until all promises have resolved and send the status code "200 - OK" as an answer.
 
-## The full server.js file 
+## The full server.js file
 
 ```javascript title=server.js
- const express = require('express');
-const webpush = require('web-push');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+const express = require('express')
+const webpush = require('web-push')
+const cors = require('cors')
+const bodyParser = require('body-parser')
 
-const PUBLIC_VAPID = 'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg';
-const PRIVATE_VAPID = '_kRzHiscHBIGftfA7IehH9EA3RvBl8SBYhXBAMz6GrI';
+const PUBLIC_VAPID =
+  'BNOJyTgwrEwK9lbetRcougxkRgLpPs1DX0YCfA5ZzXu4z9p_Et5EnvMja7MGfCqyFCY4FnFnJVICM4bMUcnrxWg'
+const PRIVATE_VAPID = '_kRzHiscHBIGftfA7IehH9EA3RvBl8SBYhXBAMz6GrI'
 
-const fakeDatabase = [];
+const fakeDatabase = []
 
-const app = express();
+const app = express()
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors())
+app.use(bodyParser.json())
 
-webpush.setVapidDetails('mailto:you@domain.com', PUBLIC_VAPID, PRIVATE_VAPID);
+webpush.setVapidDetails('mailto:you@domain.com', PUBLIC_VAPID, PRIVATE_VAPID)
 
 app.post('/subscription', (req, res) => {
-  const subscription = req.body;
-  fakeDatabase.push(subscription);
-});
+  const subscription = req.body
+  fakeDatabase.push(subscription)
+})
 
 app.post('/sendNotification', (req, res) => {
   const notificationPayload = {
     notification: {
       title: 'New Notification',
       body: 'This is the body of the notification',
-      icon: 'assets/icons/icon-512x512.png'
-    }
-  };
+      icon: 'assets/icons/icon-512x512.png',
+    },
+  }
 
-  const promises = [];
+  const promises = []
   fakeDatabase.forEach(subscription => {
-    promises.push(webpush.sendNotification(subscription, JSON.stringify(notificationPayload)));
-  });
-  Promise.all(promises).then(() => res.sendStatus(200));
-});
+    promises.push(
+      webpush.sendNotification(
+        subscription,
+        JSON.stringify(notificationPayload)
+      )
+    )
+  })
+  Promise.all(promises).then(() => res.sendStatus(200))
+})
 
 app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
- 
- ``` 
-## Conclusion 
+  console.log('Server started on port 3000')
+})
+```
 
-In this tutorial, we have learned, how to subscribe and send push notifications from/to our angular application. 
+## Conclusion
+
+In this tutorial, we have learned, how to subscribe and send push notifications from/to our angular application.
 
 If you want to see the full code, take a look at the [GitHub repository](https://github.com/LukasMarx/angular-push-notifications).
 
 If you liked this read, please share it!
 
 Happy coding!
-

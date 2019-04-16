@@ -3,15 +3,22 @@ id: '5bb0cae79583501f6425270f'
 title: 'Learn how to use Components in you Angular Application'
 image: './img/Angular-Component.png'
 date: 2017-07-08T22:00:00.000Z
+lastUpdated: 2017-07-08T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#fd3b6c'
 colorMain: '#c40030'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
-recommended: ["5bb0cae79583501f642526eb","5bb0cae79583501f642526f8","5bb0cae79583501f642526f9"]
-tags: ["angular"]
+recommended:
+  [
+    '5bb0cae79583501f642526eb',
+    '5bb0cae79583501f642526f8',
+    '5bb0cae79583501f642526f9',
+  ]
+tags: ['angular']
 ---
+
 Do you want to learn what angular components are?
 
 Don't look any further!
@@ -22,85 +29,84 @@ Components in angular are the building blocks of your application.
 
 They are crucial for designing and building your angular app.
 
-Following this tutorial, you will learn what components are and how they are used. 
+Following this tutorial, you will learn what components are and how they are used.
 We will take a look at templates, styles and data-binding.
 
 Afterward, we will discover how components can communicate with each other, to develop a seamless user experience.
 
 Ready? Let's get started!
 
-
 ![angular-question](./img/angular-question.png)
-## What is a Angular Component? 
 
-In angular a component is a separated and mostly isolated part of the application. Think of it as a building block. It has one purpose and represents a small part of the wall. 
+## What is a Angular Component?
+
+In angular a component is a separated and mostly isolated part of the application. Think of it as a building block. It has one purpose and represents a small part of the wall.
 
 Components consist of two parts. A logic part, represented by a JavaScript object, and a visual part. The visual part, called template, is written in HTML. These two parts are connected via a concept called data-binding. That way, both layers can interact with each other.
 
 Just like classes, there can be many instances of a component in your application. Apart from an interface for in- and output, each component is completely separated from another. That is one of their great advantages: They can each have their own state.
 
-### An Example 
+### An Example
 
 Let's say, you want to create a to-do list. Each element in the list can be rather done or not done. That is the state of an element. Based on the state of the element, the item changes its appearance. In angular, each list element would be represented by a component.
 
-
 ![angular-ui-banner](./img/angular-ui-banner.png)
-## Building an Angular Application 
+
+## Building an Angular Application
 
 Great. Now we know what components are. But how do we build an application with that?
 
 Well, when components are the building blocks, we take them and stack them onto each other. That is exactly how an angular application is built. It all starts with a root component. The root component is the foundation of every angular application. Because of that, it is often called the application component.
 
-## An Example Component 
+## An Example Component
 
 Ok... here we go. Enough theory for now. That is what the app component looks like:
 
 ```typescript title=src/app/app.component.ts
- import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'app';
+  title = 'app'
 }
- 
- ``` 
+```
+
 What you can see above is the logic part of the component, represented by a class (if you use typescript). This class is typically located in a separate (.ts) file. Also notice the naming convention here. The files are named {component name}.component.ts
 
 So lets break the code up into its parts.
 
-The first line is called an import statement. It can be compared to an import statement in Java or a "using" in C#. Every class, that we want to use, has to be imported before. 
+The first line is called an import statement. It can be compared to an import statement in Java or a "using" in C#. Every class, that we want to use, has to be imported before.
 
-In this case, we need the "Component" decorator. 
+In this case, we need the "Component" decorator.
 
-### What is a decorator? 
+### What is a decorator?
 
 Decorators are a part of the typescript language. They are equal to the annotations of Java and the attributes of C#. They also offer a simple way to add meta information to a class. Decorators are marked by starting with an @.
 
 In our example, we tell angular, which selector we want to use for our component. We also define where to find the template file and the corresponding style information.
 
-### Just a class 
+### Just a class
 
 After all, a component is just a regular Typescript class. There is nothing special about it. Just a class. The name of our component is defined by the name of the class ("AppComponent"). In the code above, the class has a property title. That property is just for demonstration purposes and is not mandatory.
 
 ![angular-component-banner](./img/angular-component-banner.png)
-## Angular Templates: The View 
+
+## Angular Templates: The View
 
 While the class can only contain code logic, the template is used to define the look of the component. It is written in HTML syntax. In our example of the app component, the template file is called app.component.html. It follows the same naming convention as the typescript file.
 
 ```html title=src/app/app.component.html
- <h1>
-  {{title}}
-</h1>
- 
- ``` 
-The h1 tags are just regular headline tags, 
+<h1>{{title}}</h1>
+```
+
+The h1 tags are just regular headline tags,
 but what do these braces do?
 
-### Data-Binding 
+### Data-Binding
 
 By encapsulating the name "title" in braces, we tell angular, that we want the content of the headline to be bound to the "title"-property of the component. This property is defined in the component class.  
 Data-Binding means, that, whenever the value of the property changes, the displayed value changes, as well.
@@ -111,17 +117,19 @@ Manipulating the view has never been that easy. Just change the corresponding pr
 Of course, there is a lot more to know about that topic, but that is a different story.
 
 ![angular-test-banner](./img/angular-test-banner.png)
-## Component Styles 
 
-When there is HTML, usually there is CSS as well. The location of the files is declared inside the class' decorator. Again, the files follow the same naming convention {component name}.component.css as class and template. Of course, you can also use your favorite css preprocessor,  although that usually requires a bit more setup work to be done. 
+## Component Styles
+
+When there is HTML, usually there is CSS as well. The location of the files is declared inside the class' decorator. Again, the files follow the same naming convention {component name}.component.css as class and template. Of course, you can also use your favorite css preprocessor, although that usually requires a bit more setup work to be done.
 
 Other than that, there is nothing special about the styles. Just plain old CSS.
 
 ![angular-modules-banner](./img/angular-modules-banner.png)
-## Nesting Angular Components 
+
+## Nesting Angular Components
 
 Now we know, what a component looks like. But how do we create an application out of them?
-That is where the selector comes in. The selector we defined in the components decorator. 
+That is where the selector comes in. The selector we defined in the components decorator.
 
 Let's say we created a new component. It has a decorator and a selector like this:
 
@@ -129,20 +137,22 @@ Let's say we created a new component. It has a decorator and a selector like thi
  @Component({
   selector: 'test-component'
 })
- 
- ``` 
+
+```
+
 To add this component to our AppComponent, all we need to do, is to add a tag 'test-component' to the AppComponents' template:
 
 ```html title=
- <test-component></test-component>
- 
- ``` 
+<test-component></test-component>
+```
+
 Notice: To make this work, the component also has to be added to the AppModules declaration section.
 
 That is all we have to do. Angular will take care of the rest.
 
 ![angular-transfer-state](./img/angular-transfer-state.png)
-## Component Communication 
+
+## Component Communication
 
 Components are isolated. But you will find use cases, where components need to talk to each other. For example, you want to remove a to-do list entry from the list, once it is done. But how would the outer list-component know, that the element is done?
 
@@ -152,35 +162,34 @@ That way, you can adjust your component based on inputs. Or notify other compone
 For a property to be an input property, all we need to do is to add the @Input decorator.
 
 ```typescript title=
- import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core'
 
 @Component({
   selector: 'test-component',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class TestComponent{
-  @Input() title;
+export class TestComponent {
+  @Input() title
 }
- 
- ``` 
+```
+
 Quite easy, right?
 
-### "But where do we pass that input in?" 
+### "But where do we pass that input in?"
 
-To pass a title to our test-component, all we have to do, is to bind the input property to some other property. Sounds complicated? 
+To pass a title to our test-component, all we have to do, is to bind the input property to some other property. Sounds complicated?
 Take a look at this example:
 
 ```html title=
- <test-component [title]="parentProperty"></test-component>
- 
- ``` 
+<test-component [title]="parentProperty"></test-component>
+```
+
 The brackets tell angular, that we want to bind the input "title" to the property "parentProperty". That property is located in the component, test-component is nested in.
 
 Now, whenever "parentProperty" changes, the title of the test-component changes, as well.
 
-## Conclusion 
-
+## Conclusion
 
 As you have, seen the component is a fundamental concept in any angular application. I hope you have learned something by reading this.
 If you liked this article, check out my other post below and follow on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded)
