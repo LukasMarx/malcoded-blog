@@ -8,6 +8,7 @@ import { darkBackground, lightBackground } from '../theme/background'
 import { darkText, lightText } from '../theme/text'
 import Button from '../components/elements/button/Button'
 import { Link } from '@reach/router'
+import Helmet from 'react-helmet'
 
 export interface HeaderFooterLayoutProps {
   theme: ThemeState
@@ -55,6 +56,12 @@ class HeaderFooterLayout extends React.Component<
   render() {
     return (
       <div className={styles.root} style={this.styles()}>
+        <Helmet>
+          <meta
+            name="google-site-verification"
+            content="FWSL-9BrQcznNznCkDYWgceFZ3XNzxBggv8KXU0Ut2k"
+          />
+        </Helmet>
         <Toolbar />
         <div className={styles.scroller}>
           <div className={styles.content}>{this.props.children}</div>
