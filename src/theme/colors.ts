@@ -6,7 +6,7 @@ export const defaultPrimaryColor = {
 }
 
 export const angularColor = {
-  main: '#c40030',
+  main: '#DD0031',
   light: '#fc9797',
   dark: '#d60812',
   contrast: '#fff',

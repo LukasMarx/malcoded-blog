@@ -1,13 +1,13 @@
 ---
 id: '5bb0cae79583501f642526fd'
-title: 'Angular CLI: The best Commands to boost your productivity'
+title: 'Angular CLI Cheat Sheet: The best Commands to boost your productivity'
 image: './img/angular-cli-tutorial.png'
 date: 2018-03-02T23:00:00.000Z
 lastUpdated: 2019-04-28T23:00:00.000Z
 author: 'Lukas Marx'
 released: true
-colorLight: '#fd3b6c'
-colorMain: '#c40030'
+colorLight: '#DD0031'
+colorMain: '#DD0031'
 colorDark: '#a50016'
 colorContrast: '#ffffff'
 recommended:
@@ -28,6 +28,8 @@ Fortunately, there are tools like the angular-cli, that can do all that hard wor
 In this tutorial, we are going to take a look at the angular-cli and how to use it properly.
 
 We will discover all the different things the CLI can do for you: Creating new angular projects, generating components or services or hosting your application.
+
+At the end you will get a cheat sheet so you can quickly look up what you might have forgotten at any time!
 
 Let's get started!
 
@@ -50,7 +52,7 @@ The installation may take a while.
 
 ![angular-new-banner](./img/angular-new-banner.png)
 
-## Creating your first Angular CLI App
+## Create your first Angular CLI app
 
 Now it's time to create your first angular app with the CLI (Command Line Interface)
 
@@ -73,7 +75,7 @@ It will also install all required external dependencies. This can actually take 
 
 ![angular-school-banner](./img/angular-school-banner.png)
 
-## What you need to know about ng New
+## ng new: Generate new angular projects
 
 The command we used above is not the only way to create a new angular application.
 
@@ -83,7 +85,7 @@ Of course, you do not need to know all of them by heart, but some of them are pr
 
 Here are some of them:
 
-### Dry Run
+### \-\-dry-run: Try things out
 
 Sometimes you want to try out, what a command does, before it actually does something.
 
@@ -102,34 +104,34 @@ For example, the option could be used like this:
 And will result in the following output:
 
 ```
-  create example/e2e/app.e2e-spec.ts (289 bytes)
- create example/e2e/app.po.ts (208 bytes)
- create example/e2e/tsconfig.e2e.json (235 bytes)
- create example/karma.conf.js (923 bytes)
- create example/package.json (1292 bytes)
- create example/protractor.conf.js (722 bytes)
- create example/README.md (1023 bytes)
- create example/tsconfig.json (363 bytes)
- create example/tslint.json (3012 bytes)
- create example/.angular-cli.json (1242 bytes)
- create example/.editorconfig (245 bytes)
- create example/src/assets/.gitkeep (0 bytes)
- create example/src/environments/environment.prod.ts (51 bytes)
- create example/src/environments/environment.ts (387 bytes)
- create example/src/favicon.ico (5430 bytes)
- create example/src/index.html (294 bytes)
- create example/src/main.ts (370 bytes)
- create example/src/polyfills.ts (3114 bytes)
- create example/src/styles.css (80 bytes)
- create example/src/test.ts (642 bytes)
- create example/src/tsconfig.app.json (211 bytes)
- create example/src/tsconfig.spec.json (283 bytes)
- create example/src/typings.d.ts (104 bytes)
- create example/src/app/app.module.ts (316 bytes)
- create example/src/app/app.component.html (1141 bytes)
- create example/src/app/app.component.spec.ts (986 bytes)
- create example/src/app/app.component.ts (207 bytes)
- create example/src/app/app.component.css (0 bytes)
+create example/e2e/app.e2e-spec.ts (289 bytes)
+create example/e2e/app.po.ts (208 bytes)
+create example/e2e/tsconfig.e2e.json (235 bytes)
+create example/karma.conf.js (923 bytes)
+create example/package.json (1292 bytes)
+create example/protractor.conf.js (722 bytes)
+create example/README.md (1023 bytes)
+create example/tsconfig.json (363 bytes)
+create example/tslint.json (3012 bytes)
+create example/.angular-cli.json (1242 bytes)
+create example/.editorconfig (245 bytes)
+create example/src/assets/.gitkeep (0 bytes)
+create example/src/environments/environment.prod.ts (51 bytes)
+create example/src/environments/environment.ts (387 bytes)
+create example/src/favicon.ico (5430 bytes)
+create example/src/index.html (294 bytes)
+create example/src/main.ts (370 bytes)
+create example/src/polyfills.ts (3114 bytes)
+create example/src/styles.css (80 bytes)
+create example/src/test.ts (642 bytes)
+create example/src/tsconfig.app.json (211 bytes)
+create example/src/tsconfig.spec.json (283 bytes)
+create example/src/typings.d.ts (104 bytes)
+create example/src/app/app.module.ts (316 bytes)
+create example/src/app/app.component.html (1141 bytes)
+create example/src/app/app.component.spec.ts (986 bytes)
+create example/src/app/app.component.ts (207 bytes)
+create example/src/app/app.component.css (0 bytes)
 
 NOTE: Run with "dry run" no changes were made.
 
@@ -139,7 +141,7 @@ The last line is kind off important.
 
 You can append it to almost all of the angular-cli commands.
 
-### Skipping the Installation of External Dependencies
+### \-\-skip-install: Skip installation of external dependencies
 
 There might be situations, where you don't want to install the external dependencies right after the creation of a new project.
 
@@ -165,7 +167,7 @@ You can use the following command at the root of your project to do so:
 
 Also, you have to have the external dependencies installed to run or test your application.
 
-### Who needs Test anyway?
+### \-\-skip-tests: Who needs tests anyway?
 
 Seriously, there are legit scenarios where you just don't need them.
 
@@ -182,7 +184,7 @@ We can tell the CLI not to create test by using the --skip-tests option:
 
 ```
 
-### Using Sass instead of Css? No problem!
+### \-\-style: Use a CSS preprocessor of choice
 
 Using pre-processed Css like [Sass ](https://sass-lang.com/)has become quite popular.
 
@@ -197,7 +199,7 @@ But not only Sass-files (.scss) are supported. You can find a list of all suppor
 
 ![angular-compiler-banner](./img/angular-compiler-banner.png)
 
-## Generate all the Things using the Angular CLI
+## ng generate: Generate components using the Angular CLI
 
 Generating working angular application with just one command is pretty convenient isn't it?
 
@@ -242,7 +244,7 @@ service
 
 ![angular-cli](./img/angular-cli.png)
 
-## Running your App with just One Command
+## ng serve: Run your app with just one command
 
 Once we are done creating and developing our angular application, we also want to test and run it.
 
@@ -265,7 +267,7 @@ Personally, I have the app running in watch mode, almost all of the time during 
 
 It is important to know, that this feature is for development purposes only. Do not use this small web-server in an production environment!
 
-### Building
+### Building to files using ng build
 
 When you are happy with your angular app, it is time to deploy it to a web-server.
 
@@ -293,7 +295,7 @@ To change that, use the --prod flag like this:
 
 ![angular-eject-banner](./img/angular-eject-banner.png)
 
-## Pull the Ripcord - Angular CLI Eject
+## ng eject: Pull the ripcord
 
 Over the past year, the angular-cli has become more and more flexible.
 
@@ -320,6 +322,12 @@ This is certainly important for large organisations.
 However, keep in mind, that this command is a one way ticket.
 
 There is no command that coverts the project pack to angular-cli-mode.
+
+## Cheat Sheet
+
+I know remembering the all the commands can be a bit rough at the beginning. So I made this cheat sheet for you:
+
+![angular cli cheat sheet](./img/angular-cli-cheat-sheet.png)
 
 ## Conclusion
 
