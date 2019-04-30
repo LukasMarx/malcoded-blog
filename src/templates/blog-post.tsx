@@ -50,6 +50,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
   const { previous, next } = props.pageContext
 
   const [open, setOpen] = useState(false)
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
   useEffect(() => {
     props.setPrimaryColor({
@@ -60,12 +61,16 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
     })
   }, [])
 
-  const onNewsletterDialogClosed = (value: any) => {
-    if (value.success) {
-      if (value.email) {
-        props.subscribeToNewsletter(value.email)
+  const onNewsletterDialogSubmit = email => {
+    if (email) {
+      if (email) {
+        props.subscribeToNewsletter(email)
       }
     }
+    setShowConfirmation(true)
+  }
+
+  const onNewsletterDialogClose = () => {
     setOpen(false)
   }
 
@@ -129,7 +134,12 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
           </Sidebar>
         </div>
       </div>
-      <NewsletterDialog open={open} onClose={onNewsletterDialogClosed} />
+      <NewsletterDialog
+        open={open}
+        showConfirmation={showConfirmation}
+        onClose={onNewsletterDialogClose}
+        onSubmit={onNewsletterDialogSubmit}
+      />
     </HeaderFooterLayout>
   )
 }

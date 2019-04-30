@@ -17,7 +17,7 @@ import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkText, lightText } from '../../../theme/text'
-
+import newsletterConfirm from './../../../assets/newsletter-confirm.svg'
 const style = theme => ({
   container: {
     display: 'flex',
@@ -67,7 +67,9 @@ export interface NewsletterDialogProps {
   open: boolean
   classes: any
   theme?: ThemeState
-  onClose?(value: { success: boolean; email?: string })
+  onSubmit?(email?: string)
+  showConfirmation: boolean
+  onClose?()
 }
 
 export interface NewsletterDialogState {
@@ -93,6 +95,9 @@ class NewsletterDialog extends React.Component<
     this.emailChange = this.emailChange.bind(this)
     this.submit = this.submit.bind(this)
     this.cancel = this.cancel.bind(this)
+    this.renderSignup = this.renderSignup.bind(this)
+    this.renderConfirmation = this.renderConfirmation.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   emailChange(evt) {
@@ -102,7 +107,7 @@ class NewsletterDialog extends React.Component<
     if (this.state.email && this.state.email.match(emailRegex)) {
       this.setState({ error: false, errorText: '' })
       if (this.props.onClose) {
-        this.props.onClose({ success: true, email: this.state.email })
+        this.props.onSubmit(this.state.email)
       }
     } else {
       this.setState({
@@ -114,20 +119,192 @@ class NewsletterDialog extends React.Component<
 
   cancel() {
     if (this.props.onClose) {
-      this.props.onClose({ success: false })
+      this.props.onClose()
     }
   }
 
-  handleClose() {}
+  handleClose() {
+    if (this.props.onClose) {
+      this.props.onClose()
+    }
+  }
 
-  render() {
+  renderSignup() {
     const { classes } = this.props
+    return (
+      <>
+        <div>
+          <h2
+            style={{
+              marginLeft: 32,
+              marginTop: 32,
+              marginBottom: 64,
+              fontWeight: 400,
+              textAlign: 'center',
+            }}
+          >
+            Subscribe to the newsletter
+          </h2>
+        </div>
+        <div className={styles.wrapper}>
+          <div className={styles.container}>
+            <div className={styles.row}>
+              <div className={styles.icon}>
+                <img src={newsletterHot} />
+              </div>
+              <div className={styles.textContainer}>
+                <span className={styles.title}>Never miss a post</span>
+                <p className={styles.decscription}>
+                  Receive updates when a new post is published.
+                </p>
+              </div>
+            </div>
+            <div className={styles.row}>
+              <div className={styles.icon}>
+                <img src={newsletterPeople} />
+              </div>
+              <div className={styles.textContainer}>
+                <span className={styles.title}>Stay in touch</span>
+                <p className={styles.decscription}>
+                  Stay up to date about what is going on in the web-dev
+                  community and on this site.
+                </p>
+              </div>
+            </div>
+            <div className={styles.row}>
+              <div className={styles.icon}>
+                <img src={newsletterBell} />
+              </div>
+              <div className={styles.textContainer}>
+                <span className={styles.title}> Special offers</span>
+                <p className={styles.decscription}>
+                  Get notified about special offers of our own, or our partners'
+                  products. Don't worry, we won't spam your inbox!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className={styles.container}>
+            <TextField
+              id="outlined-email-input"
+              label="Your Email Address"
+              type="email"
+              name="email"
+              autoComplete="email"
+              margin="normal"
+              variant="outlined"
+              style={{ width: '100%' }}
+              error={this.state.error}
+              value={this.state.email}
+              className={classes.textField}
+              onChange={this.emailChange}
+              helperText={this.state.errorText}
+              InputLabelProps={{
+                classes: {
+                  root: this.props.theme.darkMode
+                    ? classes.cssLabelDark
+                    : classes.cssLabel,
+                  focused: this.props.theme.darkMode
+                    ? classes.cssFocusedDark
+                    : classes.cssFocused,
+                },
+              }}
+              InputProps={{
+                style: {
+                  color: this.props.theme.darkMode
+                    ? darkText.primary
+                    : lightText.primary,
+                },
+                classes: {
+                  root: this.props.theme.darkMode
+                    ? classes.cssOutlinedInputDark
+                    : classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: this.props.theme.darkMode
+                    ? classes.notchedOutlineDark
+                    : classes.notchedOutline,
+                },
+                inputMode: 'numeric',
+              }}
+            />
+            <p className={styles.notice}>
+              Yes, I want to subscribe to the free email newsletter about new
+              articles, products and special offers.
+            </p>
+
+            <small className={styles.smallPrint}>
+              You can change your mind at any time by clicking the unsubscribe
+              link in the footer of any email you receive from us. For more
+              information about our privacy practices, email performance
+              mesurements, logging of the registration process and your rights,
+              please take a look at our
+              <Link to="/privacy" style={{ textDecoration: 'none' }}>
+                {' '}
+                Privacy Policy
+              </Link>
+            </small>
+            <div style={{ flex: 1 }} />
+            <Button
+              flat
+              style={{ width: '100%', marginBottom: 16 }}
+              onClick={this.cancel}
+            >
+              No, thanks!
+            </Button>
+            <Button style={{ width: '100%', height: 72 }} onClick={this.submit}>
+              Subscribe
+            </Button>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  renderConfirmation() {
+    return (
+      <>
+        <div>
+          <img style={{ width: '100%' }} src={newsletterConfirm} />
+          <h2
+            style={{
+              marginTop: 32,
+              marginBottom: 64,
+              fontWeight: 400,
+              textAlign: 'center',
+            }}
+          >
+            Check your Inbox
+          </h2>
+          <p className={styles.decscription}>
+            Thank you for subscribing to our newsletter!
+          </p>
+          <p className={styles.decscription}>
+            We've send you an email to confirm that you are not a robot. Please
+            check your inbox and click on the verification button in the email
+            to confirm your subscription.
+          </p>
+          <p className={styles.decscription}>
+            I you can't find the email, please take a look at your spam folder.
+          </p>
+        </div>
+
+        <div className={styles.wrapper} />
+        <Button
+          style={{ width: '100%', height: 72 }}
+          onClick={this.handleClose}
+        >
+          OK
+        </Button>
+      </>
+    )
+  }
+  render() {
     return (
       <Dialog
         open={this.props.open}
         onClose={this.handleClose}
         aria-labelledby="form-dialog-title"
-        maxWidth="lg"
+        maxWidth={this.props.showConfirmation ? 'sm' : 'lg'}
         fullWidth={true}
         className={styles.dialog}
         PaperProps={{
@@ -144,132 +321,8 @@ class NewsletterDialog extends React.Component<
         }}
       >
         <DialogContent>
-          <div>
-            <h2
-              style={{
-                marginLeft: 32,
-                marginTop: 32,
-                marginBottom: 64,
-                fontWeight: 400,
-                textAlign: 'center',
-              }}
-            >
-              Subscribe to the newsletter
-            </h2>
-          </div>
-          <div className={styles.wrapper}>
-            <div className={styles.container}>
-              <div className={styles.row}>
-                <div className={styles.icon}>
-                  <img src={newsletterHot} />
-                </div>
-                <div className={styles.textContainer}>
-                  <span className={styles.title}>Never miss a post</span>
-                  <p className={styles.decscription}>
-                    Receive updates when a new post is published.
-                  </p>
-                </div>
-              </div>
-              <div className={styles.row}>
-                <div className={styles.icon}>
-                  <img src={newsletterPeople} />
-                </div>
-                <div className={styles.textContainer}>
-                  <span className={styles.title}>Stay in touch</span>
-                  <p className={styles.decscription}>
-                    Stay up to date about what is going on in the web-dev
-                    community and on this site.
-                  </p>
-                </div>
-              </div>
-              <div className={styles.row}>
-                <div className={styles.icon}>
-                  <img src={newsletterBell} />
-                </div>
-                <div className={styles.textContainer}>
-                  <span className={styles.title}> Special offers</span>
-                  <p className={styles.decscription}>
-                    Get notified about special offers of our own, or our
-                    partners' products. Don't worry, we won't spam your inbox!
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className={styles.container}>
-              <TextField
-                id="outlined-email-input"
-                label="Your Email Address"
-                type="email"
-                name="email"
-                autoComplete="email"
-                margin="normal"
-                variant="outlined"
-                style={{ width: '100%' }}
-                error={this.state.error}
-                value={this.state.email}
-                className={classes.textField}
-                onChange={this.emailChange}
-                helperText={this.state.errorText}
-                InputLabelProps={{
-                  classes: {
-                    root: this.props.theme.darkMode
-                      ? classes.cssLabelDark
-                      : classes.cssLabel,
-                    focused: this.props.theme.darkMode
-                      ? classes.cssFocusedDark
-                      : classes.cssFocused,
-                  },
-                }}
-                InputProps={{
-                  style: {
-                    color: this.props.theme.darkMode
-                      ? darkText.primary
-                      : lightText.primary,
-                  },
-                  classes: {
-                    root: this.props.theme.darkMode
-                      ? classes.cssOutlinedInputDark
-                      : classes.cssOutlinedInput,
-                    focused: classes.cssFocused,
-                    notchedOutline: this.props.theme.darkMode
-                      ? classes.notchedOutlineDark
-                      : classes.notchedOutline,
-                  },
-                  inputMode: 'numeric',
-                }}
-              />
-              <p className={styles.notice}>
-                Yes, I want to subscribe to the free email newsletter about new
-                articles, products and special offers.
-              </p>
-
-              <small className={styles.smallPrint}>
-                You can change your mind at any time by clicking the unsubscribe
-                link in the footer of any email you receive from us. For more
-                information about our privacy practices, email performance
-                mesurements, logging of the registration process and your
-                rights, please take a look at our
-                <Link to="/privacy" style={{ textDecoration: 'none' }}>
-                  {' '}
-                  Privacy Policy
-                </Link>
-              </small>
-              <div style={{ flex: 1 }} />
-              <Button
-                flat
-                style={{ width: '100%', marginBottom: 16 }}
-                onClick={this.cancel}
-              >
-                No, thanks!
-              </Button>
-              <Button
-                style={{ width: '100%', height: 72 }}
-                onClick={this.submit}
-              >
-                Subscribe
-              </Button>
-            </div>
-          </div>
+          {!this.props.showConfirmation && this.renderSignup()}
+          {this.props.showConfirmation && this.renderConfirmation()}
         </DialogContent>
         <DialogActions />
       </Dialog>

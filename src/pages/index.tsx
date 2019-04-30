@@ -39,6 +39,7 @@ export interface BlogIndexProps {
 
 export interface BlogIndexState {
   isNewsletterDialogOpen: boolean
+  showNewsletterDialogConfirmation: boolean
 }
 
 const mapStateToProps = (state: AppState) => {
@@ -59,21 +60,29 @@ const mapDispatchToProps = dispatch => {
 class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
   constructor(props) {
     super(props)
-    this.state = { isNewsletterDialogOpen: false }
+    this.state = {
+      isNewsletterDialogOpen: false,
+      showNewsletterDialogConfirmation: false,
+    }
     this.onNewsletterDialogClosed = this.onNewsletterDialogClosed.bind(this)
+    this.onNewsletterDialogSubmit = this.onNewsletterDialogSubmit.bind(this)
   }
   componentDidMount() {
     this.props.setPrimaryColor(defaultPrimaryColor)
   }
 
-  onNewsletterDialogClosed(value) {
-    if (value.success) {
-      if (value.email) {
-        this.props.subscribeToNewsletter(value.email)
-      }
-    } else {
+  onNewsletterDialogSubmit(email) {
+    if (email) {
+      this.props.subscribeToNewsletter(email)
     }
-    this.setState({ isNewsletterDialogOpen: false })
+
+    this.setState({ showNewsletterDialogConfirmation: true })
+  }
+
+  onNewsletterDialogClosed() {
+    this.setState({
+      isNewsletterDialogOpen: false,
+    })
   }
 
   render() {
@@ -270,6 +279,8 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
         <NewsletterDialog
           open={this.state.isNewsletterDialogOpen}
           onClose={this.onNewsletterDialogClosed}
+          onSubmit={this.onNewsletterDialogSubmit}
+          showConfirmation={this.state.showNewsletterDialogConfirmation}
         />
       </HeaderFooterLayout>
     )
