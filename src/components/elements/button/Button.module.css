@@ -17,4 +17,6 @@
   text-decoration: none;
   margin: 0;
   height: 48px;
+  display: flex;
+  justify-content: center;
 }

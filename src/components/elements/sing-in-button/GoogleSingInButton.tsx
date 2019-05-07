@@ -1,6 +1,7 @@
 import React from 'react'
 import Button from '../button/Button'
 import { Token } from '../../../models/Token'
+import { lightText } from '../../../theme/text'
 
 export interface GoogleSingInButtonProps {
   onSignedIn?(token: Token)
@@ -44,7 +45,10 @@ class GoogleSingInButton extends React.Component<
 
   render() {
     return (
-      <Button onClick={this.singIn}>
+      <Button
+        onClick={this.singIn}
+        style={{ backgroundColor: 'white', color: lightText.secondary }}
+      >
         <img
           src="/icons/google-logo.png"
           style={{ height: 18, marginRight: 24 }}

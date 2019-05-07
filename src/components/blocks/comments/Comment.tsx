@@ -150,13 +150,13 @@ class Comment extends React.Component<CommentProps, CommentState> {
   }
 
   async replyToComment() {
-    if (this.state.comment == '') return
+    if (this.state.comment === '' || this.state.replyText === '') return
     this.props.replyToComment(
       this.props.postId,
       this.props.comment.id,
       this.state.replyText
     )
-    this.setState({ reply: false })
+    this.setState({ reply: false, replyText: '' })
   }
 
   async updateComment() {

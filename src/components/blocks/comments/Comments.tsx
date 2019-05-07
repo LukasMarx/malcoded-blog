@@ -17,6 +17,9 @@ import {
 } from '../../../state/actions/comment.actions'
 import { getComments } from '../../../state/selectors/comment.selectors'
 import { Comment as CommentType } from './../../../models/Comment'
+import satellite from './../../../assets/malcoded-satellite.svg'
+import { lightBackground, darkBackground } from '../../../theme/background'
+import { defaultPrimaryColor } from '../../../theme/colors'
 
 export interface CommentsProps {
   postId: string
@@ -65,7 +68,10 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
   }
 
   submitComment() {
-    this.props.createComment(this.props.postId, this.state.comment)
+    if (this.state.comment !== '') {
+      this.props.createComment(this.props.postId, this.state.comment)
+      this.setState({ comment: '' })
+    }
   }
 
   onSignedIn(token: Token) {
@@ -81,40 +87,81 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
   renderHeader() {
     if (this.props.user) {
       return (
-        <Paper style={{ padding: 64, marginBottom: 32 }}>
-          <div style={{ marginBottom: 32 }}>
-            <span style={{ fontSize: 24, fontWeight: 700 }}>
-              Leave a comment
-            </span>
-          </div>
-          <textarea
+        <Paper style={{ padding: 0, marginBottom: 32 }}>
+          <div
+            className={styles.leaveAComment}
             style={{
-              color: this.props.theme!.darkMode
-                ? darkText.primary
-                : lightText.primary,
+              background: `url(${satellite})`,
             }}
-            className={styles.textarea}
-            onChange={this.handleChange}
-          />
-          <div className={styles.actions}>
-            <Button onClick={this.submitComment}>Submit</Button>
+          >
+            <div style={{ marginBottom: 32 }}>
+              <span style={{ fontSize: 24, fontWeight: 700 }}>
+                Leave a comment
+              </span>
+            </div>
+            <div className={styles.textareaWrapper}>
+              <textarea
+                style={{
+                  color: this.props.theme!.darkMode
+                    ? darkText.primary
+                    : lightText.primary,
+                }}
+                className={styles.textarea}
+                onChange={this.handleChange}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: 200,
+                  backgroundColor: this.props.theme.darkMode
+                    ? darkBackground.paper
+                    : lightBackground.paper,
+                  opacity: 0.9,
+                  borderRadius: 5,
+                }}
+              />
+            </div>
+            <div className={styles.actions}>
+              <Button
+                style={{
+                  backgroundColor: 'white',
+                  color: defaultPrimaryColor.main,
+                }}
+                onClick={this.submitComment}
+              >
+                Submit
+              </Button>
+            </div>
           </div>
         </Paper>
       )
     } else {
       return (
-        <Paper style={{ padding: 64, marginBottom: 32 }}>
-          <div style={{ marginBottom: 32 }}>
-            <span style={{ fontSize: 24, fontWeight: 700 }}>
-              Leave a comment
-            </span>
+        <Paper
+          style={{
+            padding: 0,
+            marginBottom: 32,
+          }}
+        >
+          <div
+            className={styles.leaveAComment}
+            style={{
+              background: `url(${satellite})`,
+            }}
+          >
+            <div style={{ marginBottom: 32 }}>
+              <span style={{ fontSize: 24, fontWeight: 700 }}>
+                Leave a comment
+              </span>
+            </div>
+            <GoogleSingInButton onSignedIn={this.onSignedIn} />
+            <p style={{ fontSize: 12, width: '50%' }}>
+              We save your email address, your name and your profile picture on
+              our servers when you sing in. Read more in our{' '}
+              <Link to="privacy">Privacy Policy</Link>.
+            </p>
           </div>
-          <GoogleSingInButton onSignedIn={this.onSignedIn} />
-          <p style={{ fontSize: 12 }}>
-            We save your email address, your name and your profile picture on
-            our servers when you sing in. Read more in our{' '}
-            <Link to="privacy">Privacy Policy</Link>.
-          </p>
         </Paper>
       )
     }
