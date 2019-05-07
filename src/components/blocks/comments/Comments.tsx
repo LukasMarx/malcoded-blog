@@ -85,7 +85,7 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
   }
 
   renderHeader() {
-    if (this.props.user) {
+    if (!this.props.user) {
       return (
         <Paper style={{ padding: 0, marginBottom: 32 }}>
           <div
@@ -108,6 +108,7 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
                 }}
                 className={styles.textarea}
                 onChange={this.handleChange}
+                value={this.state.comment}
               />
               <div
                 style={{
