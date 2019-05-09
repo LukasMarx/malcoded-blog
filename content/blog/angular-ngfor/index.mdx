@@ -3,12 +3,12 @@ id: '5bb0cae79583501f642526f5'
 title: 'Angular NgFor: Everything you need to know'
 image: './img/angular-ngfor.png'
 date: 2018-05-09T22:00:00.000Z
-lastUpdated: 2018-05-09T22:00:00.000Z
+lastUpdated: 2019-05-09T22:00:00.000Z
 author: 'Lukas Marx'
 released: true
-colorLight: '#DD0031'
-colorMain: '#DD0031'
-colorDark: '#a50016'
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
 colorContrast: '#ffffff'
 recommended: []
 tags: ['angular']
@@ -35,36 +35,34 @@ The so-called ngFor directive is a core directive, that comes with the angular f
 We can use this directive, if we want to display a dynamic list, for example, an array of elements on the screen.
 This array could look like this example data:
 
-```
- const array = [
- {
-  "guid": "900ea552-ef68-42cc-b6a6-b8c4dff10fb7",
-  "age": 32,
-  "name": "Powers Schneider"
- },
- {
-  "guid": "880381d3-8dca-4aed-b207-b3b4e575a15f",
-  "age": 25,
-  "name": "Adrian Lawrence"
- },
- {
-  "guid": "87b47684-c465-4c51-8c88-3f1a1aa2671b",
-  "age": 32,
-  "name": "Boyer Stanley"
- }
+```js
+const array = [
+  {
+    guid: '900ea552-ef68-42cc-b6a6-b8c4dff10fb7',
+    age: 32,
+    name: 'Powers Schneider',
+  },
+  {
+    guid: '880381d3-8dca-4aed-b207-b3b4e575a15f',
+    age: 25,
+    name: 'Adrian Lawrence',
+  },
+  {
+    guid: '87b47684-c465-4c51-8c88-3f1a1aa2671b',
+    age: 32,
+    name: 'Boyer Stanley',
+  },
 ]
-
 ```
 
 And we want the result to be generated HTML that could look like this:
 
-```
- <ul>
-    <li>Powers Schneider, 32</li>
-    <li>Adrian Lawrence, 25</li>
-    <li>Boyer Stanley, 32</li>
+```html
+<ul>
+  <li>Powers Schneider, 32</li>
+  <li>Adrian Lawrence, 25</li>
+  <li>Boyer Stanley, 32</li>
 </ul>
-
 ```
 
 ### Using ngFor to render an array
@@ -159,13 +157,12 @@ Knowing that we can now add the persons' name and the age to each list element. 
 
 Now the output will look just as expected:
 
-```
- <ul>
-    <li>Powers Schneider, 32</li>
-    <li>Adrian Lawrence, 25</li>
-    <li>Boyer Stanley, 32</li>
+```html
+<ul>
+  <li>Powers Schneider, 32</li>
+  <li>Adrian Lawrence, 25</li>
+  <li>Boyer Stanley, 32</li>
 </ul>
-
 ```
 
 ### Variable Scope
