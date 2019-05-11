@@ -1,0 +1,239 @@
+---
+id: 'c3d4fee41d02468a88b6d6016a4d3e36'
+title: 'Angular Custom Directives'
+image: './img/angular-custom-directives.png'
+date: 2019-05-11T00:00:00.000Z
+lastUpdated: 2019-05-11T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f6',
+    '5bb0cae79583501f642526fa',
+  ]
+tags: ['angular']
+---
+
+In this tutorial, you will learn what angular attribute direcitves are and how to create custom direcitves.
+
+We will discover how to use directives to alter the appearance of DOM-element, react to user input and how to pass input to direcitves.
+
+In the process it will also become apparent when to use a angular direcive vs a component.
+
+Let's get started!
+
+![what-are-custom-directives](./img/angular-custom-directives-question-banner.png)
+
+## What is an angular attribute directive?
+
+An angular attribute directive can be simply described as a component without a template. Instead, it is directly using the element it is applied to.
+
+Attribute directive also called custom directives are used when no additional template is needed. The directive can execute logic and apply visual changes to the element
+it is applied to. This is useful if you want to alter the behavior or style of existing HTML-elements, without wrapping them into a new component.
+
+![build custom directive](./img/angular-custom-directives-how-to-banner.png)
+
+## Creating a custom angular directive with the directive decorator
+
+Creating a custom directive is easy. Just create a new class and decorate it with the @Directive decorator.
+
+It's even easier with the angular-cli:
+
+```
+ng generate directive example
+```
+
+We need to make sure that the directive is declared in the corresponding (app-) module before we can use it. If you are using the angular-cli this should be done automatically.
+
+The generated directive looks like this:
+
+```typescript
+import { Directive } from '@angular/core'
+
+@Directive({
+  selector: '[appExample]',
+})
+export class ExampleDirective {
+  constructor() {}
+}
+```
+
+After all just a class with a decorator...
+
+![using-the-directive-selector](./img/angular-custom-directives-selector-banner.png)
+
+## Using the directive selector
+
+Every directive has a selector, just like every component does. This selector is used to apply the directive to elements in your templates.
+You can use whatever selector you like, but it is best practice to prefix your directives with the prefix of your application.
+
+In case you did not change that manually the prefix is "app".
+This is done to prevent duplicate selectors when using third-party libraries.
+
+The directive can be applied to HTML-elements in your templates using its selector.
+In this example we are using it with a button:
+
+```html
+<button appExample>Button</button>
+```
+
+This button is now controlled by our example directive.
+
+![directive-appearance](./img/angular-custom-directives-appearance-banner.png)
+
+## Altering the appearance of the element
+
+Having an empty directive is kind of pointless.
+
+So let's change the appearance of the element (the button) from within the directive.
+
+To do that, we can request a reference to the native DOM-element in the constructor of the directive via dependency injection.
+
+```typescript
+import { Directive, ElementRef } from '@angular/core'
+
+@Directive({
+  selector: '[appExample]',
+})
+export class ExampleDirective {
+  constructor(elementRef: ElementRef) {}
+}
+```
+
+Using this element reference, we can alter the element directly. For example, we can change its styles:
+
+```typescript
+import { Directive, ElementRef } from '@angular/core'
+
+@Directive({
+  selector: '[appExample]',
+})
+export class ExampleDirective {
+  constructor(elementRef: ElementRef) {
+    elementRef.nativeElement.style.backgroundColor = '#fff'
+  }
+}
+```
+
+### Angular Universal compatibility
+
+If you want your directive to be compatible with server-side rendering and Angular Universal, we need to take a different approach.
+
+Because there is no full DOM-implementation on node.js servers, we can't access the element directly as we did above.
+
+Instead, we need to use an abstraction-layer on the DOM which is utilized by the so-called [Renderer2](https://angular.io/api/core/Renderer2).
+
+Using this renderer, we can make changes to the appearance like so:
+
+```typescript
+import { Directive, ElementRef, Renderer2 } from '@angular/core'
+
+@Directive({
+  selector: '[appExample]',
+})
+export class ExampleDirective {
+  constructor(elementRef: ElementRef, renderer: Renderer2) {
+    renderer.setStyle(elementRef.nativeElement, 'backgroundColor', '#fff')
+  }
+}
+```
+
+![user-events](./img/angular-custom-directives-events-banner.png)
+
+## Reacting to user events
+
+To make our element interactive, we can adjust our directive to react to user events like mouse inputs and update the appearance accordingly.
+
+For example, we can alter the elements backgroundColor when the mouse hovers over the element.
+Please be aware that this is only one possible application for this and is meant only for demonstration purposes.
+
+This can be done using [@HostListener](https://angular.io/api/core/HostListener) decorators. These are applied to methods which are executed when the corresponding event is fired.
+HostListeners are not specific to decorators but can be used in components, as well.
+
+```typescript
+import { Directive, ElementRef, Renderer2, HostListener } from '@angular/core'
+
+@Directive({
+  selector: '[appExample]',
+})
+export class ExampleDirective {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
+    this.setBgColor('white')
+  }
+
+  setBgColor(color: string) {
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      'backgroundColor',
+      color
+    )
+  }
+
+  @HostListener('mouseenter') onMouseEnter() {
+    this.setBgColor('yellow')
+  }
+
+  @HostListener('mouseleave') onMouseLeave() {
+    this.setBgColor('white')
+  }
+}
+```
+
+![input-directive](./img/angular-custom-directives-input-banner.png)
+
+## Passing input into the directive using @Input
+
+In case we want to create heavily reuseable directives, it can be handy to be able to pass values into the directive.
+
+This is done by creating a property in the directive that is decorated by the [@Input](https://angular.io/api/core/Input) decorator.
+Again, this is not specific to decorators.
+
+If we wanted to pass a default color to our directive, we could do so by creating a "defaultColor" input:
+
+```typescript
+import { Directive, ElementRef, Renderer2, Input, OnInit } from '@angular/core'
+
+@Directive({
+  selector: '[appExample]',
+})
+export class ExampleDirective implements OnInit {
+  @Input() defaultColor: string
+
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+
+  ngOnInit() {
+    if (this.defaultColor) {
+      this.setBgColor(this.defaultColor)
+    } else {
+      this.setBgColor('white')
+    }
+  }
+
+  setBgColor(color: string) {
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      'backgroundColor',
+      color
+    )
+  }
+}
+```
+
+The input can than be passed from outside using the template syntax:
+
+```html
+<button appExample defaultColor="red">Button</button>
+```
+
+## Conclusion
+
+In this tutorial we discovered, how we can use custom directives in our angular application.
+
+I hope you liked this article. If you did, please share it with your friends!
+
+Happy Coding!

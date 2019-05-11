@@ -30,10 +30,12 @@ class PostCard extends React.Component<PostCardProps, PostCardState> {
     const title = node.frontmatter.title || node.fields.slug
     return (
       <Paper style={{ padding: 16 }}>
-        <Img
-          style={{ width: '100%' }}
-          fluid={node.frontmatter.image.childImageSharp.fluid}
-        />
+        <div style={{ margin: -16, marginBottom: 16 }}>
+          <Img
+            style={{ width: '100%' }}
+            fluid={node.frontmatter.image.childImageSharp.fluid}
+          />
+        </div>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.dateRow}>
           <small style={{ marginRight: 8 }}>{node.frontmatter.date}</small>

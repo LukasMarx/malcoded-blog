@@ -2,8 +2,8 @@
 id: '5bb0cae79583501f6425270b'
 title: 'How to use Routing in Angular'
 image: './img/Angular-Routing.png'
-date: 2017-08-11T22:00:00.000Z
-lastUpdated: 2017-08-11T22:00:00.000Z
+date: 2017-08-11T00:00:00.000Z
+lastUpdated: 2019-05-11T00:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#DD0031'
@@ -23,7 +23,7 @@ Most applications have more than one page.
 
 The user clicks links, presses buttons and returns to previous pages. And although angular runs completely client side, it all behaves like the user is used to. Just like any other website.
 
-In this tutorial, we are going to take a close look at routing and navigation in angular.
+In this tutorial, we are going to take a close look at the angular router and navigation within the app.
 
 We will discover how to create routes, nest routes inside of each other, and how to use route parameters.
 
@@ -137,6 +137,16 @@ To define, which component should be shown at each route, we can pass a componen
 ### Redirecting
 
 In that example, we also used redirecting. To do so, we used the redirectTo in conjunction with the pathMatch property. First, we define the path of the route. In this case, it is empty. The route would be '/' and at the root of the route. We also specify, that if this route is hit, we want to redirect the user to the 'page' route. With the pathMatch property, we define to only redirect, if the route fully matches the given route.
+
+### Route Wildcards
+
+In case we want to create a route that is used when no other path matches, we can use a wildcard:
+
+```typescript
+{ path: '**', component: PageNotFoundComponent }
+```
+
+This is usefull if we would want to show a page-not-found screen to the user, in case the requested route does not exist.
 
 ### Children
 
