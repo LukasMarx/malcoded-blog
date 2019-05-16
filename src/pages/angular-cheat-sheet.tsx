@@ -137,7 +137,7 @@ class AngularCheatSheet extends React.Component<
       <div className={styles.root}>
         <SEO
           title="Angular Cheat Sheet"
-          description="The malcoded.com Angular Cheat Sheet"
+          description="The malcoded.com Angular Cheat Sheet "
           image={angularCheatSheetPreview}
         />
         <img
