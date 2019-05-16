@@ -540,7 +540,7 @@ class AngularCheatSheet extends React.Component<
                   <li className={styles.listElement}>
                     <div>
                       <Typography color="inherit" variant="h6">
-                        Tow Way Binding
+                        Two Way Binding
                       </Typography>
                     </div>
                     <pre>
