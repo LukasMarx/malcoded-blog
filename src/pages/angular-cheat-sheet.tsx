@@ -211,6 +211,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.onInit, 'typescript'),
                         }}
@@ -225,6 +226,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.onChanges, 'typescript'),
                         }}
@@ -239,6 +241,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.afterViewInit, 'typescript'),
                         }}
@@ -253,6 +256,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.onDestroy, 'typescript'),
                         }}
@@ -287,6 +291,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.ngIf, 'html'),
                         }}
@@ -301,6 +306,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.ngFor, 'html'),
                         }}
@@ -315,6 +321,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.ngSwitch, 'html'),
                         }}
@@ -349,6 +356,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.input, 'typescript'),
                         }}
@@ -363,6 +371,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.output, 'typescript'),
                         }}
@@ -377,6 +386,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.hostBinding, 'typescript'),
                         }}
@@ -391,6 +401,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.hostListener, 'typescript'),
                         }}
@@ -405,6 +416,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.contentChild, 'typescript'),
                         }}
@@ -419,6 +431,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(
                             code.contentChildren,
@@ -436,6 +449,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.viewChild, 'typescript'),
                         }}
@@ -450,6 +464,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.viewChildren, 'typescript'),
                         }}
@@ -485,6 +500,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.oneWayBinding, 'html'),
                         }}
@@ -499,6 +515,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.propertyBinding, 'html'),
                         }}
@@ -513,6 +530,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.attributeBinding, 'html'),
                         }}
@@ -527,6 +545,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.twoWayBinding, 'html'),
                         }}
@@ -541,6 +560,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.eventBinding, 'html'),
                         }}
@@ -575,6 +595,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.ngStyle, 'html'),
                         }}
@@ -589,6 +610,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.ngClass, 'html'),
                         }}
@@ -623,6 +645,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.lowercase, 'html'),
                         }}
@@ -637,6 +660,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.uppercase, 'html'),
                         }}
@@ -651,6 +675,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.date, 'html'),
                         }}
@@ -665,6 +690,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.dateFormat, 'html'),
                         }}
@@ -679,6 +705,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.currency, 'html'),
                         }}
@@ -693,6 +720,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.percent, 'html'),
                         }}
@@ -707,6 +735,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.number, 'html'),
                         }}
@@ -742,6 +771,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.routerOutlet, 'html'),
                         }}
@@ -756,6 +786,7 @@ class AngularCheatSheet extends React.Component<
                     </div>
                     <pre>
                       <code
+                        className="cheat-sheet"
                         dangerouslySetInnerHTML={{
                           __html: this.toCode(code.routerLink, 'html'),
                         }}

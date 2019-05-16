@@ -11,8 +11,8 @@
 * General
 */
 pre[class*='language-'],
-code[class*='language-'] {
-  color: #5c6e74;
+.cheat-sheet code[class*='language-'] {
+  color: #5c6e74 !important;
   font-size: 13px;
   text-shadow: none;
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
@@ -30,108 +30,108 @@ code[class*='language-'] {
   -ms-hyphens: none;
   hyphens: none;
 }
-pre[class*='language-']::selection,
-code[class*='language-']::selection,
-pre[class*='language-']::mozselection,
-code[class*='language-']::mozselection {
+.cheat-sheet pre[class*='language-']::selection,
+.cheat-sheet code[class*='language-']::selection,
+.cheat-sheet pre[class*='language-']::mozselection,
+.cheat-sheet code[class*='language-']::mozselection {
   text-shadow: none;
-  background: #b3d4fc;
+  background: #b3d4fc !important;
 }
 @media print {
-  pre[class*='language-'],
-  code[class*='language-'] {
+  .cheat-sheet pre[class*='language-'],
+  .cheat-sheet code[class*='language-'] {
     text-shadow: none;
   }
 }
-pre[class*='language-'] {
+.cheat-sheet pre[class*='language-'] {
   padding: 1em;
   margin: 0.5em 0;
   overflow: auto;
-  background: #f8f5ec;
+  background: #f8f5ec !important;
 }
-:not(pre) > code[class*='language-'] {
+.cheat-sheet :not(pre) > code[class*='language-'] {
   padding: 0.1em 0.3em;
   border-radius: 0.3em;
-  color: #db4c69;
-  background: #f9f2f4;
+  color: #db4c69 !important;
+  background: #f9f2f4 !important;
 }
 /*********************************************************
 * Tokens
 */
-.namespace {
+.cheat-sheet .namespace {
   opacity: 0.7;
 }
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #93a1a1;
+.cheat-sheet .token.comment,
+.cheat-sheet .token.prolog,
+.cheat-sheet .token.doctype,
+.cheat-sheet .token.cdata {
+  color: #93a1a1 !important;
 }
-.token.punctuation {
-  color: #ffffff;
+.cheat-sheet .token.punctuation {
+  color: #ffffff !important;
 }
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: #c6a2ff;
+.cheat-sheet .token.property,
+.cheat-sheet .token.tag,
+.cheat-sheet .token.boolean,
+.cheat-sheet .token.number,
+.cheat-sheet .token.constant,
+.cheat-sheet .token.symbol,
+.cheat-sheet .token.deleted {
+  color: #c6a2ff !important;
 }
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: #f287c4;
+.cheat-sheet .token.selector,
+.cheat-sheet .token.attr-name,
+.cheat-sheet .token.string,
+.cheat-sheet .token.char,
+.cheat-sheet .token.builtin,
+.cheat-sheet .token.inserted {
+  color: #f287c4 !important;
 }
 
-.token.class-name {
-  color: #c099ff;
+.cheat-sheet .token.class-name {
+  color: #c099ff !important;
 }
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: #fff;
+.cheat-sheet .token.operator,
+.cheat-sheet .token.entity,
+.cheat-sheet .token.url,
+.cheat-sheet .language-css .token.string,
+.cheat-sheet .style .token.string {
+  color: #fff !important;
 }
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-  color: #68cafb;
+.cheat-sheet .token.atrule,
+.cheat-sheet .token.attr-value,
+.cheat-sheet .token.keyword {
+  color: #68cafb !important;
 }
-.token.function {
-  color: #90ffc9;
+.cheat-sheet .token.function {
+  color: #90ffc9 !important;
 }
-.token.regex,
-.token.important,
-.token.variable {
-  color: #ee9900;
+.cheat-sheet .token.regex,
+.cheat-sheet .token.important,
+.cheat-sheet .token.variable {
+  color: #ee9900 !important;
 }
-.token.important,
-.token.bold {
+.cheat-sheet .token.important,
+.cheat-sheet .token.bold {
   font-weight: bold;
 }
-.token.italic {
+.cheat-sheet .token.italic {
   font-style: italic;
 }
-.token.entity {
+.cheat-sheet .token.entity {
   cursor: help;
 }
 /*********************************************************
 * Line highlighting
 */
-pre[data-line] {
+.cheat-sheet pre[data-line] {
   position: relative;
 }
-pre[class*='language-'] > code[class*='language-'] {
+.cheat-sheet pre[class*='language-'] > code[class*='language-'] {
   position: relative;
   z-index: 1;
 }
-.line-highlight {
+.cheat-sheet .line-highlight {
   position: absolute;
   left: 0;
   right: 0;
