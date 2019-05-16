@@ -1,0 +1,94 @@
+.root {
+  min-height: 100vh;
+  width: 100%;
+
+  margin: 0;
+
+  font-family: 'Roboto';
+  color: white;
+  box-sizing: border-box;
+  padding: 32px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#210d44+0,100228+100 */
+  background: #210d44; /* Old browsers */
+  background: -moz-linear-gradient(
+    -45deg,
+    #210d44 0%,
+    #100228 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    -45deg,
+    #210d44 0%,
+    #100228 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    135deg,
+    #210d44 0%,
+    #100228 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#210d44', endColorstr='#100228',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+@media only screen and (max-width: 1170px) {
+  .root {
+    padding: 8px;
+  }
+}
+.grid {
+  display: grid;
+  gap: 64px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: 100px;
+  width: 100%;
+}
+@media only screen and (max-width: 1170px) {
+  .grid {
+    gap: 64px;
+    grid-template-columns: 1fr;
+    margin-top: 32px;
+  }
+}
+.card {
+  background-color: #3f256d !important;
+  color: 'white' !important;
+  margin: 0 !important;
+}
+.cardHeader {
+  background-color: #2e124d !important;
+  color: white !important;
+  flex-direction: column !important;
+  display: flex;
+  margin: 0 !important;
+  padding-top: 0;
+}
+.cardContent {
+  padding: 0 !important;
+}
+.list {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.listElement {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: center;
+  padding: 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+@media only screen and (max-width: 1170px) {
+  .listElement {
+    font-size: 9px;
+    grid-template-columns: 1fr;
+    overflow-x: auto;
+  }
+}
+.listElement:nth-child(even) {
+  background-color: #2e124d;
+}
