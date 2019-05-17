@@ -85,7 +85,7 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
   }
 
   renderHeader() {
-    if (!this.props.user) {
+    if (this.props.user) {
       return (
         <Paper style={{ padding: 0, marginBottom: 32 }}>
           <div
