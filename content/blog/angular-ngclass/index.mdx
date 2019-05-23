@@ -33,22 +33,20 @@ Let's get started!
 
 ![angular-performance-banner](./img/angular-performance-banner.png)
 
-## Adding CSS Classes without Angular
+## Adding CSS classes without Angular
 
 So how did we assign CSS classes in JavaScript before we knew angular?
 
 First of all, we had to find the DOM-element we wanted to assign the class to. In the best case, we would find that element by id like this:
 
-```
- let element = document.getElementById('exampleDiv');
-
+```typescript
+let element = document.getElementById('exampleDiv')
 ```
 
 Afterward, we could use the JavaScript DOM-API to assign a className.
 
-```
- element.className = 'example-class';
-
+```typescript
+element.className = 'example-class'
 ```
 
 DOM-Manipulation in plain old JavaScript always felt like a pain.
@@ -59,7 +57,7 @@ Maybe this example is to simple to point that out properly, but what would you d
 
 ![angular-explore-banner](./img/angular-explore-banner.png)
 
-## How to assign a CSS Class in Angular using [className]
+## How to assign a CSS class in Angular using the [className] property binding
 
 Angular, like other single page application frameworks, realy shines when it comes to data-binding.
 That means, that the DOM is automatically updated, whenever the corresponding JavaScript object changes.
@@ -68,9 +66,8 @@ This is the same for CSS classes.
 
 We can just bind a property to the className attribute of our HTML-elements. Just like we would with other attributes like img-src.
 
-```
- <div [className]="'example-class'"></div>
-
+```html
+<div [className]="'example-class'"></div>
 ```
 
 This example would have exactly the same result as the exmaple above.
@@ -81,31 +78,28 @@ Basically we can execute any statement inside of that binding, that results in a
 
 This allows us to add classes based on a condition:
 
-```
- <div [className]="condition ? 'example-class' : 'other-class'"></div>
-
+```html
+<div [className]="condition ? 'example-class' : 'other-class'"></div>
 ```
 
 That way, the example-class is added, when the codition is true. If the conditions is false, the example-class is removed and the other-class added to the DOM-element instead.
 
 Or we could build the class name at runtime:
 
-```
- <div [className]="'class' + someValue"></div>
-
+```html
+<div [className]="'class' + someValue"></div>
 ```
 
 ![angular-modules-banner](./img/angular-modules-banner.png)
 
-## How to toggle CSS Classes in Angular
+## How to toggle CSS classes in Angular
 
 When it comes to toggling CSS classes based on a condition, the syntax shown above is quite inconvenient.
 
 A better way to do this, is by using the class.name directive. With that directive, we can easily toggle CSS classes like so:
 
-```
- <div [class.example-class]="condition"></div>
-
+```html
+<div [class.example-class]="condition"></div>
 ```
 
 As you can see, this directive starts with the keyword "class" followed by the name of the CSS class you want to toggle, separated by a dot.
@@ -113,7 +107,7 @@ While this syntax is not much shorter, it has the advantage, that its meaning is
 
 Using the general syntax shown in the previous chapter, that is not the case. The programmer has to read the whole statement first, before it is clear what it does.
 
-### Using NgClass for Convenience
+### Using the ngClass directive for convenience
 
 I turns out, all the methods we discovered above can be replaced by the ngClass directive.
 
@@ -123,37 +117,35 @@ The directive itself is very versatile. Depending on the input, it can do a lot 
 
 For example, if we just wanted to assign a static class name, we would do so like this:
 
-```
- <div [ngClass]="'example-class'"></div>
-
+```html
+<div [ngClass]="'example-class'"></div>
 ```
 
 NgClass can also assign multiple static class names all at once:
 
-```
- <div [ngClass]="['example-class', 'other-class']"></div>
-
+```html
+<div [ngClass]="['example-class', 'other-class']"></div>
 ```
 
 If we want to toggle CSS classes based on a condition, we pass in a JavaScript object. The keys of the object are the class names and the values represent the conditions.
 
-```
- <div [ngClass]="{
+```html
+<div
+  [ngClass]="{
   'example-class': condition
-}">
-</div>
-
+}"
+></div>
 ```
 
-We can also use ngClass to assign multiple CSS based on multiple conditions.
+We can also use ngClass to assign multiple CSS classes based on multiple conditions.
 
-```
- <div [ngClass]="{
+```html
+<div
+  [ngClass]="{
   'example-class': condition,
   'other-class': !condition
-}">
-</div>
-
+}"
+></div>
 ```
 
 ## Conclusion

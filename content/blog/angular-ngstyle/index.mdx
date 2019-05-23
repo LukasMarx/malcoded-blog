@@ -1,0 +1,185 @@
+---
+id: '5bb0cae79583501f642526f3'
+title: 'NgStyle: How to assign CSS styles in Angular'
+image: './img/angular-ngstyle.png'
+date: 2019-05-23T00:00:00.000Z
+lastUpdated: 2019-05-23T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f5',
+    '5bb0cae79583501f64252702',
+  ]
+tags: ['angular']
+---
+
+In this tutorial, we are going to take a look at how we can dynamically assign CSS styles to elements using angular.
+
+We will take a look at different methods to dynamically assign a CSS style to an element using the style property.
+
+You will also learn, how we can toggle that styles on or off, depending on the state of the application with ngStyle and style expressions.
+
+Before we do that, we take a look at how CSS styles are assigned using regular JavaScript and then compare that to the Angular way.
+
+Ready?
+
+Let’s get started!
+
+![old-way](./img/angular-ngstyle-old-way-banner.png)
+
+## How to add CSS styles without Angular
+
+First, let's take a look at how we used to assign CSS styles using just Javascript.
+
+First of all, we had to find the DOM element to assign the style to. In the best case, we would find that element by id like this:
+
+```typescript
+const element = document.getElementById('divToStyle')
+```
+
+Afterward, we could use the JavaScript DOM-API to assign a style.
+
+```typescript
+element.style.color = 'blue'
+```
+
+Of course, there is no possibility of [data binding](/posts/angular-data-binding). Every time we wanted the style to change we would have to call that API again.
+
+Fortunately, we can use Angular to do that heavy lifting for us...
+
+![angular-style-property](./img/angular-ngstyle-style-property-banner.png)
+
+## Adding CSS styles using the style property
+
+The most straight forward way of assigning a style Angular is using the style property.
+
+### Assigning static values
+
+We can assign a style to an element like so:
+
+```html
+<div [style.color]="'blue'">Some example text</div>
+```
+
+Other than in other frameworks like react, hypens are allowed to specify the style to adjust:
+
+```html
+<div [style.background-color]="'blue'">Some example text</div>
+```
+
+We can also use the style property to assign multiple values like this:
+
+```html
+<div [style.background-color]="'blue'" [style.color]="'white'">
+  Some example text
+</div>
+```
+
+### Binding to properties
+
+Of course, we can also bind the style to variable properties defined in the component.
+
+If we had a property called color
+
+```typescript
+import { Component } from '@angular/core'
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  color = 'red'
+}
+```
+
+we could bind to it by using its name:
+
+```html
+<div [style.color]="color">Some example text</div>
+```
+
+Notice that the property is without additional single quotes, while static values require them.
+
+### Evaluating expressions
+
+Of course, it is also possible to evaluate expressions to determine a style.
+
+If we had a flag in our component like so,
+
+```typescript
+import { Component } from '@angular/core'
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  flag = true
+  colorA = 'red'
+  colorB = 'blue'
+}
+```
+
+we could base the style on the condition of that flag:
+
+```html
+<div [style.color]="flag ? colorA : colorB">Some example text</div>
+```
+
+![angular-ngStyle](./img/angular-ngstyle-ngStyle-banner.png)
+
+## How to add multiple CSS styles in Angular using ngStyle directive
+
+When assigning many different styles to an element, the syntax becomes quite confusing and cluttered.
+This is why there is a different way of assigning styles in Angular using the ngStyle directive.
+
+Other than the style property, ngStyle takes an object containing the style-names and their values.
+
+### Assigning static values
+
+To achieve the same thing as before, the syntax now looks like this:
+
+```html
+<div [ngStyle]="{'color': 'blue'}">Some example text</div>
+```
+
+Assigning multiple values is a lot cleaner:
+
+```html
+<div [ngStyle]="{'color': 'blue', margin: '8px', padding: '8px'}">
+  Some example text
+</div>
+```
+
+### Binding to properties
+
+Binding to properties, we don't need signle quotes for the value:
+
+```html
+<div [ngStyle]="{'color': color}">Some example text</div>
+```
+
+### Evaluating expressions
+
+Evaluating expressions with ngStyle works in a similar way:
+
+```html
+<div [ngStyle]="{'color': flag ? colorA : colorB}">Some example text</div>
+```
+
+## Conclusion
+
+In this tutorial, we discovered how we can use the ngStyle directive to assign styles dynamically using Angular.
+
+I hope you like this article. If you did, please share it with your friends!
+
+Happy Coding!
