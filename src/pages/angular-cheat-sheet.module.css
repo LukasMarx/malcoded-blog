@@ -66,6 +66,7 @@
 }
 .cardContent {
   padding: 0 !important;
+  color: white !important;
 }
 .list {
   list-style: none;

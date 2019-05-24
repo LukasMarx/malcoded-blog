@@ -171,7 +171,6 @@ class AngularCheatSheet extends React.Component<
         <Typography
           color="inherit"
           variant="h2"
-          component="h1"
           align="center"
           style={{ marginTop: 64, fontWeight: 500 }}
         >
@@ -191,12 +190,7 @@ class AngularCheatSheet extends React.Component<
               <ExpansionPanelSummary className={styles.cardHeader}>
                 <div>
                   <img src={rocket} style={{ width: '100%', zIndex: 100 }} />
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="inherit"
-                    align="center"
-                  >
+                  <Typography variant="h4" color="inherit" align="center">
                     Lifecycle Hooks
                   </Typography>
                 </div>
@@ -271,12 +265,7 @@ class AngularCheatSheet extends React.Component<
               <ExpansionPanelSummary className={styles.cardHeader}>
                 <div>
                   <img src={rover} style={{ width: '100%', zIndex: 100 }} />
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="inherit"
-                    align="center"
-                  >
+                  <Typography variant="h4" color="inherit" align="center">
                     Structural Directives
                   </Typography>
                 </div>
@@ -336,12 +325,7 @@ class AngularCheatSheet extends React.Component<
               <ExpansionPanelSummary className={styles.cardHeader}>
                 <div>
                   <img src={pod} style={{ width: '100%', zIndex: 100 }} />
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="inherit"
-                    align="center"
-                  >
+                  <Typography variant="h4" color="inherit" align="center">
                     Class Field Decorators
                   </Typography>
                 </div>
@@ -480,12 +464,7 @@ class AngularCheatSheet extends React.Component<
               <ExpansionPanelSummary className={styles.cardHeader}>
                 <div>
                   <img src={satellite} style={{ width: '100%', zIndex: 100 }} />
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="inherit"
-                    align="center"
-                  >
+                  <Typography variant="h4" color="inherit" align="center">
                     Data Binding
                   </Typography>
                 </div>
@@ -575,12 +554,7 @@ class AngularCheatSheet extends React.Component<
               <ExpansionPanelSummary className={styles.cardHeader}>
                 <div>
                   <img src={lander} style={{ width: '100%', zIndex: 100 }} />
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="inherit"
-                    align="center"
-                  >
+                  <Typography variant="h4" color="inherit" align="center">
                     Styling
                   </Typography>
                 </div>
@@ -625,12 +599,7 @@ class AngularCheatSheet extends React.Component<
               <ExpansionPanelSummary className={styles.cardHeader}>
                 <div>
                   <img src={antenna} style={{ width: '100%', zIndex: 100 }} />
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="inherit"
-                    align="center"
-                  >
+                  <Typography variant="h4" color="inherit" align="center">
                     Pipes
                   </Typography>
                 </div>
