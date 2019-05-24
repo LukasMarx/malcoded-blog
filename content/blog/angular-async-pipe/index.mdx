@@ -1,0 +1,235 @@
+---
+id: '5ce7e850ea71aac8932ad136'
+title: 'Async Pipe: How to use it properly in Angular'
+image: './img/angular-async-pipe.png'
+date: 2019-05-24T00:00:00.000Z
+lastUpdated: 2019-05-24T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f5',
+    '5bb0cae79583501f64252702',
+  ]
+tags: ['angular']
+---
+
+In this tutorial, we are going to take a look at how we can use the angular async pipe and why you should always use it in combination with observables.
+
+Also, we will learn how to use it with interpolation data binding and different directives like \*ngIf and \*ngFor.
+
+Ready?
+
+Let’s get started!
+
+![what is the angular async pipe](./img/angular-async-pipe-what-is-that-banner.png)
+
+## What is the angular async pipe?
+
+The angular async pipe allows the subscription to observables inside of the angular template syntax. It also takes care of unsubscribing from observables automatically.
+
+Let's take a look at an example. This component creates a very simple observable that that increments a value by one every second and outputs that value. Basically, it is just counting up.
+
+```typescript
+import { Component } from '@angular/core'
+import { Observable } from 'rxjs'
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  observable: Observable<number>
+
+  ngOnInit() {
+    this.observable = Observable.create(observer => {
+      let value = 0
+      const interval = setInterval(() => {
+        observer.next(value)
+        value++
+      }, 1000)
+
+      return () => clearInterval(interval)
+    })
+  }
+}
+```
+
+To display that value we can reference the observable property and use the async pipe to resolve the observable to the current value:
+
+```html
+<p>{{ observable | async }}</p>
+```
+
+A common use case is displaying values received from a REST-Endpoint, as the angular HttpClient returns an observable.
+
+![when to use async pipe](./img/angular-async-pipe-when-to-use-banner.png)
+
+## Why should you use the async pipe?
+
+There are many ways to subscribe to observables. The default way, certainly without angular, is to subscribe to the observable manually and update a separate property with the value:
+
+```typescript
+import { Component } from '@angular/core'
+import { Observable } from 'rxjs'
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  observable: Observable<number>
+  latestValue: number;
+
+  ngOnInit() {
+    this.observable = Observable.create(observer => {
+      ...
+    });
+
+    this.observable.subscribe(value => this.latestValue = value);
+  }
+}
+```
+
+You could then bind to that property without using the async pipe at all:
+
+```html
+<p>{{ latestValue }}</p>
+```
+
+So why should you use the async pipe then?
+
+It turns out the code above is not all we need to do!
+
+Because we subscribed to the observable manually, we also need to manually unsubscribe. Otherwise, we risk a memory leak when the component is destroyed.
+
+To fix this, we need to unsubscribe when the component is destroyed. The best place to do that is the ngOnDestroy lifecycle hook:
+
+```typescript
+import { Component } from '@angular/core'
+import { Observable, Subscription } from 'rxjs'
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+})
+export class AppComponent {
+  observable: Observable<number>
+  latestValue: number
+  subscription: Subscription
+
+  ngOnInit() {
+    this.observable = Observable.create(observer => {
+        ...
+    })
+
+    // Make sure to save a reference to subscription to
+    // be able to unsubscribe later
+    this.subscription = this.observable.subscribe(
+      value => (this.latestValue = value)
+    )
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe when the component is destroyed
+    this.subscription.unsubscribe()
+  }
+}
+```
+
+A cleaner and more reactive way of doing the same thing is to use the rxjs takeUntil operator with another observable/subject that we complete when the
+component is destroyed. In this case, the takeUntil operator is taking care of unsubscribing.
+
+```typescript
+import { Component } from '@angular/core';
+import {Observable,Subject, Subscription} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+
+@Component({
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: [ './app.component.css' ]
+})
+export class AppComponent  {
+  observable$: Observable<number>;
+  unsubscribe$: Subject<void> = new Subject<void>();
+  latestValue: number;
+
+  ngOnInit(){
+    this.observable$ = Observable.create((observer) => {
+        ...
+    })
+
+    this.observable$
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(value => this.latestValue = value);
+  }
+
+  ngOnDestroy(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+}
+```
+
+This approach is especially useful when dealing with multiple observables per subscription, as we do not need to keep a list with all subscriptions.
+
+After all, this additional syntax is not necessary when using the angular async pipe, as the pipe itself takes care of **unsubscribing from the observable** once the component is destroyed.
+So, if nothing else, the async pipe makes our code cleaner.
+
+Also, the methods showed above do not work with the **onPush change detection** strategy, which is used to do performance optimizations of components. Async pipe, on the other
+hand works just fine with that.
+
+That is why you should definitely use the async pipe wherever possible.
+
+![async pipe ngif](./img/angular-async-pipe-ngif-banner.png)
+
+## How to use the async pipe with \*ngIf
+
+Of course, interpolation is not the only data binding the async pipe can be used with.
+
+You can also use it with the \*ngIf directive:
+
+```html
+<p *ngIf="(observable$ | async) > 5">{{ observable$ | async }}</p>
+```
+
+Note, that the braces are absolutely necessary in this case.
+
+If you want to read more about the \*ngIf directive, [I've written a detailed tutorial the \*ngIf directive and how it works](/posts/angular-ngif).
+
+![async pipe ngfor](./img/angular-async-pipe-ngfor-banner.png)
+
+## How to use the async pipe with \*ngFor
+
+In the same way we can use the async pipe with the *ngIf directive, we can use it with the *ngFor directive.
+
+To do that, the observable has to resolve to an array type, not just a single value.
+
+```typescript
+items$: Observable<number[]>;
+```
+
+We then use it in combination with the \*ngFor directive like so:
+
+```html
+<p *ngFor="let item of items | async">{{ item }}</p>
+```
+
+If you want to know more about the \*ngFor directive, [there is a detailed tutorial about the \*ngFor directive here](/posts/angular-ngfor).
+
+## Conclusion
+
+In this tutorial, we discovered how we can use the angular async pipe to prevent memory leaks.
+
+I hope you like this article. If you did, please share it with your friends!
+
+Happy Coding!
