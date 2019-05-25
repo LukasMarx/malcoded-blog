@@ -1,0 +1,457 @@
+---
+id: '5bb0cae79583501f642526f3'
+title: 'Internationalization (i18n) with Angular'
+image: './img/angular-i18n.png'
+date: 2019-05-25T00:00:00.000Z
+lastUpdated: 2019-05-25T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f5',
+    '5bb0cae79583501f64252702',
+  ]
+tags: ['angular']
+---
+
+In this tutorial, you will learn how to use the angular i18n functionality to translate your angular app into different languages.
+
+Also, we will take a look at how you can use the angular-cli to generate translation files automatically and how we can customize them.
+
+Finally, we discover how we can adjust units and formats like dates to the locale of the user.
+
+Let's get started!
+
+![how i18n works](./img/angular-i18n-what-is-banner.png)
+
+## How angular i18n works
+
+When using the build in internationalization mechanism, angular builds separate versions of your application containing the adjusted content for each language/locale.
+
+That means there is no content-switch depending on the locale like other i18n libraries do. Instead, each version is a completely independent application.
+
+This is great because each version of our app does only contain the translations for the specific language, keeping it nice and small.
+
+So how do we define which parts of our app actually need translation?
+
+![template markings](./img/angular-i18n-template-marking-banner.png)
+
+## Marking translations in angular templates with the i18n attribute
+
+The way the whole thing works is that we mark all text that should be translated in out templates. Later, we then use the angular-cli to generate a translation file based on the marked elements.
+
+But let's take a look at how to mark text with the i18n attribute.
+
+Actually, it is very simple. All we need to do is to add the i18n attribute to the HTML-element.
+
+```html
+<p i18n>Text in the default language</p>
+```
+
+Notice that we still provide a default value for the text to appear. This will be the text for the default version of our application. In most cases, that will be English.
+
+Also note, that the i18n attribute is just a regular HTML attribute. It is interpreted at build-time and is not part of the compiled code.
+Although it might look like one, the i18n attribute is not an angular directive!
+
+### Providing a description for the translator
+
+For the translator to provide accurate translations, a description and the context of the text inside of the application can be required.
+
+We can provide a description for the text by assigning a value to the i18n attribute:
+
+```html
+<h1 i18n="Page title">Welcome to i18n!</h1>
+```
+
+This description is then added in the translation file. For example, when using .xlf files it looks like this:
+
+```xml title=messages.xlf
+<note priority="1" from="description">Page title</note>
+```
+
+Don't worry we will take a closer look at the resulting translation file later.
+
+### Adding the context of a text
+
+Additionally, we can provide the context of the text inside the application. For example, that the text is on the front page.
+
+```html
+<h1 i18n="frontpage|Page title">Welcome to i18n!</h1>
+```
+
+Context and Description are separated by the | character.
+
+The context is added to the translation file just like the description of the text.
+
+```xml title=messages.xlf
+<note priority="1" from="meaning">frontpage </note>
+```
+
+### Assigning custom ids to the translated text
+
+Inside of the translation file, each entry is identified by an id. This id changes when the translatable text changes. To keep that consistent, we can assign a custom id to the text.
+
+We can do so by using two @-signs:
+
+```html
+<h1 i18n="@@frontpageTitle">Welcome to i18n!</h1>
+```
+
+We can also use it together with a description:
+
+```html
+<h1 i18n="Page title@@frontpageTitle">Welcome to i18n!</h1>
+```
+
+Or with context and description:
+
+```html
+<h1 i18n="frontpage|Page title@@frontpageTitle">Welcome to i18n!</h1>
+```
+
+Notice, that the ids for each text element have to be unique!
+
+![attribute translation](./img/angular-i18n-attributes-banner.png)
+
+## How to mark attributes for translation
+
+Of course, it is also possible to provide translations for attribute values.
+
+Let's take this input and its placeholder as an example:
+
+```html
+<input placeholder="Example Input" />
+```
+
+All we need to do to mark that attribute for translation is to add another attribute that is called "i18n-" plus the name of the attribute.
+
+So, in this case, it would be:
+
+```html
+<input i18n-placeholder placeholder="Example Input" />
+```
+
+![i18n plural](./img/angular-i18n-plural-banner.png)
+
+## How to deal with plural expressions
+
+Dealing with plural expressions can be a problem when displaying dynamic data together with translated text.
+
+For example, if you want to display the age of a comment, it could have been published "just now", "1 minute ago" or "5 minutes ago".
+
+So in this case there are three different conditions:
+
+- the comment is younger than a couple of seconds
+- the comment is not older than two minutes
+- the comment is older than two minutes
+
+Each of these cases needs a different translation, depending on the language with a different sentence structure.
+
+We can mark plurals by using a special syntax:
+
+```html
+<p i18n>
+  Updated {minutes, plural, =0 {just now} =1 {one minute ago} other {{{minutes}}
+  minutes ago}}
+</p>
+```
+
+Basically, it is marked by a single curly bracket. Inside of the brackets are a couple of parameters. The first is the property we want to check. This is the variable defined in the component. In this case the age of the comment.
+
+The second parameter marks this as an expression for plurals.
+
+Afterward, there is a list of conditions, followed by the value to display when the condition is met (in curly brackets).
+
+In this case, the value is "just now" when minutes = 0, "one minute ago" when minutes = 1 and "x minutes ago" in any other case. The actual value of minutes in the third case is referenced using regular interpolation ({{}}).
+
+Besides using the equal sign and "other" there are the following keywords available:
+
+- zero
+- one
+- two
+- few
+- many
+
+![i18n selection](./img/angular-i18n-selection-banner.png)
+
+## Alternative text selection
+
+When displaying values from properties, we want to translate those values, as well. Of course, this is only possible if all values are known at build time.
+
+One example is the gender of the user. Let's go with male, female and other.
+
+The syntax of this selection is quite similar to the plural expression above:
+
+```html
+<span i18n
+  >The author is {gender, select, male {male} female {female} other
+  {other}}</span
+>
+```
+
+First, we have the property we want to compare. Next, we declare that is a selection. Then, there is a list of conditions followed by their default value in curly brackets.
+
+![i18n file](./img/angular-i18n-file-banner.png)
+
+## Generating a translation source file
+
+Now that we have marked all our text for translation, we can use the angular-cli to generate a translation file for us.
+
+To do that, we use the following command:
+
+```bash
+ng xi18n
+```
+
+This creates a file called messages.xlf in the src folder.
+
+If you want to be your translation files at a different location you can do so:
+
+```bash
+ng xi18n --output-path src/locale
+```
+
+You can even choose a different file format:
+
+```bash
+ng xi18n  --i18n-format=xlf
+ng xi18n  --i18n-format=xlf2
+ng xi18n  --i18n-format=xmb
+```
+
+Let's stick to the defaults for this example!
+
+![i18n translating](./img/angular-i18n-translate-banner.png)
+
+## Translating the translation file
+
+Now that we have the translation file, we need to create the actual translations.
+
+To create a translation for a language, we need to create a copy of the messages.xlf file and suffix it with the code for the language. If we wanted to create a German translation
+we would rename it to messages.de.xlf.
+
+Now we translate that file. To do this I would highly recommend to use a XLF editor, unless XML is your native language.
+
+For this tutorial though, we will take a brief look at how to translate the XML.
+
+The file constists of many translation-units. For a regular text example, the translation-unit looks like this:
+
+```xml title=messages.xlf
+<trans-unit id="e75c6b25ba9eb1a07d9f0f01febee7062e35b9da" datatype="html">
+  <source>Welcome to i18n!</source>
+  <context-group purpose="location">
+    <context context-type="sourcefile">
+      app/app.component.html
+    </context>
+    <context context-type="linenumber">
+      3
+    </context>
+  </context-group>
+  <note priority="1" from="description">
+    Page title
+  </note>
+  <note priority="1" from="meaning">
+    frontpage
+  </note>
+</trans-unit>
+```
+
+To translate this using, we need to provide a target for the source containing the translated value. In this case it is German:
+
+```xml title=messages.de.xlf
+ <trans-unit id="e75c6b25ba9eb1a07d9f0f01febee7062e35b9da" datatype="html">
+  <source>Welcome to i18n!</source>
+  <target>Willkommen bei i18n!</target>
+  <context-group purpose="location">
+    <context context-type="sourcefile">
+      app/app.component.html
+    </context>
+    <context context-type="linenumber">
+      3
+    </context>
+  </context-group>
+  <note priority="1" from="description">
+    Page title
+  </note>
+  <note priority="1" from="meaning">
+    frontpage
+  </note>
+</trans-unit>
+```
+
+### Translating plural expressions
+
+We can translate plural expression in a quite similar way. Except this time, we have two trans units: One for the regular text placed before the plural and one for the plural versions:
+
+```xml title=messages.de.xlf
+<trans-unit id="04268a21db68114162d73f4b4a3a7f3687ab3ef1" datatype="html">
+  <source>
+    Updated
+    <x id="ICU" equiv-text="{minutes, plural, =0 {...} =1 {...} other {...}}"/>
+  </source>
+  <target>
+    Aktualisiert:
+    <x id="ICU" equiv-text="{minutes, plural, =0 {...} =1 {...} other {...}}"/>
+  </target>
+  <context-group purpose="location">
+    <context context-type="sourcefile">
+      app/app.component.html
+    </context>
+    <context context-type="linenumber">
+      11
+    </context>
+  </context-group>
+</trans-unit>
+<trans-unit id="5a134dee893586d02bffc9611056b9cadf9abfad" datatype="html">
+  <source>
+    {VAR_PLURAL, plural, =0 {just now} =1 {one minute ago} other {<x id="INTERPOLATION" equiv-text="{{minutes}}"/> minutes ago} }
+  </source>
+  <target>
+    {VAR_PLURAL, plural, =0 {gerade eben} =1 {Vor einer Minute} other {Vor <x id="INTERPOLATION" equiv-text="{{minutes}}"/> Minuten} }
+  </target>
+  <context-group purpose="location">
+    <context context-type="sourcefile">
+      app/app.component.html
+    </context>
+    <context context-type="linenumber">
+      12
+    </context>
+  </context-group>
+</trans-unit>
+```
+
+### Translating selections
+
+Translating selections is quite similar to translating plural expressions:
+
+```xml title=messages.de.xlf
+<trans-unit id="ba378f3d5a3158ff407e61940ebe735f3a83e1b7" datatype="html">
+  <source>
+    The user is <x id="ICU" equiv-text="{gender, select, male {...} female {...} other {...}}"/>
+  </source>
+  <target>
+    Der Nutzer ist <x id="ICU" equiv-text="{gender, select, male {...} female {...} other {...}}"/>
+  </target>
+  <context-group purpose="location">
+    <context context-type="sourcefile">
+      app/app.component.html
+    </context>
+    <context context-type="linenumber">
+      17
+    </context>
+  </context-group>
+</trans-unit>
+<trans-unit id="eff74b75ab7364b6fa888f1cbfae901aaaf02295" datatype="html">
+  <source>
+    {VAR_SELECT, select, male {male} female {female} other {other} }
+  </source>
+  <target>
+    {VAR_SELECT, select, male {männlich} female {weiblich} other {andere} }
+  </target>
+  <context-group purpose="location">
+    <context context-type="sourcefile">
+      app/app.component.html
+    </context>
+    <context context-type="linenumber">
+      17
+    </context>
+  </context-group>
+</trans-unit>
+```
+
+![i18n build](./img/angular-i18n-build-banner.png)
+
+## Building the translated versions of the angular application
+
+Finally, we need to tell angular how to build the different versions of our application.
+To do this we need to modify the angular.json file.
+
+In that file, we need to add a separate configuration for each language in the build section of the project. As the key we choose the code of the language. In this case, it is "de":
+
+```javascript title=angular.json
+"build": {
+  "builder": "@angular-devkit/build-angular:browser",
+  "options": {
+    "outputPath": "dist/i18n/default",
+    "index": "src/index.html",
+    "main": "src/main.ts",
+    "polyfills": "src/polyfills.ts",
+    "tsConfig": "src/tsconfig.app.json",
+    "assets": ["src/favicon.ico", "src/assets"],
+    "styles": ["src/styles.css"],
+    "scripts": []
+  },
+  "configurations": {
+    "de": {
+      "aot": true,
+      "outputPath": "dist/i18n/de/",
+      "i18nFile": "src/messages.de.xlf",
+      "i18nFormat": "xlf",
+      "i18nLocale": "de"
+    },
+    ...
+  },
+  ...
+}
+```
+
+For the server command to work properly, as well, we need to modify the configuration of the serve section like this:
+
+```javascript title=angular.json
+"serve": {
+  "builder": "@angular-devkit/build-angular:dev-server",
+  "options": {
+    "browserTarget": "i18n:build"
+  },
+  "configurations": {
+    "de": {
+      "browserTarget": "i18n:build:de"
+    },
+    "production": {
+      "browserTarget": "i18n:build:production"
+    }
+  }
+},
+```
+
+Now, when we use the
+
+```bash
+ng build
+```
+
+command, the default version of the app is built.
+
+To build a translated version, we need to specify the configuration like this:
+
+```bash
+yarn build --configuration=de
+```
+
+![i18n pipes](./img/angular-i18n-pipes-banner.png)
+
+## Angular pipes and i18n
+
+Angular pipes like the date pipe provide different outputs based on the used locale.
+
+For that to work properly, we need to register the locale manually. We do so in the app.module.ts file:
+
+```typescript title=app.module.ts
+import { registerLocaleData } from '@angular/common'
+import localeDe from '@angular/common/locales/de'
+
+registerLocaleData(localeFr, 'fr')
+```
+
+## Conclusion
+
+In this tutorial, we discovered how we can use the angular i18n functionality to create translated versions of our app.
+
+I hope you like this article. If you did, please share it with your friends!
+
+Happy Coding!
