@@ -37,7 +37,22 @@ class Code extends Component<CodeProps> {
                 : this.props.theme.primaryColor.main,
             }}
           >
-            <img className={styles.icon} src="/icons/languages/js.svg" />
+            {(this.props.language == 'js' ||
+              this.props.language == 'javascript' ||
+              this.props.language == 'jsx') && (
+              <img className={styles.icon} src="/icons/languages/js.svg" />
+            )}
+            {(this.props.language == 'ts' ||
+              this.props.language == 'typescript' ||
+              this.props.language == 'tsx') && (
+              <img className={styles.icon} src="/icons/languages/ts.svg" />
+            )}
+            {this.props.language == 'html' && (
+              <img className={styles.icon} src="/icons/languages/html.svg" />
+            )}
+            {this.props.language == 'css' && (
+              <img className={styles.icon} src="/icons/languages/css.svg" />
+            )}
           </div>
           <span>{this.props.title}</span>
         </div>
