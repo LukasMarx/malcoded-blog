@@ -1,0 +1,290 @@
+---
+id: '5cef88a0ce1109b860e890ae'
+title: 'How to send HTTP Requests in React'
+image: './img/react-http-requests.png'
+date: 2019-05-30T00:00:00.000Z
+lastUpdated: 2019-05-30T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f6',
+    '5bb0cae79583501f642526fa',
+  ]
+tags: ['react']
+---
+
+Sending an HTTP request to a server is a common task in web development.
+
+In this tutorial, you will learn how to send HTTP requests from your react application using different APIs like XMLHttpRequest, fetch and axios.
+
+You will learn how to send GET and POST requests with different configurations and headers in react.
+
+Also, we will take a brief look at how to package form data and send it to the server with file attachments.
+
+Ready?
+
+Let’s get started!
+
+![XMLHTTPRequest](./img/react-http-requests-XMLHTTPRequest-banner.png)
+
+## Making HTTP requests using XMLHttp​Request
+
+Sending HTTP request from your react app is quite simple. In fact, you don't even need to use a library to do this.
+
+All we need to do to send a simple GET request is to create a new XMLHttpRequest, add an event listener to it, open the URL and send the request.
+
+### HTTP GET XMLHttp​Request in React
+
+In a react-component, a HTTP GET request would look like this:
+
+```jsx
+import React, { Component } from 'react'
+import { render } from 'react-dom'
+import './style.css'
+
+class App extends Component {
+  constructor() {
+    super()
+  }
+  componentWillMount() {
+    this.getData()
+  }
+
+  getData() {
+    // create a new XMLHttpRequest
+    var xhr = new XMLHttpRequest()
+
+    // get a callback when the server responds
+    xhr.addEventListener('load', () => {
+      // update the state of the component with the result here
+      console.log(xhr.responseText)
+    })
+    // open the request with the verb and the url
+    xhr.open('GET', 'https://dog.ceo/api/breeds/list/all')
+    // send the request
+    xhr.send()
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Hello World</p>
+      </div>
+    )
+  }
+}
+```
+
+### HTTP POST XMLHttp​Request with React
+
+Of course, we also can send POST request. To do that, we need to modify our code just a touch.
+
+First of all, we do need to change the verb from GET to POST:
+
+```jsx
+xhr.open('POST', 'https://example.com')
+```
+
+Most of the time, especially when dealing with REST APIs, you want to use the body of the POST request to send some data.
+You can easily do so by passing the content as a string to the send method. In this case, we want to send some JSON:
+
+```jsx
+xhr.send(JSON.stringify({ example: 'data' }))
+```
+
+![install axios](./img/react-http-requests-install-axios-banner.png)
+
+## Install Axios in you React project
+
+For small applications, using XMLHttpRequest works just fine. As your apps get larger though, you might want to consider using an HTTP request library like axios.
+
+These libraries do the same things we did above but they provide a much simpler and cleaner API. This is especially useful as your requests get more complex.
+Also, the API uses promises instead of plain old callbacks which helps to keep things readable.
+
+So let's take a look at how we can use axios to send HTTP requests.
+
+First, we need to install axios in our react project. We can do so using this command:
+
+```batch
+npm install axios
+```
+
+Now that we got that out of the way, let's send some request!
+
+![axios get requests](./img/react-http-requests-get-axios-banner.png)
+
+## Sending GET requests in React using Axios
+
+Sending HTTP Get requests is even easier when using axios.
+
+All we need to do is to call the axios.get method and provide the URL of the endpoint.
+
+```jsx
+async getDataAxios(){
+    const response =
+      await axios.get("https://dog.ceo/api/breeds/list/all")
+    console.log(response.data)
+}
+```
+
+This code does the same as the code above in 2 lines! In fact, it is even more as it is automatically parsing the JSON response for us.
+
+### URL parameter
+
+To send a request with URL parameters, we can do so by passing them to the get method in a config object:
+
+```jsx
+async getDataAxios(){
+    const response =
+      await axios.get("https://dog.ceo/api/breeds/list/all",
+          { params: {name: 'bruno'}}
+      )
+    console.log(response.data)
+}
+```
+
+This results in a request to the following URL: "https://dog.ceo/api/breeds/list/all?name=bruno".
+
+### Adding HTTP headers
+
+Depending on your situation, you might need to add certain headers to your request. With axios, this task is quite easy. All we need to do is to add a headers section to the config object:
+
+```jsx
+async getDataAxios(){
+    const response =
+      await axios.get("https://dog.ceo/api/breeds/list/all",
+        { headers: {'Content-Type': 'application/json'}}
+      )
+    console.log(response.data)
+}
+```
+
+![post axios](./img/react-http-requests-post-axios-banner.png)
+
+## Sending POST requests with Axios
+
+POST requests are sent in the same way as GET requests. All we need to change is the method form get to post.
+The post method also has a slightly different parameter signature. It takes three parameters:
+
+1. The Url
+2. Post body data (optional)
+3. A config object (optional)
+
+In react, this would look something like this:
+
+```jsx
+const response = await axios.post(
+  'https://example.com',
+  { example: 'data' },
+  { headers: { 'Content-Type': 'application/json' } }
+)
+console.log(response.data)
+```
+
+The post body object (2. parameter) can be any object while the config object requires a certain schema. You can find about all the fields the config objects takes at the official axios GitHub [repo](https://github.com/axios/axios#request-config).
+
+![form axios](./img/react-http-requests-form-axios-banner.png)
+
+## Using Axios to send form data
+
+Of course, JSON is not the only content we can send in a post request.
+We can also upload forms. This enables us to send binary data to the server like files and images. It is also possible to send a mixture of normal form fields and files.
+
+To do this, we need to create a FormData object to store our form data.
+
+```jsx
+const form = new FormData()
+```
+
+Now, we can set regular key/value pairs by using the set method:
+
+```jsx
+form.set('username', 'malcoded')
+```
+
+Or we can append a file like so:
+
+```jsx
+form.append('file', file)
+```
+
+Finally, we can send the request just like a regular POST request with the form as content. Additionally, we need to set the Content-Type header to "multipart/form-data".
+
+```jsx
+axios.post('example.com', form, {
+  headers: { 'Content-Type': 'multipart/form-data' },
+})
+```
+
+If you would like to learn more about file uploads in react, [I've written a full, in-depth tutorial about creating a file upload component in react with a node.js backend](/posts/react-file-upload).
+
+![get fetch](./img/react-http-requests-get-fetch-banner.png)
+
+## Using the fetch API to make HTTP GET requests
+
+Another alternative to XMLHttpRequests is the fetch API.
+
+The fetch API is a relatively new browser API for making HTTP requests. It is a lot more modern and also easier to use than the XMLHttpRequest API.
+
+The reason why we take a look at this last is because it is not supported in all evergreen browsers yet. By now, you guessed it, it is supported in all evergreen browsers but Edge. So you have to be careful when using this API, as you might need polyfills to use this API in certain browsers.
+
+So let's take a look at what making a GET request looks like:
+
+```jsx
+async getDataFetch(){
+    const response =
+      await fetch("https://dog.ceo/api/breeds/list/all",
+        { headers: {'Content-Type': 'application/json'}}
+      )
+    console.log(await response.json())
+}
+```
+
+As you can see, it works quite similar to the axios API.
+
+![post fetch](./img/react-http-requests-post-fetch-banner.png)
+
+## Making POST requests with the fetch API
+
+Of course, it is also possible to make POST requests with the fetch API:
+
+```jsx
+const response = await fetch('example.com', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ example: 'data' }),
+})
+console.log(await response.json())
+```
+
+Uploading form data works in a similar way:
+
+```jsx
+const form = new FormData()
+
+form.append('username', 'malcoded')
+form.append('file', file)
+
+const response = await fetch('example.com', {
+  method: 'POST',
+  headers: { 'Content-Type': 'multipart/form-data' },
+  body: form,
+})
+console.log(await response.json())
+```
+
+## Conclusion
+
+In this tutorial, we learned how to make HTTP requests in react using different verbs, configurations, payloads and headers using different APIs and libraries.
+
+I hope you enjoyed this post.
+
+If you did please share this post!
+
+Thanks for reading!
