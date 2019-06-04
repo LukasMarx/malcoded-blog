@@ -1,0 +1,306 @@
+---
+id: '5cf66f8dadd57772fff0d608'
+title: 'How to use styles in React: Inline styles, CSS Modules & Styled Components'
+image: './img/react-styles.png'
+date: 2019-06-04T00:00:00.000Z
+lastUpdated: 2019-06-04T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5bb0cae79583501f642526f4',
+    '5bb0cae79583501f642526f6',
+    '5bb0cae79583501f642526fa',
+  ]
+tags: ['react']
+---
+
+In this tutorial, you will learn how to style your components in react.
+
+We will take a look at how you can use inline styles, regular CSS classes, CSS modules or react styled components.
+
+Also, you will discover how to conditionally apply styles based on the state of the component.
+
+Ready?
+
+Let's get started!
+
+![inline style](./img/react-styles-inline-style-banner.png)
+
+## Using inline styles in JSX
+
+Let's start with inline styles.
+
+Inline styles are used when a single HTML element needs unique styles. Whenever there is more than one element with that exact same style, it is advised to use CSS classes instead.
+
+Inline styles are not react specific They are a regular HTML feature:
+
+```html
+<p style="color: red">Example Text</p>
+```
+
+However, we have to use it a little bit differently in react. Instead of passing a string with all the styles to the attribute, we need to assign an object:
+
+```jsx
+render() {
+    return (
+         <p style={{color: 'red'}}>
+            Example Text
+        </p>
+    );
+}
+```
+
+Notice, that the outer brace is the regular "this is JavaScript" JSX syntax. The inner brace is the inline definition of a new object.
+
+Instead of defining the style object inline, we could also define an object in our code that stores the style properties.
+
+```jsx
+render() {
+  const styles = {
+    color: 'blue'
+  }
+
+  return (
+      <p style={styles}>
+        Example Text
+      </p>
+  );
+}
+```
+
+Inline styles are often used when the styling has to change based on JavaScript logic or if you need to pass in calculated values.
+
+### Conditionally applying inline styles
+
+When using inline styles, we might also want to apply or remove styles based on the state of the component. We can easily add conditional styles using the ternary operator.
+
+```jsx
+class App extends Component {
+  constructor() {
+    super()
+    this.state = { isRed: true }
+  }
+
+  render() {
+    const isRed = this.state.isRed
+
+    return <p style={{ color: isRed ? 'red' : 'blue' }}>Example Text</p>
+  }
+}
+```
+
+![stylesheets](./img/react-styles-stylesheet-banner.png)
+
+## Styling React components with CSS stylesheets
+
+When you want to style many elements the same way, it is best to use CSS classes to keep the download size of your application small.
+
+To apply CSS classes to elements, instead of using the regular class syntax
+
+```html
+<p class="class1">Example Text</p>
+```
+
+we use the special react className syntax:
+
+```jsx
+<p className="class1">Example Text</p>
+```
+
+Of course, we also need a CSS stylesheet. This is just a regular .css file, that we need to import:
+
+```jsx
+import React, { Component } from 'react'
+
+// import style.css stylesheet
+import './style.css'
+
+class App extends Component {
+  constructor() {
+    super()
+  }
+
+  render() {
+    return <p className="class1">Example Text</p>
+  }
+}
+```
+
+Inside of the CSS file, we can define the class:
+
+```css
+.class1 {
+  color: red;
+}
+```
+
+### Conditionally applying CSS classes
+
+Using this syntax, we can also apply classes based on conditions. Once again, we are using the ternary operator to do so:
+
+```jsx
+class App extends Component {
+  constructor() {
+    super()
+    this.state = { isRed: true }
+  }
+
+  render() {
+    const isRed = this.state.isRed
+
+    return <p className={isRed ? 'class1' : 'class2'}>Example Text</p>
+  }
+}
+```
+
+In case you have more complex conditions, you can create a method that returns the class name as a string.
+
+```jsx
+// return class names from a function
+getClass(someInput){
+    switch(someInput){
+        case '1': {
+            return 'class1'
+        }
+        case '2': {
+            return 'class2'
+        }
+        case '3': {
+            return 'class3'
+        }
+    }
+}
+
+render() {
+    return (
+        <p className={this.getClass('1')}>
+            Example Text
+        </p>
+    );
+}
+```
+
+Using the method approach, you have endless possibilities which classes to apply based on one (or more) input.
+
+![css modules](./img/react-styles-css-modules-banner.png)
+
+## How to scope CSS in React using CSS modules
+
+The approach of using CSS classes has one drawback though...
+
+The styles we define for one class in a component are available for the whole app. That means, that if we define a class "button" in component A and a class "button" in component B, we possibly end up with a mixture of both classes and the respective style properties.
+
+This is no new problem nor is it specific to react. It exists in regular HTML + CSS, as well.
+The only difference is, that we are using a component based approach to create applications/websites. Wouldn't it make sense to have our CSS follow the same approach?
+
+This is why CSS modules exist. With CSS modules, you can define stylesheets that are scoped to the component.
+
+Doing so is quite easy. All we need to do is to suffix our stylesheet file with the word "module". For example "style.module.css".
+
+We then import the stylesheet like so:
+
+```jsx
+import styles from './style.module.css'
+```
+
+When assigning the classes to elements, we need to do that a little bit different than usual. Instead of assigning a string to className, we treat the imported styles like an object, containing all the defined classes as keys.
+
+```css title=style.module.css
+.class1 {
+  color: red;
+}
+```
+
+To assign the class above, we would do it like this:
+
+```jsx
+<p className={styles.class1}>Example Text</p>
+```
+
+For CSS module to work out of the box, create-react is required.
+
+![styled components](./img/react-styles-styled-components-banner.png)
+
+## CSS-in-JS with React styled components
+
+Another approach to scope CSS in react is to used styled components.
+
+Because styled components are a library, we need to install them before we can use them:
+
+```batch
+npm install --save styled-components
+```
+
+Styled components are a way to create react components on the fly using just CSS style definitions. Let's say, we want to display text with a red color.
+To do that, we call a method of the styled components library to generate that component with the provided style information:
+
+```jsx
+import styled from 'styled-components'
+
+const RedText = styled.p`
+  color: red;
+`
+
+class App extends Component {}
+```
+
+That component can then be used like any other react component:
+
+```jsx
+render() {
+  return (
+    <RedText>
+      Example Text
+    </RedText>
+  );
+}
+```
+
+### Conditionally changing styled components based on props
+
+Just like with normal CSS in react, we can adjust the style based on JavaScript logic.
+
+Because styled components are just components, the way to feed them values is via props. We can access the props of the styled component like this:
+
+```jsx
+const Text = styled.p`
+  color: ${props => (props.red ? 'red' : 'blue')};
+`
+```
+
+We can then control the appearance by passing the property accordingly:
+
+```jsx
+render() {
+  return (
+    <>
+      Red text:
+      <Text red>
+        Exampe Text
+      </Text>
+
+      Blue text:
+      <Text>
+        Exampe Text
+      </Text>
+    </>
+  );
+}
+```
+
+You can find out about all the possibilities of styled components [here](https://www.styled-components.com/docs/basics).
+
+## Conclusion
+
+In this tutorial, we learned about all the different ways to use CSS styles with react.
+
+I hope you enjoyed this post.
+
+If you did please share this post!
+
+Thanks for reading!
