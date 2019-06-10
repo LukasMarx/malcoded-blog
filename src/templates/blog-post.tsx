@@ -90,36 +90,43 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
             style={{ width: '100%' }}
             fluid={post.frontmatter.image.childImageSharp.fluid}
           />
-          <h1>{post.frontmatter.title}</h1>
+
           <div className={styles.subtitle}>
+            <img
+              src="/icons/authors/LukasMarx.png"
+              style={{ borderRadius: '50%', marginRight: 8 }}
+            />
+            <div className={styles.meta}>
+              <div
+                style={{
+                  display: `block`,
+                  fontSize: 16,
+                }}
+              >
+                <strong style={{ marginBottom: 8 }}>
+                  {post.frontmatter.author}
+                </strong>
+                <br />
+                <small>
+                  {!isUpdated && post.frontmatter.date}
+                  {isUpdated && post.frontmatter.lastUpdated}
+                </small>
+              </div>
+            </div>
             <div
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                marginBottom: 16,
+                marginLeft: 16,
               }}
             >
               {post.frontmatter.tags.map((tag: string) => {
                 return <Chip key={tag} label={tag} />
               })}
             </div>
-            <small
-              style={{
-                display: `block`,
-                fontSize: 16,
-              }}
-            >
-              <strong>Published:</strong> {post.frontmatter.date} -{' '}
-              {isUpdated && (
-                <>
-                  <strong>Last Updated: </strong>
-                  {post.frontmatter.lastUpdated} -{' '}
-                </>
-              )}
-              <strong>Author: </strong>
-              {post.frontmatter.author}
-            </small>
           </div>
+          <h1>{post.frontmatter.title}</h1>
+
           <MDXRenderer>{post.code.body}</MDXRenderer>
           <br />
           <Comments postId={post.frontmatter.id} />
