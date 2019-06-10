@@ -46,12 +46,10 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
   }
 
   onNewsletterDialogClosed(value) {
-    if (value.success) {
-      if (value.email) {
-        this.props.subscribeToNewsletter(value.email)
-      }
-    } else {
+    if (value) {
+      this.props.subscribeToNewsletter(value)
     }
+
     this.setState({ isNewsletterDialogOpen: false })
   }
 
