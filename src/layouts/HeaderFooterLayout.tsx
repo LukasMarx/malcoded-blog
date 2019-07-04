@@ -57,43 +57,42 @@ class HeaderFooterLayout extends React.Component<
     return (
       <div className={styles.root} style={this.styles()}>
         <Toolbar />
-        <div className={styles.scroller}>
-          <div className={styles.content}>{this.props.children}</div>
-          <footer className={styles.footer} style={this.footerStyles()}>
-            <Link to="/" id={styles.home} style={{ textDecoration: 'none' }}>
-              <Button flat fill>
-                Home
-              </Button>
-            </Link>
-            <Link
-              to="/about"
-              id={styles.about}
-              style={{ textDecoration: 'none' }}
-            >
-              <Button flat fill>
-                About
-              </Button>
-            </Link>
-            <Link
-              to="/privacy"
-              id={styles.privacy}
-              style={{ textDecoration: 'none' }}
-            >
-              <Button flat fill>
-                Privacy
-              </Button>
-            </Link>
-            <Link
-              to="/legal"
-              id={styles.legal}
-              style={{ textDecoration: 'none' }}
-            >
-              <Button flat fill>
-                Legal Notice
-              </Button>
-            </Link>
-          </footer>
-        </div>
+
+        <div className={styles.content}>{this.props.children}</div>
+        <footer className={styles.footer} style={this.footerStyles()}>
+          <Link to="/" id={styles.home} style={{ textDecoration: 'none' }}>
+            <Button flat fill>
+              Home
+            </Button>
+          </Link>
+          <Link
+            to="/about"
+            id={styles.about}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button flat fill>
+              About
+            </Button>
+          </Link>
+          <Link
+            to="/privacy"
+            id={styles.privacy}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button flat fill>
+              Privacy
+            </Button>
+          </Link>
+          <Link
+            to="/legal"
+            id={styles.legal}
+            style={{ textDecoration: 'none' }}
+          >
+            <Button flat fill>
+              Legal Notice
+            </Button>
+          </Link>
+        </footer>
       </div>
     )
   }
