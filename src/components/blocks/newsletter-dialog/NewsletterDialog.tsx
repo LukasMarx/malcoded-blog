@@ -312,13 +312,12 @@ class NewsletterDialog extends React.Component<
             backgroundColor: this.props.theme!.darkMode
               ? darkBackground.paper
               : lightBackground.paper,
+            color: this.props.theme!.darkMode
+              ? darkText.primary
+              : lightText.primary,
           },
         }}
-        style={{
-          color: this.props.theme!.darkMode
-            ? darkText.primary
-            : lightText.primary,
-        }}
+        style={{}}
       >
         <DialogContent>
           {!this.props.showConfirmation && this.renderSignup()}
