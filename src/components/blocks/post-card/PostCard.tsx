@@ -10,6 +10,7 @@ import { darkText, lightText } from '../../../theme/text'
 
 export interface PostCardProps {
   node: any
+  small?: boolean
   theme?: ThemeState
 }
 
@@ -29,20 +30,26 @@ class PostCard extends React.Component<PostCardProps, PostCardState> {
     const node = this.props.node
     const title = node.frontmatter.title || node.fields.slug
     return (
-      <Paper style={{ padding: 16 }}>
+      <Paper style={{ padding: 16, width: '100%' }}>
         <div style={{ margin: -16, marginBottom: 16 }}>
           <Img
             style={{ width: '100%' }}
             fluid={node.frontmatter.image.childImageSharp.fluid}
           />
         </div>
-        <h2 className={styles.title}>{title}</h2>
+        <h2
+          className={styles.title}
+          style={{ fontSize: this.props.small ? 16 : 24 }}
+        >
+          {title}
+        </h2>
         <div className={styles.dateRow}>
           <small style={{ marginRight: 8 }}>{node.frontmatter.date}</small>
 
-          {node.frontmatter.tags.map((tag: string) => {
-            return <Chip key={tag} label={tag} />
-          })}
+          {node.frontmatter.tags &&
+            node.frontmatter.tags.map((tag: string) => {
+              return <Chip key={tag} label={tag} />
+            })}
         </div>
         <p
           className={styles.excerpt}

@@ -66,3 +66,26 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     })
   }
 }
+
+exports.createSchemaCustomization = ({ actions, schema }) => {
+  const { createTypes } = actions
+  const typeDefs = [
+    'type Mdx implements Node { frontmatter: Frontmatter }',
+    schema.buildObjectType({
+      name: 'Frontmatter',
+      fields: {
+        recommendedPosts: {
+          type: '[Mdx]',
+          resolve: (source, args, context, info) => {
+            return context.nodeModel
+              .getAllNodes({ type: 'Mdx' })
+              .filter(post =>
+                source.recommended.some(id => id === post.frontmatter.id)
+              )
+          },
+        },
+      },
+    }),
+  ]
+  createTypes(typeDefs)
+}

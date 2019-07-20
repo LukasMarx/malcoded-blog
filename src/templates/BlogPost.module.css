@@ -64,3 +64,18 @@
 a {
   text-decoration: none;
 }
+
+.recommended {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 64px;
+}
+
+@media only screen and (max-width: 768px) {
+  .recommended {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-bottom: 32px;
+  }
+}

@@ -20,6 +20,7 @@ import Chip from '../components/elements/chip/Chip'
 import Button from '../components/elements/button/Button'
 import { subscribeNewsletter } from '../state/actions/newsletter.actions'
 import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
+import PostCard from '../components/blocks/post-card/PostCard'
 
 export interface BlogPostTemplateProps {
   data: any
@@ -129,6 +130,26 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
 
           <MDXRenderer>{post.code.body}</MDXRenderer>
           <br />
+          <div className={styles.recommended}>
+            {post.frontmatter.recommendedPosts.map(rPost => {
+              return (
+                <Link
+                  key={rPost.fields.slug}
+                  style={{
+                    textDecoration: 'none',
+
+                    color: 'inherit',
+                    boxSizing: 'border-box',
+                    display: 'flex',
+                  }}
+                  className={styles.item}
+                  to={'/posts' + rPost.fields.slug}
+                >
+                  <PostCard node={rPost} small />
+                </Link>
+              )
+            })}
+          </div>
           <Comments postId={post.frontmatter.id} />
         </div>
         <div className={styles.sidebarRight}>
@@ -177,6 +198,23 @@ export const pageQuery = graphql`
         tags
         author
         colorContrast
+        recommendedPosts {
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+
+            date(formatString: "MMMM DD, YYYY")
+            image {
+              childImageSharp {
+                fluid(maxWidth: 1200) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+          }
+        }
         image {
           childImageSharp {
             fluid(maxWidth: 1200) {
