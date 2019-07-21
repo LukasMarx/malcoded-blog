@@ -95,41 +95,45 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
             style={{ width: '100%' }}
             fluid={post.frontmatter.image.childImageSharp.fluid}
           />
-
-          <div className={styles.subtitle}>
-            <img
-              src="/icons/authors/LukasMarx.png"
-              style={{ borderRadius: '50%', marginRight: 8 }}
-            />
-            <div className={styles.meta}>
+          <a
+            href="https://twitter.com/malcoded"
+            style={{ color: 'inherit', textDecoration: 'inherit' }}
+          >
+            <div className={styles.subtitle}>
+              <img
+                src="/icons/authors/LukasMarx.png"
+                style={{ borderRadius: '50%', marginRight: 8 }}
+              />
+              <div className={styles.meta}>
+                <div
+                  style={{
+                    display: `block`,
+                    fontSize: 16,
+                  }}
+                >
+                  <strong style={{ marginBottom: 8 }}>
+                    {post.frontmatter.author}
+                  </strong>
+                  <br />
+                  <small>
+                    {!isUpdated && post.frontmatter.date}
+                    {isUpdated && post.frontmatter.lastUpdated}
+                  </small>
+                </div>
+              </div>
               <div
                 style={{
-                  display: `block`,
-                  fontSize: 16,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  marginLeft: 16,
                 }}
               >
-                <strong style={{ marginBottom: 8 }}>
-                  {post.frontmatter.author}
-                </strong>
-                <br />
-                <small>
-                  {!isUpdated && post.frontmatter.date}
-                  {isUpdated && post.frontmatter.lastUpdated}
-                </small>
+                {post.frontmatter.tags.map((tag: string) => {
+                  return <Chip key={tag} label={tag} />
+                })}
               </div>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                marginLeft: 16,
-              }}
-            >
-              {post.frontmatter.tags.map((tag: string) => {
-                return <Chip key={tag} label={tag} />
-              })}
-            </div>
-          </div>
+          </a>
           <h1>{post.frontmatter.title}</h1>
 
           <MDXRenderer>{post.code.body}</MDXRenderer>
