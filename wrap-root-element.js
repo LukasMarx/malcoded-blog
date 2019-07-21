@@ -6,6 +6,7 @@ import { preToCodeBlock } from 'mdx-utils'
 import { Provider } from 'react-redux'
 
 import createStore from './src/state/createStore'
+import { Typography } from '@material-ui/core'
 
 // components is its own object outside of render so that the references to
 // components are stable

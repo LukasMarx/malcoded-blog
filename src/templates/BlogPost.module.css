@@ -79,3 +79,13 @@ a {
     margin-bottom: 32px;
   }
 }
+
+.newsletterSubscribe {
+  margin-top: 32px;
+  width: 500px;
+  height: 100px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}

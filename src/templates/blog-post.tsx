@@ -22,6 +22,10 @@ import { subscribeNewsletter } from '../state/actions/newsletter.actions'
 import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
 import PostCard from '../components/blocks/post-card/PostCard'
 
+import { Typography } from '@material-ui/core'
+import NewsletterIcon from '../components/elements/icons/NewsletterIcon'
+import Paper from '../components/elements/paper/Paper'
+
 export interface BlogPostTemplateProps {
   data: any
   pageContext: any
@@ -155,10 +159,23 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
         <div className={styles.sidebarRight}>
           <Sidebar>
             <Toc toc={post.tableOfContents} />
-            <Button style={{ marginTop: 32 }} onClick={() => setOpen(true)}>
-              Subscribe to the newsletter
-            </Button>
-            {}
+            <div
+              style={{
+                width: 500,
+              }}
+              onClick={() => setOpen(true)}
+            >
+              <Paper>
+                <div className={styles.newsletterSubscribe}>
+                  <div style={{ height: '100%', marginRight: 32 }}>
+                    <NewsletterIcon />
+                  </div>
+                  <Typography variant="h5" component="p" color="inherit">
+                    Subscribe to the newsletter
+                  </Typography>
+                </div>
+              </Paper>
+            </div>
           </Sidebar>
         </div>
       </div>

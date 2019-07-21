@@ -143,7 +143,7 @@ class NewsletterDialog extends React.Component<
               textAlign: 'center',
             }}
           >
-            Subscribe to the newsletter
+            Subscribe to the free newsletter
           </h2>
         </div>
         <div className={styles.wrapper}>
