@@ -1,6 +1,7 @@
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import Code from './src/components/blocks/code/Code'
+import Demo from './src/components/blocks/demo/Demo'
 
 
 import { Provider } from 'react-redux'
@@ -12,15 +13,14 @@ import createStore from './src/state/createStore'
 // components are stable
 const components = {
   pre: preProps => {
-    console.log(preProps)
     const props = preToCodeBlock(preProps)
-    console.log(props)
     if (props) {
       return <Code {...props} />
     } else {
       return <pre {...preProps} />
     }
   },
+  Demo
 }
 export const wrapRootElement = ({ element }) => {
   const store = createStore()

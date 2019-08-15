@@ -1,0 +1,40 @@
+.placeholder {
+  height: 500px;
+  width: 100%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+}
+
+.shuttle {
+  height: 75%;
+  position: absolute;
+  bottom: -100px;
+  right: 250px;
+  z-index: 1;
+  transition: transform 1s cubic-bezier(1, 0, 1, 0.74) 1s;
+}
+
+.base {
+  height: 75%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transition: transform ease-in-out 2s;
+}
+
+.svg {
+  width: 100%;
+}
+
+.bg {
+  transition: fill ease-in-out 2s;
+}
+
+.booster {
+  transition: opacity 1s ease-in-out 0.5s;
+}
