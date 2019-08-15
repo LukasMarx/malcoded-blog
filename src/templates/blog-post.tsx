@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, graphql } from 'gatsby'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
+import MDXRenderer from 'gatsby-plugin-mdx/mdx-renderer'
 
 import SEO from '../components/Seo'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
@@ -136,7 +136,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
           </a>
           <h1>{post.frontmatter.title}</h1>
 
-          <MDXRenderer>{post.code.body}</MDXRenderer>
+          <MDXRenderer>{post.body}</MDXRenderer>
           <br />
           <div className={styles.recommended}>
             {post.frontmatter.recommendedPosts.map(rPost => {
@@ -246,9 +246,8 @@ export const pageQuery = graphql`
         date(formatString: "MMMM DD, YYYY")
         lastUpdated(formatString: "MMMM DD, YYYY")
       }
-      code {
-        body
-      }
+
+      body
     }
   }
 `

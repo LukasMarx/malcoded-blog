@@ -45,36 +45,28 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
-      resolve: `gatsby-mdx`,
+      resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: ['.mdx', '.md'],
+        plugins: [`gatsby-remark-images`],
         gatsbyRemarkPlugins: [
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 1000,
+              maxWidth: 1200,
               backgroundColor: 'transparent',
               withWebp: true,
               linkImagesToOriginal: false,
             },
           },
           {
-            resolve: `gatsby-remark-responsive-iframe`,
-            options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
-            },
-          },
-          {
             resolve: `gatsby-remark-copy-linked-files`,
-          },
-
-          {
-            resolve: `gatsby-remark-smartypants`,
           },
           {
             resolve: `gatsby-remark-autolink-headers`,
             options: {
-              offsetY: '-100',
+              offsetY: '-400',
+              icon: false
             },
           },
         ],
@@ -103,7 +95,7 @@ module.exports = {
                   data: edge.node.frontmatter.date,
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.code.boy }],
+                  custom_elements: [{ 'content:encoded': edge.node.body }],
                 })
               })
             },
@@ -122,9 +114,9 @@ module.exports = {
               ) {
                 edges {
                   node {
-                    code {
-                      body
-                    }
+                    
+                    body
+                    
                     fields { slug }
                     frontmatter {
                       title

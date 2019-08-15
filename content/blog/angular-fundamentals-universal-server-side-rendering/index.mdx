@@ -720,7 +720,7 @@ The TS-API can be seen as some kind of storage container, we can get or set valu
 
 Each value can be accessed via a key. To create, get or set the value to the container, we actually need that key. This key is not just a string, as we are used to in a JavaScript environment, but an instance of the StateKey class.
 
-To create such a StateKey, we can call the makeStateKey<>() method provided by the framework.
+To create such a StateKey, we can call the makeStateKey\<\>() method provided by the framework.
 
 Let's create a key for our so called-result. In a real scenario, you would name this key according to the value it can access (e.g. POST_KEY). Notice, that the method is strongly typed to the type of the value. In our case, we want to transfer a string.
 

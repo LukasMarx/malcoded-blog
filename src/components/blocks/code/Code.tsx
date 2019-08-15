@@ -39,13 +39,13 @@ class Code extends Component<CodeProps> {
             {(this.props.language == 'js' ||
               this.props.language == 'javascript' ||
               this.props.language == 'jsx') && (
-              <img className={styles.icon} src="/icons/languages/js.svg" />
-            )}
+                <img className={styles.icon} src="/icons/languages/js.svg" />
+              )}
             {(this.props.language == 'ts' ||
               this.props.language == 'typescript' ||
               this.props.language == 'tsx') && (
-              <img className={styles.icon} src="/icons/languages/ts.svg" />
-            )}
+                <img className={styles.icon} src="/icons/languages/ts.svg" />
+              )}
             {this.props.language == 'html' && (
               <img className={styles.icon} src="/icons/languages/html.svg" />
             )}
@@ -62,6 +62,9 @@ class Code extends Component<CodeProps> {
   }
 
   escapeHtml(unsafe) {
+    if (!unsafe) {
+      return '';
+    }
     return unsafe
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -91,7 +94,7 @@ class Code extends Component<CodeProps> {
       <div
         className={`${styles.root}  ${
           this.props.theme.darkMode ? '' : 'theme--light'
-        }`}
+          }`}
         style={{
           backgroundColor: this.props.theme.darkMode
             ? darkBackground.paper

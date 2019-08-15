@@ -31,13 +31,8 @@ class NewsletterIcon extends React.Component<
             <rect width="222" height="222" />
           </clipPath>
         </defs>
-        <g clip-path="url(#_clipPath_29GcLqCRVE1IE3rAhSMo1ZexlWw8GkSL)">
-          <rect
-            width="222"
-            height="222"
-            fill="rgb(33,13,68)"
-            fill-opacity="0"
-          />
+        <g clipPath="url(#_clipPath_29GcLqCRVE1IE3rAhSMo1ZexlWw8GkSL)">
+          <rect width="222" height="222" fill="rgb(33,13,68)" fillOpacity="0" />
           <g>
             <linearGradient
               id="_lgradient_12"
@@ -50,18 +45,18 @@ class NewsletterIcon extends React.Component<
             >
               <stop
                 offset="0%"
-                stop-opacity="0.25"
-                stop-color="rgb(128, 128, 128)"
+                stopOpacity="0.25"
+                stopColor="rgb(128, 128, 128)"
               />
               <stop
                 offset="54%"
-                stop-opacity="0.12"
-                stop-color="rgb(128, 128, 128)"
+                stopOpacity="0.12"
+                stopColor="rgb(128, 128, 128)"
               />
               <stop
                 offset="100%"
-                stop-opacity="0.1"
-                stop-color="rgb(128, 128, 128)"
+                stopOpacity="0.1"
+                stopColor="rgb(128, 128, 128)"
               />
             </linearGradient>
             <path
