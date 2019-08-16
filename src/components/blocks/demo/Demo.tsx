@@ -83,8 +83,6 @@ class Demo extends React.Component<DemoProps, DemoState> {
     const promise = sdk.embedGithubProject(this.exampleRef.current, this.props.gitHub, {
       height: 500,
       view: 'preview',
-
-      hideNavigation: true,
       forceEmbedLayout: true
     })
     
