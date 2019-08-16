@@ -1,6 +1,32 @@
 .placeholder {
   height: 500px;
   width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.svgWrapper {
+  width: 100%;
+  height: 500px;
+  position: absolute;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  transition: top 0.5s cubic-bezier(1, 0, 1, 0.74) 2s,
+    background-color ease-in-out 2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.svg {
+  bottom: 0;
+  overflow: visible !important;
+}
+
+.ref > iframe {
+  border: 0;
 }
 
 .info {
@@ -11,12 +37,11 @@
 }
 
 .shuttle {
-  height: 75%;
-  position: absolute;
-  bottom: -100px;
-  right: 250px;
-  z-index: 1;
   transition: transform 1s cubic-bezier(1, 0, 1, 0.74) 1s;
+}
+
+.shuttleWrapper {
+  transition: transform ease-in-out 3s;
 }
 
 .base {
@@ -27,14 +52,49 @@
   transition: transform ease-in-out 2s;
 }
 
-.svg {
-  width: 100%;
-}
-
 .bg {
   transition: fill ease-in-out 2s;
 }
 
 .booster {
-  transition: opacity 1s ease-in-out 0.5s;
+  transition: opacity ease-in-out 1s;
+}
+
+.text {
+  transition: transform ease-in-out 2s;
+  opacity: 1 !important;
+}
+
+.title {
+  transition: fill ease-in-out 2s;
+  transition: stroke ease-in-out 2s;
+}
+
+.startButton {
+  transition: transform ease-in-out 0.5s;
+}
+
+.githubButton {
+  transition: transform ease-in-out 0.5s;
+  transition-delay: 0.2s;
+}
+
+.space {
+  transition: opacity 2s ease-in-out 0.4s;
+}
+
+.hovering {
+  animation: bounce 4s linear infinite;
+  animation-delay: 3s;
+}
+@keyframes bounce {
+  0% {
+    transform: translateY(-150px);
+  }
+  50% {
+    transform: translateY(-130px);
+  }
+  100% {
+    transform: translateY(-150px);
+  }
 }
