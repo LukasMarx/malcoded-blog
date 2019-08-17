@@ -43,6 +43,16 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
     this.state = { isNewsletterDialogOpen: false }
 
     this.onNewsletterDialogClosed = this.onNewsletterDialogClosed.bind(this)
+    this.onNewsletterDialogOpen = this.onNewsletterDialogOpen.bind(this)
+  }
+
+  onNewsletterDialogOpen() {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      ;(window as any).gtag('event', 'newsletter_dialog_open', {
+        event_category: 'engagement',
+      })
+    }
+    this.setState({ isNewsletterDialogOpen: true })
   }
 
   onNewsletterDialogClosed(value) {
@@ -83,9 +93,7 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
                 angular, react and vue there is an article for every skill
                 level. Take your programming skills to the next level!
               </p>
-              <Button
-                onClick={() => this.setState({ isNewsletterDialogOpen: true })}
-              >
+              <Button onClick={this.onNewsletterDialogOpen}>
                 Join the newsletter
               </Button>
             </div>

@@ -75,6 +75,15 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
     setShowConfirmation(true)
   }
 
+  const openNewsletterDialog = () => {
+    setOpen(true)
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      ;(window as any).gtag('event', 'newsletter_dialog_open', {
+        event_category: 'engagement',
+      })
+    }
+  }
+
   const onNewsletterDialogClose = () => {
     setOpen(false)
   }
@@ -167,7 +176,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
               style={{
                 width: 500,
               }}
-              onClick={() => setOpen(true)}
+              onClick={openNewsletterDialog}
             >
               <Paper>
                 <div className={styles.newsletterSubscribe}>
