@@ -72,7 +72,18 @@ class Demo extends React.Component<DemoProps, DemoState> {
 
   }
 
+  onGitHubClicked(){
+    if(typeof window !== "undefined" && (window as any).gtag){
+      (window as any).gtag("event", "github_link_click", { event_category: 'engagement' })
+    }
+  }
+
   async loadStackBlitz() {
+
+    if(typeof window !== "undefined" && (window as any).gtag){
+      (window as any).gtag("event", "demo_started", { event_category: 'engagement' })
+    }
+
     this.setState({
       running: true,
       boosterOn: true,
@@ -285,7 +296,7 @@ class Demo extends React.Component<DemoProps, DemoState> {
               <path d="M174.7 318.7q0-1.3-.9-2-.8-.6-3.1-1.4-2.3-.7-3.6-1.4-3.7-2-3.7-5.3 0-1.7 1-3 1-1.4 2.8-2.2 1.8-.8 4-.8 2.4 0 4.2.9 1.7.8 2.7 2.3 1 1.5 1 3.4h-4.4q0-1.4-.9-2.3-1-.8-2.6-.8t-2.5.7q-.9.7-.9 1.8 0 1 1 1.8 1.1.7 3.1 1.3 3.8 1.1 5.5 2.8 1.7 1.6 1.7 4.1 0 2.8-2 4.4-2.2 1.5-5.7 1.5-2.5 0-4.5-.9t-3-2.4q-1.1-1.6-1.1-3.7h4.4q0 3.6 4.2 3.6 1.6 0 2.4-.7 1-.6 1-1.7zm23.4-15.8v3.6h-6.5v17.8h-4.4v-17.8h-6.4v-3.6H198zm16 21.4l-1.4-4.4H205l-1.5 4.4H199l7.9-21.4h4l8 21.4h-4.6zm-5.3-16l-2.6 8h5.3l-2.7-8zm24 16l-4-7.9h-3.6v7.9h-4.4v-21.4h8q3.7 0 5.8 1.7 2 1.7 2 4.8 0 2.2-.9 3.6-1 1.5-2.9 2.3l4.7 8.7v.3h-4.8zm-7.6-17.8v6.4h3.6q1.6 0 2.5-.9 1-.8 1-2.3 0-1.5-1-2.3-.8-1-2.5-1h-3.6zm30.8-3.6v3.6h-6.5v17.8h-4.4v-17.8h-6.4v-3.6H256z" fillRule="evenodd" fill="#FFF" />
             </g>
             <g className={styles.githubButton} style={{ cursor: 'pointer' }} transform={`translate(${this.state.buttonPosition}, 0)`}>
-              <a href={`https://github.com/${this.props.gitHub}`} target="_blank">
+              <a href={`https://github.com/${this.props.gitHub}`} target="_blank" onClick={this.onGitHubClicked}>
               <path fill="transparent" vectorEffect="non-scaling-stroke" strokeWidth="3" stroke={textColor} className={styles.title} strokeLinecap="square" strokeMiterlimit="2" d="M101.3 367h217.8v50H101.3z" />
               <path d="M205.9 381v103.6H330V381H205.9z" fill="none" />
               <path d="M205.9 381v103.6H330V381H205.9z" fill="none" />

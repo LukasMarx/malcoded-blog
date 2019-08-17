@@ -52,8 +52,14 @@ const mapDispatchToProps = dispatch => {
   return {
     setPrimaryColor: (primaryColor: ThemeColor) =>
       dispatch(setPrimaryColor(primaryColor)),
-    subscribeToNewsletter: (email: string) =>
-      dispatch(subscribeNewsletter(email)),
+    subscribeToNewsletter: (email: string) => {
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        ;(window as any).gtag('event', 'newsletter_subscribe', {
+          event_category: 'engagement',
+        })
+      }
+      dispatch(subscribeNewsletter(email))
+    },
   }
 }
 
@@ -66,6 +72,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
     }
     this.onNewsletterDialogClosed = this.onNewsletterDialogClosed.bind(this)
     this.onNewsletterDialogSubmit = this.onNewsletterDialogSubmit.bind(this)
+    this.onNewsletterDialogOpen = this.onNewsletterDialogOpen.bind(this)
   }
   componentDidMount() {
     this.props.setPrimaryColor(defaultPrimaryColor)
@@ -77,6 +84,15 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
     }
 
     this.setState({ showNewsletterDialogConfirmation: true })
+  }
+
+  onNewsletterDialogOpen() {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      ;(window as any).gtag('event', 'newsletter_dialog_open', {
+        event_category: 'engagement',
+      })
+    }
+    this.setState({ isNewsletterDialogOpen: true })
   }
 
   onNewsletterDialogClosed() {
@@ -119,7 +135,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
                 using Angular, React & Vue
               </h3>
               <Button
-                onClick={() => this.setState({ isNewsletterDialogOpen: true })}
+                onClick={this.onNewsletterDialogOpen}
                 style={{ height: 64, fontSize: '18px' }}
               >
                 Join the newsletter
