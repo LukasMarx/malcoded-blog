@@ -37,6 +37,30 @@ Ready?
 
 Let's get started!
 
+![angular-question-banner](./img/angular-question-banner.png)
+
+## What is a reactive form in angular?
+
+There are two approaches to forms in angular. The first, template-driven forms, are using angular template-directives to generate the model of the the form.
+
+Reactive forms on the other hand rely on the programmer to define the form-model. This is done in the component class istead of the template.
+
+You can learn more about the fundamentals in [this post about reactive forms](/posts/angular-fundamentals-reactive-forms/).
+
+![angular-error-banner](./img/angular-error-banner.png)
+
+## What is form validation in angular?
+
+Whenever the value of a form input is changed, angular tries to validate the value. To do that properly, it requires a list of validators that are
+specific to the input of the form.
+
+These validators are run one after another on every change of the input-value. Each validator is either returning null if the value is valid, or
+a list of errors if the value is invalid. An invalid response of one of the validators makes the input of the form invalid.
+
+![how-form-validation-works](./img/how-form-validation-works.png)
+
+So, let's take a look how validators work in practice!
+
 ![angular-new-banner](./img/angular-new-banner.png)
 
 ## Creating a new angular project
