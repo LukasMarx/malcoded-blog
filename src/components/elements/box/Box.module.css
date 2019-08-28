@@ -1,9 +1,10 @@
 .box{
-    background-color: rgb(255, 238, 145);
+    background-color: #FDF9E1;
     border-left-color: rgb(250, 217, 27);
     border-left-width: 8px;
     border-left-style: solid;
     padding: 16px;
     margin-top: 32px;
     margin-bottom: 64px;
+    color : rgb(161, 73, 0)
 }
