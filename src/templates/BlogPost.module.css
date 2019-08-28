@@ -27,6 +27,10 @@
   grid-area: content;
 }
 
+.content img{
+  box-shadow: none !important;
+}
+
 @media only screen and (max-width: 768px) {
   .content {
     padding: 16px;
