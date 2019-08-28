@@ -490,7 +490,9 @@ The second file is the template file. Although the template does not have to be 
 
 Because that is what a template is. An html-representation of the view. Everything that has to do with displaying stuff on a screen should go inside of the template.
 
-A template in angular does look like a normal piece of html, but it is not. Its syntax has been extended to allow for custom component selectors, data-binding and directives. We will discuss that in detail in the chapter "Templates & Directives". It is just important to note, that browsers are not able to fully understand the bare template. It has to be interpreted by the angular framework first.
+A template in angular does look like a normal piece of html, but it is not. Its syntax has been extended to allow for custom component selectors, data-binding and directives. We will discuss that in detail in the chapter "Templates & Directives". 
+
+<Box>It is just important to note, that browsers are not able to fully understand the bare template. It has to be interpreted by the angular framework first.</Box>
 
 The template file does follow the same naming convention as the component-file itself. It starts with the components name, followed by the word component and finally the file extension all separated by a full-stop.
 
@@ -866,7 +868,9 @@ Structural directives are typically starting with an asterisk. That way, they ar
 If-Directive
 Let's take a look, how to remove elements from the DOM, if a certain condition is not meet. To do this, we can use the \*ngIf directive.
 
-This directive takes a condition as a parameter. Note that this parameter is interpolated automatically, so it's value has to be a valid JavaScript expression within the parent-component.
+This directive takes a condition as a parameter. 
+
+<Box>Note that this parameter is interpolated automatically, so it's value has to be a valid JavaScript expression within the parent-component.</Box>
 
 For example, if the component we are currently editing, has a property "isVisible" (boolean), we can use that property to show or hide a section of our template.
 

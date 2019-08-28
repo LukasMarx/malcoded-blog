@@ -71,7 +71,7 @@ The first one is the one you see in the picture above. We render the bare HTML o
 
 The other possible method could be called the dynamic one. Using that method, we still render our HTML at the server. But this time, we also include script tags, that instruct the browser, to download the angular code, once the page is fully loaded. That way, the page can be delivered much faster, than serving the framework right from the beginning. At the same time, we still can use all the JavaScript features, that we might rely on.
 
-Note: Because the initial version of our application still does not contain JavaScript, we still have to be careful where to use it.
+<Box>Because the initial version of our application still does not contain JavaScript, we still have to be careful where to use it.</Box>
 
 ![dynamic-server-side-rendering-angular](./img/dynamic-server-side-rendering-angular.png)
 
@@ -468,7 +468,7 @@ That may sound a little bit complex, but don’t worry. The hard work has alread
 
 All we need to do is to install that package and add a few lines of code to our application.
 
-Note: I assume, that you already have an angular application that is using lazy-loading. If you don’t know how you can utilize lazy-loading, you should check out this [great article from rangle.io about lazy-loading modules](https://angular-2-training-book.rangle.io/handout/modules/lazy-loading-module.html).
+<Box>I assume, that you already have an angular application that is using lazy-loading. If you don’t know how you can utilize lazy-loading, you should check out this [great article from rangle.io about lazy-loading modules](https://angular-2-training-book.rangle.io/handout/modules/lazy-loading-module.html).</Box>
 
 So let’s get started!
 
@@ -539,7 +539,7 @@ const {
 } = require(`./dist-server/main.bundle`)
 ```
 
-Note: I’ve used the --output-hashing none flag of the angular-cli, when creating this bundle, to remove the hash from the filename.
+<Box>I’ve used the --output-hashing none flag of the angular-cli, when creating this bundle, to remove the hash from the filename.</Box>
 
 Next, we call the provideModuleMap() method and pass it the module map.
 
