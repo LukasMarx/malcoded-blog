@@ -1,4 +1,5 @@
 const path = require(`path`)
+const fs = require(`fs`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.createPages = ({ graphql, actions }) => {
@@ -50,6 +51,71 @@ exports.createPages = ({ graphql, actions }) => {
       })
     })
   })
+}
+
+exports.onPostBuild = async ({ graphql }) => {
+
+  const publicPath = `./public`
+
+  const query = `
+    {
+      site {
+        siteMetadata {
+          title
+          description
+          siteUrl
+        }
+      }
+      allMdx(
+        sort: { fields: [frontmatter___date], order: DESC }
+        limit: 1000
+      ) {
+        edges {
+          node {
+            id
+            fields {
+              slug
+            }
+            frontmatter {
+              id
+              date(formatString: "MMMM DD, YYYY")
+              title
+              tags
+              image {
+                childImageSharp {
+                  fixed(width: 1200) {
+                    src
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+
+  const baseQuery = await graphql(query);
+  const posts = baseQuery.data.allMdx.edges;
+  const siteMeta = baseQuery.data.site.siteMetadata
+
+
+  const outputPath = path.join(publicPath, 'metadata.json');
+  const outputDir = path.dirname(outputPath);
+
+
+  const json = {}
+  posts.forEach(({node}) => {
+    json[node.frontmatter.id] = {
+      slug: node.fields.slug,
+      link: siteMeta.siteUrl + '/posts' + node.fields.slug,
+      title: node.frontmatter.title,
+      tags: node.frontmatter.tags,
+      thumbnail: siteMeta.siteUrl + node.frontmatter.image.childImageSharp.fixed.src
+    }
+  });
+
+  fs.writeFileSync(outputPath, JSON.stringify(json));
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
