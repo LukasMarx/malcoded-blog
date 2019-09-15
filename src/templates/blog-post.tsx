@@ -215,7 +215,7 @@ export const pageQuery = graphql`
         author
       }
     }
-    mdx(fields: { slug: { eq: $slug } }) {
+    mdx(fields: { slug: { eq: $slug } }, frontmatter:{released: {eq: true}} ) {
       id
       excerpt(pruneLength: 160)
       tableOfContents

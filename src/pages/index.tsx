@@ -315,7 +315,9 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMdx(sort: { fields: [frontmatter___date], order: DESC }, limit: 5) {
+    allMdx(sort: { fields: [frontmatter___date], order: DESC }, limit: 5,
+      filter: { frontmatter: { released: { eq: true }  } }
+      ) {
       edges {
         node {
           excerpt
@@ -342,7 +344,7 @@ export const pageQuery = graphql`
     angular: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 5
-      filter: { frontmatter: { tags: { in: "angular" } } }
+      filter: { frontmatter: { tags: { in: "angular" }, released: { eq: true }  } }
     ) {
       edges {
         node {
@@ -370,7 +372,7 @@ export const pageQuery = graphql`
     react: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 5
-      filter: { frontmatter: { tags: { eq: "react" } } }
+      filter: { frontmatter: { tags: { eq: "react" }, released: { eq: true }  }}
     ) {
       edges {
         node {
@@ -398,7 +400,7 @@ export const pageQuery = graphql`
     vue: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 5
-      filter: { frontmatter: { tags: { eq: "vue" } } }
+      filter: { frontmatter: { tags: { eq: "vue" }, released: { eq: true } } }
     ) {
       edges {
         node {

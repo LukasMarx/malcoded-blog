@@ -96,12 +96,15 @@ module.exports = {
           {
             serialize: ({ query: { site, allMdx } }) => {
               return allMdx.edges.map(edge => {
-                return Object.assign({}, edge.node.frontmatter, {
+                return Object.assign({}, {
+                  title: edge.node.frontmatter.title,
                   description: edge.node.excerpt,
                   data: edge.node.frontmatter.date,
                   url: site.siteMetadata.siteUrl + edge.node.fields.slug,
                   guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.body }],
+                  author: edge.node.frontmatter.author,
+                  date: edge.node.frontmatter.date,
+
                 })
               })
             },
@@ -114,19 +117,30 @@ module.exports = {
              **/
             query: `
             {
-              allMdx(
-                limit: 1000,
-                sort: { order: DESC, fields: [frontmatter___date] },
-              ) {
+              allMdx(sort: { fields: [frontmatter___date], order: DESC }, filter: { frontmatter: { released: { eq: true }  } }) {
                 edges {
                   node {
-                    
-                    body
-                    
-                    fields { slug }
+                    excerpt
+                    fields {
+                      slug
+                    }
+                    html
                     frontmatter {
-                      title
                       date
+                      title
+                      tags
+                      author
+                      image {
+                        childImageSharp {
+                          fixed(width: 1200) {
+                            base64
+                            width
+                            height
+                            src
+                            srcSet
+                          }
+                        }
+                      }
                     }
                   }
                 }
