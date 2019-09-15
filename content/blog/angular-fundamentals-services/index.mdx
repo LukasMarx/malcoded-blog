@@ -1,9 +1,9 @@
 ---
 id: '5bb0cae79583501f6425270d'
-title: 'Angular Services: How to reuse you business logic throughout you Application'
+title: 'Angular Services Tutorial'
 image: './img/Angular-Service.png'
 date: 2017-07-22T22:00:00.000Z
-lastUpdated: 2017-07-22T22:00:00.000Z
+lastUpdated: 2019-09-15T00:00:00.000Z
 author: 'Lukas Marx'
 released: true
 colorLight: '#DD0031'
@@ -19,19 +19,17 @@ recommended:
 tags: ['angular']
 ---
 
-Did you ever want to reuse your business logic in other parts of your app?
+In this tutorial, you will learn what angular services are and how they are used. 
 
-Or did you want to have one central instance in your app, managing a certain task?
+We will take a look at the benfits of services by using simple examples.
 
-Then services are made for you. If you answered that questions with no... well, maybe you should continue reading anyways!
+That way you will learn about dependency injection, how to provide a serive and what singleton services are.
 
-Services are a fundamental concept in Angular. They are great for centralizing and reusing business logic.
-
-In this article, we will take a closer look at how they are set up. We will do so with some real-world examples.
+Let's get started!
 
 ![angular-question](./img/angular-question.png)
 
-## What are Services?
+## What are services?
 
 Services solve one big problem: They prevent us from copying logic over and over. Instead, they centralize business logic.
 
@@ -55,7 +53,7 @@ By wrapping our Http calls in a service, we know exactly where the change has to
 
 ![angular-compiler-banner](./img/angular-compiler-banner.png)
 
-## Caching Example
+## Caching example
 
 My favorite example for a service is a cached HTTP service. So let's build one together!
 
@@ -175,7 +173,9 @@ export class AppComponent implements OnInit {
 
 ### Output
 
-```undefined title=undefined
+As you can see, only the first request is actually hitting the web. Exactly what we wanted to achieve:
+
+```
  Cached Http: Read from server
 Received Response: result
 
@@ -187,9 +187,37 @@ Received Response: result
 
 ```
 
-As you can see, only the first request is actually hitting the web. Exactly what we wanted to achieve.
+## Singleton services
+If a service is a singleton, there is only one instance of that service for the whole app.
+
+With singleton services there is an alternative wayof providing the service. Instead of using the providers-array of the @NgModule, we can tell the @Injectable where the service should be provided.
+
+This is done by passing the provideIn option to the @Injectable decorator:
+
+```typescript
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CachedHttpService {
+}
+```
+
+In this case, the service is provided in "root". That means it is provided applicaition-wide. It can also be provided in a specific module.
+
+<Box>
+The provideIn feature is available in Angular 6.0.0 or higher.
+</Box>
+
+Using provideIn over the regular aproach allows angular to tree-shake the service, resulting in a potentially smaller bundle size.
 
 ## Conclusion
 
-I hope you found this article informative. If you did, please share it!
-To get informed about new content, go ahead and follow me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).
+In this tutorial, we learned what angular services are and how to use them.
+
+I hope you enjoyed this read.
+
+If you did please share this post!
+
+Thanks for reading!
