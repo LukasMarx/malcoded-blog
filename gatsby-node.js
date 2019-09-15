@@ -115,6 +115,7 @@ exports.onPostBuild = async ({ graphql }) => {
     }
   });
 
+  
   fs.writeFileSync(outputPath, JSON.stringify(json));
 }
 
