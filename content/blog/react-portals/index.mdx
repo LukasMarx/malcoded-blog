@@ -1,0 +1,209 @@
+---
+id: '5d85e6c5bf410576cb83e818'
+title: 'React Portals: Creating a Dialog'
+image: './img/react-portals.png'
+date: 2019-09-22T00:00:00.000Z
+lastUpdated: 2019-09-22T00:00:00.000Z
+author: 'Lukas Marx'
+released: true
+colorLight: '#A174F2'
+colorMain: '#A174F2'
+colorDark: '#210D44'
+colorContrast: '#ffffff'
+recommended:
+  [
+    '5d664a5fe9d4fcf68b05a48a',
+    '5bb0cae79583501f64252703',
+    '5cf66f8dadd57772fff0d608',
+  ]
+tags: ['react']
+---
+
+In this tutorial, you are going to learn what react portals are and how to use them to spawn components anywhere on the DOM.
+
+We will take a look at the example of a simple dialog component to grasp the concepts of portals and why they are useful.
+
+You can take a look at what we will build in the demo below:
+
+<Demo gitHub="LukasMarx/react-portal-dialog" />
+
+Ready?
+
+Let's get started!
+
+![what are react portals](./img/what-are-react-portals-banner.png)
+
+## What are react portals?
+
+React portals allow us to place a component outside of the DOM-scope of its parent element. That way it is possible for a component to always have the
+same DOM-parent independent of its actual parent in the react tree.
+
+Portals are created by using the react-dom createPortal method:
+
+```javascript
+render() {
+  return ReactDOM.createPortal(<Component />, document.body);
+}
+```
+
+The first argument is the component that should be placed elsewhere. The second argument is the new parent DOM-node of the component.
+
+You can import ReactDom from react-dom like so (I had to google that 😊):
+
+```javascript
+import ReactDOM from 'react-dom'
+```
+
+![why to use react portals](./img/why-to-use-react-portals-banner.png)
+
+## Why to use portals?
+
+Portals come in handy if you need to avoid restrictions imposed by the CSS styles of the parent element. For example, if the parent has the wrong **z-index**
+or prevents **overflows**.
+
+If we wanted to place a dialog- or a tooltip-component inside of a button-component, but the button has its overflow-attribute set to 'hidden',
+we would not be able to see the dialog/tooltip.
+
+With react portals we can still place our dialog anywhere in the react component tree and still attach it to the document body, avoiding all restrictions.
+
+![react portals event bubbling](./img/react-portals-event-bubbling-banner.png)
+
+## Event bubbling
+
+Since the teleported component is no longer a child of its parent-components DOM-node, the parent would typically not receive bubbled-up events from that component.
+
+Luckily, this is not an issue, because the teleported component is still a child of its parent in the react component tree. Therefore the react events are
+still bubbling properly.
+
+![react portals dialog](./img/react-portals-dialog-banner.png)
+
+## Example: A modal dialog
+
+Creating such a dialog component with portals is quite straight forward. The only difference from a regular component is the usage of the ReactDOM.createPortal
+method.
+
+```javascript title=Dialog.js
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import './Dialog.css'
+
+export default class Dialog extends Component {
+  renderDialog() {
+    if (this.props.open) {
+      return (
+        <div className="background">
+          <div className="dialog">{this.props.children}</div>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    return ReactDOM.createPortal(this.renderDialog(), document.body)
+  }
+}
+```
+
+In this case, we are using the renderDialog method to return the actual component of the class. This component is attached to the document-body using the
+ReactDOM.createPortal method.
+
+The background is responsible for blurring out everything but the dialog. This is done by using a semi-transparent background color:
+
+```css title=Dialog.css
+.background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+```
+
+The dialog itself has a white background and a nice drop-shadow:
+
+```css title=Dialog.css
+.dialog {
+  background-color: white;
+  position: relative;
+  height: 50%;
+  width: 50%;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+```
+
+The Dialog is then used in the App component like this:
+
+```javascript title=App.js
+import React, { Component } from 'react'
+import './App.css'
+import Dialog from './Dialog'
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { isDialogOpen: false }
+  }
+
+  render() {
+    return (
+      <div className="app">
+        <div className="limitingDiv">
+          <Dialog open={this.state.isDialogOpen}>
+            <h1>Dialog</h1>
+            <p>Lorem ipsum ...</p>
+            <p>Duis autem ...</p>
+            <div style={{ flex: 1 }} />
+            <div
+              className="button"
+              onClick={() => this.setState({ isDialogOpen: false })}
+            >
+              OK
+            </div>
+          </Dialog>
+        </div>
+        <div
+          className="button"
+          style={{ width: '50%' }}
+          onClick={() =>
+            this.setState({ isDialogOpen: !this.state.isDialogOpen })
+          }
+        >
+          Open Dialog
+        </div>
+      </div>
+    )
+  }
+}
+
+export default App
+```
+
+To test the effect of the portal I've added a limitingDiv that has a set height and the overflow set to hidden. Without the portal, the dialog would not be visible.
+
+```css
+.limitingDiv {
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+}
+```
+
+## Conclusion
+
+In this tutorial, we learned how to use portals to change the location of a component on the DOM.
+
+I hope you enjoyed this post.
+
+If you did please share this post!
+
+Thanks for reading!
