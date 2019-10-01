@@ -18,7 +18,7 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
         <div className={styles.root}>
           <div className={styles.content}>
             <h1>Privacy Policy</h1>
-            <p>Last updated: 24.05.2019</p>
+            <p>Last updated: 01.10.2019</p>
             <p>
               This page informs you of our policies regarding the collection,
               use and disclosure of Personal Information we receive from users
@@ -36,11 +36,12 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
             <h2>Hosting</h2>
             <p>
               To serve this Site to you, we use a hosting company called{' '}
-              <a href="https://www.digitalocean.com/security/gdpr/">
-                DigitalOcean
+              <a href="https://www.hetzner.com/rechtliches/datenschutz">
+                HETZNER
               </a>{' '}
-              (Data Processor). They are participant in and comply with the
-              EU-U.S. Privacy Shield Framework. They also comply with the GDPR.
+              (Data Processor). They are a German company and their servers are
+              located in Germany, as well. We have signed a Data-Processing
+              agreement with them. They also comply with the GDPR.
             </p>
             <h3>Content Delivery Network</h3>
             <p>
@@ -117,15 +118,31 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
               the cookie and related to your use of the website (including your
               IP address) and from processing this data by Google by downloading
               and installing the browser plug-in available under the following
-              link: <a href="http://tools.google.com/dlpage/gaoptout?hl=en">http://tools.google.com/dlpage/gaoptout?hl=en</a>. As an
-              alternative to browser add-ons, especially for browsers on mobile
-              devices, you can also prevent Google Analytics from collecting
-              this data by <a href="javascript:gaOptout();"> clicking on this link (Deactive Google Tracking)</a>. An opt-out cookie is set to
-              prevent your data from being collected in the future when you
-              visit this website. The opt-out cookie applies only to this
-              browser and only to our website and is placed on your device. If
-              you delete the cookies in this browser, you must set the opt-out
-              cookie again. Translated with www.DeepL.com/Translator
+              link:{' '}
+              <a href="http://tools.google.com/dlpage/gaoptout?hl=en">
+                http://tools.google.com/dlpage/gaoptout?hl=en
+              </a>
+              . As an alternative to browser add-ons, especially for browsers on
+              mobile devices, you can also prevent Google Analytics from
+              collecting this data by{' '}
+              <a href="javascript:gaOptout();">
+                {' '}
+                clicking on this link (Deactive Google Tracking)
+              </a>
+              . An opt-out cookie is set to prevent your data from being
+              collected in the future when you visit this website. The opt-out
+              cookie applies only to this browser and only to our website and is
+              placed on your device. If you delete the cookies in this browser,
+              you must set the opt-out cookie again. Translated with
+              www.DeepL.com/Translator
+            </p>
+            <h3>Advertising</h3>
+            <p>
+              This website shows advertisments to cover the running cost of the
+              site. These are so called ethical advertisments provided by
+              codefund.io. That means they don't do any tracking and place no
+              cookies on your device. Covering the cost of the site is our
+              legitimate interest as of Art.6 Section 1 f EU-GDPR.
             </p>
             <h3>Cloudflare(CDN)</h3>
             <p>

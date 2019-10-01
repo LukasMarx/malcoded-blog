@@ -189,6 +189,11 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
                 </div>
               </Paper>
             </div>
+            <div id="codefund"></div>
+            <script
+              src="https://codefund.io/properties/459/funder.js"
+              async={true}
+            ></script>
           </Sidebar>
         </div>
       </div>
@@ -215,7 +220,10 @@ export const pageQuery = graphql`
         author
       }
     }
-    mdx(fields: { slug: { eq: $slug } }, frontmatter:{released: {eq: true}} ) {
+    mdx(
+      fields: { slug: { eq: $slug } }
+      frontmatter: { released: { eq: true } }
+    ) {
       id
       excerpt(pruneLength: 160)
       tableOfContents
