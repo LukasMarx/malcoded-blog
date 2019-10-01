@@ -25,6 +25,7 @@ import PostCard from '../components/blocks/post-card/PostCard'
 import { Typography } from '@material-ui/core'
 import NewsletterIcon from '../components/elements/icons/NewsletterIcon'
 import Paper from '../components/elements/paper/Paper'
+import Helmet from 'react-helmet'
 
 export interface BlogPostTemplateProps {
   data: any
@@ -189,11 +190,17 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
                 </div>
               </Paper>
             </div>
-            <div id="codefund"></div>
-            <script
-              src="https://codefund.io/properties/459/funder.js"
-              async={true}
-            ></script>
+            <div style={{ width: 500 }}>
+              <Paper>
+                <div id="codefund" className={styles.ad}></div>
+                <Helmet>
+                  <script
+                    src="https://codefund.io/properties/459/funder.js"
+                    async={true}
+                  ></script>
+                </Helmet>
+              </Paper>
+            </div>
           </Sidebar>
         </div>
       </div>

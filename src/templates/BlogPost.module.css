@@ -27,7 +27,7 @@
   grid-area: content;
 }
 
-.content img{
+.content img {
   box-shadow: none !important;
 }
 
@@ -92,4 +92,19 @@ a {
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.ad {
+  display: flex;
+  width: 100%;
+  margin-bottom: 32px;
+  margin-top: 32px;
+  min-height: 125px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.ad a {
+  color: inherit;
+  font: inherit;
 }

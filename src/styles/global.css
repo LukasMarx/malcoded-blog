@@ -384,3 +384,23 @@ pre[class*='language-'] {
   outline: 0.4em solid #c94922;
   outline-offset: 0.4em;
 }
+
+/* Ads */
+
+.cf-wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: center;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.cf-text {
+  min-width: 0;
+  word-break: break-all;
+}
+
+.cf-powered-by {
+  grid-column: 2;
+  color: #465f6d !important;
+}
