@@ -25,7 +25,7 @@ import PostCard from '../components/blocks/post-card/PostCard'
 import { Typography } from '@material-ui/core'
 import NewsletterIcon from '../components/elements/icons/NewsletterIcon'
 import Paper from '../components/elements/paper/Paper'
-import Helmet from 'react-helmet'
+import { Helmet } from 'react-helmet'
 
 export interface BlogPostTemplateProps {
   data: any
@@ -57,6 +57,16 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
 
   const [open, setOpen] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
+  const [adHtml, setAdHtml] = useState(undefined)
+
+  useEffect(() => {
+    var oReq = new XMLHttpRequest()
+    oReq.onload = function(e) {
+      setAdHtml({ __html: oReq.response })
+    }
+    oReq.open('GET', 'https://api.codefund.app/properties/459/funder.html')
+    oReq.send()
+  }, [])
 
   useEffect(() => {
     props.setPrimaryColor({
@@ -192,13 +202,13 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
             </div>
             <div style={{ width: 500 }}>
               <Paper>
-                <div id="codefund" className={styles.ad}></div>
-                <Helmet>
-                  <script
-                    src="https://codefund.io/properties/459/funder.js"
-                    async={true}
-                  ></script>
-                </Helmet>
+                {adHtml && (
+                  <div
+                    id="codefund"
+                    className={styles.ad}
+                    dangerouslySetInnerHTML={adHtml}
+                  ></div>
+                )}
               </Paper>
             </div>
           </Sidebar>
