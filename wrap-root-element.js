@@ -3,6 +3,7 @@ import { MDXProvider } from '@mdx-js/react'
 import Code from './src/components/blocks/code/Code'
 import Demo from './src/components/blocks/demo/Demo'
 import Box from './src/components/elements/box/Box'
+import AffiliateAd from './src/components/elements/affiliate-ad/affiliateAd'
 import { OutboundLink } from 'gatsby-plugin-google-gtag'
 
 import { Provider } from 'react-redux'
@@ -24,7 +25,8 @@ const components = {
     return <OutboundLink {...aProps} />
   },
   Demo,
-  Box
+  Box,
+  AffiliateAd,
 }
 export const wrapRootElement = ({ element }) => {
   const store = createStore()

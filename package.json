@@ -39,6 +39,7 @@
     "redux-devtools-extension": "^2.13.8",
     "reselect": "^4.0.0",
     "snarkdown": "^1.2.2",
+    "socket.io-client": "^2.3.0",
     "typesafe-actions": "^3.2.1"
   },
   "devDependencies": {
