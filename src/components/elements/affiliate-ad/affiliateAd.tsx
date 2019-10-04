@@ -12,7 +12,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     'digital-ocean': {
       src: '/affiliate/cloudways/digital-ocean.jpg',
       href:
-        'https://www.cloudways.com/en/digital-ocean-cloud-hosting.php?id=491611&amp;a_bid=812f6d03',
+        'https://www.cloudways.com/en/digital-ocean-cloud-hosting.php/?id=491611',
       width: 728,
       height: 90,
     },
