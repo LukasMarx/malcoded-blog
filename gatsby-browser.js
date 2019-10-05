@@ -3,17 +3,6 @@ import { wrapRootElement as wrap } from './wrap-root-element'
 
 export const wrapRootElement = wrap
 let socket
-let userLocation
-
-export const onClientEntry = () => {
-  var myRequest = new XMLHttpRequest()
-
-  myRequest.onload = function(e) {
-    userLocation = JSON.parse(myRequest.response).location
-  }
-  myRequest.open('GET', 'https://malcoded.com/v1/api/geoip/isEu', true)
-  myRequest.send()
-}
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
   if (!socket) {
@@ -28,7 +17,6 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
             data: {
               type: 'pageview',
               pageLocation: location.pathname,
-              userLocation: userLocation,
             },
           })
         )
