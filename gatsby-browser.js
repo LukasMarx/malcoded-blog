@@ -33,9 +33,17 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
           },
         })
       )
-      socket.onmessage = function(data) {
-        console.log(data)
-      }
     }
+  } else {
+    socket.send(
+      JSON.stringify({
+        event: 'event',
+        data: {
+          type: 'pageview',
+          pageLocation: location.pathname,
+          userLocation: userLocation,
+        },
+      })
+    )
   }
 }
