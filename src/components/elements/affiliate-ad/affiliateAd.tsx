@@ -11,8 +11,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   private variations = {
     'digital-ocean': {
       src: '/affiliate/cloudways/digital-ocean.jpg',
-      href:
-        'https://www.cloudways.com/en/digital-ocean-cloud-hosting.php/?id=491611',
+      href: 'https://www.cloudways.com/en/?id=491611',
       width: 728,
       height: 90,
     },
@@ -23,6 +22,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   render() {
+    console.log(this.props)
     var variation = this.variations[this.props.variation]
     if (variation) {
       return (

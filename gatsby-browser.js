@@ -19,7 +19,7 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   if (!socket) {
     console.log('creating socket')
 
-    socket = socket = new WebSocket('ws://malcoded.com/v1/api/ws')
+    socket = socket = new WebSocket('wss://malcoded.com/v1/api/ws')
 
     socket.onopen = function() {
       console.log('Connected')
