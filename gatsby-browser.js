@@ -1,5 +1,4 @@
 import './src/styles/global.css'
-import io from 'socket.io-client'
 import { wrapRootElement as wrap } from './wrap-root-element'
 
 export const wrapRootElement = wrap
@@ -19,21 +18,24 @@ export const onClientEntry = () => {
 export const onRouteUpdate = ({ location, prevLocation }) => {
   if (!socket) {
     console.log('creating socket')
-    socket = io('https://malcoded.com', {
-      path: '/v1/api/ws',
-      // transports: ['websocket'],
-    })
-    socket.on('connect', () => {
-      console.log('Success')
-    })
-    socket.on('error', err => {
-      console.error(err)
-    })
-    socket.open()
+
+    socket = socket = new WebSocket('ws://localhost:3001')
+
+    socket.onopen = function() {
+      console.log('Connected')
+      socket.send(
+        JSON.stringify({
+          event: 'event',
+          data: {
+            type: 'pageview',
+            pageLocation: location.pathname,
+            userLocation: userLocation,
+          },
+        })
+      )
+      socket.onmessage = function(data) {
+        console.log(data)
+      }
+    }
   }
-  socket.emit('event', {
-    type: 'pageview',
-    pageLocation: location.pathname,
-    userLocation: userLocation,
-  })
 }
