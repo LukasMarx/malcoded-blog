@@ -33,7 +33,7 @@ Here is what the result will look like:
 
 Also, we will start by building a server we can upload files to using nodejs and express. We will walk through the full full-stack process to make sure you end up with a working system.
 
-<AffiliateAd variation="digital-ocean" />
+<AffiliateAd tag="react" />
 
 Ready?
 
@@ -197,6 +197,9 @@ const IncomingForm = require('formidable').IncomingForm
 ```
 
 After that, we need to export the callback function, we are using in our server.js to register the route. This function will be called, every time somebody hits the '/upload' URL.
+
+<AffiliateAd tag="react" />
+
 This callback gives us a request-object (req), that stores information about the request that hit the route.
 
 We also get a response-object (res). We can use this object, to send back a response.
@@ -485,6 +488,8 @@ With the disabled property, we can control whether the dropzone is accepting inp
 To keep track of the upload components' state, we want to introduce some state variables.
 
 First of all, we need an array containing all files to be uploaded.
+
+<AffiliateAd tag="react" />
 
 Other than that, we need to keep track if the component is currently busy uploading files or if the upload succeeded.
 
@@ -824,6 +829,8 @@ First of all, we clear any uploadProgress that may be left from a previous uploa
 
 Next, we create an array to hold a promise for each file upload. This array is filled by calling the "sendRequest" method (which we will implement next) for each file, triggering the upload of the file.
 
+<AffiliateAd tag="react" />
+
 Then, we wait until every upload is completed by awaiting .all promises.
 
 Finally, we set the successfullUploaded-flag to true and the uploading-flag to false.
@@ -912,6 +919,8 @@ We also created a react file-upload component and styled it to look good.
 You can find the full source code at the corresponding [GitHub repository](https://github.com/LukasMarx/react-file-upload).
 
 I hope you enjoyed this post.
+
+<AffiliateAd tag="react" />
 
 If you did please hit the share buttons below and help other people building their own file-upload-components, as well.
 

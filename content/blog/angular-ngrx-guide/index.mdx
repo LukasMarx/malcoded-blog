@@ -31,6 +31,8 @@ In this tutorial, you will not only learn the details of the Redux architecture 
 
 We will take a close look at reducers, actions and especially state. Doing so, we will create a functional angular application, to show you how to implement ngrx store & Redux step-by-step.
 
+<AffiliateAd tag="angular" />
+
 Let's get started!
 
 ![state](./img/angular-redux-ngrx-state.png)
@@ -127,6 +129,8 @@ We will take a look at pure functions when we talk about reducers.
 Before we dive into the dirty details of Redux and it's implementation in angular, I want to give a word of warning here.
 
 Redux is great at bringing a maintainable structure to angular projects. But it also brings a LOT of boilerplate code. And I really mean A LOT.
+
+<AffiliateAd tag="angular" />
 
 As you will notice, as we progress, each different sub-state requires the creation of some files each containing some functions. Even with just one or two variables, the amount of additional work is immense.
 
@@ -297,6 +301,8 @@ export function reducer(state = [], action: currency.CurrenciesUpdatedAction) {
 ### The principle of immutable objects & pure functions
 
 At the beginning of this article I mentioned, that reducers have to be pure functions. So, what is a pure function?
+
+<AffiliateAd tag="angular" />
 
 A pure function is called pure if it produces always the same output (return) when given the same input (parameter). Deterministic functions like this are especially easy to debug and test.
 
@@ -489,13 +495,18 @@ We can also display our currency rates on the screen with this technique. Let's 
 
 This small snippets now shows the short-code of the currency next to the amount multiplied by the conversion rate.
 
-<Box>This is not supposed to work yet, as we have not downloaded any currency-conversion-rates.</Box>
+<Box>
+  This is not supposed to work yet, as we have not downloaded any
+  currency-conversion-rates.
+</Box>
 
 ![ngrx-action](./img/angular-redux-ngrx-effects.png)
 
 ## Dealing with side-effects (ngrx/effects)
 
 As you may have noticed through this tutorial, that side-effects are considered "evil" in the ngrx ecosystem. But sometimes, they can not be avoided.
+
+<AffiliateAd tag="angular" />
 
 The most common example of a side effect is a HTTP-request. We make it at some point, but we don't know when it comes back. It is an asynchronous operation. To deal with this kind of side-effects, the ngrx team has created a module called ngrx/effects.
 
@@ -653,6 +664,8 @@ I guess you see now, what I meant when I said "a LOT of code". What normally tak
 But I hope you also see, that this clearly defined structure can be very useful when it comes to large applications with thousands of components inside.
 
 Although Redux is not for everyone, I think everybody should least know what it is and what it does, so you can decide if you actually want to use it.
+
+<AffiliateAd tag="angular" />
 
 If you liked this article, click the buttons below, and share it with your friends and colleges!
 

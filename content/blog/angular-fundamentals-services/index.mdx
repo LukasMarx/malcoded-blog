@@ -19,9 +19,11 @@ recommended:
 tags: ['angular']
 ---
 
-In this tutorial, you will learn what angular services are and how they are used. 
+In this tutorial, you will learn what angular services are and how they are used.
 
 We will take a look at the benfits of services by using simple examples.
+
+<AffiliateAd tag="angular" />
 
 That way you will learn about dependency injection, how to provide a serive and what singleton services are.
 
@@ -121,7 +123,11 @@ export class CachedHttpService {
 
 Every class (or service) served via [Dependency Injection](https://malcoded.com/posts/angular-fundamentals-dependency-injection), has to be provided somewhere. We do so in our AppModule. We also need to import the HttpClientModule here, if we actually want to make any requests.
 
-<Box>I'm using the HttpClient of Angular version 4.3+. If you are on older versions, you can use the old client, as well. However, the syntax might look a little different.</Box>
+<Box>
+  I'm using the HttpClient of Angular version 4.3+. If you are on older
+  versions, you can use the old client, as well. However, the syntax might look
+  a little different.
+</Box>
 
 ```typescript title=src/app/app.module.ts
 import { BrowserModule } from '@angular/platform-browser'
@@ -188,6 +194,7 @@ Received Response: result
 ```
 
 ## Singleton services
+
 If a service is a singleton, there is only one instance of that service for the whole app.
 
 With singleton services there is an alternative wayof providing the service. Instead of using the providers-array of the @NgModule, we can tell the @Injectable where the service should be provided.
@@ -195,20 +202,17 @@ With singleton services there is an alternative wayof providing the service. Ins
 This is done by passing the provideIn option to the @Injectable decorator:
 
 ```typescript
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root',
 })
-export class CachedHttpService {
-}
+export class CachedHttpService {}
 ```
 
 In this case, the service is provided in "root". That means it is provided applicaition-wide. It can also be provided in a specific module.
 
-<Box>
-The provideIn feature is available in Angular 6.0.0 or higher.
-</Box>
+<Box>The provideIn feature is available in Angular 6.0.0 or higher.</Box>
 
 Using provideIn over the regular aproach allows angular to tree-shake the service, resulting in a potentially smaller bundle size.
 
@@ -217,6 +221,8 @@ Using provideIn over the regular aproach allows angular to tree-shake the servic
 In this tutorial, we learned what angular services are and how to use them.
 
 I hope you enjoyed this read.
+
+<AffiliateAd tag="angular" />
 
 If you did please share this post!
 

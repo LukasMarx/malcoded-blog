@@ -26,6 +26,8 @@ In fact, I think angular development is one of the smoothest development experie
 
 At least I did.
 
+<AffiliateAd tag="angular" />
+
 By reading this article, those mistakes will not slow you down on your angular journey.
 
 We will take a closer look at each of 11 mistakes. I will explain to you, why it is actually a mistake and point you in the right direction with at least one possible solution.
@@ -61,7 +63,10 @@ To resolve the problem, you need to import the missing module into your module. 
 export class AppModule {}
 ```
 
-<Box>Only import the modules you really need! Importing unnecessarily module bloats your application size significantly.</Box>
+<Box>
+  Only import the modules you really need! Importing unnecessarily module bloats
+  your application size significantly.
+</Box>
 
 This advice does not only apply to framework [angular modules](https://malcoded.com/posts/angular-fundamentals-modules). It also applies to any angular module you might want to use, including third-party ones.
 
@@ -315,6 +320,8 @@ So why are guards a problem? The truth is, they are not!
 
 But many people seem to be confused about the topic. They become a problem if people get a false sense of security because of them. Fact is, nothing you do on the client is 'secure'. Because you deliver the full source code to the potential harmful users, the application can be altered in any way. That means, that our guard can be easily circumvented by commenting some lines.
 
+<AffiliateAd tag="angular" />
+
 No, especially with AOT compilation, it is not THAT easy, but with enough criminal energy, definitely possible in a few hours.
 
 That way, data that is only protected by a route guard client side, can be accessed without too much effort. You definitively do not want that!
@@ -523,6 +530,8 @@ export class ExampleComponent implements OnDestroy {
 In this article, we went through all the mistakes that are very commonly made in the beginning. Well, at least I did most of them...
 
 I hope by sharing my mistakes, I could help you avoid them completely and provide you a better angular development experience that way.
+
+<AffiliateAd tag="angular" />
 
 If you liked this article, click the buttons below, and share it with your friends and colleges!
 

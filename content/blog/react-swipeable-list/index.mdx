@@ -27,6 +27,8 @@ We will discover, how we can build such a list using nothing but react itself.
 
 Also, you will learn, how to add smooth animations to make the list feel even more natural to use.
 
+<AffiliateAd tag="react" />
+
 Ad the end you will have a generic component, that can be used across all of your projects:
 
 ![react-swipeable-list-mockup-banner](./img/react-swipeable-list-mockup-banner.png)
@@ -227,6 +229,8 @@ dragged = false
 
 When the user is touching the list item, we keep track of where exactly he started dragging by setting the "dragStartX" variable. Also we set the "dragged" variable to true. We then update the variable "left" every time the cursor (or the finger) moves.
 
+<AffiliateAd tag="react" />
+
 Here is what that looks like in more detail:
 
 ### onDragStart
@@ -323,6 +327,8 @@ onDragEndTouch(evt) {
 ```
 
 In the shared method "onDragEnd" we need to evaluate if the user has moved the list item over a certain threshold that triggers the deletion of the item.
+
+<AffiliateAd tag="react" />
 
 If that is the case, we set the "left" variable to a very low value. This will cause the element to disappear to the left.
 
@@ -554,6 +560,8 @@ To do that, we use the "left" variable to set the opacity style attribute accord
 
 Also, we can let the list item slow shrink when it is removed from the screen. That makes for a better effect than just letting it disappear from one second to another.
 
+<AffiliateAd tag="react" />
+
 To do that, we need to use the max-height attribute. First, we apply a very high max-height attribute to the Wrapper CSS class. Also, we add a transition to the max-height attribute:
 
 ```css title=src/SwipeableList/SwipeableListItem.css
@@ -722,6 +730,8 @@ In this tutorial, we learned how to create a swipeable list component.
 You can find the full source code at the corresponding [Github Repository](https://github.com/LukasMarx/react-swipeable-list-tutorial).
 
 I hope you enjoyed this post.
+
+<AffiliateAd tag="react" />
 
 If you did please hit the share buttons below and help other people building their own swipeable list components, as well.
 

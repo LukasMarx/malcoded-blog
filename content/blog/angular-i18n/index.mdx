@@ -23,6 +23,8 @@ In this tutorial, you will learn how to use the angular i18n functionality to tr
 
 Also, we will take a look at how you can use the angular-cli to generate translation files automatically and how we can customize them.
 
+<AffiliateAd tag="angular" />
+
 Finally, we discover how we can adjust units and formats like dates to the locale of the user.
 
 Let's get started!
@@ -55,8 +57,11 @@ Actually, it is very simple. All we need to do is to add the i18n attribute to t
 
 Notice that we still provide a default value for the text to appear. This will be the text for the default version of our application. In most cases, that will be English.
 
-<Box>Also note, that the i18n attribute is just a regular HTML attribute. It is interpreted at build-time and is not part of the compiled code.
-Although it might look like one, the i18n attribute is not an angular directive!</Box>
+<Box>
+  Also note, that the i18n attribute is just a regular HTML attribute. It is
+  interpreted at build-time and is not part of the compiled code. Although it
+  might look like one, the i18n attribute is not an angular directive!
+</Box>
 
 ### Providing a description for the translator
 
@@ -234,6 +239,8 @@ Now that we have the translation file, we need to create the actual translations
 
 To create a translation for a language, we need to create a copy of the messages.xlf file and suffix it with the code for the language. If we wanted to create a German translation
 we would rename it to messages.de.xlf.
+
+<AffiliateAd tag="angular" />
 
 Now we translate that file. To do this I would highly recommend to use a XLF editor, unless XML is your native language.
 
@@ -451,6 +458,8 @@ registerLocaleData(localeFr, 'fr')
 ## Conclusion
 
 In this tutorial, we discovered how we can use the angular i18n functionality to create translated versions of our app.
+
+<AffiliateAd tag="angular" />
 
 I hope you like this article. If you did, please share it with your friends!
 

@@ -25,6 +25,8 @@ Implementing the API however can be a challenge.
 
 In this tutorial, we are going to take a look at how you can implement your own image-resizing API using node.js, express and sharp.
 
+<AffiliateAd tag="nodejs" />
+
 We are doing so by looking closely at each step, so you have no problems understanding the details.
 
 In fact, our first running server does only consist of 3 lines!
@@ -175,6 +177,8 @@ const fs = require('fs')
 To read the file of our image, we are going to create a read stream using the node.js streaming API. A stream is a very efficient way of handling large amounts of data because a stream does not load the data into memory all at once. Instead, it is passing it through in small chunks, never keeping more than one or two chunks in memory at once.
 
 That way, we do need far less system memory.
+
+<AffiliateAd tag="nodejs" />
 
 Although that is true for just passing through the data, depending on the image format, we may need to load the full image into memory all at once, to modify it. So although we are continuing to use streams in the whole tutorial, please keep in mind that the image library sharp could load the full image into memory in the background.
 
@@ -399,6 +403,8 @@ On another machine with 2GB of RAM, everything works just fine. Surprisingly, th
 In this tutorial, we learned how to set up a node.js server-application from scratch and created a very basic image-resizer using the sharp-library.
 
 I hope you enjoyed this post.
+
+<AffiliateAd tag="nodejs" />
 
 If you did please hit the share buttons below and help other people building their own image-resizer, as well.
 

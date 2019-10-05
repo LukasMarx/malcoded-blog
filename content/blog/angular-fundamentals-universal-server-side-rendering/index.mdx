@@ -25,6 +25,8 @@ Angular Universal is not easy to get right the first time.
 
 Well, it turns out, it is not that hard at all!
 
+<AffiliateAd tag="angular" />
+
 Once you understand how it actually works, setting up a working application will be easy for you. In fact, creating a fully functional angular universal application will not take you longer than 1 hour!
 
 In this tutorial, I will show you exactly what angular universal is and how it works. Once we got the basics, we will dive right into code! By turning a basic angular-cli project into a functional universal application, you will not only see how it is done step-by-step. You will also end up with a working template for server side rendering, you can use for your future angular adventures. All you need to get started is in this angular universal tutorial.
@@ -71,7 +73,10 @@ The first one is the one you see in the picture above. We render the bare HTML o
 
 The other possible method could be called the dynamic one. Using that method, we still render our HTML at the server. But this time, we also include script tags, that instruct the browser, to download the angular code, once the page is fully loaded. That way, the page can be delivered much faster, than serving the framework right from the beginning. At the same time, we still can use all the JavaScript features, that we might rely on.
 
-<Box>Because the initial version of our application still does not contain JavaScript, we still have to be careful where to use it.</Box>
+<Box>
+  Because the initial version of our application still does not contain
+  JavaScript, we still have to be careful where to use it.
+</Box>
 
 ![dynamic-server-side-rendering-angular](./img/dynamic-server-side-rendering-angular.png)
 
@@ -468,7 +473,12 @@ That may sound a little bit complex, but don’t worry. The hard work has alread
 
 All we need to do is to install that package and add a few lines of code to our application.
 
-<Box>I assume, that you already have an angular application that is using lazy-loading. If you don’t know how you can utilize lazy-loading, you should check out this [great article from rangle.io about lazy-loading modules](https://angular-2-training-book.rangle.io/handout/modules/lazy-loading-module.html).</Box>
+<Box>
+  I assume, that you already have an angular application that is using
+  lazy-loading. If you don’t know how you can utilize lazy-loading, you should
+  check out this [great article from rangle.io about lazy-loading
+  modules](https://angular-2-training-book.rangle.io/handout/modules/lazy-loading-module.html).
+</Box>
 
 So let’s get started!
 
@@ -539,7 +549,10 @@ const {
 } = require(`./dist-server/main.bundle`)
 ```
 
-<Box>I’ve used the --output-hashing none flag of the angular-cli, when creating this bundle, to remove the hash from the filename.</Box>
+<Box>
+  I’ve used the --output-hashing none flag of the angular-cli, when creating
+  this bundle, to remove the hash from the filename.
+</Box>
 
 Next, we call the provideModuleMap() method and pass it the module map.
 
@@ -811,5 +824,7 @@ export class PostComponent implements OnInit {
 In this article, we have learned, how to set up a Angular Universal project. what server side-rendering is and why it should be used to increase user experience. We also stepped through the creation of an application from the beginning
 
 I hope you liked this article. If you did, click that button below, and share it with your friends and colleges!
+
+<AffiliateAd tag="angular" />
 
 Never miss a post, by following me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).

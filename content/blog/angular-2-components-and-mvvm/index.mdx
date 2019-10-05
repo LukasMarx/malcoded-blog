@@ -23,6 +23,8 @@ I've read about that at various places now: "Angular is MVVM" or "Angular is MVC
 
 Actually the question can not be answered with a plain yes or no. First of all, angular 2+ is not [MVC](https://de.wikipedia.org/wiki/Model_View_Controller)! Honestly, I don't know, how people come up with that stuff, sometimes.
 
+<AffiliateAd tag="angular" />
+
 Instead, it follows a component oriented architecture. So it is MVVM neither. However, angular implements a lot of the concepts of [MVVM](https://de.wikipedia.org/wiki/Model_View_ViewModel). So if you need to, you can say that angular follows the MVVM principle. To see the similarities, we are going to take a closer look at the principle in the context of angular components.
 
 ## "Very nice... but what is MVVM?"
@@ -43,7 +45,10 @@ A Model is a container defining the structure of an entity, following the object
 
 In angular, we typically use Typescript classes or interfaces to define the model. However, models are just plain-old Javascript objects.
 
-<Box>Note that Models should not contain any logic. All your logic should be defined in the ViewModel.</Box>
+<Box>
+  Note that Models should not contain any logic. All your logic should be
+  defined in the ViewModel.
+</Box>
 
 ### View
 
@@ -97,4 +102,7 @@ our component is added to the view. In Angular, components can't be there by the
 ```
 
 Everything defined in the components' html file will be placed inside of the selector-tag of the component and therefore shown on the screen.
+
+<AffiliateAd tag="angular" />
+
 To learn more about components, check out my [in-depth guide about components in angular](https://malcoded.com/posts/angular-fundamentals-components).

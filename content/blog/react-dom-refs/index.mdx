@@ -18,11 +18,14 @@ recommended:
   ]
 tags: ['react']
 ---
+
 In this tutorial, you will learn how to get access to the actual DOM in React using so-called refs.
 
-To do that, we will take a look at what refs are and when and how to use them. 
+To do that, we will take a look at what refs are and when and how to use them.
 
 You will also learn about callback refs and what they are used for.
+
+<AffiliateAd tag="react" />
 
 During this tutorial, we will take a look at different examples including refs in functions components and refs in hooks.
 
@@ -31,6 +34,7 @@ Let's get started!
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## What is a ref in React?
+
 When working with React, we are typically manipulating the DOM (Document Object Model) indirectly using the JSX syntax. A ref in React provides a way to directly access a particular
 DOM element.
 
@@ -42,6 +46,7 @@ Refs also allow to getting reference to a child-component that is introduced usi
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## When not to use refs
+
 The main reason to use a frontend framework like React is to not have to deal with the DOM. Instead, we want React to handle all the DOM manipulation for us.
 
 Using refs excessively is defeating that purpose. Manipulating the DOM directly should be considered a last resort.
@@ -52,139 +57,153 @@ component and passing that state down as a prop.
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## How to create refs using createRef()
+
 Refs are created using the React.createRef() method. They are then attached to the corresponding JSX element and often saved to a property for later use.
 
 ```jsx
-import React from 'react';
+import React from 'react'
 
 class Example extends React.Component {
-  
-  constructor(props){
-    super(props);
+  constructor(props) {
+    super(props)
     this.domRef = React.createRef()
   }
 
-  render(){
-    return (<div ref={this.domRef}>Example Div</div>);
+  render() {
+    return <div ref={this.domRef}>Example Div</div>
   }
 }
 
-export default Example;
+export default Example
 ```
 
 The div can then be manipulated using the regular DOM-API using the reference. In this example, we change the color when the div is clicked by the user:
 
 ```jsx
-import React from 'react';
+import React from 'react'
 
 class Example extends React.Component {
-  
-  constructor(props){
-    super(props);
-    this.domRef = React.createRef();
-    this.onDivClicked = this.onDivClicked.bind(this);
+  constructor(props) {
+    super(props)
+    this.domRef = React.createRef()
+    this.onDivClicked = this.onDivClicked.bind(this)
   }
 
-  onDivClicked(){
-    const div = this.domRef.current;
-    div.style.color = 'red';
+  onDivClicked() {
+    const div = this.domRef.current
+    div.style.color = 'red'
   }
 
-  render(){
-    return (<div ref={this.domRef} onClick={this.onDivClicked}>Example Div</div>);
+  render() {
+    return (
+      <div ref={this.domRef} onClick={this.onDivClicked}>
+        Example Div
+      </div>
+    )
   }
 }
 
-export default Example;
+export default Example
 ```
 
 ### Using refs with components
+
 When using ref to reference a component, we get access to the component instance itself instead of a DOM element. That means that we can call methods of that component.
 
 In this example, the ExampleDilog component has a method called "open" that takes a message-string. We can call that method using the reference to the component:
 
 ```jsx
-import React from 'react';
+import React from 'react'
 import ExampleDialog from './ExampleDialog'
 
 class Example extends React.Component {
-  
-  constructor(props){
-    super(props);
-    this.domRef = React.createRef();
-    this.componentRef = React.createRef();
-    this.onDivClicked = this.onDivClicked.bind(this);
-
+  constructor(props) {
+    super(props)
+    this.domRef = React.createRef()
+    this.componentRef = React.createRef()
+    this.onDivClicked = this.onDivClicked.bind(this)
   }
 
-  onDivClicked(){
+  onDivClicked() {
     this.componentRef.current.open('hello!')
   }
 
-  render(){
-    return (<ExampleDialog ref={this.componentRef} />);
+  render() {
+    return <ExampleDialog ref={this.componentRef} />
   }
 }
 
-export default Example;
+export default Example
 ```
 
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## More control with callback refs
+
 Instead of creating a reference with React.createRef(), it is also possible to pass a callback function to the ref attribute. This function is called
 when the DOM element is created and receives the HTML DOM element. This element can then be stored and used later.
 
-<Box>The element provided to the callback function is not a reference but the DOM element itself. That means that there is no "current" property.</Box>
+<Box>
+  The element provided to the callback function is not a reference but the DOM
+  element itself. That means that there is no "current" property.
+</Box>
 
 ```jsx
-import React from 'react';
+import React from 'react'
 
 class Example extends React.Component {
-  
-  constructor(props){
-    super(props);
-    this.onDivClicked = this.onDivClicked.bind(this);
-    this.setDivRef = this.setDivRef.bind(this);
+  constructor(props) {
+    super(props)
+    this.onDivClicked = this.onDivClicked.bind(this)
+    this.setDivRef = this.setDivRef.bind(this)
   }
 
-  onDivClicked(){
-    this.divElement.style.color = 'red';
+  onDivClicked() {
+    this.divElement.style.color = 'red'
   }
 
-  setDivRef(element){
-    this.divElement = element;
+  setDivRef(element) {
+    this.divElement = element
     console.log('div element set!')
   }
 
-  render(){
-    return (<div ref={this.setDivRef} onClick={this.onDivClicked}>Example Div</div>);
+  render() {
+    return (
+      <div ref={this.setDivRef} onClick={this.onDivClicked}>
+        Example Div
+      </div>
+    )
   }
 }
 
-export default Example;
+export default Example
 ```
 
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## Using refs inside functional components
+
 Refs can be used in functional components, as well. It works quite similar to a regular component. The only difference is, that we don't have instance properties,
 so we use regular variables to store the reference.
 
 ```jsx
-import React from 'react';
+import React from 'react'
 
-function Example(props){
-  const domRef = React.createRef();
+function Example(props) {
+  const domRef = React.createRef()
 
   const onDivClicked = () => {
-    domRef.current.style.color = 'red';
+    domRef.current.style.color = 'red'
   }
 
-  return (<div ref={domRef} onClick={onDivClicked}>Example Div</div>);
+  return (
+    <div ref={domRef} onClick={onDivClicked}>
+      Example Div
+    </div>
+  )
 }
 
-export default Example;
+export default Example
 ```
 
 Functional components themselfs can't be referenced using ref since they don't have an actual instance.
@@ -192,27 +211,33 @@ Functional components themselfs can't be referenced using ref since they don't h
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## How to use refs with hooks
+
 Using the new hooks API the code is almost the same as the code of the functional component. The only difference is the usage of the useRef hook to create the reference.
 
 ```jsx
-import React, {useRef} from 'react';
+import React, { useRef } from 'react'
 
-function Example(props){
-  const domRef = useRef(null);
+function Example(props) {
+  const domRef = useRef(null)
 
   const onDivClicked = () => {
-    domRef.current.style.color = 'red';
+    domRef.current.style.color = 'red'
   }
 
-  return (<div ref={domRef} onClick={onDivClicked}>Example Div</div>);
+  return (
+    <div ref={domRef} onClick={onDivClicked}>
+      Example Div
+    </div>
+  )
 }
 
-export default Example;
+export default Example
 ```
 
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## Typing refs with TypeScript
+
 In case you want to use TypeScript the type you will need is React.RefObject\<\> which is generic. The generic part specifies the type of the referenced element.
 This is typically some sub-type of HTMLElement or the type of a component.
 
@@ -224,7 +249,7 @@ interface ExampleProps {}
 class Example extends React.Component {
 
   private domRef: React.RefObject<HTMLDivElement>;
-  
+
   constructor(props: ExampleProps){
     super(props);
     this.domRef = React.createRef()
@@ -241,9 +266,12 @@ export default Example;
 ![react-refs](./img/react-dom-refs-banner.png)
 
 ## Conclusion
+
 In this tutorial, we learned how to use refs to manipulate DOM elements and components directly.
 
 I hope you enjoyed this post.
+
+<AffiliateAd tag="react" />
 
 If you did please share this post!
 

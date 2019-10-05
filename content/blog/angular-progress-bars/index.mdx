@@ -23,11 +23,13 @@ In this tutorial, you will learn how to create loading indicators with angular.
 
 First, we will take at look at how to create a simple horizontal progress bar using just a DIV-element and some CSS.
 
+<AffiliateAd tag="angular" />
+
 Afterward, we will dive into more advanced techniques using SVGs. We will use them to re-create our horizontal progress bar and then move on an create a circular loading spinner.
 
 Doing so, you will get a feeling how SVGs can be controled by angular using regular data-bindings.
 
-<Demo gitHub="LukasMarx/angular-progress-bars"/>
+<Demo gitHub="LukasMarx/angular-progress-bars" />
 
 Ready?
 
@@ -183,13 +185,17 @@ When creating a SVG, the first thing we need to do, is to create the svg-tag. It
 
 Next, we define the view box. The view box spans up a local coordinate system we use when we want to set positions or dimensions of elements inside of the SVG.
 
+<AffiliateAd tag="angular" />
+
 We also use this attribute to define the aspect ration of our drawings.
 
 ```html title=src/app/svgbar/svgbar.component.html
 <svg viewBox="0, 0, 100, 10"></svg>
 ```
 
-<Box>Note, that the "viewBox" attribute has to be spelled with a capital b!</Box>
+<Box>
+  Note, that the "viewBox" attribute has to be spelled with a capital b!
+</Box>
 
 ### Using a rectangle as progress bar
 
@@ -204,7 +210,11 @@ Because our view box has a width of 100 this represents a percentage.
 </svg>
 ```
 
-<Box>Note, that because we are using an angular data-binding for our width, we need to use "attr.width" instead of just "width". Otherwise angular will trow an error.</Box>
+<Box>
+  Note, that because we are using an angular data-binding for our width, we need
+  to use "attr.width" instead of just "width". Otherwise angular will trow an
+  error.
+</Box>
 
 We set the height of the bar to 10, which is 100% of the available height. Also we define the color our rectangle is filled with. You can choose any color here.
 
@@ -351,6 +361,8 @@ We also add a little transition and set the font to Roboto to make it look a lit
 ## Conclusion
 
 In this tutorial you have learned how to create horizontal and circular progress bars.
+
+<AffiliateAd tag="angular" />
 
 I hope you liked this post. If you did, please consider sharing it with your friends!
 

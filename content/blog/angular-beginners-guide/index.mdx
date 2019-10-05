@@ -29,6 +29,8 @@ We will start from scratch and build our first example angular app.
 
 You will discover the angular fundamentals step by step with a practical example on each topic.
 
+<AffiliateAd tag="angular" />
+
 This guide aims at giving you a quick start, as well as explaining angular concepts in detail.
 
 It does not require any knowledge in AngularJs or Angular (the current version) at all.
@@ -229,6 +231,8 @@ Generating new code is not everything the CLI can do. The CLI also helps you to 
 
 This command will run your application in a debug configuration. This means, that your app is not compiled ahead of time, so everything stays nice and human readable. Also, metadata like the source-maps are generated and served with the application to enable a nice debugging experience.
 
+<AffiliateAd tag="angular" />
+
 Also, there are no files created on your disk. The debugging server keeps them all in memory only.
 
 However, if you want to ship your application, the CLI helps you with that, as well. You can either serve your app in production mode, by using the \-\-prod flag,
@@ -412,6 +416,8 @@ It means, that the developers of angular, had a clear way in mind, how things sh
 
 This can be beneficial for numerous reasons.
 
+<AffiliateAd tag="angular" />
+
 First, you don't have to come up with a solution yourself. Because other people have thought before you about certain problems, you can just follow their example and implement things exactly like they did. That does not only save time but headaches as well.
 
 Second, it is very good for finding information online. Because almost everybody is doing it the same way, people can focus on writing good tutorials and guides instead of figuring out new genius ways. This results in a very consistent knowledge-base.
@@ -490,9 +496,12 @@ The second file is the template file. Although the template does not have to be 
 
 Because that is what a template is. An html-representation of the view. Everything that has to do with displaying stuff on a screen should go inside of the template.
 
-A template in angular does look like a normal piece of html, but it is not. Its syntax has been extended to allow for custom component selectors, data-binding and directives. We will discuss that in detail in the chapter "Templates & Directives". 
+A template in angular does look like a normal piece of html, but it is not. Its syntax has been extended to allow for custom component selectors, data-binding and directives. We will discuss that in detail in the chapter "Templates & Directives".
 
-<Box>It is just important to note, that browsers are not able to fully understand the bare template. It has to be interpreted by the angular framework first.</Box>
+<Box>
+  It is just important to note, that browsers are not able to fully understand
+  the bare template. It has to be interpreted by the angular framework first.
+</Box>
 
 The template file does follow the same naming convention as the component-file itself. It starts with the components name, followed by the word component and finally the file extension all separated by a full-stop.
 
@@ -587,6 +596,8 @@ To make our new component show up in our application, we need to add it to a tem
 
 To add our component, we use the selector for it. The selector is defined in the "selector" option of our component's decorator. In our case, the selector is named "app-shiny-button".
 The selector of a component can be used just like any other html-tag. It's just like we have defined our own html-tag to use.
+
+<AffiliateAd tag="angular" />
 
 For example, if we want to add our component to the AppComponent (app.component.ts) we just add a tag with our selector like so:
 
@@ -773,6 +784,8 @@ export class AppComponent {
 Using either input or output, we can only get communication in one direction. But what do we do need communication in both directions?
 When thinking about it, we could create a two-way-data-binding by combining an input and an output for the same property.
 
+<AffiliateAd tag="angular" />
+
 Let's take a simple input field as an example. When the user is entering text, we want our property to update accordingly. On the other hand, we want that input field to update as well, when we change the property via code.
 This actually can be done with input and output decorators. So how does this look like?
 
@@ -868,9 +881,12 @@ Structural directives are typically starting with an asterisk. That way, they ar
 If-Directive
 Let's take a look, how to remove elements from the DOM, if a certain condition is not meet. To do this, we can use the \*ngIf directive.
 
-This directive takes a condition as a parameter. 
+This directive takes a condition as a parameter.
 
-<Box>Note that this parameter is interpolated automatically, so it's value has to be a valid JavaScript expression within the parent-component.</Box>
+<Box>
+  Note that this parameter is interpolated automatically, so it's value has to
+  be a valid JavaScript expression within the parent-component.
+</Box>
 
 For example, if the component we are currently editing, has a property "isVisible" (boolean), we can use that property to show or hide a section of our template.
 
@@ -1144,6 +1160,8 @@ For more details, you can read my [article about dependency injection](https://m
 ## Conclusion
 
 Congratulations, you now know the very basics of angular and how to get started.
+
+<AffiliateAd tag="angular" />
 
 There is still so much more to learn, though. Didn't get enough? Here is a list of topics, that you can/should continue with:
 

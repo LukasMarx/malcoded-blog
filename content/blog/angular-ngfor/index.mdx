@@ -20,7 +20,7 @@ We will discover, how we can use the ngFor directive to display multiple element
 
 Also, we will take a look at the utilities of the ngFor directive, like the index, or even and odd.
 
-<AffiliateAd variation="digital-ocean" />
+<AffiliateAd tag="angular" />
 
 When we got the basics, we will move on to some more advanced topics like change-detection and DOM manipulation to tweak the performance of our for-loop using trackBy.
 
@@ -200,6 +200,8 @@ Depending on the use case, only having a reference to each element is not enough
 
 For example, if we wanted to number each list-element. We would not only require each element, but also its index inside of the array.
 
+<AffiliateAd tag="angular" />
+
 To get the index of each element, we can define another variable in the ngFor directive. We can name that variable however we like. Let's call it "i" for now.
 To get the value of the index, we also need to assign "index" to that variable.
 
@@ -299,6 +301,8 @@ For example when working with a REST-API or using immutable data structures, the
 
 This would force angular to give up all optimization and re-render the whole list. This is because every reference has changed, so every object looks unfamiliar to angular.
 Especially with long lists, this can have a big performance impact.
+
+<AffiliateAd tag="angular" />
 
 To prevent that behavior, we can help angular with the identification of each object, by providing a so-called trackBy function.
 With this function, we can tell angular, which properties cause an object to be unique.
@@ -409,6 +413,8 @@ If we deal with observables, like results from the HttpClient, we can use the as
 ## Conclusion
 
 In this tutorial we discovered, how we can use the power of the ngFor directive in our angular application.
+
+<AffiliateAd tag="angular" />
 
 I hope you liked this article. If you did, please share it with your friends!
 

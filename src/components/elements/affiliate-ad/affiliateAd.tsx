@@ -1,11 +1,22 @@
 import React from 'react'
 import styles from './AffiliateAd.module.css'
+import { connect } from 'react-redux'
+import { AppState } from '../../../state/reducer'
+import { ThemeState } from '../../../state/reducers/theme.reducer'
+import { darkText, lightText } from '../../../theme/text'
 
 export interface AffiliateAdProps {
   tag: string
+  theme?: ThemeState
 }
 
 export interface AffiliateAdState {}
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    theme: state.theme,
+  }
+}
 
 class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   private variations = {
@@ -21,7 +32,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     angular: this.variations['digital-ocean'],
     react: this.variations['digital-ocean'],
     vue: this.variations['digital-ocean'],
-    node: this.variations['digital-ocean'],
+    nodejs: this.variations['digital-ocean'],
   }
 
   constructor(props: AffiliateAdProps) {
@@ -46,7 +57,14 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
             ></img>
           </a>
           <br></br>
-          <span className={styles.disclaimer}>
+          <span
+            className={styles.disclaimer}
+            style={{
+              color: this.props.theme.darkMode
+                ? darkText.secondary
+                : lightText.secondary,
+            }}
+          >
             This is an affiliate link. We may receive a commission for purchases
             made through this link.
           </span>
@@ -57,4 +75,4 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 }
 
-export default AffiliateAd
+export default connect(mapStateToProps)(AffiliateAd)

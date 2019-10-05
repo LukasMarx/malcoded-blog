@@ -27,6 +27,8 @@ Web Assembly is faster than JavaScript and can run in the most popular browsers 
 
 In this tutorial, we are going to take a look at Web Assembly in angular.
 
+<AffiliateAd tag="angular" />
+
 We will discover how we can compile any C program into Web Assembly and the use inside of a simple angular service to speed things up!
 
 Ready?
@@ -106,7 +108,10 @@ Let's install them:
 
 To install the Web Assembly compiler, please follow these instructions: [Web Assembly Getting Started](http://webassembly.org/getting-started/developers-guide/).
 
-<Box>If you are on Windows, you might have to add the path of the emsdk to you PATH variables.</Box>
+<Box>
+  If you are on Windows, you might have to add the path of the emsdk to you PATH
+  variables.
+</Box>
 
 ![angular-compile-wasm](./img/angular-compile-wasm.png)
 
@@ -170,6 +175,8 @@ The command to do so looks like this:
 ```
 
 The -Os options defines the grade of optimizations performed. We use a quite high grade here.
+
+<AffiliateAd tag="angular" />
 
 Besides WASM, the compiler will also generate a JavaScript file. This file includes some glue-code, that handles the communication between WASM and JavaScript.
 With the MODULARIZE=1 option we tell the compiler to wrap that code into a module. That way it is much easier to consume in our angular app.
@@ -369,6 +376,8 @@ export class WasmService {
 In this tutorial we discovered, how we can use the power of Web Assembly in our angular application, by wrapping the Web Assembly API into a simple service.
 
 I hope you liked this article. If you did, please share it with your friends!
+
+<AffiliateAd tag="angular" />
 
 You can find the full source code at the corresponding [GitHub repository](https://github.com/LukasMarx/angular-wasm).
 

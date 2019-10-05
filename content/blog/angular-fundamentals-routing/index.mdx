@@ -25,6 +25,8 @@ The user clicks links, presses buttons and returns to previous pages. And althou
 
 In this tutorial, we are going to take a close look at the angular router and navigation within the app.
 
+<AffiliateAd tag="angular" />
+
 We will discover how to create routes, nest routes inside of each other, and how to use route parameters.
 
 We will also take a look at how to navigate through our application using angular RouterLinks or just plain JavaScript code.
@@ -131,6 +133,8 @@ export const routing: ModuleWithProviders = RouterModule.forRoot(routes)
 
 So what are we doing here? The most important part is the Routes array, we defined. Inside of that array, we can define our routes. As you can see, these routes are defined as objects.
 All of them do contain a path property. That property defines the path or name of the route. For example, to get to our SampleComponent, the route would be /page.
+
+<AffiliateAd tag="angular" />
 
 To define, which component should be shown at each route, we can pass a component class to the property called 'component'.
 
@@ -259,7 +263,10 @@ With the help of the routerLink directive, we can link to routes of our applicat
 <a routerLink="/page">Page</a>
 ```
 
-<Box>For your application to work with server-side rendering, the element hosting the directive has the be a link (a) element. Just like in the example above.</Box>
+<Box>
+  For your application to work with server-side rendering, the element hosting
+  the directive has the be a link (a) element. Just like in the example above.
+</Box>
 
 ### Code
 
@@ -396,5 +403,7 @@ We have already implemented it!
 That we know, what routes are, how we define and how we navigate to them. However, this article covers only a subset of what is possible with routes. Never the less, it covers the fundamentals that will suffice most of the time. To learn everything about routing, visit the [official documentation.](https://angular.io/guide/router#navigating-back-to-the-list-component)
 
 I hope you liked this article. If you did, click that button below, and share it with your friends and colleges!
+
+<AffiliateAd tag="angular" />
 
 Never miss a post, by following me on twitter [@malcoded](https://twitter.com/intent/user?screen_name=malcoded).
