@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './AffiliateAd.module.css'
 
 export interface AffiliateAdProps {
-  variation: string
+  tag: string
 }
 
 export interface AffiliateAdState {}
@@ -17,12 +17,19 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     },
   }
 
+  private tags = {
+    angular: this.variations['digital-ocean'],
+    react: this.variations['digital-ocean'],
+    vue: this.variations['digital-ocean'],
+    node: this.variations['digital-ocean'],
+  }
+
   constructor(props: AffiliateAdProps) {
     super(props)
   }
 
   render() {
-    var variation = this.variations[this.props.variation]
+    var variation = this.tags[this.props.tag || 'angular']
     if (variation) {
       return (
         <div className={styles.box}>

@@ -36,7 +36,6 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
         data: {
           type: 'pageview',
           pageLocation: location.pathname,
-          userLocation: userLocation,
         },
       })
     )

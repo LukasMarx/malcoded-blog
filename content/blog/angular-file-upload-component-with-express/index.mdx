@@ -25,7 +25,7 @@ Not only because you need to deal with files in JavaScript. Also, because you ne
 
 In this tutorial, we will learn how to do both.
 
-<AffiliateAd variation="digital-ocean" />
+<AffiliateAd tag="angular" />
 
 First, we will create a simple node.js express server with just one route to accept file uploads.
 
@@ -191,6 +191,8 @@ const IncomingForm = require('formidable').IncomingForm
 ```
 
 After that, we need to export the callback function, we are using in our server.js to register the route. This function will be called, every time somebody hits the '/upload' URL.
+
+<AffiliateAd tag="angular" />
 This callback gives us a request-object (req), that stores information about the request that hit the route.
 
 We also get a response-object (res). We can use this object, to send back a response.
@@ -596,6 +598,8 @@ Here is the template of the dialog. It contains a button to add new files, a pri
 
 The main part of the dialog is the list of all files to upload. It contains the names of the files.
 
+<AffiliateAd tag="angular" />
+
 Once the files are uploading, a progress-bar for each file appears. This progress bar is using the progress-observable of each file.
 
 ```html title=src/app/upload/dialog/dialog.component.html
@@ -787,6 +791,8 @@ And finally using the component in the app-component:
 In this tutorial, we learned how to set up a node.js server-application from scratch and created a very basic file-upload route.
 
 We also created an angular file-upload component and styled it using the angular material UI-components.
+
+<AffiliateAd tag="angular" />
 
 You can find the full source code at the corresponding [GitHub repository](https://github.com/LukasMarx/angular-file-upload).
 
