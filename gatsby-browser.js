@@ -17,22 +17,29 @@ export const onClientEntry = () => {
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
   if (!socket) {
-    console.log('creating socket')
+    try {
+      socket = new WebSocket('wss://malcoded.com/v1/api/ws')
 
-    socket = socket = new WebSocket('wss://malcoded.com/v1/api/ws')
-
-    socket.onopen = function() {
-      console.log('Connected')
-      socket.send(
-        JSON.stringify({
-          event: 'event',
-          data: {
-            type: 'pageview',
-            pageLocation: location.pathname,
-            userLocation: userLocation,
-          },
-        })
-      )
+      socket.onopen = function() {
+        console.log('Connected')
+        socket.send(
+          JSON.stringify({
+            event: 'event',
+            data: {
+              type: 'pageview',
+              pageLocation: location.pathname,
+              userLocation: userLocation,
+            },
+          })
+        )
+        setInterval(() => {
+          if (socket.readyState === socket.OPEN) {
+            socket.send('')
+          }
+        }, 30000)
+      }
+    } catch (e) {
+      console.info('Failed to start websocket connection.')
     }
   } else {
     socket.send(

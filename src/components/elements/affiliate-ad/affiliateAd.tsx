@@ -22,7 +22,6 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   render() {
-    console.log(this.props)
     var variation = this.variations[this.props.variation]
     if (variation) {
       return (
