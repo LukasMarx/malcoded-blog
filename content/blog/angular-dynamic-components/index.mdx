@@ -435,8 +435,11 @@ import { InsertionDirective } from './insertion.directive'
   styleUrls: ['./dialog.component.css'],
 })
 export class DialogComponent implements AfterViewInit, OnDestroy {
-  componentRef: ComponentRef<any>
-  childComponentType: Type<any>
+  private readonly _onClose = new Subject<any>()
+
+  public componentRef: ComponentRef<any>
+  public childComponentType: Type<any>
+  public onClose = this._onClose.asObservable()
 
   // add this:
   @ViewChild(InsertionDirective)
