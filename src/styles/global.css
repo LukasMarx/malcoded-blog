@@ -387,12 +387,17 @@ pre[class*='language-'] {
 
 /* Ads */
 
-.cf-wrapper {
+.cf-wrapper > a {
   display: grid;
   grid-template-columns: auto 1fr;
   justify-content: center;
   align-items: center;
   column-gap: 16px;
+}
+
+.cf-wrapper > a ~ a {
+  display: block;
+  text-align: right;
 }
 
 .cf-text {
