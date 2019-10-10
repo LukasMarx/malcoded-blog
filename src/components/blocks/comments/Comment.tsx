@@ -118,6 +118,7 @@ class Comment extends React.Component<CommentProps, CommentState> {
         'h3',
         'h4',
         'pre',
+        'code',
         'p',
         'span',
         'br',
