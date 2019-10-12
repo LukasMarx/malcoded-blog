@@ -37,7 +37,7 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   if (!socket) {
     try {
       socket = new WebSocket('wss://malcoded.com/v1/api/ws')
-
+      window.socket = socket
       socket.onopen = function() {
         console.log('Connected')
         socket.send(
