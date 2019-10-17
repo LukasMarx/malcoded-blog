@@ -34,7 +34,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     },
 
     'utlimate-angular': {
-      name: 'ultimate-angular-side',
+      name: 'ultimate-angular',
       src: '/affiliate/ultimate/ultimate-angular-banner.svg',
       href: 'https://ultimatecourses.com/courses/angular',
     },
