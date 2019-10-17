@@ -9,6 +9,7 @@ export interface AffiliateAdProps {
   tag: string
   mode?: string
   theme?: ThemeState
+  disableViewTracking?: boolean
 }
 
 export interface AffiliateAdState {
@@ -81,12 +82,19 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     this.observer.disconnect()
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.tag !== this.props.tag
+  }
+
   onIntersect(entries: any[], observer: IntersectionObserver) {
     if (entries.some(e => e.isIntersecting)) {
       const socket = (window as any).socket
       if (socket) {
         try {
-          if (!this.state.didSendAnalyticsView) {
+          if (
+            !this.state.didSendAnalyticsView &&
+            !this.props.disableViewTracking
+          ) {
             socket.send(
               JSON.stringify({
                 event: 'event',

@@ -212,7 +212,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
               </Paper>
             </div>
             <div style={{ width: 400 }}>
-              <AffiliateAd mode="side" />
+              <AffiliateAd mode="side" disableViewTracking={true} />
             </div>
           </Sidebar>
         </div>
