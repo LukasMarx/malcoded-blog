@@ -25,7 +25,7 @@ import PostCard from '../components/blocks/post-card/PostCard'
 import { Typography } from '@material-ui/core'
 import NewsletterIcon from '../components/elements/icons/NewsletterIcon'
 import Paper from '../components/elements/paper/Paper'
-import { Helmet } from 'react-helmet'
+import AffiliateAd from '../components/elements/affiliate-ad/affiliateAd'
 
 export interface BlogPostTemplateProps {
   data: any
@@ -210,6 +210,9 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
                   ></div>
                 )}
               </Paper>
+            </div>
+            <div style={{ width: 400 }}>
+              <AffiliateAd mode="side" />
             </div>
           </Sidebar>
         </div>

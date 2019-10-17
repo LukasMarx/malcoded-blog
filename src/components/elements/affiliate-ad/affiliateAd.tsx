@@ -7,6 +7,7 @@ import { darkText, lightText } from '../../../theme/text'
 
 export interface AffiliateAdProps {
   tag: string
+  mode?: string
   theme?: ThemeState
 }
 
@@ -30,10 +31,29 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       width: 728,
       height: 90,
     },
+
+    'utlimate-angular': {
+      name: 'ultimate-angular-side',
+      src: '/affiliate/ultimate/ultimate-angular-banner.svg',
+      href: 'https://ultimatecourses.com/courses/angular',
+    },
+
+    'utlimate-angular-side': {
+      name: 'ultimate-angular-side',
+      src: '/affiliate/ultimate/ultimate-angular-sidebar.svg',
+      href: 'https://ultimatecourses.com/courses/angular',
+    },
   }
 
   private tags = {
-    angular: this.variations['digital-ocean'],
+    angular: this.variations['utlimate-angular'],
+    react: this.variations['digital-ocean'],
+    vue: this.variations['digital-ocean'],
+    nodejs: this.variations['digital-ocean'],
+  }
+
+  private sideTags = {
+    angular: this.variations['utlimate-angular-side'],
     react: this.variations['digital-ocean'],
     vue: this.variations['digital-ocean'],
     nodejs: this.variations['digital-ocean'],
@@ -72,7 +92,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
                 event: 'event',
                 data: {
                   type: 'affiliateView',
-                  subType: this.tags[this.props.tag || 'angular'].name,
+                  subType: this.resolve().name,
                   pageLocation: location.pathname,
                 },
               })
@@ -83,6 +103,15 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
           // doesn't matter, its just analytics
         }
       }
+    }
+  }
+
+  resolve() {
+    const mode = this.props.mode
+    if (mode && mode === 'side') {
+      return this.sideTags[this.props.tag || 'angular']
+    } else {
+      return this.tags[this.props.tag || 'angular']
     }
   }
 
@@ -110,7 +139,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   render() {
-    var variation = this.tags[this.props.tag || 'angular']
+    var variation = this.resolve()
     if (variation) {
       return (
         <div className={styles.box} ref={this.domRef} onClick={this.onClick}>
