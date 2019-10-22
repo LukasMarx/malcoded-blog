@@ -44,20 +44,32 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       src: '/affiliate/ultimate/ultimate-angular-sidebar.svg',
       href: 'https://ultimatecourses.com/courses/angular',
     },
+
+    'wb-react-for-beginners': {
+      name: 'wb-react-for-beginners',
+      src: '/affiliate/wesbos/react-for-beginners.svg',
+      href: 'https://ReactForBeginners.com/friend/MALCODED',
+    },
+
+    'wb-react-for-beginners-side': {
+      name: 'wb-react-for-beginners',
+      src: '/affiliate/wesbos/react-for-beginners-sidebar.svg',
+      href: 'https://ReactForBeginners.com/friend/MALCODED',
+    },
   }
 
   private tags = {
     angular: this.variations['utlimate-angular'],
-    react: this.variations['digital-ocean'],
+    react: this.variations['wb-react-for-beginners'],
     vue: this.variations['digital-ocean'],
     nodejs: this.variations['digital-ocean'],
   }
 
   private sideTags = {
     angular: this.variations['utlimate-angular-side'],
-    react: this.variations['digital-ocean'],
-    vue: this.variations['digital-ocean'],
-    nodejs: this.variations['digital-ocean'],
+    react: this.variations['wb-react-for-beginners-side'],
+    vue: this.variations['wb-react-for-beginners-side'],
+    nodejs: this.variations['wb-react-for-beginners-side'],
   }
 
   private domRef: React.RefObject<HTMLDivElement>
@@ -157,9 +169,10 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
               max-width={variation.width}
               max-height={variation.height}
               style={{
-                width: '100%',
-                maxWidth: variation.width,
+                maxWidth: this.props.mode === 'side' ? '100%' : variation.width,
                 maxHeight: variation.height,
+                height: this.props.mode === 'side' ? '100%' : undefined,
+                width: this.props.mode === 'side' ? undefined : '100%',
               }}
             ></img>
           </a>

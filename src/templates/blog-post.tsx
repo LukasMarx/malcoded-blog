@@ -101,6 +101,9 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
 
   const isUpdated = post.frontmatter.lastUpdated !== post.frontmatter.date
 
+  const tags = post.frontmatter.tags
+  const tag = tags.length > 0 ? tags[0] : undefined
+
   return (
     <HeaderFooterLayout>
       <SEO
@@ -211,8 +214,8 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
                 )}
               </Paper>
             </div>
-            <div style={{ width: 400 }}>
-              <AffiliateAd mode="side" disableViewTracking={true} />
+            <div style={{ width: 500, maxHeight: 300 }}>
+              <AffiliateAd mode="side" disableViewTracking={true} tag={tag} />
             </div>
           </Sidebar>
         </div>
