@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkText, lightText } from '../../../theme/text'
+import { auto } from 'eol'
 
 export interface AffiliateAdProps {
   tag: string
@@ -49,12 +50,22 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       name: 'wb-react-for-beginners',
       src: '/affiliate/wesbos/react-for-beginners.svg',
       href: 'https://ReactForBeginners.com/friend/MALCODED',
+      style: {
+        height: auto,
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
     },
 
     'wb-react-for-beginners-side': {
       name: 'wb-react-for-beginners',
       src: '/affiliate/wesbos/react-for-beginners-sidebar.svg',
       href: 'https://ReactForBeginners.com/friend/MALCODED',
+      style: {
+        height: auto,
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
     },
   }
 
@@ -168,12 +179,16 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
               src={variation.src}
               max-width={variation.width}
               max-height={variation.height}
-              style={{
-                maxWidth: this.props.mode === 'side' ? '100%' : variation.width,
-                maxHeight: variation.height,
-                height: this.props.mode === 'side' ? '100%' : undefined,
-                width: this.props.mode === 'side' ? undefined : '100%',
-              }}
+              style={Object.assign(
+                {
+                  maxWidth:
+                    this.props.mode === 'side' ? '100%' : variation.width,
+                  maxHeight: variation.height,
+                  height: this.props.mode === 'side' ? '100%' : undefined,
+                  width: this.props.mode === 'side' ? undefined : '100%',
+                },
+                variation.style || {}
+              )}
             ></img>
           </a>
           <br></br>
