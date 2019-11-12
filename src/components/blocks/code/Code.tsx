@@ -17,13 +17,34 @@ export interface CodeProps {
   theme?: ThemeState
 }
 
+export interface CodeState {
+  highlightCode: boolean
+}
+
 const mapStateToProps = (state: AppState) => {
   return {
     theme: state.theme,
   }
 }
 
-class Code extends Component<CodeProps> {
+class Code extends Component<CodeProps, CodeState> {
+  constructor(props) {
+    super(props)
+    this.state = { highlightCode: false }
+  }
+
+  componentDidMount() {
+    if ((window as any).requestIdleCallback) {
+      ;(window as any).requestIdleCallback(() => {
+        this.setState({ highlightCode: true })
+      })
+    } else {
+      setTimeout(() => {
+        this.setState({ highlightCode: true })
+      }, 1000)
+    }
+  }
+
   renderBar() {
     if (this.props.title) {
       return (
@@ -39,13 +60,13 @@ class Code extends Component<CodeProps> {
             {(this.props.language == 'js' ||
               this.props.language == 'javascript' ||
               this.props.language == 'jsx') && (
-                <img className={styles.icon} src="/icons/languages/js.svg" />
-              )}
+              <img className={styles.icon} src="/icons/languages/js.svg" />
+            )}
             {(this.props.language == 'ts' ||
               this.props.language == 'typescript' ||
               this.props.language == 'tsx') && (
-                <img className={styles.icon} src="/icons/languages/ts.svg" />
-              )}
+              <img className={styles.icon} src="/icons/languages/ts.svg" />
+            )}
             {this.props.language == 'html' && (
               <img className={styles.icon} src="/icons/languages/html.svg" />
             )}
@@ -63,7 +84,7 @@ class Code extends Component<CodeProps> {
 
   escapeHtml(unsafe) {
     if (!unsafe) {
-      return '';
+      return ''
     }
     return unsafe
       .replace(/&/g, '&amp;')
@@ -82,7 +103,7 @@ class Code extends Component<CodeProps> {
 
   render() {
     let result
-    if (Prism.languages[this.props.language]) {
+    if (this.state.highlightCode && Prism.languages[this.props.language]) {
       result = Prism.highlight(
         this.props.codeString,
         Prism.languages[this.props.language]
@@ -94,7 +115,7 @@ class Code extends Component<CodeProps> {
       <div
         className={`${styles.root}  ${
           this.props.theme.darkMode ? '' : 'theme--light'
-          }`}
+        }`}
         style={{
           backgroundColor: this.props.theme.darkMode
             ? darkBackground.paper

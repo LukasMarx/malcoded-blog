@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkText, lightText } from '../../../theme/text'
-import { auto } from 'eol'
+import Countdown from 'react-countdown-now'
 
 export interface AffiliateAdProps {
   tag: string
@@ -40,6 +40,16 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       href: 'https://ultimatecourses.com/courses/angular',
     },
 
+    'utlimate-angular-special-offer': {
+      name: 'ultimate-angular',
+      src: '/affiliate/ultimate/ultimate-angular-banner.svg',
+      href: 'https://ultimatecourses.com/courses/angular',
+      timer: {
+        end: new Date('2019-11-7'),
+        color: 'white',
+      },
+    },
+
     'utlimate-angular-side': {
       name: 'ultimate-angular-side',
       src: '/affiliate/ultimate/ultimate-angular-sidebar.svg',
@@ -51,7 +61,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       src: '/affiliate/wesbos/react-for-beginners.svg',
       href: 'https://ReactForBeginners.com/friend/MALCODED',
       style: {
-        height: auto,
+        height: 'auto',
         boxShadow:
           '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
       },
@@ -62,7 +72,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       src: '/affiliate/wesbos/react-for-beginners-sidebar.svg',
       href: 'https://ReactForBeginners.com/friend/MALCODED',
       style: {
-        height: auto,
+        height: 'auto',
         boxShadow:
           '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
       },
@@ -174,24 +184,35 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     if (variation) {
       return (
         <div className={styles.box} ref={this.domRef} onClick={this.onClick}>
-          <a href={variation.href} target="_top">
-            <img
-              src={variation.src}
-              max-width={variation.width}
-              max-height={variation.height}
-              style={Object.assign(
-                {
-                  maxWidth:
-                    this.props.mode === 'side' ? '100%' : variation.width,
-                  maxHeight: variation.height,
-                  height: this.props.mode === 'side' ? '100%' : undefined,
-                  width: this.props.mode === 'side' ? undefined : '100%',
-                },
-                variation.style || {}
+          <div style={{ position: 'relative' }}>
+            <a href={variation.href} target="_top">
+              <img
+                src={variation.src}
+                max-width={variation.width}
+                max-height={variation.height}
+                style={Object.assign(
+                  {
+                    maxWidth:
+                      this.props.mode === 'side' ? '100%' : variation.width,
+                    maxHeight: variation.height,
+                    height: this.props.mode === 'side' ? '100%' : undefined,
+                    width: this.props.mode === 'side' ? undefined : '100%',
+                  },
+                  variation.style || {}
+                )}
+              ></img>
+              {variation.timer && (
+                <div
+                  className={styles.timer}
+                  style={{ color: variation.timer.color || lightText.primary }}
+                >
+                  <div className={styles.wrapper}>
+                    <Countdown date={variation.timer.end} />
+                  </div>
+                </div>
               )}
-            ></img>
-          </a>
-          <br></br>
+            </a>
+          </div>
           <span
             className={styles.disclaimer}
             style={{

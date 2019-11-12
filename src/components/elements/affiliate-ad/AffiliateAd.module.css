@@ -4,4 +4,24 @@
 
 .box {
   margin-bottom: 32px;
+  position: relative;
+}
+
+.timer {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  height: 100%;
+  font-size: 32px;
+  margin: auto;
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-right: 32px;
+  font-weight: bold;
 }
