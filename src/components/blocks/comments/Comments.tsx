@@ -55,16 +55,31 @@ const mapDispatchToProps = dispatch => {
 }
 
 class Comments extends React.Component<CommentsProps, CommentsState> {
+  private domRef: React.RefObject<HTMLDivElement>
+
   constructor(props: CommentsProps) {
     super(props)
     this.state = { comment: '' }
     this.onSignedIn = this.onSignedIn.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.submitComment = this.submitComment.bind(this)
+    this.domRef = React.createRef()
   }
 
   async componentDidMount() {
     this.props.queryComments(this.props.postId)
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          this.props.queryComments(this.props.postId)
+          observer.unobserve(this.domRef.current)
+        }
+      },
+      {
+        rootMargin: '1000px 0px 0px 0px',
+      }
+    )
+    observer.observe(this.domRef.current)
   }
 
   submitComment() {
@@ -188,7 +203,7 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
 
   render() {
     return (
-      <div>
+      <div ref={this.domRef}>
         {this.renderHeader()}
         {this.renderComments()}
       </div>
