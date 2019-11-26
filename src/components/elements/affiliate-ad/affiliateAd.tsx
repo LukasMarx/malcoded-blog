@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkText, lightText } from '../../../theme/text'
-import Countdown from 'react-countdown-now'
+import Countdown, { zeroPad } from 'react-countdown-now'
 
 export interface AffiliateAdProps {
   tag: string
@@ -180,6 +180,38 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   render() {
+    const timerRenderer = ({ days, hours, minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <></>
+      } else {
+        // Render a countdown
+        return (
+          <div className={styles.timerWrapper}>
+            <div className={styles.timerBox}>
+              <span>{zeroPad(days)}</span>
+              <p className={styles.timerLabel}>DAYS</p>
+            </div>
+            <span>:</span>
+            <div className={styles.timerBox}>
+              <span>{zeroPad(hours)}</span>
+              <p className={styles.timerLabel}>HOURS</p>
+            </div>
+            <span>:</span>
+            <div className={styles.timerBox}>
+              <span>{zeroPad(minutes)}</span>
+              <p className={styles.timerLabel}>MINS</p>
+            </div>
+            <span>:</span>
+            <div className={styles.timerBox}>
+              <span>{zeroPad(seconds)}</span>
+              <p className={styles.timerLabel}>SECS</p>
+            </div>
+          </div>
+        )
+      }
+    }
+
     var variation = this.resolve()
     if (variation) {
       return (
@@ -207,7 +239,10 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
                   style={{ color: variation.timer.color || lightText.primary }}
                 >
                   <div className={styles.wrapper}>
-                    <Countdown date={variation.timer.end} />
+                    <Countdown
+                      date={variation.timer.end}
+                      renderer={timerRenderer}
+                    />
                   </div>
                 </div>
               )}

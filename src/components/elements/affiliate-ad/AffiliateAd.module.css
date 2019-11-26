@@ -25,3 +25,18 @@
   padding-right: 32px;
   font-weight: bold;
 }
+
+.timerWrapper {
+  display: flex;
+}
+
+.timerLabel {
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+}
+
+.timerBox {
+  margin-left: 4px;
+  margin-right: 4px;
+}
