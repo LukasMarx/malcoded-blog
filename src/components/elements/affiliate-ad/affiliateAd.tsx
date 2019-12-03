@@ -101,14 +101,14 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
   private tags = {
     angular: this.variations['utlimate-angular'],
-    react: this.variations['wb-react-for-beginners-black-friday'],
+    react: this.variations['wb-react-for-beginners'],
     vue: this.variations['digital-ocean'],
     nodejs: this.variations['digital-ocean'],
   }
 
   private sideTags = {
     angular: this.variations['utlimate-angular-side'],
-    react: this.variations['wb-react-for-beginners-side-black-friday'],
+    react: this.variations['wb-react-for-beginners'],
     vue: this.variations['wb-react-for-beginners-side'],
     nodejs: this.variations['wb-react-for-beginners-side'],
   }
