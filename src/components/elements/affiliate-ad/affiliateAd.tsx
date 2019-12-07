@@ -36,7 +36,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
     'utlimate-angular': {
       name: 'ultimate-angular',
-      src: '/affiliate/ultimate/ultimate-angular-banner.svg',
+      src: '/affiliate/ultimate/ultimate-angular-banner-2020.svg',
       href: 'https://ultimatecourses.com/courses/angular',
     },
 
@@ -52,8 +52,13 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
     'utlimate-angular-side': {
       name: 'ultimate-angular-side',
-      src: '/affiliate/ultimate/ultimate-angular-sidebar.svg',
+      src: '/affiliate/ultimate/ultimate-angular-banner-2020.svg',
       href: 'https://ultimatecourses.com/courses/angular',
+      style: {
+        height: 'auto',
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
     },
 
     'wb-react-for-beginners': {
@@ -66,6 +71,18 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
           '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
       },
     },
+
+    'wb-beginner-javascript': {
+      name: 'wb-beginner-javascript',
+      src: '/affiliate/wesbos/beginner-javascript.svg',
+      href: 'https://BeginnerJavaScript.com/friend/MALCODED',
+      style: {
+        height: 'auto',
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
+    },
+
     'wb-react-for-beginners-black-friday': {
       name: 'wb-react-for-beginners-black-friday',
       src: '/affiliate/wesbos/black-friday.png',
@@ -101,16 +118,16 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
   private tags = {
     angular: this.variations['utlimate-angular'],
-    react: this.variations['wb-react-for-beginners'],
-    vue: this.variations['digital-ocean'],
-    nodejs: this.variations['digital-ocean'],
+    react: this.variations['wb-beginner-javascript'],
+    vue: this.variations['wb-beginner-javascript'],
+    nodejs: this.variations['wb-beginner-javascript'],
   }
 
   private sideTags = {
     angular: this.variations['utlimate-angular-side'],
-    react: this.variations['wb-react-for-beginners'],
-    vue: this.variations['wb-react-for-beginners-side'],
-    nodejs: this.variations['wb-react-for-beginners-side'],
+    react: this.variations['wb-beginner-javascript'],
+    vue: this.variations['wb-beginner-javascript'],
+    nodejs: this.variations['wb-beginner-javascript'],
   }
 
   private domRef: React.RefObject<HTMLDivElement>
