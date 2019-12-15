@@ -72,6 +72,17 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       },
     },
 
+    'wb-react-for-beginners-2': {
+      name: 'wb-react-for-beginners-2',
+      src: '/affiliate/wesbos/react-for-beginners-2.svg',
+      href: 'https://ReactForBeginners.com/friend/MALCODED',
+      style: {
+        height: 'auto',
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
+    },
+
     'wb-beginner-javascript': {
       name: 'wb-beginner-javascript',
       src: '/affiliate/wesbos/beginner-javascript.svg',
@@ -104,28 +115,18 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
           '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
       },
     },
-    'wb-react-for-beginners-side-black-friday': {
-      name: 'wb-react-for-beginners',
-      src: '/affiliate/wesbos/black-friday.png',
-      href: 'https://ReactForBeginners.com/friend/MALCODED',
-      style: {
-        height: 'auto',
-        boxShadow:
-          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
-      },
-    },
   }
 
   private tags = {
     angular: this.variations['utlimate-angular'],
-    react: this.variations['wb-beginner-javascript'],
+    react: this.variations['wb-react-for-beginners-2'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
 
   private sideTags = {
     angular: this.variations['utlimate-angular-side'],
-    react: this.variations['wb-beginner-javascript'],
+    react: this.variations['wb-react-for-beginners-2'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
