@@ -37,13 +37,13 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     'utlimate-angular': {
       name: 'ultimate-angular-2020',
       src: '/affiliate/ultimate/ultimate-angular-banner-2020.svg',
-      href: 'https://ultimatecourses.com/courses/angular',
+      href: 'https://ultimatecourses.com/courses/angular?ref=13',
     },
 
     'utlimate-angular-special-offer': {
       name: 'ultimate-angular-black-friday',
       src: '/affiliate/ultimate/ultimate-angular-banner-bf.svg',
-      href: 'https://ultimatecourses.com/courses/angular',
+      href: 'https://ultimatecourses.com/courses/angular?ref=13',
       timer: {
         end: new Date('2019-11-30T08:00:00z'),
         color: 'white',
@@ -53,7 +53,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     'utlimate-angular-side': {
       name: 'ultimate-angular-side',
       src: '/affiliate/ultimate/ultimate-angular-banner-2020.svg',
-      href: 'https://ultimatecourses.com/courses/angular',
+      href: 'https://ultimatecourses.com/courses/angular?ref=13',
       style: {
         height: 'auto',
         boxShadow:
