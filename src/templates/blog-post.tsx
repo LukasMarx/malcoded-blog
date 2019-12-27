@@ -26,6 +26,8 @@ import { Typography } from '@material-ui/core'
 import NewsletterIcon from '../components/elements/icons/NewsletterIcon'
 import Paper from '../components/elements/paper/Paper'
 import AffiliateAd from '../components/elements/affiliate-ad/affiliateAd'
+import CarbonAd from '../components/elements/ads/carbon-ad'
+import CookieBanner from '../components/elements/cookie-banner/cookie-banner'
 
 export interface BlogPostTemplateProps {
   data: any
@@ -56,16 +58,28 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
   const { previous, next } = props.pageContext
 
   const [open, setOpen] = useState(false)
+  const [cookieBannerOpen, setCookieBannerOpen] = useState(false)
+  const [showAd, setShowAd] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
   const [adHtml, setAdHtml] = useState(undefined)
 
   useEffect(() => {
-    var oReq = new XMLHttpRequest()
-    oReq.onload = function(e) {
-      setAdHtml({ __html: oReq.response })
+    if (!localStorage.getItem('cookie-consent')) {
+      var oReq = new XMLHttpRequest()
+      oReq.onload = function(e) {
+        const result = JSON.parse(oReq.response)
+        if ((result.clearResult && result.isEU) || !result.clearResult) {
+          setCookieBannerOpen(true)
+        } else {
+          localStorage.setItem('cookie-consent', 'not required')
+          setShowAd(true)
+        }
+      }
+      oReq.open('GET', 'https://malcoded.com/v1/api/geoip/isEu')
+      oReq.send()
+    } else {
+      setShowAd(true)
     }
-    oReq.open('GET', 'https://api.codefund.app/properties/459/funder.html')
-    oReq.send()
   }, [])
 
   useEffect(() => {
@@ -186,6 +200,13 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
         <div className={styles.sidebarRight}>
           <Sidebar>
             <Toc toc={post.tableOfContents} />
+            <div style={{ width: 500 }}>
+              {showAd && (
+                <Paper>
+                  <CarbonAd></CarbonAd>
+                </Paper>
+              )}
+            </div>
             <div
               style={{
                 width: 500,
@@ -203,17 +224,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
                 </div>
               </Paper>
             </div>
-            <div style={{ width: 500 }}>
-              <Paper>
-                {adHtml && (
-                  <div
-                    id="codefund"
-                    className={styles.ad}
-                    dangerouslySetInnerHTML={adHtml}
-                  ></div>
-                )}
-              </Paper>
-            </div>
+
             <div style={{ width: 500, maxHeight: 300 }}>
               <AffiliateAd mode="side" disableViewTracking={true} tag={tag} />
             </div>
@@ -226,6 +237,15 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
         onClose={onNewsletterDialogClose}
         onSubmit={onNewsletterDialogSubmit}
       />
+      <CookieBanner
+        open={cookieBannerOpen}
+        onClose={() => setCookieBannerOpen(false)}
+        onSubmit={() => {
+          setCookieBannerOpen(false)
+          localStorage.setItem('cookie-consent', 'true')
+          setShowAd(true)
+        }}
+      ></CookieBanner>
     </HeaderFooterLayout>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './privacy.module.css'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
 import SEO from '../components/Seo'
+import { Link } from 'gatsby'
 
 export interface PrivacyPageProps {}
 
@@ -18,7 +19,7 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
         <div className={styles.root}>
           <div className={styles.content}>
             <h1>Privacy Policy</h1>
-            <p>Last updated: 01.10.2019</p>
+            <p>Last updated: 27.12.2019</p>
             <p>
               This page informs you of our policies regarding the collection,
               use and disclosure of Personal Information we receive from users
@@ -133,16 +134,17 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
               collected in the future when you visit this website. The opt-out
               cookie applies only to this browser and only to our website and is
               placed on your device. If you delete the cookies in this browser,
-              you must set the opt-out cookie again. Translated with
-              www.DeepL.com/Translator
+              you must set the opt-out cookie again.
             </p>
             <h3>Advertising</h3>
             <p>
               This website shows advertisments to cover the running cost of the
-              site. These are so called ethical advertisments provided by
-              codefund.io. That means they don't do any tracking and place no
-              cookies on your device. Covering the cost of the site is our
-              legitimate interest as of Art.6 Section 1 f EU-GDPR.
+              site. The ads are provided by carbon ads. Covering the cost of the
+              site is our legitimate interest as of Art.6 Section 1 f EU-GDPR.
+              Carbon is using your IP address to exctract your Geo-Position.
+              This information is then used to serve you targeted ads. They do
+              not create a profile about you. Carbon is also setting cookies on
+              your device. They are used for fraud prevention.
             </p>
             <h3>Cloudflare(CDN)</h3>
             <p>
@@ -251,6 +253,13 @@ class PrivacyPage extends React.Component<PrivacyPageProps, PrivacyPageState> {
               strictly necessary for security reasons. The cookie does not
               contain any personally identifiable information. The cookie does
               expire afer one year.
+            </p>
+            <p>
+              Futhermore our Ad-Network Carbon is placing cookies to prevent
+              fraud. These cookies contain your IP-address.{' '}
+              <a href="https://content.buysellads.com/articles/what-data-does-buysellads-collect">
+                Learn more.
+              </a>
             </p>
             <h2>External Links</h2>
             <p>
