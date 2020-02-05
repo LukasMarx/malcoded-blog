@@ -61,6 +61,28 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       },
     },
 
+    'angular-academy-special-offer': {
+      name: 'angular-academy',
+      src: '/affiliate/angular-academy/ad2.png',
+      href: 'https://angular-academy.com/security/?aff=487495_ojaq3ozs',
+      timer: {
+        end: new Date('2020-02-26T21:00:00z'),
+        color: 'white',
+        top: 128,
+      },
+      style: {
+        height: 'auto',
+      },
+    },
+    'angular-academy-special-offer-side': {
+      name: 'angular-academy',
+      src: '/affiliate/angular-academy/ad3.png',
+      href: 'https://angular-academy.com/security/?aff=487495_ojaq3ozs',
+      style: {
+        height: 'auto',
+      },
+    },
+
     'wb-react-for-beginners': {
       name: 'wb-react-for-beginners',
       src: '/affiliate/wesbos/react-for-beginners.svg',
@@ -118,14 +140,14 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   private tags = {
-    angular: this.variations['utlimate-angular'],
+    angular: this.variations['angular-academy-special-offer'],
     react: this.variations['wb-react-for-beginners-2'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
 
   private sideTags = {
-    angular: this.variations['utlimate-angular-side'],
+    angular: this.variations['angular-academy-special-offer-side'],
     react: this.variations['wb-react-for-beginners-2'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
@@ -274,9 +296,14 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
               {variation.timer && (
                 <div
                   className={styles.timer}
-                  style={{ color: variation.timer.color || lightText.primary }}
+                  style={{
+                    color: variation.timer.color || lightText.primary,
+                  }}
                 >
-                  <div className={styles.wrapper}>
+                  <div
+                    className={styles.wrapper}
+                    style={{ marginTop: variation.timer.top }}
+                  >
                     <Countdown
                       date={variation.timer.end}
                       renderer={timerRenderer}
