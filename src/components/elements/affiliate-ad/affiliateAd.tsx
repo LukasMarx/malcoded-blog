@@ -63,10 +63,10 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
     'angular-academy-special-offer': {
       name: 'angular-academy',
-      src: '/affiliate/angular-academy/ad2.png',
+      src: '/affiliate/angular-academy/angular-academy.png',
       href: 'https://angular-academy.com/security/?aff=487495_ojaq3ozs',
       timer: {
-        end: new Date('2020-02-26T21:00:00z'),
+        end: new Date('2020-02-26T21:00:00Z'),
         color: 'white',
         top: 128,
       },
@@ -76,7 +76,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     },
     'angular-academy-special-offer-side': {
       name: 'angular-academy',
-      src: '/affiliate/angular-academy/ad3.png',
+      src: '/affiliate/angular-academy/angular-academy-side.png',
       href: 'https://angular-academy.com/security/?aff=487495_ojaq3ozs',
       style: {
         height: 'auto',
