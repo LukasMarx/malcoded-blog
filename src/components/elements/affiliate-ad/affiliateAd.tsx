@@ -61,6 +61,18 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
       },
     },
 
+    'coded-themes-side': {
+      name: 'coded-themes-side',
+      src: '/affiliate/coded-themes/angular-templates-side.png',
+      href:
+        'https://codedthemes.com/item/datta-able-angular/?ref=lukas@malcoded.com',
+      style: {
+        height: 'auto',
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
+    },
+
     'angular-academy-special-offer': {
       name: 'angular-academy',
       src: '/affiliate/angular-academy/angular-academy.png',
@@ -147,7 +159,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   private sideTags = {
-    angular: this.variations['angular-academy-special-offer-side'],
+    angular: this.variations['coded-themes-side'],
     react: this.variations['wb-react-for-beginners-2'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
