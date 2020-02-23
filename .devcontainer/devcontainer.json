@@ -1,7 +1,7 @@
 {
   "name": "Node.js Sample",
   "dockerFile": "Dockerfile",
-  "appPort": 3082,
+  "appPort": 8000,
   "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"

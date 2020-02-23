@@ -118,7 +118,10 @@ async function getAllCommentsForPost(postId: string): Promise<Comment[]> {
   })
   const json = await result.json()
 
-  return json.data.getCommentsForPost.edges.map(({ node }) => node)
+  if (json.data) {
+    return json.data.getCommentsForPost.edges.map(({ node }) => node)
+  }
+  return []
 }
 
 async function createCommentForPost(
