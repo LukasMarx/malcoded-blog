@@ -41,12 +41,14 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     },
 
     'utlimate-angular-special-offer': {
-      name: 'ultimate-angular-black-friday',
-      src: '/affiliate/ultimate/ultimate-angular-banner-bf.svg',
+      name: 'ultimate-angular-master-50',
+      src:
+        '/affiliate/ultimate/ultimate-angular-affiliate-anugular-master-50.svg',
       href: 'https://ultimatecourses.com/courses/angular?ref=13',
       timer: {
-        end: new Date('2019-11-30T08:00:00z'),
+        end: new Date('2020-03-05T08:00:00z'),
         color: 'white',
+        top: 90,
       },
     },
 
@@ -152,7 +154,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   private tags = {
-    angular: this.variations['utlimate-angular'],
+    angular: this.variations['utlimate-angular-special-offer'],
     react: this.variations['wb-react-for-beginners-2'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
