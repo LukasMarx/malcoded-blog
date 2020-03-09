@@ -46,7 +46,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
         '/affiliate/ultimate/ultimate-angular-affiliate-anugular-master-50.svg',
       href: 'https://ultimatecourses.com/courses/angular?ref=13',
       timer: {
-        end: new Date('2020-03-05T08:00:00z'),
+        end: new Date('2020-03-12T08:00:00z'),
         color: 'white',
         top: 90,
       },
