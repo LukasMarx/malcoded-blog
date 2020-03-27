@@ -121,7 +121,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
     'wb-beginner-javascript': {
       name: 'wb-beginner-javascript',
-      src: '/affiliate/wesbos/beginner-javascript.svg',
+      src: '/affiliate/wesbos/beginner-javascript-50.svg',
       href: 'https://BeginnerJavaScript.com/friend/MALCODED',
       style: {
         height: 'auto',
@@ -154,15 +154,15 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   private tags = {
-    angular: this.variations['utlimate-angular-special-offer'],
-    react: this.variations['wb-react-for-beginners-2'],
+    angular: this.variations['wb-beginner-javascript'],
+    react: this.variations['wb-beginner-javascript'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
 
   private sideTags = {
-    angular: this.variations['coded-themes-side'],
-    react: this.variations['wb-react-for-beginners-2'],
+    angular: this.variations['wb-beginner-javascript'],
+    react: this.variations['wb-beginner-javascript'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
