@@ -120,8 +120,8 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     },
 
     'wb-beginner-javascript': {
-      name: 'wb-beginner-javascript',
-      src: '/affiliate/wesbos/beginner-javascript-50.svg',
+      name: 'wb-beginner-javascript-corona',
+      src: '/affiliate/wesbos/beginner-javascript-50-2.svg',
       href: 'https://BeginnerJavaScript.com/friend/MALCODED',
       style: {
         height: 'auto',
