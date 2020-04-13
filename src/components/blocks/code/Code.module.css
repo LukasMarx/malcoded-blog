@@ -33,8 +33,9 @@
   font-size: 1.05em;
   white-space: pre-wrap;
   padding: 32px;
-  font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono,
-    DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  font-family: JetBrainsMono, Consolas, Menlo, Monaco, Lucida Console,
+    Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New,
+    monospace, serif;
   margin: 0;
   box-sizing: border-box;
   line-height: 1.5;

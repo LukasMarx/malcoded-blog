@@ -171,6 +171,10 @@ pre[class*='language-'] {
   color: #a8ff60;
 }
 
+.token.string {
+  font-style: italic;
+}
+
 .token.variable {
   color: #c6c5fe;
 }
@@ -318,6 +322,7 @@ pre[class*='language-'] {
 
 .theme--light .token.string {
   color: #22a2c9;
+  font-style: italic;
 }
 
 .theme--light .token.selector {

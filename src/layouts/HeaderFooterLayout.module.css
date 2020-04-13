@@ -120,3 +120,20 @@
     /* Safari, Android, iOS */ url('/fonts/roboto-v18-latin-700.svg#Roboto')
       format('svg'); /* Legacy iOS */
 }
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: normal;
+
+  src: local('JetBrains Mono'),
+    url('/fonts/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('/fonts/JetBrainsMono-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-style: italic;
+  src: local('JetBrains Mono'),
+    url('/fonts/JetBrainsMono-Italic.woff2') format('woff2'),
+    url('/fonts/JetBrainsMono-Italic.woff') format('woff');
+}
