@@ -1,11 +1,11 @@
 .root {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 200;
 }
 
 .item {
   cursor: pointer;
-  margin: 8px;
+  margin: 6px;
 }
 
 .wrapper {

@@ -85,10 +85,10 @@ a {
 }
 
 .newsletterSubscribe {
-  margin-top: 32px;
-  margin-bottom: 32px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   width: 500px;
-  height: 100px;
+  height: 80px;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -98,8 +98,8 @@ a {
 .ad {
   display: flex;
   width: 100%;
-  margin-bottom: 32px;
-  margin-top: 32px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   min-height: 125px;
   padding: 16px;
   box-sizing: border-box;

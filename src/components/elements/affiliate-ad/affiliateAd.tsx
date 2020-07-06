@@ -35,8 +35,8 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
     },
 
     'utlimate-angular': {
-      name: 'ultimate-angular-2020',
-      src: '/affiliate/ultimate/ultimate-angular-banner-2020.svg',
+      name: 'ultimate-angular',
+      src: '/affiliate/ultimate/ultimate-angular-banner-2.svg',
       href: 'https://ultimatecourses.com/courses/angular?ref=13',
     },
 
@@ -54,8 +54,25 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
 
     'utlimate-angular-side': {
       name: 'ultimate-angular-side',
-      src: '/affiliate/ultimate/ultimate-angular-banner-2020.svg',
+      src: '/affiliate/ultimate/ultimate-angular-sidebar-2.svg',
       href: 'https://ultimatecourses.com/courses/angular?ref=13',
+      style: {
+        height: 'auto',
+        boxShadow:
+          '0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)',
+      },
+    },
+
+    'ultimate-react': {
+      name: 'ultimate-react',
+      src: '/affiliate/ultimate/ultimate-react-banner.svg',
+      href: 'https://ultimatecourses.com/courses/react?ref=13',
+    },
+
+    'ultimate-react-side': {
+      name: 'ultimate-react-side',
+      src: '/affiliate/ultimate/ultimate-react-sidebar.svg',
+      href: 'https://ultimatecourses.com/courses/react?ref=13',
       style: {
         height: 'auto',
         boxShadow:
@@ -154,15 +171,15 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   private tags = {
-    angular: this.variations['wb-beginner-javascript'],
-    react: this.variations['wb-beginner-javascript'],
+    angular: this.variations['utlimate-angular'],
+    react: this.variations['ultimate-react'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
 
   private sideTags = {
-    angular: this.variations['wb-beginner-javascript'],
-    react: this.variations['wb-beginner-javascript'],
+    angular: this.variations['utlimate-angular-side'],
+    react: this.variations['ultimate-react-side'],
     vue: this.variations['wb-beginner-javascript'],
     nodejs: this.variations['wb-beginner-javascript'],
   }
