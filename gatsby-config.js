@@ -60,6 +60,7 @@ module.exports = {
             resolve: `gatsby-remark-images`,
             options: {
               maxWidth: 1200,
+              quality: 45,
               backgroundColor: 'transparent',
               withWebp: true,
               linkImagesToOriginal: false,
@@ -96,16 +97,18 @@ module.exports = {
           {
             serialize: ({ query: { site, allMdx } }) => {
               return allMdx.edges.map(edge => {
-                return Object.assign({}, {
-                  title: edge.node.frontmatter.title,
-                  description: edge.node.excerpt,
-                  data: edge.node.frontmatter.date,
-                  url: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
-                  author: edge.node.frontmatter.author,
-                  date: edge.node.frontmatter.date,
-
-                })
+                return Object.assign(
+                  {},
+                  {
+                    title: edge.node.frontmatter.title,
+                    description: edge.node.excerpt,
+                    data: edge.node.frontmatter.date,
+                    url: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                    guid: site.siteMetadata.siteUrl + edge.node.fields.slug,
+                    author: edge.node.frontmatter.author,
+                    date: edge.node.frontmatter.date,
+                  }
+                )
               })
             },
 

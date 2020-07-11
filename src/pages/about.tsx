@@ -117,7 +117,7 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
             }}
           >
             <div className={styles.heroAboutImage}>
-              <img style={{ width: '100%' }} src={meteorSwarm} />
+              <img style={{ width: '60%' }} src={meteorSwarm} />
             </div>
             <div className={styles.heroAboutText}>
               <h2>What malcoded is all about</h2>
@@ -148,7 +148,7 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
             }}
           >
             <div className={styles.heroAboutLukasImage}>
-              <img style={{ width: '100%' }} src={astronaut} />
+              <img style={{ width: '60%' }} src={astronaut} />
             </div>
             <div className={styles.heroAboutLukasText}>
               <h2>About Lukas Marx</h2>

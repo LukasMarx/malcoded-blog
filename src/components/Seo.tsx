@@ -67,7 +67,36 @@ function SEO({ description, lang, meta, keywords, title, image }) {
                 content: 'https://malcoded.com' + image,
               },
             ].concat(meta)}
-          />
+          >
+            <link
+              rel="preload"
+              as="font"
+              href="/fonts/roboto-v18-latin-500.woff2"
+              type="font/woff2"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              as="font"
+              href="/fonts/roboto-v18-latin-700.woff2"
+              type="font/woff2"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              as="font"
+              href="/fonts/roboto-v18-latin-300.woff2"
+              type="font/woff2"
+              crossOrigin="anonymous"
+            />
+            <link
+              rel="preload"
+              as="font"
+              href="/fonts/roboto-v18-latin-regular.woff2"
+              type="font/woff2"
+              crossOrigin="anonymous"
+            />
+          </Helmet>
         )
       }}
     />
