@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './PlanetHeader.module.css'
+import * as styles from './PlanetHeader.module.css'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { connect } from 'react-redux'

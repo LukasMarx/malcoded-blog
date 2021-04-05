@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './NewsletterDialog.module.css'
+import * as styles from './NewsletterDialog.module.css'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -18,7 +18,7 @@ import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkText, lightText } from '../../../theme/text'
 import newsletterConfirm from './../../../assets/newsletter-confirm.svg'
-const style = theme => ({
+const style = (theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',

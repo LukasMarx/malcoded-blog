@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './privacy.module.css'
+import * as styles from './privacy.module.css'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
 import SEO from '../components/Seo'
 import { Link } from 'gatsby'

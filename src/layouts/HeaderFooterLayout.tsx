@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react'
-import styles from './HeaderFooterLayout.module.css'
+import * as styles from './HeaderFooterLayout.module.css'
 import Toolbar from '../components/blocks/toolbar/Toolbar'
 import { ThemeState } from '../state/reducers/theme.reducer'
 import { connect } from 'react-redux'

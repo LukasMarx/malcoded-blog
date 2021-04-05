@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Comment.module.css'
+import * as styles from './Comment.module.css'
 import Paper from '../../elements/paper/Paper'
 import { Comment as CommentType } from './../../../models/Comment'
 import snarkdown from 'snarkdown'
@@ -48,7 +48,7 @@ const mapStateToProps = (state: AppState) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     replyToComment: (postId: string, id: string, text: string) =>
       dispatch(replyToComment(postId, id, text)),
@@ -328,7 +328,4 @@ class Comment extends React.Component<CommentProps, CommentState> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Comment)
+export default connect(mapStateToProps, mapDispatchToProps)(Comment)

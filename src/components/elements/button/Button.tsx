@@ -1,7 +1,7 @@
 import React, { Component, CSSProperties, RefForwardingComponent } from 'react'
 import { AppState } from '../../../state/reducer'
 import { connect } from 'react-redux'
-import styles from './Button.module.css'
+import * as styles from './Button.module.css'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkBackground, lightBackground } from '../../../theme/background'
 import { ThemeColor } from '../../../models/Theme'

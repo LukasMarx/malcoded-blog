@@ -209,7 +209,7 @@ Doing so is quite easy. All we need to do is to suffix our stylesheet file with 
 We then import the stylesheet like so:
 
 ```jsx
-import styles from './style.module.css'
+import * as styles from './style.module.css'
 ```
 
 When assigning the classes to elements, we need to do that a little bit different than usual. Instead of assigning a string to className, we treat the imported styles like an object, containing all the defined classes as keys.
@@ -273,7 +273,7 @@ Because styled components are just components, the way to feed them values is vi
 
 ```jsx
 const Text = styled.p`
-  color: ${props => (props.red ? 'red' : 'blue')};
+  color: ${(props) => (props.red ? 'red' : 'blue')};
 `
 ```
 

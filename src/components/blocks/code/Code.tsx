@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from './Code.module.css'
+import * as styles from './Code.module.css'
 import Prism from 'prismjs'
 import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'

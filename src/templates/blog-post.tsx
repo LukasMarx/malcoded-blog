@@ -5,7 +5,6 @@ import MDXRenderer from 'gatsby-plugin-mdx/mdx-renderer'
 import SEO from '../components/Seo'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
 
-import styles from './BlogPost.module.css'
 import { connect } from 'react-redux'
 import { setPrimaryColor } from '../state/actions/theme.actions'
 import { ThemeColor } from '../models/Theme'
@@ -18,8 +17,6 @@ import Sidebar from '../components/blocks/sidebar/Sidebar'
 import Comments from '../components/blocks/comments/Comments'
 import Chip from '../components/elements/chip/Chip'
 import Button from '../components/elements/button/Button'
-import { subscribeNewsletter } from '../state/actions/newsletter.actions'
-import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
 import PostCard from '../components/blocks/post-card/PostCard'
 
 import { Typography } from '@material-ui/core'
@@ -29,6 +26,10 @@ import AffiliateAd from '../components/elements/affiliate-ad/affiliateAd'
 import CarbonAd from '../components/elements/ads/carbon-ad'
 import CookieBanner from '../components/elements/cookie-banner/cookie-banner'
 
+import * as styles from './BlogPost.module.css'
+
+import { subscribeNewsletter } from '../state/actions/newsletter.actions'
+import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
 export interface BlogPostTemplateProps {
   data: any
   pageContext: any
@@ -43,7 +44,7 @@ const mapStateToProps = (state: AppState) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setPrimaryColor: (primaryColor: ThemeColor) =>
       dispatch(setPrimaryColor(primaryColor)),
@@ -52,7 +53,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
+const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = (props) => {
   const post = props.data.mdx
   const siteTitle = props.data.site.siteMetadata.title
   const { previous, next } = props.pageContext
@@ -66,7 +67,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
   useEffect(() => {
     if (!localStorage.getItem('cookie-consent')) {
       var oReq = new XMLHttpRequest()
-      oReq.onload = function(e) {
+      oReq.onload = function (e) {
         const result = JSON.parse(oReq.response)
         if ((result.clearResult && result.isEU) || !result.clearResult) {
           setCookieBannerOpen(true)
@@ -91,7 +92,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
     })
   }, [])
 
-  const onNewsletterDialogSubmit = email => {
+  const onNewsletterDialogSubmit = (email) => {
     if (email) {
       if (email) {
         props.subscribeToNewsletter(email)
@@ -181,7 +182,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
           <MDXRenderer>{post.body}</MDXRenderer>
           <br />
           <div className={styles.recommended}>
-            {post.frontmatter.recommendedPosts.map(rPost => {
+            {post.frontmatter.recommendedPosts.map((rPost) => {
               return (
                 <Link
                   key={rPost.fields.slug}
@@ -255,10 +256,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = props => {
   )
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BlogPostTemplate)
+export default connect(mapStateToProps, mapDispatchToProps)(BlogPostTemplate)
 
 export const pageQuery = graphql`
   query($slug: String!) {

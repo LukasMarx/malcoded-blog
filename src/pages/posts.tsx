@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './posts.module.css'
+import * as styles from './posts.module.css'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
 import Select from '@material-ui/core/Select'
 import { MenuItem } from '@material-ui/core'
@@ -119,7 +119,10 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMdx(sort: { fields: [frontmatter___date], order: DESC }, filter: { frontmatter: { released: { eq: true }  } }) {
+    allMdx(
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { frontmatter: { released: { eq: true } } }
+    ) {
       edges {
         node {
           excerpt
@@ -143,7 +146,9 @@ export const pageQuery = graphql`
     }
     angular: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { in: "angular" },  released: { eq: true }  } }
+      filter: {
+        frontmatter: { tags: { in: "angular" }, released: { eq: true } }
+      }
     ) {
       edges {
         node {
@@ -168,7 +173,7 @@ export const pageQuery = graphql`
     }
     react: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { eq: "react" },  released: { eq: true } } }
+      filter: { frontmatter: { tags: { eq: "react" }, released: { eq: true } } }
     ) {
       edges {
         node {
@@ -193,7 +198,7 @@ export const pageQuery = graphql`
     }
     vue: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter: { frontmatter: { tags: { eq: "vue" },  released: { eq: true }   } }
+      filter: { frontmatter: { tags: { eq: "vue" }, released: { eq: true } } }
     ) {
       edges {
         node {

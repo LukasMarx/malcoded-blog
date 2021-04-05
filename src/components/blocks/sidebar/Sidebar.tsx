@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Sidebar.module.css'
+import * as styles from './Sidebar.module.css'
 
 export interface SidebarProps {}
 

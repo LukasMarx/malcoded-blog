@@ -4,7 +4,6 @@ import { Link, graphql } from 'gatsby'
 import SEO from '../components/Seo'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
 import Button from '../components/elements/button/Button'
-import styles from './index.module.css'
 
 import { connect } from 'react-redux'
 import { ThemeState } from '../state/reducers/theme.reducer'
@@ -27,9 +26,10 @@ import angular from './../assets/angular.svg'
 import vue from './../assets/vue.svg'
 import PostCard from '../components/blocks/post-card/PostCard'
 import PlanetHeader from '../components/blocks/planet-header/PlanetHeader'
-import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
-import { subscribeNewsletter } from '../state/actions/newsletter.actions'
 
+import * as styles from './index.module.css'
+import { subscribeNewsletter } from '../state/actions/newsletter.actions'
+import NewsletterDialog from '../components/blocks/newsletter-dialog/NewsletterDialog'
 export interface BlogIndexProps {
   data: any
   theme: ThemeState
@@ -48,7 +48,7 @@ const mapStateToProps = (state: AppState) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setPrimaryColor: (primaryColor: ThemeColor) =>
       dispatch(setPrimaryColor(primaryColor)),
@@ -303,10 +303,7 @@ class BlogIndex extends React.Component<BlogIndexProps, BlogIndexState> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BlogIndex)
+export default connect(mapStateToProps, mapDispatchToProps)(BlogIndex)
 
 export const pageQuery = graphql`
   query {
@@ -315,9 +312,11 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMdx(sort: { fields: [frontmatter___date], order: DESC }, limit: 5,
-      filter: { frontmatter: { released: { eq: true }  } }
-      ) {
+    allMdx(
+      sort: { fields: [frontmatter___date], order: DESC }
+      limit: 5
+      filter: { frontmatter: { released: { eq: true } } }
+    ) {
       edges {
         node {
           excerpt
@@ -344,7 +343,9 @@ export const pageQuery = graphql`
     angular: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 5
-      filter: { frontmatter: { tags: { in: "angular" }, released: { eq: true }  } }
+      filter: {
+        frontmatter: { tags: { in: "angular" }, released: { eq: true } }
+      }
     ) {
       edges {
         node {
@@ -372,7 +373,7 @@ export const pageQuery = graphql`
     react: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       limit: 5
-      filter: { frontmatter: { tags: { eq: "react" }, released: { eq: true }  }}
+      filter: { frontmatter: { tags: { eq: "react" }, released: { eq: true } } }
     ) {
       edges {
         node {

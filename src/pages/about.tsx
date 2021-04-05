@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './about.module.css'
+import * as styles from './about.module.css'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
 import Button from '../components/elements/button/Button'
 import { connect } from 'react-redux'
@@ -30,7 +30,7 @@ const mapStateToProps = (state: AppState) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     subscribeToNewsletter: (email: string) =>
       dispatch(subscribeNewsletter(email)),
@@ -183,7 +183,4 @@ class AboutPage extends React.Component<AboutPageProps, AboutPageState> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AboutPage)
+export default connect(mapStateToProps, mapDispatchToProps)(AboutPage)

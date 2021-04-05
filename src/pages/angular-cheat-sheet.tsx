@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './angular-cheat-sheet.module.css'
+import * as styles from './angular-cheat-sheet.module.css'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'

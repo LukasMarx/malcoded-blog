@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from './Toolbar.module.css'
+import * as styles from './Toolbar.module.css'
 import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
@@ -21,7 +21,7 @@ const mapStateToProps = (state: AppState) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return { toggleDarkMode: () => dispatch(toogleDarkMode()) }
 }
 
@@ -79,7 +79,4 @@ class Toolbar extends Component<ToolbarProps> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Toolbar)
+export default connect(mapStateToProps, mapDispatchToProps)(Toolbar)

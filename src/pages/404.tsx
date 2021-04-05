@@ -2,7 +2,7 @@ import React from 'react'
 
 import SEO from '../components/Seo'
 import HeaderFooterLayout from '../layouts/HeaderFooterLayout'
-import styles from './404.module.css'
+import * as styles from './404.module.css'
 import meteorSwarm from './../assets/malcoded-meteor-swarm.svg'
 
 class NotFoundPage extends React.Component {

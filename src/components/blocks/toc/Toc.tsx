@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Toc.module.css'
+import * as styles from './Toc.module.css'
 import { navigate } from '@reach/router'
 
 import { Toc as TocType } from './../../../models/Toc'
@@ -38,7 +38,7 @@ class Toc extends React.Component<TocProps, TocState> {
               : this.props.theme.primaryColor.main,
           }}
         >
-          {this.props.toc.items.map(item => (
+          {this.props.toc.items.map((item) => (
             <div
               key={item.url}
               className={styles.item}

@@ -7,7 +7,7 @@ import { Token, User } from '../../../models/Token'
 import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { setUser, setToken } from '../../../state/actions/auth.actions'
-import styles from './Comments.module.css'
+import * as styles from './Comments.module.css'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkText, lightText } from '../../../theme/text'
 import Button from '../../elements/button/Button'
@@ -44,7 +44,7 @@ const mapStateToProps = (state: AppState, props: CommentsProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setUser: (user: User) => dispatch(setUser(user)),
     setToken: (token: string) => dispatch(setToken(token)),
@@ -69,7 +69,7 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
   async componentDidMount() {
     this.props.queryComments(this.props.postId)
     const observer = new IntersectionObserver(
-      entries => {
+      (entries) => {
         if (entries[0].isIntersecting) {
           this.props.queryComments(this.props.postId)
           observer.unobserve(this.domRef.current)
@@ -186,7 +186,7 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
     if (this.props.comments) {
       return (
         <div>
-          {this.props.comments.map(comment => {
+          {this.props.comments.map((comment) => {
             if (!comment.deleted || comment.answers.edges.length > 0)
               return (
                 <Comment
@@ -211,7 +211,4 @@ class Comments extends React.Component<CommentsProps, CommentsState> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Comments)
+export default connect(mapStateToProps, mapDispatchToProps)(Comments)

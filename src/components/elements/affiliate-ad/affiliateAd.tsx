@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './AffiliateAd.module.css'
+import * as styles from './AffiliateAd.module.css'
 import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
@@ -211,7 +211,7 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   onIntersect(entries: any[], observer: IntersectionObserver) {
-    if (entries.some(e => e.isIntersecting)) {
+    if (entries.some((e) => e.isIntersecting)) {
       const socket = (window as any).socket
       if (socket) {
         try {

@@ -1,7 +1,7 @@
 import React, { Component, CSSProperties } from 'react'
 import { AppState } from '../../../state/reducer'
 import { connect } from 'react-redux'
-import styles from './Paper.module.css'
+import * as styles from './Paper.module.css'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
 import { darkBackground, lightBackground } from '../../../theme/background'
 

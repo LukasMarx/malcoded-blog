@@ -1,6 +1,6 @@
 import React from 'react'
 import HeaderFooterLayout from './../layouts/HeaderFooterLayout'
-import styles from './legal.module.css'
+import * as styles from './legal.module.css'
 import SEO from '../components/Seo'
 
 export interface LegalPageProps {}
