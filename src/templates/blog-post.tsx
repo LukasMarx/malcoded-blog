@@ -139,7 +139,7 @@ const BlogPostTemplate: React.SFC<BlogPostTemplateProps> = (props) => {
           >
             <div className={styles.subtitle}>
               <img
-                src="/icons/authors/Lukas Marx.png"
+                src="/icons/authors/Lukas Marx.JPG"
                 style={{
                   borderRadius: '50%',
                   marginRight: 8,
