@@ -197,13 +197,13 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   componentDidMount() {
-    this.observer = new IntersectionObserver(this.onIntersect)
-    this.observer.observe(this.domRef.current)
+    // this.observer = new IntersectionObserver(this.onIntersect)
+    // this.observer.observe(this.domRef.current)
   }
 
   componentWillUnmount() {
-    this.observer.unobserve(this.domRef.current)
-    this.observer.disconnect()
+    // this.observer.unobserve(this.domRef.current)
+    // this.observer.disconnect()
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -211,31 +211,31 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   onIntersect(entries: any[], observer: IntersectionObserver) {
-    if (entries.some((e) => e.isIntersecting)) {
-      const socket = (window as any).socket
-      if (socket) {
-        try {
-          if (
-            !this.state.didSendAnalyticsView &&
-            !this.props.disableViewTracking
-          ) {
-            socket.send(
-              JSON.stringify({
-                event: 'event',
-                data: {
-                  type: 'affiliateView',
-                  subType: this.resolve().name,
-                  pageLocation: location.pathname,
-                },
-              })
-            )
-            this.setState({ didSendAnalyticsView: true })
-          }
-        } catch (e) {
-          // doesn't matter, its just analytics
-        }
-      }
-    }
+    // if (entries.some((e) => e.isIntersecting)) {
+    //   const socket = (window as any).socket
+    //   if (socket) {
+    //     try {
+    //       if (
+    //         !this.state.didSendAnalyticsView &&
+    //         !this.props.disableViewTracking
+    //       ) {
+    //         socket.send(
+    //           JSON.stringify({
+    //             event: 'event',
+    //             data: {
+    //               type: 'affiliateView',
+    //               subType: this.resolve().name,
+    //               pageLocation: location.pathname,
+    //             },
+    //           })
+    //         )
+    //         this.setState({ didSendAnalyticsView: true })
+    //       }
+    //     } catch (e) {
+    //       // doesn't matter, its just analytics
+    //     }
+    //   }
+    // }
   }
 
   resolve() {
@@ -248,116 +248,116 @@ class AffiliateAd extends React.Component<AffiliateAdProps, AffiliateAdState> {
   }
 
   onClick() {
-    const socket = (window as any).socket
-    if (socket) {
-      try {
-        if (!this.state.didSendAnalyticsClick) {
-          socket.send(
-            JSON.stringify({
-              event: 'event',
-              data: {
-                type: 'affiliateClick',
-                subType: this.tags[this.props.tag || 'angular'].name,
-                pageLocation: location.pathname,
-              },
-            })
-          )
-          this.setState({ didSendAnalyticsClick: true })
-        }
-      } catch (e) {
-        // doesn't matter, its just analytics
-      }
-    }
+    // const socket = (window as any).socket
+    // if (socket) {
+    //   try {
+    //     if (!this.state.didSendAnalyticsClick) {
+    //       socket.send(
+    //         JSON.stringify({
+    //           event: 'event',
+    //           data: {
+    //             type: 'affiliateClick',
+    //             subType: this.tags[this.props.tag || 'angular'].name,
+    //             pageLocation: location.pathname,
+    //           },
+    //         })
+    //       )
+    //       this.setState({ didSendAnalyticsClick: true })
+    //     }
+    //   } catch (e) {
+    //     // doesn't matter, its just analytics
+    //   }
+    // }
   }
 
   render() {
-    const timerRenderer = ({ days, hours, minutes, seconds, completed }) => {
-      if (completed) {
-        // Render a completed state
-        return <></>
-      } else {
-        // Render a countdown
-        return (
-          <div className={styles.timerWrapper}>
-            <div className={styles.timerBox}>
-              <span>{zeroPad(days)}</span>
-              <p className={styles.timerLabel}>DAYS</p>
-            </div>
-            <span>:</span>
-            <div className={styles.timerBox}>
-              <span>{zeroPad(hours)}</span>
-              <p className={styles.timerLabel}>HOURS</p>
-            </div>
-            <span>:</span>
-            <div className={styles.timerBox}>
-              <span>{zeroPad(minutes)}</span>
-              <p className={styles.timerLabel}>MINS</p>
-            </div>
-            <span>:</span>
-            <div className={styles.timerBox}>
-              <span>{zeroPad(seconds)}</span>
-              <p className={styles.timerLabel}>SECS</p>
-            </div>
-          </div>
-        )
-      }
-    }
+    // const timerRenderer = ({ days, hours, minutes, seconds, completed }) => {
+    //   if (completed) {
+    //     // Render a completed state
+    //     return <></>
+    //   } else {
+    //     // Render a countdown
+    //     return (
+    //       <div className={styles.timerWrapper}>
+    //         <div className={styles.timerBox}>
+    //           <span>{zeroPad(days)}</span>
+    //           <p className={styles.timerLabel}>DAYS</p>
+    //         </div>
+    //         <span>:</span>
+    //         <div className={styles.timerBox}>
+    //           <span>{zeroPad(hours)}</span>
+    //           <p className={styles.timerLabel}>HOURS</p>
+    //         </div>
+    //         <span>:</span>
+    //         <div className={styles.timerBox}>
+    //           <span>{zeroPad(minutes)}</span>
+    //           <p className={styles.timerLabel}>MINS</p>
+    //         </div>
+    //         <span>:</span>
+    //         <div className={styles.timerBox}>
+    //           <span>{zeroPad(seconds)}</span>
+    //           <p className={styles.timerLabel}>SECS</p>
+    //         </div>
+    //       </div>
+    //     )
+    //   }
+    // }
 
-    var variation = this.resolve()
-    if (variation) {
-      return (
-        <div className={styles.box} ref={this.domRef} onClick={this.onClick}>
-          <div style={{ position: 'relative' }}>
-            <a href={variation.href} target="_top">
-              <img
-                src={variation.src}
-                max-width={variation.width}
-                max-height={variation.height}
-                style={Object.assign(
-                  {
-                    maxWidth:
-                      this.props.mode === 'side' ? '100%' : variation.width,
-                    maxHeight: variation.height,
-                    height: this.props.mode === 'side' ? '100%' : undefined,
-                    width: this.props.mode === 'side' ? undefined : '100%',
-                  },
-                  variation.style || {}
-                )}
-              ></img>
-              {variation.timer && (
-                <div
-                  className={styles.timer}
-                  style={{
-                    color: variation.timer.color || lightText.primary,
-                  }}
-                >
-                  <div
-                    className={styles.wrapper}
-                    style={{ marginTop: variation.timer.top }}
-                  >
-                    <Countdown
-                      date={variation.timer.end}
-                      renderer={timerRenderer}
-                    />
-                  </div>
-                </div>
-              )}
-            </a>
-          </div>
-          <span
-            className={styles.disclaimer}
-            style={{
-              color: this.props.theme.darkMode
-                ? darkText.secondary
-                : lightText.secondary,
-            }}
-          >
-            This is an affiliate link. We may receive a commission for purchases
-            made through this link.
-          </span>
-        </div>
-      )
-    }
+    // var variation = this.resolve()
+    // if (variation) {
+    //   return (
+    //     <div className={styles.box} ref={this.domRef} onClick={this.onClick}>
+    //       <div style={{ position: 'relative' }}>
+    //         <a href={variation.href} target="_top">
+    //           <img
+    //             src={variation.src}
+    //             max-width={variation.width}
+    //             max-height={variation.height}
+    //             style={Object.assign(
+    //               {
+    //                 maxWidth:
+    //                   this.props.mode === 'side' ? '100%' : variation.width,
+    //                 maxHeight: variation.height,
+    //                 height: this.props.mode === 'side' ? '100%' : undefined,
+    //                 width: this.props.mode === 'side' ? undefined : '100%',
+    //               },
+    //               variation.style || {}
+    //             )}
+    //           ></img>
+    //           {variation.timer && (
+    //             <div
+    //               className={styles.timer}
+    //               style={{
+    //                 color: variation.timer.color || lightText.primary,
+    //               }}
+    //             >
+    //               <div
+    //                 className={styles.wrapper}
+    //                 style={{ marginTop: variation.timer.top }}
+    //               >
+    //                 <Countdown
+    //                   date={variation.timer.end}
+    //                   renderer={timerRenderer}
+    //                 />
+    //               </div>
+    //             </div>
+    //           )}
+    //         </a>
+    //       </div>
+    //       <span
+    //         className={styles.disclaimer}
+    //         style={{
+    //           color: this.props.theme.darkMode
+    //             ? darkText.secondary
+    //             : lightText.secondary,
+    //         }}
+    //       >
+    //         This is an affiliate link. We may receive a commission for purchases
+    //         made through this link.
+    //       </span>
+    //     </div>
+    //   )
+    // }
     return null
   }
 }

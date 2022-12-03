@@ -31,15 +31,15 @@ class CarbonAd extends React.Component<CarbonAdProps, CarbonAdState> {
   // }
 
   componentDidMount() {
-    const script = document.createElement('script')
+    // const script = document.createElement('script')
 
-    script.src =
-      '//cdn.carbonads.com/carbon.js?serve=CE7DEKQJ&placement=malcodedcom'
-    script.async = true
-    script.type = 'text/javascript'
-    script.id = '_carbonads_js'
+    // script.src =
+    //   '//cdn.carbonads.com/carbon.js?serve=CE7DEKQJ&placement=malcodedcom'
+    // script.async = true
+    // script.type = 'text/javascript'
+    // script.id = '_carbonads_js'
 
-    this.domRef.current.appendChild(script)
+    // this.domRef.current.appendChild(script)
   }
 
   render() {
