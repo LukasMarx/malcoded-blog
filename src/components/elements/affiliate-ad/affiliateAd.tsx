@@ -3,8 +3,6 @@ import * as styles from './AffiliateAd.module.css'
 import { connect } from 'react-redux'
 import { AppState } from '../../../state/reducer'
 import { ThemeState } from '../../../state/reducers/theme.reducer'
-import { darkText, lightText } from '../../../theme/text'
-import Countdown, { zeroPad } from 'react-countdown-now'
 
 export interface AffiliateAdProps {
   tag: string
