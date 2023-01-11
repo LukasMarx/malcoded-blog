@@ -27,7 +27,7 @@
     "gatsby-remark-copy-linked-files": "^3.2.0",
     "gatsby-remark-images": "^4.2.0",
     "gatsby-source-filesystem": "^3.2.0",
-    "gatsby-transformer-remark": "^3.2.0",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^3.2.0",
     "insane": "^2.6.2",
     "mdx-utils": "^0.2.0",
